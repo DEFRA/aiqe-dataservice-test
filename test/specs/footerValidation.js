@@ -1,10 +1,10 @@
 import startNowPage from '../page-objects/startnowpage.js'
-import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
+//import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
 import { browser, expect } from '@wdio/globals'
 import fs from 'node:fs'
-import createLogger from 'helpers/logger'
-import footer from '~/test/page-objects/footer.js'
-import styling from '~/test/page-objects/styling.js'
+//import createLogger from 'helpers/logger'
+import footer from '../page-objects/footer.js'
+import styling from '../page-objects/styling.js'
 
 const pages = [
    'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/',
