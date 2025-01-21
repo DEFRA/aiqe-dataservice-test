@@ -16,6 +16,7 @@ class Footer {
     return this.getAllFooterLinks[1]
   }
 
+
   get getAccessibilityStatementFooterLink() {
     return this.getAllFooterLinks[2]
   }

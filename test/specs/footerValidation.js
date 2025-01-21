@@ -56,12 +56,15 @@ describe('footer content and functionality checks', () => {
     
     
    //footer links validation 
+    
     await footer.getPrivacyFooterLink.click()
     const privacyURL = await browser.getUrl()
     const expectedPrivacyURL = 'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/privacy'
     await expect(privacyURL).toMatch(expectedPrivacyURL)
     await browser.back()
-
+    await browser.pause(10000);
+    
+    await footer.getCookiesFooterLink.scrollIntoView()
     await footer.getCookiesFooterLink.click()
     const cookiesURL = await browser.getUrl()
     const expectedCookiesURL = 'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/cookies'
@@ -161,4 +164,5 @@ describe('footer content and functionality checks', () => {
  
     
   
-})})})
+})})
+})
