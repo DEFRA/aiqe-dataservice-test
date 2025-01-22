@@ -25,36 +25,36 @@ describe('footer content and functionality checks', () => {
     // footer text validation
     await footer.getFooterOverall.isDisplayed()
     //checking privacy link text
-    const privacyLink = 'Privacy'
-    const getPrivacyFooterLink =
+    const privacyLinkText = 'Privacy'
+    const getPrivacyFooterLinkText =
       await footer.getPrivacyFooterLink.getText()
-    await expect(privacyLink).toMatch(getPrivacyFooterLink)
+    await expect(privacyLinkText).toMatch(getPrivacyFooterLinkText)
      //checking cookies link text
-    const cookiesLink = 'Cookies'
-    const getCookiesFooterLink =
+    const cookiesLinkText = 'Cookies'
+    const getCookiesFooterLinkText =
       await footer.getCookiesFooterLink.getText()
-    await expect(cookiesLink).toMatch(getCookiesFooterLink)
+    await expect(cookiesLinkText).toMatch(getCookiesFooterLinkText)
     //checking accessibility statement link text
-    const accessibilityStatementFooterLink = 'Accessibility statement'
-    const getAccessibiltyStatementFooterLink =
+    const accessibilityStatementFooterLinkText = 'Accessibility statement'
+    const getAccessibiltyStatementFooterLinkText =
       await footer.getAccessibilityStatementFooterLink.getText()
-    await expect(accessibilityStatementFooterLink).toMatch(getAccessibiltyStatementFooterLink)
+    await expect(accessibilityStatementFooterLinkText).toMatch(getAccessibiltyStatementFooterLinkText)
    //checking OGL link text
-    const OglFooterLink = 'Open Government Licence v3.0'
-    const getOglFooterLink =
+    const OglFooterLinkText = 'Open Government Licence v3.0'
+    const getOglFooterLinkText =
       await footer.getOglFooterLink.getText()
-    await expect(OglFooterLink).toMatch(getOglFooterLink)
+    await expect(OglFooterLinkText).toMatch(getOglFooterLinkText)
    //checking OGL logo 
     await footer.getOGLLogo.isDisplayed()
    //checking OGL statement
-    const OGLStatement = 'All content is available under the Open Government Licence v3.0, except where otherwise stated'
-    const getOGLStatement =
+    const OGLStatementText = 'All content is available under the Open Government Licence v3.0, except where otherwise stated'
+    const getOGLStatementText =
       await footer.getOGLStatement.getText()
-    await expect(OGLStatement).toMatch(getOGLStatement)
+    await expect(OGLStatementText).toMatch(getOGLStatementText)
    //checking crown logo is present 
     await footer.getCrownCoprightLogo.isDisplayed()
     
-    
+  
    //footer links validation 
     
     await footer.getPrivacyFooterLink.click()
@@ -62,32 +62,37 @@ describe('footer content and functionality checks', () => {
     const expectedPrivacyURL = 'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/privacy'
     await expect(privacyURL).toMatch(expectedPrivacyURL)
     await browser.back()
-    await browser.pause(10000);
+ 
+
     
-    await footer.getCookiesFooterLink.scrollIntoView()
+    await browser.refresh();
     await footer.getCookiesFooterLink.click()
     const cookiesURL = await browser.getUrl()
     const expectedCookiesURL = 'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/cookies'
     await expect(cookiesURL).toMatch(expectedCookiesURL)
     await browser.back()
 
+    await browser.refresh();
     await footer.getAccessibilityStatementFooterLink.click()
     const AccessibilityStatementURL = await browser.getUrl()
     const expectedAccessibilityStatementURL = 'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/accessibility'
     await expect(AccessibilityStatementURL).toMatch(expectedAccessibilityStatementURL)
     await browser.back()
 
+    await browser.refresh();
     await footer.getOglFooterLink.click()
     const OGLURL = await browser.getUrl()
     const expectedOGLURL = 'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/'
     await expect(OGLURL).toMatch(expectedOGLURL)
     await browser.back()
 
+    await browser.refresh();
     await footer.getCrownCoprightLogo.click()
     const crownCopyrightLogoURL = await browser.getUrl()
     const expectedCrownCopyrightLogoURL = 'https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/'
     await expect(crownCopyrightLogoURL).toMatch(expectedCrownCopyrightLogoURL)
     await browser.back()
+    await browser.refresh();
 
   //footer styling validation 
   //checking footer padding   
