@@ -20,7 +20,7 @@ exports.config = {
     // The path of the spec files will be resolved relative from the directory of
     // of the config file unless it's absolute.
     //
-    specs: [
+    specs: ['./test/specs/**/*.js'
         // ToDo: define location for spec files here
     ],
     // Patterns to exclude.
