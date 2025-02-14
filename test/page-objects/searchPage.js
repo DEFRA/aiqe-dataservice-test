@@ -2,7 +2,7 @@ import { $ } from '@wdio/globals'
 
 class SearchPage {
   get getSearchPageHeaderText() {
-    return $("h1[class='govuk-heading-l govuk-!-margin-bottom-4']")
+    return $("label[class='govuk-label govuk-label--l']")
   }
 
   get getSearchPageContent() {
@@ -12,7 +12,7 @@ class SearchPage {
     return $("p[class='govuk-body govuk-hint']")
   }
   get getEnterTownOrPostcodeLabel() {
-    return $("label[for='event-name']")
+    return (text) => $(`//label[contains(text(),'${text}')]`);
   }
   get searchBox() {
     return $("input[class='govuk-input']")

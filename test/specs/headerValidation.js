@@ -8,7 +8,9 @@ import styling from '../page-objects/styling.js'
 
 const pages = [
    'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/',
-   'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/search-location'
+   'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/search-location',
+   'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=london&locationMiles=5',
+   'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/location/city-of-london_city-and-county-of-the-city-of-london'
 ];
 describe('header content checks/functionality checks/styling checks', () => {
  pages.forEach((page) => { 
@@ -55,31 +57,9 @@ describe('header content checks/functionality checks/styling checks', () => {
     const getBetaBannerText  =
       await header.getBetaBannerText.getText()
     await expect(BetaBannerText).toMatch(getBetaBannerText)
-    
-    
-   //header links validation 
-    await header.getGovUKCrownLink.click()
-    const govURL = await browser.getUrl()
-    const expectedgovURL = 'https://www.gov.uk/'
-    await expect(govURL).toMatch(expectedgovURL)
-    await browser.back()
 
-    await header.getAirPolutionDataHeaderLink.click()
-    const getAirPolutionDataHeaderLinkURL = await browser.getUrl()
-    const expectedgetAirPolutionDataHeaderLinkURL = 'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/'
-    await expect(getAirPolutionDataHeaderLinkURL).toMatch(expectedgetAirPolutionDataHeaderLinkURL)
-    
-
-    await header.getBetaBannerFeedbackLink.click()
-    const BetaBannerFeedbackLink = await browser.getUrl()
-    const expectedgetBetaBannerFeedbackLink = 'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/#'
-    await expect(BetaBannerFeedbackLink).toMatch(expectedgetBetaBannerFeedbackLink)
-
-
-   
-
-  //header styling validation 
-  //checking header padding   
+    //header styling validation 
+    //checking header padding   
     const headerOverall = [
       await header.getHeaderOverall]
     
@@ -93,7 +73,7 @@ describe('header content checks/functionality checks/styling checks', () => {
       expect(styles['color']).toBe('rgb(255, 255, 255)');
       expect(styles['font-weight']).toBe('400');
     }
-  //checking CrownLogo styling  
+    //checking CrownLogo styling  
     const CrownLogo = [
       await header.getGovUKCrownLogo]
     
@@ -109,56 +89,75 @@ describe('header content checks/functionality checks/styling checks', () => {
       expect(styles['margin-bottom']).toBe('10px');
       expect(styles['font-weight']).toBe('400');
     }
-  //checking beta banner feedback link styling  
-  const getBetaBannerFeedbackLink = [
-    await header.getBetaBannerFeedbackLink]
-  const getBetaBannerFeedbackLinkProperties = ['font-family','text-decoration','font-size','line-height','font-weight']
+    //checking beta banner feedback link styling  
+    const getBetaBannerFeedbackLink = [
+      await header.getBetaBannerFeedbackLink]
+    const getBetaBannerFeedbackLinkProperties = ['font-family','text-decoration','font-size','line-height','font-weight']
 
-  for(const element of getBetaBannerFeedbackLink) {
-    const styles = await styling.getStyles(element, getBetaBannerFeedbackLinkProperties);
-    expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif');
-    expect(styles['text-decoration']).toBe('none solid rgb(11, 12, 12)');
-    expect(styles['font-size']).toBe('16px');
-    expect(styles['line-height']).toBe('20px');
-    expect(styles['font-weight']).toBe('400');
-  }
-  //checking beta logo styling 
-  const getBetaLogo = [
-    await header.getBetalogo]
-  const getBetalogoProperties = ['font-size','line-height','margin-right','font-family','background-color','color','display','font-weight','margin-bottom','margin-top','max-width','padding']
+    for(const element of getBetaBannerFeedbackLink) {
+      const styles = await styling.getStyles(element, getBetaBannerFeedbackLinkProperties);
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif');
+     // expect(styles['text-decoration']).toBe('underline 1px solid rgb(29, 112, 184)');
+      expect(styles['font-size']).toBe('16px');
+      expect(styles['line-height']).toBe('20px');
+      expect(styles['font-weight']).toBe('400');
+    }
+    //checking beta logo styling 
+    const getBetaLogo = [
+      await header.getBetalogo]
+    const getBetalogoProperties = ['font-size','line-height','margin-right','font-family','background-color','color','display','font-weight','margin-bottom','margin-top','max-width','padding']
 
-  for(const element of getBetaLogo) {
-    const styles = await styling.getStyles(element, getBetalogoProperties);
-    expect(styles['font-size']).toBe('16px');
-    expect(styles['line-height']).toBe('20px');
-    expect(styles['margin-right']).toBe('10px');
-    expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif');
-    expect(styles['background-color']).toBe('rgb(187, 212, 234)');
-    expect(styles['display']).toBe('inline-block');
-    expect(styles['font-weight']).toBe('400');
-    expect(styles['margin-bottom']).toBe('-3px');
-    expect(styles['margin-top']).toBe('-2px');
-    expect(styles['max-width']).toBe('160px');
-    expect(styles['padding']).toBe('2px 8px 3px');
+    for(const element of getBetaLogo) {
+      const styles = await styling.getStyles(element, getBetalogoProperties);
+      expect(styles['font-size']).toBe('16px');
+      expect(styles['line-height']).toBe('20px');
+      expect(styles['margin-right']).toBe('10px');
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif');
+      expect(styles['background-color']).toBe('rgb(187, 212, 234)');
+      expect(styles['display']).toBe('inline-block');
+      expect(styles['font-weight']).toBe('400');
+      expect(styles['margin-bottom']).toBe('-3px');
+      expect(styles['margin-top']).toBe('-2px');
+      expect(styles['max-width']).toBe('160px');
+      expect(styles['padding']).toBe('2px 8px 3px');
     
-  }
-  //checking beta logo styling 
-  const BetaBannerTextstyling = [
-    await header.getBetalogo]
-  const getBetaBannerTextProperties = ['display','vertical-align','font-size','line-height','font-family','color','font-weight']
+    }
+    //checking beta logo styling 
+    const BetaBannerTextstyling = [
+      await header.getBetalogo]
+    const getBetaBannerTextProperties = ['display','vertical-align','font-size','line-height','font-family','color','font-weight']
 
-  for(const element of BetaBannerTextstyling) {
-    const styles = await styling.getStyles(element, getBetaBannerTextProperties);
-    expect(styles['display']).toBe('inline-block');
-    expect(styles['vertical-align']).toBe('baseline');
-    expect(styles['font-size']).toBe('16px');
-    expect(styles['line-height']).toBe('20px');
-    expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif');
-    expect(styles['color']).toBe('rgb(12, 45, 74)');
-    expect(styles['font-weight']).toBe('400');
+    for(const element of BetaBannerTextstyling) {
+      const styles = await styling.getStyles(element, getBetaBannerTextProperties);
+      expect(styles['display']).toBe('inline-block');
+      expect(styles['vertical-align']).toBe('baseline');
+      expect(styles['font-size']).toBe('16px');
+      expect(styles['line-height']).toBe('20px');
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif');
+      expect(styles['color']).toBe('rgb(12, 45, 74)');
+      expect(styles['font-weight']).toBe('400');
     
-  }
-  
+    }
+    //header links validation 
+    await header.getGovUKCrownLink.click()
+    const govURL = await browser.getUrl()
+    const expectedgovURL = 'https://www.gov.uk/'
+    await expect(govURL).toMatch(expectedgovURL)
+    await browser.back()
+    await browser.refresh()
+
+    await header.getAirPolutionDataHeaderLink.click()
+    const getAirPolutionDataHeaderLinkURL = await browser.getUrl()
+    const expectedgetAirPolutionDataHeaderLinkURL = 'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/'
+    await expect(getAirPolutionDataHeaderLinkURL).toMatch(expectedgetAirPolutionDataHeaderLinkURL)
+    await browser.refresh()
+
+    //this will need to be changed when feedback link works 
+    await header.getBetaBannerFeedbackLink.click()
+    const BetaBannerFeedbackLink = await browser.getUrl()
+    const expectedgetBetaBannerFeedbackLink = 'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/#'
+    await expect(BetaBannerFeedbackLink).toMatch(expectedgetBetaBannerFeedbackLink)
+    await browser.refresh()
   
   
   

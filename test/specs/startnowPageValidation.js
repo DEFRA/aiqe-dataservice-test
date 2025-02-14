@@ -25,11 +25,11 @@ describe('start now page content/functionality checks/styling checks', () => {
 Use this service to:
 find air quality monitoring stations
 download air pollution data
-This service uses data from the Automatic Urban and Rural network (AURN)
+This service uses data from the Automatic Urban and Rural network (AURN).
 This service shows you data for:
-nitrogen dioxide
-PM10
 PM2.5
+PM10
+nitrogen dioxide
 ozone
 sulphur dioxide
 Start now
@@ -49,10 +49,13 @@ health advice to reduce your exposure to pollutants`
     const startNowPageURL = await browser.getUrl()
     const expectedStartNowPageURL = 'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/'
     await expect(startNowPageURL).toMatch(expectedStartNowPageURL)
-    //await startNowPage.citizenServiceLinkClick()
-    //const citizenServicePageURL = await browser.getUrl()
-    //const expectedCitizenServicePageURL = 'https://aqie-front-end.dev.cdp-int.defra.cloud/'
-    //await expect(citizenServicePageURL).toMatch(expectedCitizenServicePageURL)
+    await browser.refresh()
+    await startNowPage.citizenServiceLinkClick()
+    const citizenServicePageURL = await browser.getUrl()
+    const expectedCitizenServicePageURL = 'https://check-local-air-quality.defra.gov.uk/'
+    await expect(citizenServicePageURL).toMatch(expectedCitizenServicePageURL)
+    await browser.back();
+    await browser.refresh()
 
     //styling validation
     //checking  heading styles 
