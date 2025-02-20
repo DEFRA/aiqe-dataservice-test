@@ -1,8 +1,8 @@
 import startNowPage from '../page-objects/startnowpage.js'
-//import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
+// import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
 import { browser, expect } from '@wdio/globals'
-import fs from 'node:fs'
-//import createLogger from 'helpers/logger'
+// import fs from 'node:fs'
+// import createLogger from 'helpers/logger'
 import styling from '../page-objects/styling.js'
 import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
@@ -10,13 +10,13 @@ import footer from '../page-objects/footer.js'
 
 describe('search page content/functionality checks/styling checks', () => {
   it('content checks', async () => {
-    //await browser.deleteCookies(['airaqie_cookie'])
+    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.maximizeWindow()
     await browser.url('')
     // Handle the cookie banner
-    //if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-    //await cookieBanner.rejectButtonCookiesDialog.click()
-    //await cookieBanner.hideButtonHideDialog.click()
+    // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
+    // await cookieBanner.rejectButtonCookiesDialog.click()
+    // await cookieBanner.hideButtonHideDialog.click()
     await startNowPage.startNowBtnClick()
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
@@ -34,7 +34,7 @@ Continue`
     const getsearchPagecontent = await searchPage.getSearchPageContent.getText()
     await expect(seachPageContent).toMatch(getsearchPagecontent)
 
-    //links validation
+    // links validation
     await searchPage.setsearch('london')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
@@ -51,12 +51,12 @@ Continue`
     await browser.back()
     await browser.refresh()
 
-    //styling validation for page components
+    // styling validation for page components
     const searchPageHeading = [await searchPage.getSearchPageHeaderText]
 
     const searchPageHeadingProperties = [
-      ,
-      /*'margin-bottom'*/ 'font-size',
+      'margin-bottom',
+      'font-size',
       'line-height',
       'color',
       'font-family'
@@ -67,10 +67,10 @@ Continue`
         element,
         searchPageHeadingProperties
       )
-      //expect(styles['margin-bottom']).toBe('20px');
+      expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('36px')
       expect(styles['line-height']).toBe('40px')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
 
@@ -83,9 +83,9 @@ Continue`
         element,
         searchPageContentProperties
       )
-      expect(styles['float']).toBe('left')
-      expect(styles['width']).toBe('660px')
-      expect(styles['padding']).toBe('0px 15px')
+      expect(styles.float).toBe('left')
+      expect(styles.width).toBe('660px')
+      expect(styles.padding).toBe('0px 15px')
     }
 
     const searchPageHintText = [await searchPage.getSearchPageHintText]
@@ -107,7 +107,7 @@ Continue`
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['color']).toBe('rgb(80, 90, 95)')
+      expect(styles.color).toBe('rgb(80, 90, 95)')
       expect(styles['font-weight']).toBe('400')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -133,7 +133,7 @@ Continue`
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles['margin-bottom']).toBe('5px')
     }
@@ -156,11 +156,11 @@ Continue`
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border']).toBe('2px solid rgb(11, 12, 12)')
+      expect(styles.border).toBe('2px solid rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles['height']).toBe('40px')
-      expect(styles['padding']).toBe('5px')
-      expect(styles['width']).toBe('630px')
+      expect(styles.height).toBe('40px')
+      expect(styles.padding).toBe('5px')
+      expect(styles.width).toBe('630px')
     }
 
     const approxSearchAreaLabel = [await searchPage.approxSearchAreaLabel]
@@ -182,7 +182,7 @@ Continue`
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles['margin-bottom']).toBe('10px')
     }
@@ -210,13 +210,13 @@ Continue`
       const styles = await styling.getStyles(element, mileOptionsProperties)
       expect(styles['align-self']).toBe('center')
       expect(styles['margin-bottom']).toBe('0px')
-      expect(styles['padding']).toBe('7px 15px')
+      expect(styles.padding).toBe('7px 15px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles['height']).toBe('25px')
+      expect(styles.height).toBe('25px')
     }
 
     const continueButton = [await searchPage.getContinueBtn]
@@ -243,12 +243,12 @@ Continue`
       expect(styles['line-height']).toBe('19px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(0, 112, 60)')
-      expect(styles['border']).toBe('2px solid rgba(0, 0, 0, 0)')
+      expect(styles.border).toBe('2px solid rgba(0, 0, 0, 0)')
       expect(styles['box-shadow']).toBe('rgb(0, 45, 24) 0px 2px 0px 0px')
-      expect(styles['color']).toBe('rgb(255, 255, 255)')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles['margin']).toBe('0px 0px 32px')
-      expect(styles['padding']).toBe('8px 10px 7px')
+      expect(styles.margin).toBe('0px 0px 32px')
+      expect(styles.padding).toBe('8px 10px 7px')
       expect(styles['text-align']).toBe('center')
     }
   })

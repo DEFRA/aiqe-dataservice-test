@@ -1,21 +1,21 @@
 import startNowPage from '../page-objects/startnowpage.js'
-//import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
+// import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
 import { browser, expect } from '@wdio/globals'
-import fs from 'node:fs'
-//import createLogger from 'helpers/logger'
+// import fs from 'node:fs'
+// import createLogger from 'helpers/logger'
 import styling from '../page-objects/styling.js'
 import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 describe('start now page content/functionality checks/styling checks', () => {
   it('content checks', async () => {
-    //await browser.deleteCookies(['airaqie_cookie'])
+    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
     // Handle the cookie banner
-    //if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-    //await cookieBanner.rejectButtonCookiesDialog.click()
-    //await cookieBanner.hideButtonHideDialog.click()
+    // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
+    // await cookieBanner.rejectButtonCookiesDialog.click()
+    // await cookieBanner.hideButtonHideDialog.click()
 
     // page content validation
     await headersObject.getHeaderOverall.isDisplayed()
@@ -40,7 +40,7 @@ health advice to reduce your exposure to pollutants`
       await startNowPage.getStartNowPagecontent.getText()
     await expect(startnowPageContent).toMatch(getStartNowPagecontent)
 
-    //links validation
+    // links validation
     await startNowPage.startNowBtnClick()
     const searchPageURL = await browser.getUrl()
     const expectedSearchPageURL =
@@ -60,8 +60,8 @@ health advice to reduce your exposure to pollutants`
     await browser.back()
     await browser.refresh()
 
-    //styling validation
-    //checking  heading styles
+    // styling validation
+    // checking  heading styles
 
     const startNowPageHeading = [await startNowPage.getStartNowPageHeading]
 
@@ -82,7 +82,7 @@ health advice to reduce your exposure to pollutants`
       expect(styles['margin-bottom']).toBe('50px')
       expect(styles['font-size']).toBe('48px')
       expect(styles['line-height']).toBe('50px')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
     }
@@ -106,7 +106,7 @@ health advice to reduce your exposure to pollutants`
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
     }
@@ -133,7 +133,7 @@ health advice to reduce your exposure to pollutants`
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
 
@@ -157,7 +157,7 @@ health advice to reduce your exposure to pollutants`
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
   })

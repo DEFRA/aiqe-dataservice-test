@@ -1,23 +1,23 @@
-import startNowPage from '../page-objects/startnowpage.js'
-//import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
+// import startNowPage from '../page-objects/startnowpage.js'
+// import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
 import { browser, expect } from '@wdio/globals'
-import fs from 'node:fs'
-//import createLogger from 'helpers/logger'
+// import fs from 'node:fs'
+// import createLogger from 'helpers/logger'
 import styling from '../page-objects/styling.js'
-import searchPage from '../page-objects/searchPage.js'
+// import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import privacyPage from '../page-objects/privacyPage.js'
 
 describe('privacy page content/functionality checks/styling checks', () => {
   it('content checks', async () => {
-    //await browser.deleteCookies(['airaqie_cookie'])
+    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
     // Handle the cookie banner
-    //if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-    //await cookieBanner.rejectButtonCookiesDialog.click()
-    //await cookieBanner.hideButtonHideDialog.click()
+    // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
+    // await cookieBanner.rejectButtonCookiesDialog.click()
+    // await cookieBanner.hideButtonHideDialog.click()
     await footer.getPrivacyFooterLink.click()
     // page content validation
     await headersObject.getHeaderOverall.isDisplayed()
@@ -85,7 +85,7 @@ Our personal information charter explains more about your rights over your perso
     const getPrivacyPagecontent =
       await privacyPage.getPrivacyPageContent.getText()
     await expect(privacyPageContent).toMatch(getPrivacyPagecontent)
-    //links validation
+    // links validation
     await privacyPage.getGetAirPollutionDataLink.click()
     const getAirPolutionDataLinkURL = await browser.getUrl()
     const expectedgetAirPolutionDataLinkURL =
@@ -138,7 +138,7 @@ Our personal information charter explains more about your rights over your perso
     await browser.back()
     await browser.refresh()
 
-    //checking mailto links
+    // checking mailto links
     const mailtoLinks = await $$('a[href^="mailto:"]')
     const currentURL = await browser.getUrl()
     expect(mailtoLinks.length).toBe(3)
@@ -146,13 +146,12 @@ Our personal information charter explains more about your rights over your perso
       const hrefValue = await link.getAttribute('href')
       expect(hrefValue).toMatch(/^mailto:/)
       await link.click()
-      await browser.pause(1000)
       expect(await browser.getUrl()).toBe(currentURL)
     }
 
     await browser.refresh()
 
-    //styling validation
+    // styling validation
 
     const PrivacyPageHeading = [await privacyPage.getPrivacyPageHeading]
 
@@ -173,7 +172,7 @@ Our personal information charter explains more about your rights over your perso
       expect(styles['margin-bottom']).toBe('50px')
       expect(styles['font-size']).toBe('48px')
       expect(styles['line-height']).toBe('50px')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
     }
@@ -194,7 +193,7 @@ Our personal information charter explains more about your rights over your perso
     const privacyLinks = [
       await privacyPage.getGetAirPollutionDataLink,
       await privacyPage.getCookieOptLink,
-      //await privacyPage.getInformationCommisionersOfficeLink,
+      // await privacyPage.getInformationCommisionersOfficeLink,
       await privacyPage.getMakeAComplaintLink,
       await privacyPage.getPersonalInformationCharterLink
     ]
@@ -209,7 +208,7 @@ Our personal information charter explains more about your rights over your perso
 
     for (const element of privacyLinks) {
       const styles = await styling.getStyles(element, privacyLinksProperties)
-      expect(styles['color']).toBe('rgb(29, 112, 184)')
+      expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
@@ -232,7 +231,7 @@ Our personal information charter explains more about your rights over your perso
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
     }
@@ -255,7 +254,7 @@ Our personal information charter explains more about your rights over your perso
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('24px')
       expect(styles['line-height']).toBe('30px')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
     }
@@ -279,7 +278,7 @@ Our personal information charter explains more about your rights over your perso
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
 
@@ -300,7 +299,7 @@ Our personal information charter explains more about your rights over your perso
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
   })

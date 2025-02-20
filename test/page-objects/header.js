@@ -3,9 +3,11 @@ class Header {
   get getHeaderOverall() {
     return $("header[data-module='govuk-header']")
   }
+
   get getGovUKCrownLogo() {
     return $("div[class='govuk-header__logo']")
   }
+  
   get getGovUKCrownLink() {
     return $("a[class='govuk-header__link govuk-header__link--homepage']")
   }

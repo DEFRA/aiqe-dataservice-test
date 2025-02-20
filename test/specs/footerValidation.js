@@ -1,8 +1,6 @@
-import startNowPage from '../page-objects/startnowpage.js'
-//import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
+// import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
 import { browser, expect } from '@wdio/globals'
-import fs from 'node:fs'
-//import createLogger from 'helpers/logger'
+// import createLogger from 'helpers/logger'
 import footer from '../page-objects/footer.js'
 import styling from '../page-objects/styling.js'
 
@@ -13,48 +11,48 @@ const pages = [
 describe('footer content and functionality checks', () => {
   pages.forEach((page) => {
     it('content checks', async () => {
-      //await browser.deleteCookies(['airaqie_cookie'])
+      // await browser.deleteCookies(['airaqie_cookie'])
       await browser.url(page)
       await browser.maximizeWindow()
       // Handle the cookie banner
-      //if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-      //await cookieBanner.rejectButtonCookiesDialog.click()
-      //await cookieBanner.hideButtonHideDialog.click()
+      // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
+      // await cookieBanner.rejectButtonCookiesDialog.click()
+      // await cookieBanner.hideButtonHideDialog.click()
 
       // footer text validation
       await footer.getFooterOverall.isDisplayed()
-      //checking privacy link text
+      // checking privacy link text
       const privacyLinkText = 'Privacy'
       const getPrivacyFooterLinkText =
         await footer.getPrivacyFooterLink.getText()
       await expect(privacyLinkText).toMatch(getPrivacyFooterLinkText)
-      //checking cookies link text
+      // checking cookies link text
       const cookiesLinkText = 'Cookies'
       const getCookiesFooterLinkText =
         await footer.getCookiesFooterLink.getText()
       await expect(cookiesLinkText).toMatch(getCookiesFooterLinkText)
-      //checking accessibility statement link text
+      // checking accessibility statement link text
       const accessibilityStatementFooterLinkText = 'Accessibility statement'
       const getAccessibiltyStatementFooterLinkText =
         await footer.getAccessibilityStatementFooterLink.getText()
       await expect(accessibilityStatementFooterLinkText).toMatch(
         getAccessibiltyStatementFooterLinkText
       )
-      //checking OGL link text
+      // checking OGL link text
       const OglFooterLinkText = 'Open Government Licence v3.0'
       const getOglFooterLinkText = await footer.getOglFooterLink.getText()
       await expect(OglFooterLinkText).toMatch(getOglFooterLinkText)
-      //checking OGL logo
+      // checking OGL logo
       await footer.getOGLLogo.isDisplayed()
-      //checking OGL statement
+      // checking OGL statement
       const OGLStatementText =
         'All content is available under the Open Government Licence v3.0, except where otherwise stated'
       const getOGLStatementText = await footer.getOGLStatement.getText()
       await expect(OGLStatementText).toMatch(getOGLStatementText)
-      //checking crown logo is present
+      // checking crown logo is present
       await footer.getCrownCoprightLogo.isDisplayed()
 
-      //footer links validation
+      // footer links validation
 
       await footer.getPrivacyFooterLink.click()
       const privacyURL = await browser.getUrl()
@@ -98,8 +96,8 @@ describe('footer content and functionality checks', () => {
       await browser.back()
       await browser.refresh()
 
-      //footer styling validation
-      //checking footer padding
+      // footer styling validation
+      // checking footer padding
       const footerOverall = [await footer.getFooterOverall]
 
       const footerOverallProperties = ['padding-bottom', 'padding-top']
@@ -109,7 +107,7 @@ describe('footer content and functionality checks', () => {
         expect(styles['padding-bottom']).toBe('25px')
         expect(styles['padding-top']).toBe('40px')
       }
-      //checking links styling
+      // checking links styling
       const footerLinks = [
         await footer.getPrivacyFooterLink,
         await footer.getCookiesFooterLink,
@@ -128,7 +126,7 @@ describe('footer content and functionality checks', () => {
 
       for (const element of footerLinks) {
         const styles = await styling.getStyles(element, footerLinkProperties)
-        expect(styles['color']).toBe('rgb(11, 12, 12)')
+        expect(styles.color).toBe('rgb(11, 12, 12)')
         expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
         expect(styles['font-size']).toBe('16px')
         expect(styles['font-weight']).toBe('400')
@@ -137,18 +135,18 @@ describe('footer content and functionality checks', () => {
           'underline 1px solid rgb(11, 12, 12)'
         )
       }
-      //checking OGL logo styling
+      // checking OGL logo styling
       const oglLogo = [await footer.getOGLLogo]
 
       const oglLogoProperties = ['height', 'margin-right', 'width']
 
       for (const element of oglLogo) {
         const styles = await styling.getStyles(element, oglLogoProperties)
-        expect(styles['height']).toBe('17px')
+        expect(styles.height).toBe('17px')
         expect(styles['margin-right']).toBe('10px')
-        expect(styles['width']).toBe('41px')
+        expect(styles.width).toBe('41px')
       }
-      //crown logo styling
+      // crown logo styling
       const crownLogo = [await footer.getCrownCoprightLogo]
 
       const crownLogoProperties = [
@@ -167,7 +165,7 @@ describe('footer content and functionality checks', () => {
         expect(styles['min-width']).toBe('125px')
         expect(styles['padding-top']).toBe('112px')
       }
-      //OGLStatement
+      // OGLStatement
       const oglStatement = [await footer.getOGLStatement]
 
       const oglStatementProperties = [
@@ -180,7 +178,7 @@ describe('footer content and functionality checks', () => {
 
       for (const element of oglStatement) {
         const styles = await styling.getStyles(element, oglStatementProperties)
-        expect(styles['color']).toBe('rgb(11, 12, 12)')
+        expect(styles.color).toBe('rgb(11, 12, 12)')
         expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
         expect(styles['font-size']).toBe('16px')
         expect(styles['line-height']).toBe('20px')
