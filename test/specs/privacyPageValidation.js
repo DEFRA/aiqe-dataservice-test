@@ -16,20 +16,19 @@ describe('privacy page content/functionality checks/styling checks', () => {
     await browser.maximizeWindow()
     // Handle the cookie banner
     //if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-      //await cookieBanner.rejectButtonCookiesDialog.click()
-      //await cookieBanner.hideButtonHideDialog.click()
+    //await cookieBanner.rejectButtonCookiesDialog.click()
+    //await cookieBanner.hideButtonHideDialog.click()
     await footer.getPrivacyFooterLink.click()
     // page content validation
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
 
-    const privacyPageHeading =`Get air pollution data privacy notice`
+    const privacyPageHeading = `Get air pollution data privacy notice`
     const getPrivacyPageHeading =
       await privacyPage.getPrivacyPageHeading.getText()
     await expect(getPrivacyPageHeading).toMatch(privacyPageHeading)
-    
 
-    const privacyPageContent =`Get air pollution data privacy notice
+    const privacyPageContent = `Get air pollution data privacy notice
 This privacy notice explains how the Get air pollution data service processes and shares your personal data. If you have any queries about the content of this privacy notice, email data.protection@defra.gov.uk
 Who collects your personal data
 The Department for Environment, Food and Rural Affairs (Defra) is the controller for the personal data we collect.
@@ -86,83 +85,110 @@ Our personal information charter explains more about your rights over your perso
     const getPrivacyPagecontent =
       await privacyPage.getPrivacyPageContent.getText()
     await expect(privacyPageContent).toMatch(getPrivacyPagecontent)
-    //links validation 
+    //links validation
     await privacyPage.getGetAirPollutionDataLink.click()
     const getAirPolutionDataLinkURL = await browser.getUrl()
-    const expectedgetAirPolutionDataLinkURL = 'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/'
-    await expect(getAirPolutionDataLinkURL).toMatch(expectedgetAirPolutionDataLinkURL)
+    const expectedgetAirPolutionDataLinkURL =
+      'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/'
+    await expect(getAirPolutionDataLinkURL).toMatch(
+      expectedgetAirPolutionDataLinkURL
+    )
     await browser.back()
     await browser.refresh()
 
     await privacyPage.getCookieOptLink.click()
     const getCookieOptLinkURL = await browser.getUrl()
-    const expectedGetCookieOptLinkURL = 'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/cookies'
+    const expectedGetCookieOptLinkURL =
+      'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/cookies'
     await expect(getCookieOptLinkURL).toMatch(expectedGetCookieOptLinkURL)
     await browser.back()
     await browser.refresh()
 
-    await privacyPage.getInformationCommisionersOfficeLink('Information Commissioner’s Office.').click()
+    await privacyPage
+      .getInformationCommisionersOfficeLink(
+        'Information Commissioner’s Office.'
+      )
+      .click()
     const getInformationCommisionersOfficeLinkURL = await browser.getUrl()
-    const expectedgetInformationCommisionersOfficeLinkURL = 'https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/'
-    await expect(getInformationCommisionersOfficeLinkURL).toMatch(expectedgetInformationCommisionersOfficeLinkURL)
+    const expectedgetInformationCommisionersOfficeLinkURL =
+      'https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/'
+    await expect(getInformationCommisionersOfficeLinkURL).toMatch(
+      expectedgetInformationCommisionersOfficeLinkURL
+    )
     await browser.back()
     await browser.refresh()
 
     await privacyPage.getMakeAComplaintLink.click()
     const getMakeAComplaintLinkURL = await browser.getUrl()
-    const expectedgetMakeAComplaintLinkURL = 'https://ico.org.uk/make-a-complaint/'
-    await expect(getMakeAComplaintLinkURL).toMatch(expectedgetMakeAComplaintLinkURL)
+    const expectedgetMakeAComplaintLinkURL =
+      'https://ico.org.uk/make-a-complaint/'
+    await expect(getMakeAComplaintLinkURL).toMatch(
+      expectedgetMakeAComplaintLinkURL
+    )
     await browser.back()
     await browser.refresh()
 
     await privacyPage.getPersonalInformationCharterLink.click()
     const getPersonalInformationCharterLinkURL = await browser.getUrl()
-    const expectedgetPersonalInformationCharterLinkURL = 'https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs/about/personal-information-charter'
-    await expect(getPersonalInformationCharterLinkURL).toMatch(expectedgetPersonalInformationCharterLinkURL)
+    const expectedgetPersonalInformationCharterLinkURL =
+      'https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs/about/personal-information-charter'
+    await expect(getPersonalInformationCharterLinkURL).toMatch(
+      expectedgetPersonalInformationCharterLinkURL
+    )
     await browser.back()
     await browser.refresh()
 
-    //checking mailto links 
-    const mailtoLinks = await $$('a[href^="mailto:"]');
-    const currentURL = await browser.getUrl();
-    expect(mailtoLinks.length).toBe(3);
-    for (const link of mailtoLinks){
-      const hrefValue = await link.getAttribute('href');
-      expect(hrefValue).toMatch(/^mailto:/);
-      await link.click();
-      await browser.pause(1000);
-      expect(await browser.getUrl()).toBe(currentURL);
+    //checking mailto links
+    const mailtoLinks = await $$('a[href^="mailto:"]')
+    const currentURL = await browser.getUrl()
+    expect(mailtoLinks.length).toBe(3)
+    for (const link of mailtoLinks) {
+      const hrefValue = await link.getAttribute('href')
+      expect(hrefValue).toMatch(/^mailto:/)
+      await link.click()
+      await browser.pause(1000)
+      expect(await browser.getUrl()).toBe(currentURL)
     }
 
     await browser.refresh()
-    
 
     //styling validation
-    
-    const PrivacyPageHeading = [
-      await privacyPage.getPrivacyPageHeading]
-    
-    const privacyPageHeadingProperties = ['margin-bottom','font-size','line-height','color','font-family','font-weight']
 
-    for(const element of PrivacyPageHeading) {
-      const styles = await styling.getStyles(element, privacyPageHeadingProperties);
-      expect(styles['margin-bottom']).toBe('50px');
-      expect(styles['font-size']).toBe('48px');
-      expect(styles['line-height']).toBe('50px');
-      expect(styles['color']).toBe('rgb(11, 12, 12)');
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif');
-      expect(styles['font-weight']).toBe('700');
+    const PrivacyPageHeading = [await privacyPage.getPrivacyPageHeading]
+
+    const privacyPageHeadingProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of PrivacyPageHeading) {
+      const styles = await styling.getStyles(
+        element,
+        privacyPageHeadingProperties
+      )
+      expect(styles['margin-bottom']).toBe('50px')
+      expect(styles['font-size']).toBe('48px')
+      expect(styles['line-height']).toBe('50px')
+      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
     }
 
-    const PrivacyPageContent = [
-      await privacyPage.getPrivacyPageContent]
-    
-    const PrivacyPageContentProperties = ['padding-bottom','padding-top']
+    const PrivacyPageContent = [await privacyPage.getPrivacyPageContent]
 
-    for(const element of PrivacyPageContent) {
-      const styles = await styling.getStyles(element, PrivacyPageContentProperties);
-      expect(styles['padding-bottom']).toBe('40px');
-      expect(styles['padding-top']).toBe('40px');
+    const PrivacyPageContentProperties = ['padding-bottom', 'padding-top']
+
+    for (const element of PrivacyPageContent) {
+      const styles = await styling.getStyles(
+        element,
+        PrivacyPageContentProperties
+      )
+      expect(styles['padding-bottom']).toBe('40px')
+      expect(styles['padding-top']).toBe('40px')
     }
 
     const privacyLinks = [
@@ -172,80 +198,110 @@ Our personal information charter explains more about your rights over your perso
       await privacyPage.getMakeAComplaintLink,
       await privacyPage.getPersonalInformationCharterLink
     ]
-    
-    const privacyLinksProperties = ['color','font-family','font-size','line-height','font-weight']
 
-    for(const element of privacyLinks) {
-      const styles = await styling.getStyles(element, privacyLinksProperties);
-      expect(styles['color']).toBe('rgb(29, 112, 184)');
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif');
-      expect(styles['font-size']).toBe('19px');
-      expect(styles['line-height']).toBe('25px');
-      expect(styles['font-weight']).toBe('400');
+    const privacyLinksProperties = [
+      'color',
+      'font-family',
+      'font-size',
+      'line-height',
+      'font-weight'
+    ]
+
+    for (const element of privacyLinks) {
+      const styles = await styling.getStyles(element, privacyLinksProperties)
+      expect(styles['color']).toBe('rgb(29, 112, 184)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-weight']).toBe('400')
     }
 
-    const getparagraph = [
-      await privacyPage.getparagraph]
-    
-    const getparagraphProperties = ['margin-bottom','font-size','line-height','color','font-family','font-weight']
+    const getparagraph = [await privacyPage.getparagraph]
 
-    for(const element of getparagraph) {
-      const styles = await styling.getStyles(element, getparagraphProperties);
-      expect(styles['margin-bottom']).toBe('20px');
-      expect(styles['font-size']).toBe('19px');
-      expect(styles['line-height']).toBe('25px');
-      expect(styles['color']).toBe('rgb(11, 12, 12)');
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif');
-      expect(styles['font-weight']).toBe('400');
+    const getparagraphProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of getparagraph) {
+      const styles = await styling.getStyles(element, getparagraphProperties)
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
     }
 
-    const getSubTitle = [
-      await privacyPage.getSubTitle]
-    
-    const getSubTitleProperties = ['padding-top','margin-bottom','font-size','line-height','color','font-family','font-weight']
+    const getSubTitle = [await privacyPage.getSubTitle]
 
-    for(const element of getSubTitle) {
-      const styles = await styling.getStyles(element, getSubTitleProperties);
-      expect(styles['padding-top']).toBe('10px');
-      expect(styles['margin-bottom']).toBe('20px');
-      expect(styles['font-size']).toBe('24px');
-      expect(styles['line-height']).toBe('30px');
-      expect(styles['color']).toBe('rgb(11, 12, 12)');
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif');
-      expect(styles['font-weight']).toBe('700');
+    const getSubTitleProperties = [
+      'padding-top',
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of getSubTitle) {
+      const styles = await styling.getStyles(element, getSubTitleProperties)
+      expect(styles['padding-top']).toBe('10px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('24px')
+      expect(styles['line-height']).toBe('30px')
+      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
     }
 
-    const getList = [
-      await privacyPage.getList]
-    
-    const getListProperties = ['padding-left','margin-bottom','font-size','line-height','font-family','color','font-weight']
+    const getList = [await privacyPage.getList]
 
-    for(const element of getList) {
-      const styles = await styling.getStyles(element, getListProperties);
-      expect(styles['padding-left']).toBe('20px');
-      expect(styles['margin-bottom']).toBe('20px');
-      expect(styles['font-size']).toBe('19px');
-      expect(styles['line-height']).toBe('25px');
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif');
-      expect(styles['color']).toBe('rgb(11, 12, 12)');
-      expect(styles['font-weight']).toBe('400');
+    const getListProperties = [
+      'padding-left',
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight'
+    ]
+
+    for (const element of getList) {
+      const styles = await styling.getStyles(element, getListProperties)
+      expect(styles['padding-left']).toBe('20px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
     }
 
-    const getListItem = [
-      await privacyPage.getListItem]
-    
-    const getListItemProperties = ['margin-bottom','font-size','line-height','font-family','color','font-weight']
+    const getListItem = [await privacyPage.getListItem]
 
-    for(const element of getListItem) {
-      const styles = await styling.getStyles(element, getListItemProperties);
-      expect(styles['margin-bottom']).toBe('5px');
-      expect(styles['font-size']).toBe('19px');
-      expect(styles['line-height']).toBe('25px');
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif');
-      expect(styles['color']).toBe('rgb(11, 12, 12)');
-      expect(styles['font-weight']).toBe('400');
+    const getListItemProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight'
+    ]
+
+    for (const element of getListItem) {
+      const styles = await styling.getStyles(element, getListItemProperties)
+      expect(styles['margin-bottom']).toBe('5px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['color']).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
     }
- 
-    
-  
-})})
+  })
+})

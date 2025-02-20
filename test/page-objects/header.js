@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 class Header {
-
-  get getHeaderOverall(){
+  get getHeaderOverall() {
     return $("header[data-module='govuk-header']")
   }
   get getGovUKCrownLogo() {
@@ -32,8 +31,6 @@ class Header {
   get getBetaBannerText() {
     return $("span[class='govuk-phase-banner__text']")
   }
-  
-  
 }
 
 export default new Header()

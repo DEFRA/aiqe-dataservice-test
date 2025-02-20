@@ -1,7 +1,6 @@
 import { $ } from '@wdio/globals'
 
 class PrivacyPage {
-
   get getPrivacyPageHeading() {
     return $("h1[class*='govuk-heading-xl odd-page']")
   }
@@ -19,7 +18,7 @@ class PrivacyPage {
   }
 
   get getInformationCommisionersOfficeLink() {
-    return (text) => $(`//a[contains(text(),'${text}')]`);
+    return (text) => $(`//a[contains(text(),'${text}')]`)
   }
 
   get getMakeAComplaintLink() {
@@ -27,43 +26,26 @@ class PrivacyPage {
   }
 
   get getPersonalInformationCharterLink() {
-    return $("a[href='https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs/about/personal-information-charter']")
+    return $(
+      "a[href='https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs/about/personal-information-charter']"
+    )
   }
 
-  get getparagraph(){
-    return $$("p")[1]
+  get getparagraph() {
+    return $$('p')[1]
   }
 
-  get getSubTitle(){
-    return $("h2")
+  get getSubTitle() {
+    return $('h2')
   }
 
-  get getList(){
+  get getList() {
     return $("ul[class*='govuk-list govuk-list--bullet']")
   }
 
-  get getListItem(){
-    return $("li")
+  get getListItem() {
+    return $('li')
   }
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
 }
 
 // module.exports=new StartNowPage()

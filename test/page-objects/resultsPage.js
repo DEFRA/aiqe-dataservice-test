@@ -12,7 +12,6 @@ class ResultsPage {
   async firstLinkClick() {
     await this.getFirstResult.click()
   }
-
 }
 
 // module.exports=new StartNowPage()

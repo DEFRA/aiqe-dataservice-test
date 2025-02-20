@@ -16,9 +16,8 @@ describe('happyPath', () => {
     await browser.maximizeWindow()
     // Handle the cookie banner
     //if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-      //await cookieBanner.rejectButtonCookiesDialog.click()
-      //await cookieBanner.hideButtonHideDialog.click()
-    
+    //await cookieBanner.rejectButtonCookiesDialog.click()
+    //await cookieBanner.hideButtonHideDialog.click()
 
     // startnow-block
     await headersObject.getHeaderOverall.isDisplayed()
@@ -28,29 +27,25 @@ describe('happyPath', () => {
       await startNowPage.getStartNowPageHeading.getText()
     await expect(startNowHeading).toMatch(getStartNowHeading)
     await startNowPage.startNowBtnClick()
-    
+
     //search block
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     await searchPage.setsearch('birmingham')
-    await searchPage.milesOptionClick("5 miles");
+    await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
-    
+
     //results block
     //await headersObject.headerOverall.isDisplayed()
     //await footer.footerOverall.isDisplayed()
     //await resultsPage.firstLinkClick()
 
-    //monitor station 
+    //monitor station
     //await headersObject.headerOverall.isDisplayed()
     //await footer.footerOverall.isDisplayed()
     //const monitoringStationHeader = 'Birmingham A4540 Roadside'
     //const getmonitoringStationHeader =
     //  await monitoringStationPage.getResultsPageHeaderText.getText()
     //await expect(monitoringStationHeader).toMatch(getmonitoringStationHeader)
-    
-
- 
-    
-  
-})})
+  })
+})

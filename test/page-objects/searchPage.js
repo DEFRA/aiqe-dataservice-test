@@ -12,7 +12,7 @@ class SearchPage {
     return $("p[class='govuk-body govuk-hint']")
   }
   get getEnterTownOrPostcodeLabel() {
-    return (text) => $(`//label[contains(text(),'${text}')]`);
+    return (text) => $(`//label[contains(text(),'${text}')]`)
   }
   get searchBox() {
     return $("input[class='govuk-input']")
@@ -24,11 +24,11 @@ class SearchPage {
     return $("legend[class='govuk-fieldset__legend']")
   }
   get getOptionByText() {
-    return (text) => $(`//label[contains(text(),'${text}')]`);
+    return (text) => $(`//label[contains(text(),'${text}')]`)
   }
   async milesOptionClick(optionText) {
-    const option = this.getOptionByText(optionText);
-    await option.click();
+    const option = this.getOptionByText(optionText)
+    await option.click()
   }
 
   get getContinueBtn() {
@@ -44,9 +44,6 @@ class SearchPage {
   async BackBtnClick() {
     await this.getBackBtn.click()
   }
-
-
-
 }
 
 // module.exports=new StartNowPage()

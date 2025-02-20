@@ -4,11 +4,6 @@ class monitoringStationPage {
   get getResultsPageHeaderText() {
     return $("h1[class*='govuk-heading-xl govuk-!-margin-bottom-1']")
   }
-
- 
-
-  
-
 }
 
 // module.exports=new StartNowPage()
