@@ -1,4 +1,4 @@
-//const allure = require('allure-commandline')
+// const allure = require('allure-commandline')
 import allure from 'allure-commandline'
 
 const debug = process.env.DEBUG
@@ -30,9 +30,7 @@ export const config = {
   //
   specs: ['./test/specs/**/*.js'],
   // Patterns to exclude.
-  exclude: [
-     
-  ],
+  exclude: [],
   // injectGlobals: false,
   //
   // ============

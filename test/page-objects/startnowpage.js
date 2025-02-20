@@ -34,11 +34,8 @@ class StartNowPage {
   }
 
   get getstartNowPageListItem() {
-    return $("li")
+    return $('li')
   }
-
-
-
 }
 
 // module.exports=new StartNowPage()

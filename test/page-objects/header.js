@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
 class Header {
-
-  get getHeaderOverall(){
+  get getHeaderOverall() {
     return $("header[data-module='govuk-header']")
   }
+
   get getGovUKCrownLogo() {
     return $("div[class='govuk-header__logo']")
   }
+
   get getGovUKCrownLink() {
     return $("a[class='govuk-header__link govuk-header__link--homepage']")
   }
@@ -32,8 +33,6 @@ class Header {
   get getBetaBannerText() {
     return $("span[class='govuk-phase-banner__text']")
   }
-  
-  
 }
 
 export default new Header()
