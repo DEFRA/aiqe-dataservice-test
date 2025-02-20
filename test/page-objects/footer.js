@@ -31,7 +31,7 @@ class Footer {
   get getOGLStatement() {
     return $("span[class='govuk-footer__licence-description']")
   }
-  
+
   // logo
 
   get getCrownCoprightLogo() {

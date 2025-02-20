@@ -7,7 +7,7 @@ class Header {
   get getGovUKCrownLogo() {
     return $("div[class='govuk-header__logo']")
   }
-  
+
   get getGovUKCrownLink() {
     return $("a[class='govuk-header__link govuk-header__link--homepage']")
   }
