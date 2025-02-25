@@ -5,8 +5,8 @@ import footer from '../page-objects/footer.js'
 import styling from '../page-objects/styling.js'
 
 const pages = [
-  'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/',
-  'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/search-location'
+  'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/',
+  'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
 ]
 describe('footer content and functionality checks', () => {
   pages.forEach((page) => {
@@ -57,7 +57,7 @@ describe('footer content and functionality checks', () => {
       await footer.getPrivacyFooterLink.click()
       const privacyURL = await browser.getUrl()
       const expectedPrivacyURL =
-        'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/privacy'
+        'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/privacy'
       await expect(privacyURL).toMatch(expectedPrivacyURL)
       await browser.back()
 
@@ -65,7 +65,7 @@ describe('footer content and functionality checks', () => {
       await footer.getCookiesFooterLink.click()
       const cookiesURL = await browser.getUrl()
       const expectedCookiesURL =
-        'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/cookies'
+        'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/cookies'
       await expect(cookiesURL).toMatch(expectedCookiesURL)
       await browser.back()
 
@@ -73,7 +73,7 @@ describe('footer content and functionality checks', () => {
       await footer.getAccessibilityStatementFooterLink.click()
       const AccessibilityStatementURL = await browser.getUrl()
       const expectedAccessibilityStatementURL =
-        'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/accessibility'
+        'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/accessibility'
       await expect(AccessibilityStatementURL).toMatch(
         expectedAccessibilityStatementURL
       )
@@ -159,7 +159,7 @@ describe('footer content and functionality checks', () => {
       for (const element of crownLogo) {
         const styles = await styling.getStyles(element, crownLogoProperties)
         expect(styles['background-image']).toBe(
-          'url("https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/public/assets/images/govuk-crest.svg")'
+          'url("https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/public/assets/images/govuk-crest.svg")'
         )
         expect(styles['background-size']).toBe('125px 102px')
         expect(styles['min-width']).toBe('125px')

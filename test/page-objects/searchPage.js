@@ -2,7 +2,7 @@ import { $ } from '@wdio/globals'
 
 class SearchPage {
   get getSearchPageHeaderText() {
-    return $("label[class='govuk-label govuk-label--l']")
+    return $("label[class='govuk-heading-l govuk-!-margin-bottom-4']")
   }
 
   get getSearchPageContent() {
