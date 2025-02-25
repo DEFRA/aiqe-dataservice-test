@@ -89,7 +89,7 @@ Our personal information charter explains more about your rights over your perso
     await privacyPage.getGetAirPollutionDataLink.click()
     const getAirPolutionDataLinkURL = await browser.getUrl()
     const expectedgetAirPolutionDataLinkURL =
-      'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
     await expect(getAirPolutionDataLinkURL).toMatch(
       expectedgetAirPolutionDataLinkURL
     )
@@ -99,7 +99,7 @@ Our personal information charter explains more about your rights over your perso
     await privacyPage.getCookieOptLink.click()
     const getCookieOptLinkURL = await browser.getUrl()
     const expectedGetCookieOptLinkURL =
-      'https://aiqe-dataservice-frontend.dev.cdp-int.defra.cloud/cookies'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/cookies'
     await expect(getCookieOptLinkURL).toMatch(expectedGetCookieOptLinkURL)
     await browser.back()
     await browser.refresh()
