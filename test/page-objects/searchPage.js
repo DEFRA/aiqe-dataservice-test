@@ -53,6 +53,10 @@ class SearchPage {
   async BackBtnClick() {
     await this.getBackBtn.click()
   }
+
+  get defaultOption() {
+    return $("input[value='5']")
+  }
 }
 
 // module.exports=new StartNowPage()
