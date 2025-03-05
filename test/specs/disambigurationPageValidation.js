@@ -9,8 +9,8 @@ import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
-import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 import styling from '../page-objects/styling.js'
+import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 
 describe('disambiguration page tests', () => {
   it('content, functions, styling tests', async () => {
@@ -99,7 +99,7 @@ Alternatively, try searching again`
       await searchPage.defaultOption.isSelected()
     await expect(defaultMilesOptionIsSelectedAfterSearchAgain).toBe(true)
 
-    // checking monitoring station links
+    // checking location links
     await searchPage.milesOptionClick('25 miles')
     await searchPage.continueBtnClick()
     await browser.refresh
@@ -109,7 +109,7 @@ Alternatively, try searching again`
     const expectedURLCityOfLondon =
       'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/city-of-london_city-and-county-of-the-city-of-london'
     await expect(getCurrentURLCityOfLondon).toMatch(expectedURLCityOfLondon)
-    monitoringStationPage.getBackBtn.click()
+    locationMonitoringStationListPage.getBackLink.click()
     browser.refresh()
 
     await disambigurationPage.locationLinkClick('Little London')
@@ -119,7 +119,7 @@ Alternatively, try searching again`
     await expect(getCurrentURLLittleLondonBucks).toMatch(
       expectedURLLittleLondonBucks
     )
-    await monitoringStationPage.getBackBtn.click()
+    await locationMonitoringStationListPage.getBackLink.click()
     await browser.refresh()
 
     await disambigurationPage.locationLinkClick('London Fields')
@@ -129,7 +129,7 @@ Alternatively, try searching again`
     await expect(getCurrentURLLondonFIeldsDudley).toMatch(
       expectedURLLondonFIeldsDudley
     )
-    await monitoringStationPage.getBackBtn.click()
+    await locationMonitoringStationListPage.getBackLink.click()
     await browser.refresh()
 
     // styling tests
