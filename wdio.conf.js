@@ -1,4 +1,8 @@
-exports.config = {
+import fs from 'node:fs'
+const debug = process.env.DEBUG
+const oneHour = 60 * 60 * 1000
+
+export const config = {
   //
   // ====================
   // Runner Configuration
@@ -52,7 +56,27 @@ exports.config = {
   //
   capabilities: [
     {
-      browserName: 'chrome'
+      maxInstances: 1,
+      browserName: 'chrome',
+      'goog:chromeOptions': {
+        args: [
+          '--no-sandbox',
+          '--disable-infobars',
+          '--headless',
+          '--disable-gpu',
+          '--window-size=1920,1080',
+          '--enable-features=NetworkService,NetworkServiceInProcess',
+          '--password-store=basic',
+          '--use-mock-keychain',
+          '--dns-prefetch-disable',
+          '--disable-background-networking',
+          '--disable-remote-fonts',
+          '--ignore-certificate-errors',
+          '--host-resolver-rules=MAP www.googletagmanager.com 127.0.0.1'
+        ]
+      }
+
+
     }
   ],
 
@@ -89,6 +113,10 @@ exports.config = {
   // gets prepended directly.
    baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud/`,
   //
+  // Connection to remote chromedriver
+  hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
+  port: process.env.CHROMEDRIVER_PORT || 4444,
+
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,
   //
