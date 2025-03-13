@@ -1,7 +1,3 @@
-import fs from 'node:fs'
-const debug = process.env.DEBUG
-const oneHour = 60 * 60 * 1000
-
 export const config = {
   //
   // ====================
@@ -75,8 +71,6 @@ export const config = {
           '--host-resolver-rules=MAP www.googletagmanager.com 127.0.0.1'
         ]
       }
-
-
     }
   ],
 
@@ -154,7 +148,25 @@ export const config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ['spec'],
+  reporters: [
+    [
+      // Spec reporter provides rolling output to the logger so you can see it in-progress
+      'spec',
+      {
+        addConsoleLogs: true,
+        realtimeReporting: true,
+        color: false
+      }
+    ],
+    [
+      // Allure is used to generate the final HTML report
+      'allure',
+      {
+        outputDir: 'allure-results'
+      }
+    ]
+  ],
+  
 
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
