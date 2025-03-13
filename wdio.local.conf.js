@@ -28,7 +28,7 @@ export const config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/**/*.js'],
+  specs: ['./test/specs/**/happyPath.js'],
   // Patterns to exclude.
   exclude: [],
   // injectGlobals: false,
@@ -146,7 +146,14 @@ export const config = {
   // see also: https://webdriver.io/docs/dot-reporter
 
   reporters: [
-    'spec',
+    [
+      'spec',
+      {
+        addConsoleLogs: true,
+        realtimeReporting: true,
+        color: false
+      }
+    ],
     [
       'allure',
       {
