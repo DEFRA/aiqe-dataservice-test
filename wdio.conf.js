@@ -15,8 +15,8 @@ export const config = {
   baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud/`,
   //
   // Connection to remote chromedriver
-  hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
-  port: process.env.CHROMEDRIVER_PORT || 4444,
+  //hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
+  //port: process.env.CHROMEDRIVER_PORT || 4444,
   //
   // ==================
   // Specify Test Files
@@ -65,8 +65,8 @@ export const config = {
   capabilities: [
     {
       maxInstances: 1,
-      browserName: 'chrome',
-      'goog:chromeOptions': {
+      browserName: 'MicrosoftEdge',
+      'ms:edgeOptions': {
         args: [
           '--no-sandbox',
           '--disable-infobars',
