@@ -65,8 +65,8 @@ export const config = {
   capabilities: [
     {
       maxInstances: 1,
-      browserName: 'MicrosoftEdge',
-      'ms:edgeOptions': {
+      browserName: 'chrome',
+      'goog:chromeOptions': {
         args: [
           '--no-sandbox',
           '--disable-infobars',
