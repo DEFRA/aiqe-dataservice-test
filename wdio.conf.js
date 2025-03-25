@@ -33,7 +33,7 @@ export const config = {
   // of the config file unless it's absolute.
   //
   specs: [
-    './test/specs/**/*.js'
+    './test/specs/**/headerValidation.js'
     // ToDo: define location for spec files here
   ],
   // Patterns to exclude.

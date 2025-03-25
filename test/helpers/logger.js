@@ -6,4 +6,4 @@ function createLogger() {
   return pino(loggerOptions)
 }
 
-module.exports = createLogger
+export default createLogger
