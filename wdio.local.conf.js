@@ -28,7 +28,7 @@ export const config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/**/happyPath.js'],
+  specs: ['./test/specs/**/headerValidation.js'],
   // Patterns to exclude.
   exclude: [],
   // injectGlobals: false,
@@ -56,12 +56,12 @@ export const config = {
   //
 
   capabilities: debug
-    ? [{ browserName: 'chrome' }]
+    ? [{ browserName: 'MicrosoftEdge' }]
     : [
         {
           maxInstances: 1,
-          browserName: 'chrome',
-          'goog:chromeOptions': {
+          browserName: 'MicrosoftEdge',
+          'ms:edgeOptions': {
             args: [
               '--no-sandbox',
               '--disable-infobars',

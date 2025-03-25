@@ -36,8 +36,8 @@ describe('happyPath', () => {
     await searchPage.continueBtnClick()
 
     // results block
-    // await headersObject.headerOverall.isDisplayed()
-    // await footer.footerOverall.isDisplayed()
+    // await headersObject.getHeaderOverall.isDisplayed()
+    // await footer.getFooterOverall.isDisplayed()
     // await resultsPage.firstLinkClick()
 
     // monitor station
