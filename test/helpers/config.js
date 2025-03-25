@@ -84,4 +84,4 @@ const config = convict({
 
 config.validate({ allowed: 'strict' })
 
-module.exports = config
+export default config

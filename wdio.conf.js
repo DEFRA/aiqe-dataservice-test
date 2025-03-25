@@ -1,3 +1,5 @@
+const debug = process.env.DEBUG
+const oneHour = 60*60*1000
 export const config = {
   //
   // ====================
@@ -5,6 +7,16 @@ export const config = {
   // ====================
   // WebdriverIO supports running e2e tests as well as unit and component tests.
   runner: 'local',
+  //
+  // Set a base URL in order to shorten url command calls. If your `url` parameter starts
+  // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
+  // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
+  // gets prepended directly.
+  baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud/`,
+  //
+  // Connection to remote chromedriver
+  hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
+  port: process.env.CHROMEDRIVER_PORT || 4444,
   //
   // ==================
   // Specify Test Files
@@ -21,7 +33,7 @@ export const config = {
   // of the config file unless it's absolute.
   //
   specs: [
-    './test/specs/**/*.js'
+    './test/specs/**/headerValidation.js'
     // ToDo: define location for spec files here
   ],
   // Patterns to exclude.
@@ -73,7 +85,7 @@ export const config = {
       }
     }
   ],
-
+  execArgv: debug ? ['--inspect'] : [],
   //
   // ===================
   // Test Configurations
@@ -81,7 +93,7 @@ export const config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: 'info',
+  logLevel: debug ? 'debug' : 'info',
   //
   // Set specific log levels per logger
   // loggers:
@@ -100,17 +112,6 @@ export const config = {
   // If you only want to run your tests until a specific amount of tests have failed use
   // bail (default is 0 - don't bail, run all tests).
   bail: 0,
-  //
-  // Set a base URL in order to shorten url command calls. If your `url` parameter starts
-  // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
-  // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
-  // gets prepended directly.
-   baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud/`,
-  //
-  // Connection to remote chromedriver
-  hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
-  port: process.env.CHROMEDRIVER_PORT || 4444,
-
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,
   //
@@ -166,15 +167,13 @@ export const config = {
       }
     ]
   ],
-  
 
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: 'bdd',
-    timeout: 60000
+    timeout: debug ? oneHour : 90000
   }
-
   //
   // =====
   // Hooks

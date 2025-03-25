@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import config from 'helpers/config'
+import config from '~/test/helpers/config.js'
 import { ProxyAgent, fetch as undiciFetch } from 'undici'
 import createLogger from 'helpers/logger'
 const logger = createLogger()
@@ -27,5 +27,5 @@ const proxyFetch = (url, opts) => {
     })
   }
 }
-// export { proxyFetch }
-module.exports = proxyFetch
+ export { proxyFetch }
+//module.exports = proxyFetch
