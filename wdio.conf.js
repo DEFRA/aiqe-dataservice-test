@@ -12,7 +12,7 @@ export const config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud/`,
+  baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`,
   //
   // Connection to remote chromedriver
   hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
@@ -79,8 +79,8 @@ export const config = {
           '--dns-prefetch-disable',
           '--disable-background-networking',
           '--disable-remote-fonts',
-          '--ignore-certificate-errors',
-          '--host-resolver-rules=MAP www.googletagmanager.com 127.0.0.1'
+          '--ignore-certificate-errors'
+          
         ]
       }
     }
