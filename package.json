@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "postinstall": "npm run setup:husky",
-    "setup:husky": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
+    "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "report": "allure generate allure-results --clean",
     "reportSingleFile": "allure generate allure-results --clean --single-file -o allure-report",
     "report:publish": "npm run report; ./bin/publish-tests.sh",
