@@ -12,6 +12,7 @@ import footer from '../page-objects/footer.js'
 describe('happyPath', () => {
   it('simple test', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
+    console.log("teststarted")
     await browser.url('')
     await browser.maximizeWindow()
     // Handle the cookie banner
