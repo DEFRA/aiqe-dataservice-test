@@ -1,5 +1,5 @@
 const debug = process.env.DEBUG
-const oneHour = 60*60*1000
+const oneHour = 60 * 60 * 1000
 export const config = {
   //
   // ====================
