@@ -62,10 +62,10 @@ const config = convict({
     sensitive: true,
     env: 'DAQIE_PASSWORD'
   },
-  forecastSummaryUrl: {
-    doc: 'Summary forecast url',
+  homeUrl: {
+    doc: 'home url',
     format: String,
-    default: 'https://uk-air.defra.gov.uk/ajax/forecast_text_summary.php',
+    default: 'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/',
     env: 'FORECAST_SUMMARY_URL'
   },
   forecastUrl: {
