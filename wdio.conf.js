@@ -33,7 +33,7 @@ export const config = {
   // of the config file unless it's absolute.
   //
   specs: [
-    './test/specs/**/headerValidation.js'
+    './test/specs/**/happyPath.js'
     // ToDo: define location for spec files here
   ],
   // Patterns to exclude.
@@ -79,8 +79,8 @@ export const config = {
           '--dns-prefetch-disable',
           '--disable-background-networking',
           '--disable-remote-fonts',
-          '--ignore-certificate-errors'
-          
+          '--ignore-certificate-errors',
+          '--host-resolver-rules=MAP www.googletagmanager.com 127.0.0.1'
         ]
       }
     }
