@@ -27,5 +27,6 @@ const proxyFetch = (url, opts) => {
     })
   }
 }
- export { proxyFetch }
-//module.exports = proxyFetch
+export { proxyFetch }
+
+// module.exports = proxyFetch
