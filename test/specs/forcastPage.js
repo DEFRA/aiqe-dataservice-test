@@ -1,5 +1,5 @@
-import createLogger from 'helpers/logger'
-import proxyFetch from 'helpers/proxy-fetch'
+import createLogger from '~/test/helpers/logger.js'
+import proxyFetch from '~/test/helpers/proxy-fetch.cjs'
 const optionsJson = { method: 'GET', headers: { 'Content-Type': 'text/json' } }
 
 /* eslint-disable */
