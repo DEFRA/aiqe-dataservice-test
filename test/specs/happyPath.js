@@ -8,9 +8,12 @@ import searchPage from '../page-objects/searchPage.js'
 // import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
+import createLogger from 'helpers/logger'
 
+const logger = createLogger()
 describe('happyPath', () => {
   it('simple test', async () => {
+    logger.info('---happyPath StartScenario--------')
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
