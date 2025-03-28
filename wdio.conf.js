@@ -64,7 +64,7 @@ export const config = {
     }
   ],
 
-  execArgv: ['--loader', 'esm-module-alias/loader'],
+  execArgv: [],
 
   logLevel: 'info',
 
