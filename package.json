@@ -46,7 +46,10 @@
     "https-proxy-agent": "7.0.4",
     "global-agent": "3.0.0",
     "undici": "7.3.0",
+    "convict": "6.2.4",
     "pino": "8.20.0",
+    "moment": "2.30.1",
+    "path": "0.12.7",
     "pino-pretty": "11.0.0"
   },
   "devDependencies": {
