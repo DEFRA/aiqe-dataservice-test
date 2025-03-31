@@ -9,4 +9,3 @@ const loggerOptions = {
 }
 
 export default loggerOptions
-

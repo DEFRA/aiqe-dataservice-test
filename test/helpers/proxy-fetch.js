@@ -28,4 +28,3 @@ const proxyFetch = (url, opts) => {
   }
 }
 export default proxyFetch
-
