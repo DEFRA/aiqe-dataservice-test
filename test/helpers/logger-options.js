@@ -8,4 +8,5 @@ const loggerOptions = {
     : ecsFormat())
 }
 
-module.exports = loggerOptions
+export default loggerOptions
+

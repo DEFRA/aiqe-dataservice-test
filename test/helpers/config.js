@@ -1,6 +1,9 @@
 /* eslint-disable prettier/prettier */
 import convict from 'convict'
-import path from 'path'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+ 
+const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const config = convict({
   env: {
@@ -18,7 +21,7 @@ const config = convict({
   root: {
     doc: 'Project root',
     format: String,
-    default: path.normalize(path.join(__dirname, '..', '..'))
+    default: path.normalize(path.join(dirname, '..', '..'))
   },
   isProduction: {
     doc: 'If this application running in the production environment',
@@ -84,4 +87,5 @@ const config = convict({
 
 config.validate({ allowed: 'strict' })
 
-module.exports = config
+export default config
+

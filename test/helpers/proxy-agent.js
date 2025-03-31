@@ -1,5 +1,5 @@
 import { HttpsProxyAgent } from 'https-proxy-agent'
-import { config } from './config.js'
+import { config } from './config'
 import { URL } from 'url'
 
 const proxyAgent = () => {
@@ -16,4 +16,4 @@ const proxyAgent = () => {
   }
 }
 
-module.exports = proxyAgent
+export default proxyAgent
