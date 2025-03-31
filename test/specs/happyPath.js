@@ -8,7 +8,7 @@ import searchPage from '../page-objects/searchPage.js'
 // import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
-import createLogger from 'helpers/logger'
+import createLogger from '../helpers/logger.js'
 
 const logger = createLogger()
 describe('happyPath', () => {
