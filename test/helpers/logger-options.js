@@ -1,5 +1,5 @@
 import ecsFormat from '@elastic/ecs-pino-format'
-import config from '~/test/helpers/config.js'
+import config from './helpers/config.js'
 
 const loggerOptions = {
   level: config.get('logLevel'),

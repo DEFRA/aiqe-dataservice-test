@@ -1,6 +1,6 @@
 import pino from 'pino'
 
-import loggerOptions from '~/test/helpers/logger-options.js'
+import loggerOptions from './helpers/logger-options.js'
 
 function createLogger() {
   return pino(loggerOptions)

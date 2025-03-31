@@ -1,5 +1,5 @@
 import { HttpsProxyAgent } from 'https-proxy-agent'
-import { config } from '~/test/helpers/config.js'
+import { config } from './helpers/config.js'
 import { URL } from 'url'
 
 const proxyAgent = () => {
