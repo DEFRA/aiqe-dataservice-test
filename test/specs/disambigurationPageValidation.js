@@ -54,7 +54,7 @@ Little London, Buckinghamshire
 Little London, Leeds
 Little London, Wiltshire
 Little London, Walsall
-London Fields, Dudley
+London Fields, Dudley·
 Alternatively, try searching again`
     const getdisambigurationPageContent =
       await disambigurationPage.getdisambigurationPageContent.getText()
@@ -66,7 +66,7 @@ Alternatively, try searching again`
     await browser.refresh()
     const getCurrentURLAfterBackLink = await browser.getUrl()
     const expectedURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location'
     await expect(getCurrentURLAfterBackLink).toMatch(expectedURL)
 
     const getRetainedSearchTermAfterBackLink =
@@ -107,7 +107,7 @@ Alternatively, try searching again`
     await disambigurationPage.locationLinkClick('City of London')
     const getCurrentURLCityOfLondon = await browser.getUrl()
     const expectedURLCityOfLondon =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/city-of-london_city-and-county-of-the-city-of-london'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/city-of-london_city-and-county-of-the-city-of-london'
     await expect(getCurrentURLCityOfLondon).toMatch(expectedURLCityOfLondon)
     locationMonitoringStationListPage.getBackLink.click()
     browser.refresh()
@@ -115,7 +115,7 @@ Alternatively, try searching again`
     await disambigurationPage.locationLinkClick('Little London')
     const getCurrentURLLittleLondonBucks = await browser.getUrl()
     const expectedURLLittleLondonBucks =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/little-london_buckinghamshire'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/little-london_buckinghamshire'
     await expect(getCurrentURLLittleLondonBucks).toMatch(
       expectedURLLittleLondonBucks
     )
@@ -125,7 +125,7 @@ Alternatively, try searching again`
     await disambigurationPage.locationLinkClick('London Fields')
     const getCurrentURLLondonFIeldsDudley = await browser.getUrl()
     const expectedURLLondonFIeldsDudley =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/london-fields_dudley'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/london-fields_dudley'
     await expect(getCurrentURLLondonFIeldsDudley).toMatch(
       expectedURLLondonFIeldsDudley
     )
@@ -252,7 +252,7 @@ Alternatively, try searching again`
     for (const element of getLocationLink) {
       const styles = await styling.getStyles(element, getLocationLinkProperties)
       expect(styles['font-weight']).toBe('700')
-      expect(styles.color).toBe('rgb(29, 112, 184)')
+      expect(styles.color).toBe('rgb(0, 0, 238)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')

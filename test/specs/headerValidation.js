@@ -7,10 +7,10 @@ import header from '../page-objects/header.js'
 import styling from '../page-objects/styling.js'
 
 const pages = [
-  'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/',
-  'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location',
-  'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=london&locationMiles=5',
-  'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=Birmingham%2C+Birmingham&locationMiles=5'
+  'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/',
+  'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location',
+  'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=london&locationMiles=5',
+  'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=Birmingham%2C+Birmingham&locationMiles=5'
 ]
 describe('header content checks/functionality checks/styling checks', () => {
   pages.forEach((page) => {
@@ -196,7 +196,7 @@ describe('header content checks/functionality checks/styling checks', () => {
       await header.getAirPolutionDataHeaderLink.click()
       const getAirPolutionDataHeaderLinkURL = await browser.getUrl()
       const expectedgetAirPolutionDataHeaderLinkURL =
-        'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
+        'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/'
       await expect(getAirPolutionDataHeaderLinkURL).toMatch(
         expectedgetAirPolutionDataHeaderLinkURL
       )
@@ -205,7 +205,7 @@ describe('header content checks/functionality checks/styling checks', () => {
       await header.getBetaBannerFeedbackLink.click()
       const BetaBannerFeedbackLink = await browser.getUrl()
       const expectedgetBetaBannerFeedbackLink =
-        'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/#'
+        'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/#'
       await expect(BetaBannerFeedbackLink).toMatch(
         expectedgetBetaBannerFeedbackLink
       )

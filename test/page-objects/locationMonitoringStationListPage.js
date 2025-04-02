@@ -14,7 +14,7 @@ class LocationMonitoringStationListPage {
   }
 
   get getChangeSearchAreaLink() {
-    return $("a[href='/search-location']")
+    return $("a[href='/search-location/searchagain']")
   }
 
   get getMonitoringStationLink() {

@@ -44,12 +44,12 @@ health advice to reduce your exposure to pollutants`
     await startNowPage.startNowBtnClick()
     const searchPageURL = await browser.getUrl()
     const expectedSearchPageURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location'
     await expect(searchPageURL).toMatch(expectedSearchPageURL)
     await searchPage.BackBtnClick()
     const startNowPageURL = await browser.getUrl()
     const expectedStartNowPageURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/'
     await expect(startNowPageURL).toMatch(expectedStartNowPageURL)
     await browser.refresh()
     await startNowPage.citizenServiceLinkClick()

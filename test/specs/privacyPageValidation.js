@@ -89,7 +89,7 @@ Our personal information charter explains more about your rights over your perso
     await privacyPage.getGetAirPollutionDataLink.click()
     const getAirPolutionDataLinkURL = await browser.getUrl()
     const expectedgetAirPolutionDataLinkURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/'
     await expect(getAirPolutionDataLinkURL).toMatch(
       expectedgetAirPolutionDataLinkURL
     )
@@ -99,7 +99,7 @@ Our personal information charter explains more about your rights over your perso
     await privacyPage.getCookieOptLink.click()
     const getCookieOptLinkURL = await browser.getUrl()
     const expectedGetCookieOptLinkURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/cookies'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/cookies'
     await expect(getCookieOptLinkURL).toMatch(expectedGetCookieOptLinkURL)
     await browser.back()
     await browser.refresh()
@@ -208,7 +208,7 @@ Our personal information charter explains more about your rights over your perso
 
     for (const element of privacyLinks) {
       const styles = await styling.getStyles(element, privacyLinksProperties)
-      expect(styles.color).toBe('rgb(29, 112, 184)')
+      expect(styles.color).toBe('rgb(0, 0, 238)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')

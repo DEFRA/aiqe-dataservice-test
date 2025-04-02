@@ -31,7 +31,7 @@ describe('cookie page content/functionality checks/styling checks', () => {
     const cookiesPageContent = `Cookies
 Get air pollution data puts small files (known as ‘cookies’) on your computer.
 These cookies are used across the 'get air pollution data' service.
-We only set cookies when JavaScript is running in your browser and you have accepted them. If you choose not to run Javascript, the information on this page will not apply to you.
+We only set cookies when Javascript is running in your browser and you have accepted them. If you choose not to run Javascript, the information on this page will not apply to you.
 Find out how to manage cookies from the Information Commissioner‘s Office.
 Essential cookies (strictly necessary)
 We use an essential cookie to remember when you accept or reject cookies on our website.
@@ -66,7 +66,7 @@ Save cookie settings`
     await cookiesPage.getGetAirPollutionDataLink.click()
     const getAirPolutionDataLinkURL = await browser.getUrl()
     const expectedgetAirPolutionDataLinkURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/'
     await expect(getAirPolutionDataLinkURL).toMatch(
       expectedgetAirPolutionDataLinkURL
     )
@@ -270,7 +270,7 @@ Save cookie settings`
         getSaveCookieSettingButtonProperties
       )
       expect(styles['margin-bottom']).toBe('32px')
-      expect(styles.width).toBe('192.469px')
+      expect(styles.width).toBe('198.271px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('19px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')

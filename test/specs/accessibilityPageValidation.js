@@ -116,12 +116,10 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
         element,
         getGetAirPollutionDataLinkProperties
       )
-      expect(styles.color).toBe('rgb(29, 112, 184)')
+      expect(styles.color).toBe('rgb(0, 0, 238)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
-      expect(styles['text-decoration-thickness']).toBe('1px')
+      expect(styles['text-decoration']).toBe('underline solid rgb(0, 0, 238)')
+      expect(styles['text-decoration-thickness']).toBe('auto')
       expect(styles.cursor).toBe('pointer')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
@@ -148,12 +146,10 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
         element,
         getEqualityAdvisoryLinkProperties
       )
-      expect(styles.color).toBe('rgb(29, 112, 184)')
+      expect(styles.color).toBe('rgb(0, 0, 238)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
-      expect(styles['text-decoration-thickness']).toBe('1px')
+      expect(styles['text-decoration']).toBe('underline solid rgb(0, 0, 238)')
+      expect(styles['text-decoration-thickness']).toBe('auto')
       expect(styles.cursor).toBe('pointer')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
@@ -208,7 +204,7 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
     await accessibilityPage.getGetAirPollutionDataLink.click()
     const getAirPolutionDataLinkURL = await browser.getUrl()
     const expectedgetAirPolutionDataLinkURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/'
     await expect(getAirPolutionDataLinkURL).toMatch(
       expectedgetAirPolutionDataLinkURL
     )

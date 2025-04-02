@@ -44,7 +44,17 @@ export const config = {
   port: process.env.CHROMEDRIVER_PORT || 4444,
 
   // Tests to run
-  specs: ['./test/specs/**/happyPath.js'],
+  specs: [
+    './test/specs/**/accessibilityPageValidation.js',
+    './test/specs/**/cookiesPageValidation.js',
+    './test/specs/**/footerValidation.js',
+    './test/specs/**/happyPath.js',
+    './test/specs/**/headerValidation.js',
+    './test/specs/**/monitoringStationPageValidation.js',
+    './test/specs/**/searchPageValidation.js',
+    './test/specs/**/startnowPageValidation.js',
+    './test/specs/**/locationMonitoringStationListPageValidation.js'
+  ],
   // Tests to exclude
   exclude: [],
   maxInstances: 1,
