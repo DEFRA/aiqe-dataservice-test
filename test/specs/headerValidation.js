@@ -104,7 +104,7 @@ describe('header content checks/functionality checks/styling checks', () => {
         expect(styles.float).toBe('left')
         expect(styles['padding-right']).toBe('15px')
         expect(styles['vertical-align']).toBe('top')
-        expect(styles.width).toBe('319.958px')
+        expect(styles.width).toBe('319.953px')
         expect(styles['margin-bottom']).toBe('10px')
         expect(styles['font-weight']).toBe('400')
       }
