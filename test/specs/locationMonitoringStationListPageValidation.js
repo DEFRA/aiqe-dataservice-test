@@ -46,34 +46,34 @@ Monitoring station Site type Pollutants
 Birmingham A4540 Roadside
 0.9 miles away
 Urban Traffic
-PM10
-nitrodioxide
 PM2.5
-ozone
+PM10
+Nitrogen dioxide
+Ozone
 Birmingham Ladywood
 1.0 miles away
 Urban Background
-sulphurdioxide
-PM10
-nitrodioxide
 PM2.5
-ozone
+PM10
+Nitrogen dioxide
+Ozone
+Sulphur dioxide
 Birmingham Hall Green
 3.9 miles away
 Urban Background
-PM10
-nitrodioxide
 PM2.5
-ozone
+PM10
+Nitrogen dioxide
+Ozone
 West Bromwich Kenrick Park
 4.3 miles away
 Urban Background
-nitrodioxide
-ozone
+Nitrogen dioxide
+Ozone
 Oldbury Birmingham Road
 4.8 miles away
 Urban Traffic
-nitrodioxide`
+Nitrogen dioxide`
     const getlistPageContent =
       await locationMonitoringStationListPage.getMonitoringStationListPageContent.getText()
     await expect(getlistPageContent).toMatch(listPageContent)
@@ -82,7 +82,7 @@ nitrodioxide`
     await browser.refresh()
     const getCurrentURLAfterBackLink = await browser.getUrl()
     const expectedURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=B2%204QA&locationMiles=5'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=B2%204QA&locationMiles=5'
     await expect(getCurrentURLAfterBackLink).toMatch(expectedURL)
     await disambigurationPage.locationLinkClick('B2 4QA')
 
@@ -90,7 +90,7 @@ nitrodioxide`
     await locationMonitoringStationListPage.getChangeSearchAreaLink.click()
     await browser.refresh()
     const expectedURLAfterChangeSearchAreaLink =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location'
     const getURLAfterChangeSearchAreaLink = await browser.getUrl()
     await expect(getURLAfterChangeSearchAreaLink).toMatch(
       expectedURLAfterChangeSearchAreaLink
@@ -115,7 +115,7 @@ nitrodioxide`
       .click()
     const getCurrentURLOfA450Roadside = await browser.getUrl()
     const expectedURLOfA450Roadside =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
     await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)
     await locationMonitoringStationListPage.getBackLink.click()
     browser.refresh()
@@ -125,7 +125,7 @@ nitrodioxide`
       .click()
     const getCurrentURLOfBirminghamHallGreen = await browser.getUrl()
     const expectedURLOfBirminghamHallGreen =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/BirminghamHallGreen'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails/BirminghamHallGreen'
     await expect(getCurrentURLOfBirminghamHallGreen).toMatch(
       expectedURLOfBirminghamHallGreen
     )
@@ -137,7 +137,7 @@ nitrodioxide`
       .click()
     const getCurrentURLOfOldburyBirminghamRoad = await browser.getUrl()
     const expectedURLOfOldburyBirminghamRoad =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/OldburyBirminghamRoad'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails/OldburyBirminghamRoad'
     await expect(getCurrentURLOfOldburyBirminghamRoad).toMatch(
       expectedURLOfOldburyBirminghamRoad
     )

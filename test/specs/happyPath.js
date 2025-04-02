@@ -9,7 +9,9 @@ import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import createLogger from '../helpers/logger.js'
-
+import disambigurationPage from '../page-objects/disambigurationPage.js'
+import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
+import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 const logger = createLogger()
 describe('happyPath', () => {
   it('simple test', async () => {
@@ -39,16 +41,29 @@ describe('happyPath', () => {
     await searchPage.continueBtnClick()
 
     // results block
-    // await headersObject.getHeaderOverall.isDisplayed()
-    // await footer.getFooterOverall.isDisplayed()
-    // await resultsPage.firstLinkClick()
+    await headersObject.getHeaderOverall.isDisplayed()
+    await footer.getFooterOverall.isDisplayed()
+    await disambigurationPage.locationLinkClick('Birmingham')
 
-    // monitor station
-    // await headersObject.headerOverall.isDisplayed()
-    // await footer.footerOverall.isDisplayed()
-    // const monitoringStationHeader = 'Birmingham A4540 Roadside'
-    // const getmonitoringStationHeader =
-    //  await monitoringStationPage.getResultsPageHeaderText.getText()
-    // await expect(monitoringStationHeader).toMatch(getmonitoringStationHeader)
+    // monitor station list
+    await headersObject.getHeaderOverall.isDisplayed()
+    await footer.getFooterOverall.isDisplayed()
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Birmingham A4540 Roadside')
+      .click()
+
+    // monitoring station page
+    await headersObject.getHeaderOverall.isDisplayed()
+    await footer.getFooterOverall.isDisplayed()
+    const getCurrentURLOfA450Roadside = await browser.getUrl()
+    const expectedURLOfA450Roadside =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
+    await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)
+    const getMonitoringPageHeading =
+      await monitoringStationPage.getMonitoringPageHeading.getText()
+    const expectedMonitoringPageHeading = 'Birmingham A4540 Roadside'
+    await expect(getMonitoringPageHeading).toMatch(
+      expectedMonitoringPageHeading
+    )
   })
 })
