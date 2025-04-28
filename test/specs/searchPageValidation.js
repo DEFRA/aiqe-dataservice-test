@@ -20,6 +20,9 @@ describe('search page content/functionality checks/styling checks', () => {
     await startNowPage.startNowBtnClick()
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
+    // back button check
+    await searchPage.BackBtnClick()
+    await startNowPage.startNowBtnClick()
 
     // page content validation
     const seachPageContent = `Back
@@ -34,20 +37,44 @@ Continue`
     const getsearchPagecontent = await searchPage.getSearchPageContent.getText()
     await expect(seachPageContent).toMatch(getsearchPagecontent)
 
-    // links validation
+    // goes to disambiguration page
     await searchPage.setsearch('london')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
+    const getCurrentURLAfterSearch1 = await browser.getUrl()
+    const expectedURL1 =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=london&locationMiles=5'
+    await expect(getCurrentURLAfterSearch1).toMatch(expectedURL1)
     await browser.back()
     await browser.refresh()
+
     await searchPage.setsearch('birmingham')
     await searchPage.milesOptionClick('25 miles')
     await searchPage.continueBtnClick()
+    const getCurrentURLAfterSearch2 = await browser.getUrl()
+    const expectedURL2 =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=birmingham&locationMiles=25'
+    await expect(getCurrentURLAfterSearch2).toMatch(expectedURL2)
     await browser.back()
     await browser.refresh()
-    await searchPage.setsearch('WD24 7DU')
+
+    await searchPage.setsearch('B2 4QA')
     await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()
+    const getCurrentURLAfterSearch3 = await browser.getUrl()
+    const expectedURL3 =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=B2+4QA&locationMiles=50'
+    await expect(getCurrentURLAfterSearch3).toMatch(expectedURL3)
+    await browser.back()
+    await browser.refresh()
+    // goes straight to monitoring station list page
+    await searchPage.setsearch('WD17 1DF')
+    await searchPage.milesOptionClick('50 miles')
+    await searchPage.continueBtnClick()
+    const getCurrentURLAfterSearch4 = await browser.getUrl()
+    const expectedURL4 =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=WD17+1DF&locationMiles=50'
+    await expect(getCurrentURLAfterSearch4).toMatch(expectedURL4)
     await browser.back()
     await browser.refresh()
 
