@@ -22,7 +22,7 @@ class MonitoringStationPage {
   }
 
   get getMonitoringStationLastReading() {
-    return $("p[class*='govuk-body govuk-!-margin-top-3']")
+    return $("p[class*='govuk-body status-description govuk-!-margin-top-3']")
   }
 
   get getgridSideStyles() {

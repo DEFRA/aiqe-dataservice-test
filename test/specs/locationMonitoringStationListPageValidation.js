@@ -96,16 +96,17 @@ Nitrogen dioxide`
       expectedURLAfterChangeSearchAreaLink
     )
 
-    const expectedRetainedSearchTerm = 'B2 4QA'
-    const getRetainedSearchTermAfterChangeSearchArea =
+    const expectedclearedSearchTerm = ''
+    const getClearedSearchTermAfterChangeSearchArea =
       await searchPage.searchBox.getValue()
-    await expect(getRetainedSearchTermAfterChangeSearchArea).toMatch(
-      expectedRetainedSearchTerm
+    await expect(getClearedSearchTermAfterChangeSearchArea).toMatch(
+      expectedclearedSearchTerm
     )
 
     const defaultMilesOptionIsSelectedAfterChangeSearchArea =
       await searchPage.defaultOption.isSelected()
     await expect(defaultMilesOptionIsSelectedAfterChangeSearchArea).toBe(true)
+    await searchPage.setsearch('B2 4QA')
     await searchPage.continueBtnClick()
     await disambigurationPage.locationLinkClick('B2 4QA')
 
@@ -268,12 +269,10 @@ Nitrogen dioxide`
         element,
         getMonitoringStationLinkProperties
       )
-      expect(styles.color).toBe('rgb(29, 112, 184)')
+      expect(styles.color).toBe('rgb(0, 0, 238)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
-      expect(styles['text-decoration-thickness']).toBe('1px')
+      expect(styles['text-decoration']).toBe('underline solid rgb(0, 0, 238)')
+      expect(styles['text-decoration-thickness']).toBe('auto')
       expect(styles['font-weight']).toBe('700')
       expect(styles['text-align']).toBe('left')
       expect(styles['font-size']).toBe('19px')
