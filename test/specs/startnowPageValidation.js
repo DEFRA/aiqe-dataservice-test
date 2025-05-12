@@ -4,7 +4,6 @@ import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
 import common from '../page-objects/common.js'
-import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 describe('start now page content/functionality checks/styling checks', () => {
@@ -46,7 +45,7 @@ health advice to reduce your exposure to pollutants`
     const expectedSearchPageURL =
       'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location'
     await expect(searchPageURL).toMatch(expectedSearchPageURL)
-    await searchPage.BackBtnClick()
+    await common.getBackLink.click()
     const startNowPageURL = await browser.getUrl()
     const expectedStartNowPageURL =
       'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/'
