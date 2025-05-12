@@ -30,11 +30,7 @@ export const config = {
   //
   specs: ['./test/specs/**/*.js'],
   // Patterns to exclude.
-  exclude: [
-    './test/specs/**/disambigurationPageValidation.js',
-    './test/specs/**/locationMonitoringStationListPageValidation.js',
-    './test/specs/**/privacyPageValidation.js'
-  ],
+  exclude: [],
   // injectGlobals: false,
   //
   // ============

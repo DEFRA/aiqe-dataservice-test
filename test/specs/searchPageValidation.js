@@ -21,7 +21,7 @@ describe('search page content/functionality checks/styling checks', () => {
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     // back button check
-    await searchPage.BackBtnClick()
+    await common.getBackLink.click()
     await startNowPage.startNowBtnClick()
 
     // page content validation
