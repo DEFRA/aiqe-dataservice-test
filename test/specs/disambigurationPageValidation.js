@@ -11,7 +11,6 @@ import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
 
-
 describe('disambiguration page tests', () => {
   it('content, functions, styling tests', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
