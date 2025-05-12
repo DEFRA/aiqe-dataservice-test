@@ -3,7 +3,7 @@
 import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
-import styling from '../page-objects/styling.js'
+import common from '../page-objects/common.js'
 // import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
@@ -102,7 +102,7 @@ Save cookie settings`
     ]
 
     for (const element of CookiesPageHeading) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         cookiesPageHeadingProperties
       )
@@ -119,7 +119,7 @@ Save cookie settings`
     const cookiesPageContentProperties = ['padding-bottom', 'padding-top']
 
     for (const element of CookiesPageContent) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         cookiesPageContentProperties
       )
@@ -142,7 +142,7 @@ Save cookie settings`
     ]
 
     for (const element of GetAirPollutionDataLink) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         GetAirPollutionDataLinkProperties
       )
@@ -172,7 +172,7 @@ Save cookie settings`
     ]
 
     for (const element of GetHowToManageCookiesLink) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         GetHowToManageCookiesLinkProperties
       )
@@ -200,7 +200,7 @@ Save cookie settings`
     ]
 
     for (const element of getYesCookieOptionStyling) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getYesCookieOptionProperties
       )
@@ -226,7 +226,7 @@ Save cookie settings`
     ]
 
     for (const element of getNoCookieOptionStyling) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getNoCookieOptionProperties
       )
@@ -265,7 +265,7 @@ Save cookie settings`
     ]
 
     for (const element of getSaveCookieSettingButton) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getSaveCookieSettingButtonProperties
       )
@@ -301,7 +301,7 @@ Save cookie settings`
     ]
 
     for (const element of getParagraph) {
-      const styles = await styling.getStyles(element, getParagraphProperties)
+      const styles = await common.getStyles(element, getParagraphProperties)
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
@@ -322,7 +322,7 @@ Save cookie settings`
     ]
 
     for (const element of getSubTitle) {
-      const styles = await styling.getStyles(element, getSubTitleProperties)
+      const styles = await common.getStyles(element, getSubTitleProperties)
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('24px')
       expect(styles['line-height']).toBe('30px')
@@ -344,7 +344,7 @@ Save cookie settings`
     ]
 
     for (const element of getTableCaption) {
-      const styles = await styling.getStyles(element, getTableCaptionProperties)
+      const styles = await common.getStyles(element, getTableCaptionProperties)
       expect(styles.display).toBe('table-caption')
       expect(styles['font-weight']).toBe('700')
       expect(styles['text-align']).toBe('left')
@@ -372,7 +372,7 @@ Save cookie settings`
     ]
 
     for (const element of getTableHeading) {
-      const styles = await styling.getStyles(element, getTableHeadingProperties)
+      const styles = await common.getStyles(element, getTableHeadingProperties)
       expect(styles['border-bottom']).toBe(
         '0.666667px solid rgb(177, 180, 182)'
       )
@@ -406,7 +406,7 @@ Save cookie settings`
     ]
 
     for (const element of getTableContent) {
-      const styles = await styling.getStyles(element, getTableContentProperties)
+      const styles = await common.getStyles(element, getTableContentProperties)
       expect(styles['border-bottom']).toBe(
         '0.666667px solid rgb(177, 180, 182)'
       )
@@ -436,7 +436,7 @@ Save cookie settings`
     ]
 
     for (const element of getList) {
-      const styles = await styling.getStyles(element, getListProperties)
+      const styles = await common.getStyles(element, getListProperties)
       expect(styles['margin-bottom']).toBe('30px')
       expect(styles['list-style-type']).toBe('disc')
       expect(styles['padding-left']).toBe('20px')
@@ -462,7 +462,7 @@ Save cookie settings`
     ]
 
     for (const element of getListItem) {
-      const styles = await styling.getStyles(element, getListItemProperties)
+      const styles = await common.getStyles(element, getListItemProperties)
       expect(styles['margin-bottom']).toBe('5px')
       expect(styles.display).toBe('list-item')
       expect(styles['text-align']).toBe('left')
@@ -489,7 +489,7 @@ Save cookie settings`
     ]
 
     for (const element of getAcceptCookiesQuestion) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getAcceptCookiesQuestionProperties
       )
@@ -519,7 +519,7 @@ Save cookie settings`
     ]
 
     for (const element of getYesLabel) {
-      const styles = await styling.getStyles(element, getYesLabelProperties)
+      const styles = await common.getStyles(element, getYesLabelProperties)
       expect(styles['align-self']).toBe('center')
       expect(styles.cursor).toBe('pointer')
       expect(styles['margin-bottom']).toBe('0px')
@@ -550,7 +550,7 @@ Save cookie settings`
     ]
 
     for (const element of getNoLabel) {
-      const styles = await styling.getStyles(element, getNoLabelProperties)
+      const styles = await common.getStyles(element, getNoLabelProperties)
       expect(styles['align-self']).toBe('center')
       expect(styles.cursor).toBe('pointer')
       expect(styles['margin-bottom']).toBe('0px')
@@ -574,7 +574,7 @@ Save cookie settings`
     ]
 
     for (const element of getRadioItem) {
-      const styles = await styling.getStyles(element, getRadioItemProperties)
+      const styles = await common.getStyles(element, getRadioItemProperties)
       expect(styles.display).toBe('flex')
       expect(styles['flex-wrap']).toBe('wrap')
       expect(styles['margin-bottom']).toBe('10px')

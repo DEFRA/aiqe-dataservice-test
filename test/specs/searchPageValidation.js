@@ -3,7 +3,7 @@ import startNowPage from '../page-objects/startnowpage.js'
 import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
-import styling from '../page-objects/styling.js'
+import common from '../page-objects/common.js'
 import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
@@ -90,7 +90,7 @@ Continue`
     ]
 
     for (const element of searchPageHeading) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         searchPageHeadingProperties
       )
@@ -106,7 +106,7 @@ Continue`
     const searchPageContentProperties = ['float', 'width', 'padding']
 
     for (const element of searchPageContent) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         searchPageContentProperties
       )
@@ -127,7 +127,7 @@ Continue`
     ]
 
     for (const element of searchPageHintText) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         searchPageHintTextProperties
       )
@@ -153,7 +153,7 @@ Continue`
     ]
 
     for (const element of EnterTownOrPostcodeLabel) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         EnterTownOrPostcodeLabelProperties
       )
@@ -179,7 +179,7 @@ Continue`
     ]
 
     for (const element of searchBox) {
-      const styles = await styling.getStyles(element, searchBoxProperties)
+      const styles = await common.getStyles(element, searchBoxProperties)
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
@@ -202,7 +202,7 @@ Continue`
     ]
 
     for (const element of approxSearchAreaLabel) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         approxSearchAreaLabelProperties
       )
@@ -234,7 +234,7 @@ Continue`
     ]
 
     for (const element of mileOptions) {
-      const styles = await styling.getStyles(element, mileOptionsProperties)
+      const styles = await common.getStyles(element, mileOptionsProperties)
       expect(styles['align-self']).toBe('center')
       expect(styles['margin-bottom']).toBe('0px')
       expect(styles.padding).toBe('7px 15px')
@@ -264,7 +264,7 @@ Continue`
     ]
 
     for (const element of continueButton) {
-      const styles = await styling.getStyles(element, continueButtonProperties)
+      const styles = await common.getStyles(element, continueButtonProperties)
       expect(styles['margin-bottom']).toBe('32px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('19px')

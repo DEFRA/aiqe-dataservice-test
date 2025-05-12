@@ -3,7 +3,7 @@
 import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
-import styling from '../page-objects/styling.js'
+import common from '../page-objects/common.js'
 // import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
@@ -165,7 +165,7 @@ Our personal information charter explains more about your rights over your perso
     ]
 
     for (const element of PrivacyPageHeading) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         privacyPageHeadingProperties
       )
@@ -182,7 +182,7 @@ Our personal information charter explains more about your rights over your perso
     const PrivacyPageContentProperties = ['padding-bottom', 'padding-top']
 
     for (const element of PrivacyPageContent) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         PrivacyPageContentProperties
       )
@@ -207,7 +207,7 @@ Our personal information charter explains more about your rights over your perso
     ]
 
     for (const element of privacyLinks) {
-      const styles = await styling.getStyles(element, privacyLinksProperties)
+      const styles = await common.getStyles(element, privacyLinksProperties)
       expect(styles.color).toBe('rgb(0, 0, 238)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('19px')
@@ -227,7 +227,7 @@ Our personal information charter explains more about your rights over your perso
     ]
 
     for (const element of getparagraph) {
-      const styles = await styling.getStyles(element, getparagraphProperties)
+      const styles = await common.getStyles(element, getparagraphProperties)
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
@@ -249,7 +249,7 @@ Our personal information charter explains more about your rights over your perso
     ]
 
     for (const element of getSubTitle) {
-      const styles = await styling.getStyles(element, getSubTitleProperties)
+      const styles = await common.getStyles(element, getSubTitleProperties)
       expect(styles['padding-top']).toBe('10px')
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('24px')
@@ -272,7 +272,7 @@ Our personal information charter explains more about your rights over your perso
     ]
 
     for (const element of getList) {
-      const styles = await styling.getStyles(element, getListProperties)
+      const styles = await common.getStyles(element, getListProperties)
       expect(styles['padding-left']).toBe('20px')
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('19px')
@@ -294,7 +294,7 @@ Our personal information charter explains more about your rights over your perso
     ]
 
     for (const element of getListItem) {
-      const styles = await styling.getStyles(element, getListItemProperties)
+      const styles = await common.getStyles(element, getListItemProperties)
       expect(styles['margin-bottom']).toBe('5px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')

@@ -9,10 +9,6 @@ class LocationMonitoringStationListPage {
     return $("main[class*='govuk-main-wrapper app-main-wrapper']")
   }
 
-  get getBackLink() {
-    return $("a[class='govuk-back-link']")
-  }
-
   get getChangeSearchAreaLink() {
     return $("a[href='/search-location/searchagain']")
   }

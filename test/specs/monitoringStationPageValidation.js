@@ -9,7 +9,7 @@ import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
-import styling from '../page-objects/styling.js'
+import common from '../page-objects/common.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 
@@ -99,7 +99,7 @@ Download daily average data
     ) */
 
     // styling tests
-    const getBackLink = [await monitoringStationPage.getBackLink]
+    const getBackLink = [await common.getBackLink]
 
     const getBackLinkProperties = [
       'color',
@@ -115,7 +115,7 @@ Download daily average data
     ]
 
     for (const element of getBackLink) {
-      const styles = await styling.getStyles(element, getBackLinkProperties)
+      const styles = await common.getStyles(element, getBackLinkProperties)
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('20px')
@@ -143,10 +143,7 @@ Download daily average data
     ]
 
     for (const element of getGoogleMapLink) {
-      const styles = await styling.getStyles(
-        element,
-        getGoogleMapLinkProperties
-      )
+      const styles = await common.getStyles(element, getGoogleMapLinkProperties)
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
@@ -160,7 +157,7 @@ Download daily average data
     const getMonitoringPageContentProperties = ['padding-bottom', 'padding-top']
 
     for (const element of getMonitoringPageContentStyles) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getMonitoringPageContentProperties
       )
@@ -182,7 +179,7 @@ Download daily average data
     ]
 
     for (const element of getMonitoringPageHeadingStyles) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getMonitoringPageHeadingProperties
       )
@@ -209,7 +206,7 @@ Download daily average data
     ]
 
     for (const element of getMonitoringStationStatus) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getMonitoringStationStatusProperties
       )
@@ -239,7 +236,7 @@ Download daily average data
     ]
 
     for (const element of getMonitoringStationLastReading) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getMonitoringStationLastReadingProperties
       )
@@ -259,7 +256,7 @@ Download daily average data
     const getgridSideStylesProperties = ['float', 'width', 'padding']
 
     for (const element of getgridSideStyles) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getgridSideStylesProperties
       )
@@ -285,7 +282,7 @@ Download daily average data
     ]
 
     for (const element of getgridTopBottomStyles) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getgridTopBottomStylesProperties
       )
@@ -314,7 +311,7 @@ Download daily average data
     ]
 
     for (const element of getFeatureItem) {
-      const styles = await styling.getStyles(element, getFeatureItemProperties)
+      const styles = await common.getStyles(element, getFeatureItemProperties)
       expect(styles.width).toBe('336px')
       expect(styles['box-sizing']).toBe('border-box')
       expect(styles.float).toBe('left')
@@ -335,7 +332,7 @@ Download daily average data
     ]
 
     for (const element of getFeatureCaption) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getFeatureCaptionProperties
       )
@@ -361,7 +358,7 @@ Download daily average data
     ]
 
     for (const element of getFeatureBody) {
-      const styles = await styling.getStyles(element, getFeatureBodyProperties)
+      const styles = await common.getStyles(element, getFeatureBodyProperties)
       expect(styles['margin-top']).toBe('5px')
       expect(styles['font-size']).toBe('22px')
       expect(styles['margin-bottom']).toBe('20px')
@@ -386,7 +383,7 @@ Download daily average data
     ]
 
     for (const element of getToggleTip) {
-      const styles = await styling.getStyles(element, getToggleTipProperties)
+      const styles = await common.getStyles(element, getToggleTipProperties)
       expect(styles['padding-right']).toBe('26px')
       expect(styles.display).toBe('inline-block')
       expect(styles.position).toBe('relative')
@@ -402,7 +399,7 @@ Download daily average data
     const getMapLinkPaddingProperties = ['margin-top', 'margin-bottom']
 
     for (const element of getMapLinkPadding) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getMapLinkPaddingProperties
       )
@@ -411,7 +408,7 @@ Download daily average data
     }
 
     // checking links
-    await monitoringStationPage.getBackLink.click()
+    await common.getBackLink.click()
     const getURLAfterBackLinkCLick = await browser.getUrl()
     const expectedgetURLAfterBackLinkCLick =
       'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/b2-4qa_birmingham'

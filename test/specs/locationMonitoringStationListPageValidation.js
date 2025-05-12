@@ -9,7 +9,7 @@ import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
-import styling from '../page-objects/styling.js'
+import common from '../page-objects/common.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 
 describe('monitoring station list page tests', () => {
@@ -78,7 +78,7 @@ Nitrogen dioxide`
       await locationMonitoringStationListPage.getMonitoringStationListPageContent.getText()
     await expect(getlistPageContent).toMatch(listPageContent)
     // checking back link
-    await locationMonitoringStationListPage.getBackLink.click()
+    await common.getBackLink.click()
     await browser.refresh()
     const getCurrentURLAfterBackLink = await browser.getUrl()
     const expectedURL =
@@ -118,7 +118,7 @@ Nitrogen dioxide`
     const expectedURLOfA450Roadside =
       'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
     await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)
-    await locationMonitoringStationListPage.getBackLink.click()
+    await common.getBackLink.click()
     browser.refresh()
 
     await locationMonitoringStationListPage
@@ -130,7 +130,7 @@ Nitrogen dioxide`
     await expect(getCurrentURLOfBirminghamHallGreen).toMatch(
       expectedURLOfBirminghamHallGreen
     )
-    await locationMonitoringStationListPage.getBackLink.click()
+    await common.getBackLink.click()
     browser.refresh()
 
     await locationMonitoringStationListPage
@@ -142,7 +142,7 @@ Nitrogen dioxide`
     await expect(getCurrentURLOfOldburyBirminghamRoad).toMatch(
       expectedURLOfOldburyBirminghamRoad
     )
-    await locationMonitoringStationListPage.getBackLink.click()
+    await common.getBackLink.click()
     browser.refresh()
 
     // styling tests
@@ -160,7 +160,7 @@ Nitrogen dioxide`
     ]
 
     for (const element of getMonitoringStationListPageHeading) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getMonitoringStationListPageHeadingProperties
       )
@@ -182,7 +182,7 @@ Nitrogen dioxide`
     ]
 
     for (const element of getMonitoringStationListPageContent) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getMonitoringStationListPageContentProperties
       )
@@ -190,7 +190,7 @@ Nitrogen dioxide`
       expect(styles['padding-top']).toBe('40px')
     }
 
-    const getBackLink = [await locationMonitoringStationListPage.getBackLink]
+    const getBackLink = [await common.getBackLink]
 
     const getBackLinkProperties = [
       'color',
@@ -205,7 +205,7 @@ Nitrogen dioxide`
     ]
 
     for (const element of getBackLink) {
-      const styles = await styling.getStyles(element, getBackLinkProperties)
+      const styles = await common.getStyles(element, getBackLinkProperties)
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('20px')
@@ -233,7 +233,7 @@ Nitrogen dioxide`
     ]
 
     for (const element of getChangeSearchAreaLink) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getChangeSearchAreaLinkProperties
       )
@@ -265,7 +265,7 @@ Nitrogen dioxide`
     ]
 
     for (const element of getMonitoringStationLink) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getMonitoringStationLinkProperties
       )
@@ -297,7 +297,7 @@ Nitrogen dioxide`
     ]
 
     for (const element of getMonitoringStationTableHeading) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getMonitoringStationTableHeadingProperties
       )
@@ -333,7 +333,7 @@ Nitrogen dioxide`
     ]
 
     for (const element of getSiteTypeTableHeading) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getSiteTypeTableHeadingProperties
       )
@@ -370,7 +370,7 @@ Nitrogen dioxide`
     ]
 
     for (const element of getPollutantsTableHeading) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getPollutantsTableHeadingProperties
       )
@@ -402,7 +402,7 @@ Nitrogen dioxide`
     ]
 
     for (const element of getParagraph) {
-      const styles = await styling.getStyles(element, getParagraphProperties)
+      const styles = await common.getStyles(element, getParagraphProperties)
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
@@ -426,7 +426,7 @@ Nitrogen dioxide`
     ]
 
     for (const element of getListItem) {
-      const styles = await styling.getStyles(element, getListItemProperties)
+      const styles = await common.getStyles(element, getListItemProperties)
       expect(styles['margin-bottom']).toBe('5px')
       expect(styles.display).toBe('list-item')
       expect(styles['text-align']).toBe('right')
@@ -442,7 +442,7 @@ Nitrogen dioxide`
     const getListProperties = ['margin-bottom']
 
     for (const element of getList) {
-      const styles = await styling.getStyles(element, getListProperties)
+      const styles = await common.getStyles(element, getListProperties)
       expect(styles['margin-bottom']).toBe('20px')
     }
 
@@ -453,7 +453,7 @@ Nitrogen dioxide`
     const getTablecell1PaddingProperties = ['padding']
 
     for (const element of getTablecell1Padding) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getTablecell1PaddingProperties
       )
@@ -467,7 +467,7 @@ Nitrogen dioxide`
     const getTableHeaderPaddingProperties = ['padding']
 
     for (const element of getTableHeaderPadding) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getTableHeaderPaddingProperties
       )
@@ -481,7 +481,7 @@ Nitrogen dioxide`
     const getTablecell2PaddingProperties = ['padding', 'padding-right']
 
     for (const element of getTablecell2Padding) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getTablecell2PaddingProperties
       )

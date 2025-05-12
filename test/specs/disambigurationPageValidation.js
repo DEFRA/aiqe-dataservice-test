@@ -9,8 +9,8 @@ import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
-import styling from '../page-objects/styling.js'
-import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
+import common from '../page-objects/common.js'
+
 
 describe('disambiguration page tests', () => {
   it('content, functions, styling tests', async () => {
@@ -62,7 +62,7 @@ Alternatively, try searching again`
       getdisambigurationPageContent
     )
     // checking back link
-    await disambigurationPage.getBackLink.click()
+    await common.getBackLink.click()
     await browser.refresh()
     const getCurrentURLAfterBackLink = await browser.getUrl()
     const expectedURL =
@@ -109,7 +109,7 @@ Alternatively, try searching again`
     const expectedURLCityOfLondon =
       'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/city-of-london_city-and-county-of-the-city-of-london'
     await expect(getCurrentURLCityOfLondon).toMatch(expectedURLCityOfLondon)
-    locationMonitoringStationListPage.getBackLink.click()
+    common.getBackLink.click()
     browser.refresh()
 
     await disambigurationPage.locationLinkClick('Little London')
@@ -119,7 +119,7 @@ Alternatively, try searching again`
     await expect(getCurrentURLLittleLondonBucks).toMatch(
       expectedURLLittleLondonBucks
     )
-    await locationMonitoringStationListPage.getBackLink.click()
+    await common.getBackLink.click()
     await browser.refresh()
 
     await disambigurationPage.locationLinkClick('London Fields')
@@ -129,7 +129,7 @@ Alternatively, try searching again`
     await expect(getCurrentURLLondonFIeldsDudley).toMatch(
       expectedURLLondonFIeldsDudley
     )
-    await locationMonitoringStationListPage.getBackLink.click()
+    await common.getBackLink.click()
     await browser.refresh()
 
     // styling tests
@@ -148,7 +148,7 @@ Alternatively, try searching again`
     ]
 
     for (const element of getDisambigurationPageHeading) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getDisambigurationPageHeadingProperties
       )
@@ -171,7 +171,7 @@ Alternatively, try searching again`
     ]
 
     for (const element of getdisambigurationPageContentStyles) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getDisambigurationPageContentProperties
       )
@@ -179,7 +179,7 @@ Alternatively, try searching again`
       expect(styles['padding-top']).toBe('40px')
     }
 
-    const getBackLink = [await disambigurationPage.getBackLink]
+    const getBackLink = [await common.getBackLink]
 
     const getBackLinkProperties = [
       'color',
@@ -196,7 +196,7 @@ Alternatively, try searching again`
     ]
 
     for (const element of getBackLink) {
-      const styles = await styling.getStyles(element, getBackLinkProperties)
+      const styles = await common.getStyles(element, getBackLinkProperties)
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('20px')
@@ -225,7 +225,7 @@ Alternatively, try searching again`
     ]
 
     for (const element of getTryAgainLink) {
-      const styles = await styling.getStyles(element, getTryAgainLinkProperties)
+      const styles = await common.getStyles(element, getTryAgainLinkProperties)
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['text-decoration']).toBe(
@@ -250,7 +250,7 @@ Alternatively, try searching again`
     ]
 
     for (const element of getLocationLink) {
-      const styles = await styling.getStyles(element, getLocationLinkProperties)
+      const styles = await common.getStyles(element, getLocationLinkProperties)
       expect(styles['font-weight']).toBe('700')
       expect(styles.color).toBe('rgb(0, 0, 238)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
@@ -270,10 +270,7 @@ Alternatively, try searching again`
     ]
 
     for (const element of getParagraphLink) {
-      const styles = await styling.getStyles(
-        element,
-        getParagraphLinkProperties
-      )
+      const styles = await common.getStyles(element, getParagraphLinkProperties)
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
@@ -294,7 +291,7 @@ Alternatively, try searching again`
     ]
 
     for (const element of getListItem) {
-      const styles = await styling.getStyles(element, getListItemProperties)
+      const styles = await common.getStyles(element, getListItemProperties)
       expect(styles['margin-bottom']).toBe('5px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')

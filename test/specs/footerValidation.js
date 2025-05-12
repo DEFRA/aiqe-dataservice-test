@@ -2,7 +2,7 @@
 import { browser, expect } from '@wdio/globals'
 // import createLogger from 'helpers/logger'
 import footer from '../page-objects/footer.js'
-import styling from '../page-objects/styling.js'
+import common from '../page-objects/common.js'
 
 const pages = [
   'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/',
@@ -102,7 +102,7 @@ describe('footer content and functionality checks', () => {
       const footerOverallProperties = ['padding-bottom', 'padding-top']
 
       for (const element of footerOverall) {
-        const styles = await styling.getStyles(element, footerOverallProperties)
+        const styles = await common.getStyles(element, footerOverallProperties)
         expect(styles['padding-bottom']).toBe('25px')
         expect(styles['padding-top']).toBe('40px')
       }
@@ -124,7 +124,7 @@ describe('footer content and functionality checks', () => {
       ]
 
       for (const element of footerLinks) {
-        const styles = await styling.getStyles(element, footerLinkProperties)
+        const styles = await common.getStyles(element, footerLinkProperties)
         expect(styles.color).toBe('rgb(11, 12, 12)')
         expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
         expect(styles['font-size']).toBe('16px')
@@ -140,7 +140,7 @@ describe('footer content and functionality checks', () => {
       const oglLogoProperties = ['height', 'margin-right', 'width']
 
       for (const element of oglLogo) {
-        const styles = await styling.getStyles(element, oglLogoProperties)
+        const styles = await common.getStyles(element, oglLogoProperties)
         expect(styles.height).toBe('17px')
         expect(styles['margin-right']).toBe('10px')
         expect(styles.width).toBe('41px')
@@ -156,7 +156,7 @@ describe('footer content and functionality checks', () => {
       ]
 
       for (const element of crownLogo) {
-        const styles = await styling.getStyles(element, crownLogoProperties)
+        const styles = await common.getStyles(element, crownLogoProperties)
         expect(styles['background-image']).toBe(
           'url("https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/assets/images/govuk-crest.svg")'
         )
@@ -176,7 +176,7 @@ describe('footer content and functionality checks', () => {
       ]
 
       for (const element of oglStatement) {
-        const styles = await styling.getStyles(element, oglStatementProperties)
+        const styles = await common.getStyles(element, oglStatementProperties)
         expect(styles.color).toBe('rgb(11, 12, 12)')
         expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
         expect(styles['font-size']).toBe('16px')
