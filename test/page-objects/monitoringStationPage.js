@@ -1,10 +1,6 @@
 import { $ } from '@wdio/globals'
 
 class MonitoringStationPage {
-  get getBackLink() {
-    return $("a[class='govuk-back-link']")
-  }
-
   get getGoogleMapLink() {
     return $("a[href='https://www.google.co.uk/maps?q=52.476145,-1.874978']")
   }

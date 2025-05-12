@@ -3,7 +3,7 @@ import startNowPage from '../page-objects/startnowpage.js'
 import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
-import styling from '../page-objects/styling.js'
+import common from '../page-objects/common.js'
 import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
@@ -75,7 +75,7 @@ health advice to reduce your exposure to pollutants`
     ]
 
     for (const element of startNowPageHeading) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         startNowPageHeadingProperties
       )
@@ -99,7 +99,7 @@ health advice to reduce your exposure to pollutants`
     ]
 
     for (const element of startNowPageBodyText) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         startNowPageBodyTextProperties
       )
@@ -124,10 +124,7 @@ health advice to reduce your exposure to pollutants`
     ]
 
     for (const element of startNowPageList) {
-      const styles = await styling.getStyles(
-        element,
-        startNowPageListProperties
-      )
+      const styles = await common.getStyles(element, startNowPageListProperties)
       expect(styles['padding-left']).toBe('20px')
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('19px')
@@ -149,7 +146,7 @@ health advice to reduce your exposure to pollutants`
     ]
 
     for (const element of startNowPageListItem) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         startNowPageListItemProperties
       )

@@ -46,14 +46,6 @@ class SearchPage {
     await this.getContinueBtn.click()
   }
 
-  get getBackBtn() {
-    return $("a[class='govuk-back-link']")
-  }
-
-  async BackBtnClick() {
-    await this.getBackBtn.click()
-  }
-
   get defaultOption() {
     return $("input[value='5']")
   }

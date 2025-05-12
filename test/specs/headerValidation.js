@@ -4,7 +4,7 @@ import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
 import header from '../page-objects/header.js'
-import styling from '../page-objects/styling.js'
+import common from '../page-objects/common.js'
 
 const pages = [
   'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/',
@@ -73,7 +73,7 @@ describe('header content checks/functionality checks/styling checks', () => {
       ]
 
       for (const element of headerOverall) {
-        const styles = await styling.getStyles(element, headerOverallProperties)
+        const styles = await common.getStyles(element, headerOverallProperties)
         expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
         expect(styles.background).toBe(
           'rgb(11, 12, 12) none repeat scroll 0% 0% / auto padding-box border-box'
@@ -96,10 +96,7 @@ describe('header content checks/functionality checks/styling checks', () => {
       ]
 
       for (const element of CrownLogo) {
-        const styles = await styling.getStyles(
-          element,
-          GovUKCrownLogoProperties
-        )
+        const styles = await common.getStyles(element, GovUKCrownLogoProperties)
         expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
         expect(styles.float).toBe('left')
         expect(styles['padding-right']).toBe('15px')
@@ -119,7 +116,7 @@ describe('header content checks/functionality checks/styling checks', () => {
       ]
 
       for (const element of getBetaBannerFeedbackLink) {
-        const styles = await styling.getStyles(
+        const styles = await common.getStyles(
           element,
           getBetaBannerFeedbackLinkProperties
         )
@@ -147,7 +144,7 @@ describe('header content checks/functionality checks/styling checks', () => {
       ]
 
       for (const element of getBetaLogo) {
-        const styles = await styling.getStyles(element, getBetalogoProperties)
+        const styles = await common.getStyles(element, getBetalogoProperties)
         expect(styles['font-size']).toBe('16px')
         expect(styles['line-height']).toBe('20px')
         expect(styles['margin-right']).toBe('10px')
@@ -173,7 +170,7 @@ describe('header content checks/functionality checks/styling checks', () => {
       ]
 
       for (const element of BetaBannerTextstyling) {
-        const styles = await styling.getStyles(
+        const styles = await common.getStyles(
           element,
           getBetaBannerTextProperties
         )

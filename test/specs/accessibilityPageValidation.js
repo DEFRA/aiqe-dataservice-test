@@ -3,7 +3,7 @@
 import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
-import styling from '../page-objects/styling.js'
+import common from '../page-objects/common.js'
 // import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
@@ -66,7 +66,7 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
     ]
 
     for (const element of AccessibilityPageHeading) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getAccessibilityPageHeadingProperties
       )
@@ -88,7 +88,7 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
     ]
 
     for (const element of AccessibilityPageContent) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getAccessibilityPageContentProperties
       )
@@ -112,7 +112,7 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
     ]
 
     for (const element of getAirPollutionDataLink) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getGetAirPollutionDataLinkProperties
       )
@@ -142,7 +142,7 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
     ]
 
     for (const element of getEqualityAdvisoryLink) {
-      const styles = await styling.getStyles(
+      const styles = await common.getStyles(
         element,
         getEqualityAdvisoryLinkProperties
       )
@@ -168,7 +168,7 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
     ]
 
     for (const element of getParagraph) {
-      const styles = await styling.getStyles(element, getParagraphProperties)
+      const styles = await common.getStyles(element, getParagraphProperties)
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
@@ -190,7 +190,7 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
     ]
 
     for (const element of getSubTitle) {
-      const styles = await styling.getStyles(element, getSubTitleProperties)
+      const styles = await common.getStyles(element, getSubTitleProperties)
       expect(styles['padding-top']).toBe('10px')
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('24px')
