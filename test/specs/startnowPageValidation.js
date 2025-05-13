@@ -7,7 +7,7 @@ import common from '../page-objects/common.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 describe('start now page content/functionality checks/styling checks', () => {
-  it('content checks', async () => {
+  it('content and titles', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
@@ -38,8 +38,9 @@ health advice to reduce your exposure to pollutants`
     const getStartNowPagecontent =
       await startNowPage.getStartNowPagecontent.getText()
     await expect(startnowPageContent).toMatch(getStartNowPagecontent)
+  })
 
-    // links validation
+  it('link checks', async () => {
     await startNowPage.startNowBtnClick()
     const searchPageURL = await browser.getUrl()
     const expectedSearchPageURL =
@@ -58,10 +59,9 @@ health advice to reduce your exposure to pollutants`
     await expect(citizenServicePageURL).toMatch(expectedCitizenServicePageURL)
     await browser.back()
     await browser.refresh()
+  })
 
-    // styling validation
-    // checking  heading styles
-
+  it('styling checks', async () => {
     const startNowPageHeading = [await startNowPage.getStartNowPageHeading]
 
     const startNowPageHeadingProperties = [

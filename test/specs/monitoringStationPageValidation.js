@@ -14,7 +14,7 @@ import locationMonitoringStationListPage from '../page-objects/locationMonitorin
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 
 describe('monitoring station list page tests', () => {
-  it('content, functions, styling tests', async () => {
+  it('url, content and titles ', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
@@ -97,8 +97,9 @@ Download daily average data
     await expect(getMonitoringPageContent).toMatch(
       expectedMonitoringPageContent
     ) */
+  })
 
-    // styling tests
+  it('styling tests', async () => {
     const getBackLink = [await common.getBackLink]
 
     const getBackLinkProperties = [
@@ -406,7 +407,9 @@ Download daily average data
       expect(styles['margin-top']).toBe('5px')
       expect(styles['margin-bottom']).toBe('20px')
     }
+  })
 
+  it('checkng links', async () => {
     // checking links
     await common.getBackLink.click()
     const getURLAfterBackLinkCLick = await browser.getUrl()

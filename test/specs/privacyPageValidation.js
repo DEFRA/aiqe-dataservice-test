@@ -10,7 +10,7 @@ import footer from '../page-objects/footer.js'
 import privacyPage from '../page-objects/privacyPage.js'
 
 describe('privacy page content/functionality checks/styling checks', () => {
-  it('content checks', async () => {
+  it('content checks and titles', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
@@ -85,7 +85,9 @@ Our personal information charter explains more about your rights over your perso
     const getPrivacyPagecontent =
       await privacyPage.getPrivacyPageContent.getText()
     await expect(privacyPageContent).toMatch(getPrivacyPagecontent)
-    // links validation
+  })
+
+  it('link validation', async () => {
     await privacyPage.getGetAirPollutionDataLink.click()
     const getAirPolutionDataLinkURL = await browser.getUrl()
     const expectedgetAirPolutionDataLinkURL =
@@ -150,9 +152,9 @@ Our personal information charter explains more about your rights over your perso
     }
 
     await browser.refresh()
+  })
 
-    // styling validation
-
+  it('styling checks', async () => {
     const PrivacyPageHeading = [await privacyPage.getPrivacyPageHeading]
 
     const privacyPageHeadingProperties = [

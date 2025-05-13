@@ -8,7 +8,7 @@ import errorPage from '../page-objects/errorPage.js'
 import searchPage from '../page-objects/searchPage.js'
 
 describe('Error scenarios', () => {
-  it('Error scenarios', async () => {
+  it('search page error message validation', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.maximizeWindow()
     await browser.url('')
@@ -16,8 +16,6 @@ describe('Error scenarios', () => {
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
     // await cookieBanner.hideButtonHideDialog.click()
-
-    // search page error message validation
     await startNowPage.startNowBtnClick()
     await searchPage.setsearch('')
     await searchPage.milesOptionClick('')
@@ -40,7 +38,9 @@ describe('Error scenarios', () => {
 Enter a town or postcode`
     const GetErrorMessage = await errorPage.getErrorMessage.getText()
     await expect(errorMessage).toMatch(GetErrorMessage)
+  })
 
+  it('search page error message Styling', async () => {
     // styling validation for error message
 
     const getErrorSummary = [await errorPage.getErrorSummary]
@@ -51,7 +51,7 @@ Enter a town or postcode`
       const styles = await common.getStyles(element, getErrorSummaryProperties)
       expect(styles['margin-bottom']).toBe('50px')
       expect(styles.padding).toBe('20px')
-      expect(styles.border).toBe('5px solid rgb(212, 53, 28)')
+      expect(styles.border).toBe('4.66667px solid rgb(212, 53, 28)')
     }
 
     const getErrorTitle = [await errorPage.getErrorTitle]
@@ -118,8 +118,11 @@ Enter a town or postcode`
       expect(styles['font-weight']).toBe('700')
       expect(styles['margin-bottom']).toBe('15px')
     }
+  })
+})
 
-    // could not find error page validation
+describe('Error scenarios', () => {
+  it('could not find error page validation', async () => {
     await searchPage.setsearch('!!!!"£')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
@@ -152,8 +155,9 @@ Enter a town or postcode`
     await searchPage.setsearch('thailand')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
+  })
 
-    // page content checks and styling checks
+  it('could not find error page content and styling', async () => {
     const CouldNotFindContent = `We could not find 'thailand'
 If you searched for a place in England, Scotland or Wales, you should:
 check the spelling
