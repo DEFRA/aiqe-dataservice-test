@@ -10,7 +10,7 @@ const pages = [
 ]
 describe('footer content and functionality checks', () => {
   pages.forEach((page) => {
-    it('content checks', async () => {
+    it('titles, links, content, styling', async () => {
       // await browser.deleteCookies(['airaqie_cookie'])
       await browser.url(page)
       await browser.maximizeWindow()

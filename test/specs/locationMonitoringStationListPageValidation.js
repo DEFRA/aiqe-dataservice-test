@@ -13,7 +13,7 @@ import common from '../page-objects/common.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 
 describe('monitoring station list page tests', () => {
-  it('content, functions, styling tests', async () => {
+  it('titles and content', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
@@ -21,20 +21,15 @@ describe('monitoring station list page tests', () => {
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
     // await cookieBanner.hideButtonHideDialog.click()
-
-    // startnow-block
     await startNowPage.startNowBtnClick()
-
-    // search block
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     await searchPage.setsearch('B2 4QA')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
-    // disambiguration page
     await disambigurationPage.locationLinkClick('B2 4QA')
+
     // monitoring station list page
-    // checking title
     const listPageHeading = `Monitoring stations within 5 miles of B2 4QA`
     const getlistPageHeading =
       await locationMonitoringStationListPage.getMonitoringStationListPageHeading.getText()
@@ -77,6 +72,9 @@ Nitrogen dioxide`
     const getlistPageContent =
       await locationMonitoringStationListPage.getMonitoringStationListPageContent.getText()
     await expect(getlistPageContent).toMatch(listPageContent) */
+  })
+
+  it('checking links', async () => {
     // checking back link
     await common.getBackLink.click()
     await browser.refresh()
@@ -144,8 +142,9 @@ Nitrogen dioxide`
     )
     await common.getBackLink.click()
     browser.refresh()
+  })
 
-    // styling tests
+  it('styling checks', async () => {
     const getMonitoringStationListPageHeading = [
       await locationMonitoringStationListPage.getMonitoringStationListPageHeading
     ]

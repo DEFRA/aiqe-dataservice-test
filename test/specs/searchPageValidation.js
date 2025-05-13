@@ -9,7 +9,7 @@ import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 
 describe('search page content/functionality checks/styling checks', () => {
-  it('content checks', async () => {
+  it('titles and content', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.maximizeWindow()
     await browser.url('')
@@ -36,8 +36,9 @@ Approximate search area
 Continue`
     const getsearchPagecontent = await searchPage.getSearchPageContent.getText()
     await expect(seachPageContent).toMatch(getsearchPagecontent)
+  })
 
-    // goes to disambiguration page
+  it('searching different locations and miles', async () => {
     await searchPage.setsearch('london')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
@@ -67,7 +68,9 @@ Continue`
     await expect(getCurrentURLAfterSearch3).toMatch(expectedURL3)
     await browser.back()
     await browser.refresh()
-    // goes straight to monitoring station list page
+  })
+
+  it('unique location goes straight to list page', async () => {
     await searchPage.setsearch('WD17 1DF')
     await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()
@@ -77,8 +80,9 @@ Continue`
     await expect(getCurrentURLAfterSearch4).toMatch(expectedURL4)
     await browser.back()
     await browser.refresh()
+  })
 
-    // styling validation for page components
+  it('titles and content', async () => {
     const searchPageHeading = [await searchPage.getSearchPageHeaderText]
 
     const searchPageHeadingProperties = [

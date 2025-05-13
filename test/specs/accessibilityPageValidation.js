@@ -9,8 +9,8 @@ import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import accessibilityPage from '../page-objects/accessibilityPage.js'
 
-describe('accessibility page content/functionality checks/styling checks', () => {
-  it('content checks', async () => {
+describe('accessibility page tests', () => {
+  it('title and content checks', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
@@ -49,9 +49,9 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
     await expect(accessibilityStatementPageContent).toMatch(
       getAccessibilityPageContent
     )
+  })
 
-    // styling validation
-
+  it('Styling Checks', async () => {
     const AccessibilityPageHeading = [
       await accessibilityPage.getAccessibilityPageHeading
     ]
@@ -199,8 +199,9 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
     }
+  })
 
-    // links validation
+  it('links validation', async () => {
     await accessibilityPage.getGetAirPollutionDataLink.click()
     const getAirPolutionDataLinkURL = await browser.getUrl()
     const expectedgetAirPolutionDataLinkURL =

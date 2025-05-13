@@ -12,9 +12,9 @@ const pages = [
   'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=london&locationMiles=5',
   'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=Birmingham%2C+Birmingham&locationMiles=5'
 ]
-describe('header content checks/functionality checks/styling checks', () => {
+describe('header validation', () => {
   pages.forEach((page) => {
-    it('content checks', async () => {
+    it('content checks/functionality checks/styling checks', async () => {
       // await browser.deleteCookies(['airaqie_cookie'])
       await browser.url(page)
       await browser.maximizeWindow()

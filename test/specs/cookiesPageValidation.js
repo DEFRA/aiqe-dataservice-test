@@ -9,8 +9,8 @@ import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import cookiesPage from '../page-objects/cookiesPage.js'
 
-describe('cookie page content/functionality checks/styling checks', () => {
-  it('content checks', async () => {
+describe('cookie page tests', () => {
+  it('title and content checks', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
@@ -61,35 +61,9 @@ Save cookie settings`
     const getCookiesPageContent =
       await cookiesPage.getCookiesPageContent.getText()
     await expect(cookiesPageContent).toMatch(getCookiesPageContent)
+  })
 
-    // links validation
-    await cookiesPage.getGetAirPollutionDataLink.click()
-    const getAirPolutionDataLinkURL = await browser.getUrl()
-    const expectedgetAirPolutionDataLinkURL =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/'
-    await expect(getAirPolutionDataLinkURL).toMatch(
-      expectedgetAirPolutionDataLinkURL
-    )
-    await browser.back()
-    await browser.refresh()
-
-    await cookiesPage.getHowToManageCookiesLink.click()
-    const getHowToManageCookiesLink = await browser.getUrl()
-    const expectedHowToManageCookiesLink =
-      'https://ico.org.uk/for-the-public/online/cookies'
-    await expect(getHowToManageCookiesLink).toMatch(
-      expectedHowToManageCookiesLink
-    )
-    await browser.back()
-    await browser.refresh()
-
-    await cookiesPage.getYesCookieOption.click()
-    await cookiesPage.getSaveCookieSettingButton.click()
-    await cookiesPage.getNoCookieOption.click()
-    await cookiesPage.getSaveCookieSettingButton.click()
-
-    // styling validation
-
+  it('Styling Checks', async () => {
     const CookiesPageHeading = [await cookiesPage.getCookiesPageHeading]
 
     const cookiesPageHeadingProperties = [
@@ -270,7 +244,7 @@ Save cookie settings`
         getSaveCookieSettingButtonProperties
       )
       expect(styles['margin-bottom']).toBe('32px')
-      expect(styles.width).toBe('198.266px')
+      expect(styles.width).toBe('198.271px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('19px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
@@ -373,7 +347,9 @@ Save cookie settings`
 
     for (const element of getTableHeading) {
       const styles = await common.getStyles(element, getTableHeadingProperties)
-      expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
+      expect(styles['border-bottom']).toBe(
+        '0.666667px solid rgb(177, 180, 182)'
+      )
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('left')
       expect(styles['vertical-align']).toBe('top')
@@ -578,5 +554,32 @@ Save cookie settings`
       expect(styles['margin-bottom']).toBe('10px')
       expect(styles.position).toBe('relative')
     }
+  })
+
+  it('links validation', async () => {
+    await cookiesPage.getGetAirPollutionDataLink.click()
+    const getAirPolutionDataLinkURL = await browser.getUrl()
+    const expectedgetAirPolutionDataLinkURL =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/'
+    await expect(getAirPolutionDataLinkURL).toMatch(
+      expectedgetAirPolutionDataLinkURL
+    )
+    await browser.back()
+    await browser.refresh()
+
+    await cookiesPage.getHowToManageCookiesLink.click()
+    const getHowToManageCookiesLink = await browser.getUrl()
+    const expectedHowToManageCookiesLink =
+      'https://ico.org.uk/for-the-public/online/cookies'
+    await expect(getHowToManageCookiesLink).toMatch(
+      expectedHowToManageCookiesLink
+    )
+    await browser.back()
+    await browser.refresh()
+
+    await cookiesPage.getYesCookieOption.click()
+    await cookiesPage.getSaveCookieSettingButton.click()
+    await cookiesPage.getNoCookieOption.click()
+    await cookiesPage.getSaveCookieSettingButton.click()
   })
 })

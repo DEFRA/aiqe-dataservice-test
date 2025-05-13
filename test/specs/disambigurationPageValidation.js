@@ -12,7 +12,7 @@ import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
 
 describe('disambiguration page tests', () => {
-  it('content, functions, styling tests', async () => {
+  it('checking titles and content', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
@@ -60,72 +60,9 @@ Alternatively, try searching again`
     await expect(disambigurationPageContent).toMatch(
       getdisambigurationPageContent
     ) */
-    // checking back link
-    await common.getBackLink.click()
-    await browser.refresh()
-    const getCurrentURLAfterBackLink = await browser.getUrl()
-    const expectedURL =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location'
-    await expect(getCurrentURLAfterBackLink).toMatch(expectedURL)
+  })
 
-    const getRetainedSearchTermAfterBackLink =
-      await searchPage.searchBox.getValue()
-    const expectedRetainedSearchTerm = 'london'
-    await expect(getRetainedSearchTermAfterBackLink).toMatch(
-      expectedRetainedSearchTerm
-    )
-
-    const defaultMilesOptionIsSelectedAfterBackLink =
-      await searchPage.defaultOption.isSelected()
-    await expect(defaultMilesOptionIsSelectedAfterBackLink).toBe(true)
-
-    // checking try searching again link
-    await searchPage.milesOptionClick('25 miles')
-    await searchPage.continueBtnClick()
-
-    await disambigurationPage.getTrySearchingAgainLink.click()
-    await browser.refresh()
-    const getCurrentURLAfterSearchAgain = await browser.getUrl()
-    await expect(getCurrentURLAfterSearchAgain).toMatch(expectedURL)
-    const defaultMilesOptionIsSelectedAfterSearchAgain =
-      await searchPage.defaultOption.isSelected()
-    await expect(defaultMilesOptionIsSelectedAfterSearchAgain).toBe(true)
-
-    // checking location links
-    await searchPage.setsearch('london')
-    await searchPage.milesOptionClick('25 miles')
-    await searchPage.continueBtnClick()
-    await browser.refresh
-
-    await disambigurationPage.locationLinkClick('City of London')
-    const getCurrentURLCityOfLondon = await browser.getUrl()
-    const expectedURLCityOfLondon =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/city-of-london_city-and-county-of-the-city-of-london'
-    await expect(getCurrentURLCityOfLondon).toMatch(expectedURLCityOfLondon)
-    common.getBackLink.click()
-    browser.refresh()
-
-    await disambigurationPage.locationLinkClick('Little London')
-    const getCurrentURLLittleLondonBucks = await browser.getUrl()
-    const expectedURLLittleLondonBucks =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/little-london_buckinghamshire'
-    await expect(getCurrentURLLittleLondonBucks).toMatch(
-      expectedURLLittleLondonBucks
-    )
-    await common.getBackLink.click()
-    await browser.refresh()
-
-    await disambigurationPage.locationLinkClick('London Fields')
-    const getCurrentURLLondonFIeldsDudley = await browser.getUrl()
-    const expectedURLLondonFIeldsDudley =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/london-fields_dudley'
-    await expect(getCurrentURLLondonFIeldsDudley).toMatch(
-      expectedURLLondonFIeldsDudley
-    )
-    await common.getBackLink.click()
-    await browser.refresh()
-
-    // styling tests
+  it('styling tests', async () => {
     const getDisambigurationPageHeading = [
       await disambigurationPage.getDisambigurationPageHeading
     ]
@@ -292,5 +229,72 @@ Alternatively, try searching again`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
+  })
+
+  it('check links', async () => {
+    // checking back link
+    await common.getBackLink.click()
+    await browser.refresh()
+    const getCurrentURLAfterBackLink = await browser.getUrl()
+    const expectedURL =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location'
+    await expect(getCurrentURLAfterBackLink).toMatch(expectedURL)
+
+    const getRetainedSearchTermAfterBackLink =
+      await searchPage.searchBox.getValue()
+    const expectedRetainedSearchTerm = 'london'
+    await expect(getRetainedSearchTermAfterBackLink).toMatch(
+      expectedRetainedSearchTerm
+    )
+
+    const defaultMilesOptionIsSelectedAfterBackLink =
+      await searchPage.defaultOption.isSelected()
+    await expect(defaultMilesOptionIsSelectedAfterBackLink).toBe(true)
+
+    // checking try searching again link
+    await searchPage.milesOptionClick('25 miles')
+    await searchPage.continueBtnClick()
+
+    await disambigurationPage.getTrySearchingAgainLink.click()
+    await browser.refresh()
+    const getCurrentURLAfterSearchAgain = await browser.getUrl()
+    await expect(getCurrentURLAfterSearchAgain).toMatch(expectedURL)
+    const defaultMilesOptionIsSelectedAfterSearchAgain =
+      await searchPage.defaultOption.isSelected()
+    await expect(defaultMilesOptionIsSelectedAfterSearchAgain).toBe(true)
+
+    // checking location links
+    await searchPage.setsearch('london')
+    await searchPage.milesOptionClick('25 miles')
+    await searchPage.continueBtnClick()
+    await browser.refresh
+
+    await disambigurationPage.locationLinkClick('City of London')
+    const getCurrentURLCityOfLondon = await browser.getUrl()
+    const expectedURLCityOfLondon =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/city-of-london_city-and-county-of-the-city-of-london'
+    await expect(getCurrentURLCityOfLondon).toMatch(expectedURLCityOfLondon)
+    common.getBackLink.click()
+    browser.refresh()
+
+    await disambigurationPage.locationLinkClick('Little London')
+    const getCurrentURLLittleLondonBucks = await browser.getUrl()
+    const expectedURLLittleLondonBucks =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/little-london_buckinghamshire'
+    await expect(getCurrentURLLittleLondonBucks).toMatch(
+      expectedURLLittleLondonBucks
+    )
+    await common.getBackLink.click()
+    await browser.refresh()
+
+    await disambigurationPage.locationLinkClick('London Fields')
+    const getCurrentURLLondonFIeldsDudley = await browser.getUrl()
+    const expectedURLLondonFIeldsDudley =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/london-fields_dudley'
+    await expect(getCurrentURLLondonFIeldsDudley).toMatch(
+      expectedURLLondonFIeldsDudley
+    )
+    await common.getBackLink.click()
+    await browser.refresh()
   })
 })
