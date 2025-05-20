@@ -4,6 +4,7 @@ import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
 import common from '../page-objects/common.js'
+import passwordPage from '../page-objects/passwordPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 describe('start now page content/functionality checks/styling checks', () => {
@@ -11,6 +12,8 @@ describe('start now page content/functionality checks/styling checks', () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
+    await passwordPage.inputPassword('airqualitydataset')
+    await common.continueButton.click()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
@@ -44,12 +47,12 @@ health advice to reduce your exposure to pollutants`
     await startNowPage.startNowBtnClick()
     const searchPageURL = await browser.getUrl()
     const expectedSearchPageURL =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
     await expect(searchPageURL).toMatch(expectedSearchPageURL)
     await common.getBackLink.click()
     const startNowPageURL = await browser.getUrl()
     const expectedStartNowPageURL =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
     await expect(startNowPageURL).toMatch(expectedStartNowPageURL)
     await browser.refresh()
     await startNowPage.citizenServiceLinkClick()

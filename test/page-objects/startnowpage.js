@@ -18,7 +18,7 @@ class StartNowPage {
   }
 
   get getCitizenServiceLink() {
-    return $$("a[class='govuk-link']")[1]
+    return $$("a[class='govuk-link']")[4]
   }
 
   async citizenServiceLinkClick() {

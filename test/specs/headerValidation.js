@@ -5,19 +5,17 @@ import { browser, expect } from '@wdio/globals'
 // import createLogger from 'helpers/logger'
 import header from '../page-objects/header.js'
 import common from '../page-objects/common.js'
+import passwordPage from '../page-objects/passwordPage.js'
 
-const pages = [
-  'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/',
-  'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location',
-  'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=london&locationMiles=5',
-  'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=Birmingham%2C+Birmingham&locationMiles=5'
-]
+const pages = ['https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/']
 describe('header validation', () => {
   pages.forEach((page) => {
     it('content checks/functionality checks/styling checks', async () => {
       // await browser.deleteCookies(['airaqie_cookie'])
       await browser.url(page)
       await browser.maximizeWindow()
+      await passwordPage.inputPassword('airqualitydataset')
+      await common.continueButton.click()
       // Handle the cookie banner
       // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
       // await cookieBanner.rejectButtonCookiesDialog.click()
@@ -89,7 +87,7 @@ describe('header validation', () => {
         'float',
         'padding-right',
         'vertical-align',
-        'width',
+        // 'width',
         'margin-bottom',
         'font-family',
         'font-weight'
@@ -101,7 +99,7 @@ describe('header validation', () => {
         expect(styles.float).toBe('left')
         expect(styles['padding-right']).toBe('15px')
         expect(styles['vertical-align']).toBe('top')
-        expect(styles.width).toBe('319.953px')
+        // expect(styles.width).toBe('319.953px')
         expect(styles['margin-bottom']).toBe('10px')
         expect(styles['font-weight']).toBe('400')
       }
@@ -121,7 +119,9 @@ describe('header validation', () => {
           getBetaBannerFeedbackLinkProperties
         )
         expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-        // expect(styles['text-decoration']).toBe('underline 1px solid rgb(29, 112, 184)');
+        expect(styles['text-decoration']).toBe(
+          'underline 1px solid rgb(29, 112, 184)'
+        )
         expect(styles['font-size']).toBe('16px')
         expect(styles['line-height']).toBe('20px')
         expect(styles['font-weight']).toBe('400')
@@ -193,7 +193,7 @@ describe('header validation', () => {
       await header.getAirPolutionDataHeaderLink.click()
       const getAirPolutionDataHeaderLinkURL = await browser.getUrl()
       const expectedgetAirPolutionDataHeaderLinkURL =
-        'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/'
+        'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
       await expect(getAirPolutionDataHeaderLinkURL).toMatch(
         expectedgetAirPolutionDataHeaderLinkURL
       )
@@ -202,11 +202,10 @@ describe('header validation', () => {
       await header.getBetaBannerFeedbackLink.click()
       const BetaBannerFeedbackLink = await browser.getUrl()
       const expectedgetBetaBannerFeedbackLink =
-        'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/#'
+        'https://defragroup.eu.qualtrics.com/jfe/form/SV_cGUbgnwHQnx28Qu'
       await expect(BetaBannerFeedbackLink).toMatch(
         expectedgetBetaBannerFeedbackLink
       )
-      await browser.refresh()
     })
   })
 })

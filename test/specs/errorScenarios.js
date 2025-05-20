@@ -6,12 +6,15 @@ import { browser, expect } from '@wdio/globals'
 import common from '../page-objects/common.js'
 import errorPage from '../page-objects/errorPage.js'
 import searchPage from '../page-objects/searchPage.js'
+import passwordPage from '../page-objects/passwordPage.js'
 
 describe('Error scenarios', () => {
   it('search page error message validation', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.maximizeWindow()
     await browser.url('')
+    await passwordPage.inputPassword('airqualitydataset')
+    await common.continueButton.click()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
@@ -132,7 +135,7 @@ describe('Error scenarios', () => {
     await common.getBackLink.click()
     const getCurrentURLAfterBackLink = await browser.getUrl()
     const expectedURL =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
     await expect(getCurrentURLAfterBackLink).toMatch(expectedURL)
     await searchPage.setsearch('dddffggggjgjj')
     await searchPage.milesOptionClick('5 miles')
@@ -150,7 +153,7 @@ describe('Error scenarios', () => {
     await errorPage.getGoBackToSearchALocationLink.click()
     const getCurrentURLAfterBackLink4 = await browser.getUrl()
     const expectedURL4 =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
     await expect(getCurrentURLAfterBackLink4).toMatch(expectedURL4)
     await searchPage.setsearch('thailand')
     await searchPage.milesOptionClick('5 miles')

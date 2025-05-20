@@ -21,6 +21,10 @@ class Common {
   get getBackLink() {
     return $("a[class='govuk-back-link']")
   }
+
+  get continueButton() {
+    return $("button[type='submit']")
+  }
 }
 
 export default new Common()

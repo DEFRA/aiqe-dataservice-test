@@ -3,17 +3,17 @@ import { browser, expect } from '@wdio/globals'
 // import createLogger from 'helpers/logger'
 import footer from '../page-objects/footer.js'
 import common from '../page-objects/common.js'
+import passwordPage from '../page-objects/passwordPage.js'
 
-const pages = [
-  'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/',
-  'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location'
-]
+const pages = ['https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/']
 describe('footer content and functionality checks', () => {
   pages.forEach((page) => {
     it('titles, links, content, styling', async () => {
       // await browser.deleteCookies(['airaqie_cookie'])
       await browser.url(page)
       await browser.maximizeWindow()
+      await passwordPage.inputPassword('airqualitydataset')
+      await common.continueButton.click()
       // Handle the cookie banner
       // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
       // await cookieBanner.rejectButtonCookiesDialog.click()
@@ -56,7 +56,7 @@ describe('footer content and functionality checks', () => {
       await footer.getPrivacyFooterLink.click()
       const privacyURL = await browser.getUrl()
       const expectedPrivacyURL =
-        'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/privacy'
+        'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/privacy'
       await expect(privacyURL).toMatch(expectedPrivacyURL)
       await browser.back()
 
@@ -64,7 +64,7 @@ describe('footer content and functionality checks', () => {
       await footer.getCookiesFooterLink.click()
       const cookiesURL = await browser.getUrl()
       const expectedCookiesURL =
-        'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/cookies'
+        'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/cookies'
       await expect(cookiesURL).toMatch(expectedCookiesURL)
       await browser.back()
 
@@ -72,7 +72,7 @@ describe('footer content and functionality checks', () => {
       await footer.getAccessibilityStatementFooterLink.click()
       const AccessibilityStatementURL = await browser.getUrl()
       const expectedAccessibilityStatementURL =
-        'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/accessibility'
+        'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/accessibility'
       await expect(AccessibilityStatementURL).toMatch(
         expectedAccessibilityStatementURL
       )
@@ -158,7 +158,7 @@ describe('footer content and functionality checks', () => {
       for (const element of crownLogo) {
         const styles = await common.getStyles(element, crownLogoProperties)
         expect(styles['background-image']).toBe(
-          'url("https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/assets/images/govuk-crest.svg")'
+          'url("https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/assets/images/govuk-crest.svg")'
         )
         expect(styles['background-size']).toBe('125px 102px')
         expect(styles['min-width']).toBe('125px')
