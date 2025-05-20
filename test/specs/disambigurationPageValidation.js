@@ -10,6 +10,7 @@ import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
+import passwordPage from '../page-objects/passwordPage.js'
 
 describe('disambiguration page tests', () => {
   it('checking titles and content', async () => {
@@ -20,7 +21,8 @@ describe('disambiguration page tests', () => {
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
     // await cookieBanner.hideButtonHideDialog.click()
-
+    await passwordPage.inputPassword('airqualitydataset')
+    await common.continueButton.click()
     // startnow-block
     await startNowPage.startNowBtnClick()
 
@@ -237,7 +239,7 @@ Alternatively, try searching again`
     await browser.refresh()
     const getCurrentURLAfterBackLink = await browser.getUrl()
     const expectedURL =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
     await expect(getCurrentURLAfterBackLink).toMatch(expectedURL)
 
     const getRetainedSearchTermAfterBackLink =
@@ -272,7 +274,7 @@ Alternatively, try searching again`
     await disambigurationPage.locationLinkClick('City of London')
     const getCurrentURLCityOfLondon = await browser.getUrl()
     const expectedURLCityOfLondon =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/city-of-london_city-and-county-of-the-city-of-london'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/city-of-london_city-and-county-of-the-city-of-london'
     await expect(getCurrentURLCityOfLondon).toMatch(expectedURLCityOfLondon)
     common.getBackLink.click()
     browser.refresh()
@@ -280,7 +282,7 @@ Alternatively, try searching again`
     await disambigurationPage.locationLinkClick('Little London')
     const getCurrentURLLittleLondonBucks = await browser.getUrl()
     const expectedURLLittleLondonBucks =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/little-london_buckinghamshire'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/little-london_buckinghamshire'
     await expect(getCurrentURLLittleLondonBucks).toMatch(
       expectedURLLittleLondonBucks
     )
@@ -290,7 +292,7 @@ Alternatively, try searching again`
     await disambigurationPage.locationLinkClick('London Fields')
     const getCurrentURLLondonFIeldsDudley = await browser.getUrl()
     const expectedURLLondonFIeldsDudley =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/london-fields_dudley'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/london-fields_dudley'
     await expect(getCurrentURLLondonFIeldsDudley).toMatch(
       expectedURLLondonFIeldsDudley
     )

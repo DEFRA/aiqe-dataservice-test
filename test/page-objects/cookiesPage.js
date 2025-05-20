@@ -14,7 +14,7 @@ class CookiesPage {
   }
 
   get getHowToManageCookiesLink() {
-    return $$("a[class='govuk-link']")[2]
+    return $$("a[class='govuk-link']")[5]
   }
 
   get getYesCookieOption() {
@@ -26,7 +26,7 @@ class CookiesPage {
   }
 
   get getSaveCookieSettingButton() {
-    return $("button[data-module='govuk-button']")
+    return $$("button[data-module='govuk-button']")[4]
   }
 
   get getParagraph() {

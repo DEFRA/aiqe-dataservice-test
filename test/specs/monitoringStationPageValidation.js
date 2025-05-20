@@ -10,6 +10,7 @@ import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
+import passwordPage from '../page-objects/passwordPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 
@@ -18,6 +19,8 @@ describe('monitoring station list page tests', () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
+    await passwordPage.inputPassword('airqualitydataset')
+    await common.continueButton.click()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
@@ -35,7 +38,7 @@ describe('monitoring station list page tests', () => {
 
     const getCurrentURLOfA450Roadside = await browser.getUrl()
     const expectedURLOfA450Roadside =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
     await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)
 
     const getMonitoringPageHeading =
@@ -227,7 +230,7 @@ Download daily average data
     const getMonitoringStationLastReadingProperties = [
       'margin-left',
       'display',
-      // 'color',
+      // 'color', bug
       'margin-top',
       'margin-bottom',
       'font-size',
@@ -414,7 +417,7 @@ Download daily average data
     await common.getBackLink.click()
     const getURLAfterBackLinkCLick = await browser.getUrl()
     const expectedgetURLAfterBackLinkCLick =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/location/b2-4qa_birmingham'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/b2-4qa_birmingham'
     await expect(getURLAfterBackLinkCLick).toMatch(
       expectedgetURLAfterBackLinkCLick
     )

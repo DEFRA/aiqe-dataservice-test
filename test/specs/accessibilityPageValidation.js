@@ -8,6 +8,7 @@ import common from '../page-objects/common.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import accessibilityPage from '../page-objects/accessibilityPage.js'
+import passwordPage from '../page-objects/passwordPage.js'
 
 describe('accessibility page tests', () => {
   it('title and content checks', async () => {
@@ -18,6 +19,8 @@ describe('accessibility page tests', () => {
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
     // await cookieBanner.hideButtonHideDialog.click()
+    await passwordPage.inputPassword('airqualitydataset')
+    await common.continueButton.click()
     await footer.getAccessibilityStatementFooterLink.click()
     // page content validation
     await headersObject.getHeaderOverall.isDisplayed()
@@ -205,7 +208,7 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
     await accessibilityPage.getGetAirPollutionDataLink.click()
     const getAirPolutionDataLinkURL = await browser.getUrl()
     const expectedgetAirPolutionDataLinkURL =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
     await expect(getAirPolutionDataLinkURL).toMatch(
       expectedgetAirPolutionDataLinkURL
     )

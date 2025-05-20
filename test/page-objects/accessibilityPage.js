@@ -26,7 +26,7 @@ class AccessibilityPage {
   }
 
   get getSubTitle() {
-    return $('h2')
+    return $("h2[class='govuk-heading-m']")
   }
 }
 

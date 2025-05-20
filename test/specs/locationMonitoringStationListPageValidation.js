@@ -11,12 +11,15 @@ import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
+import passwordPage from '../page-objects/passwordPage.js'
 
 describe('monitoring station list page tests', () => {
   it('titles and content', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
+    await passwordPage.inputPassword('airqualitydataset')
+    await common.continueButton.click()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
@@ -80,7 +83,7 @@ Nitrogen dioxide`
     await browser.refresh()
     const getCurrentURLAfterBackLink = await browser.getUrl()
     const expectedURL =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=B2%204QA&locationMiles=5'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=B2%204QA&locationMiles=5'
     await expect(getCurrentURLAfterBackLink).toMatch(expectedURL)
     await disambigurationPage.locationLinkClick('B2 4QA')
 
@@ -88,7 +91,7 @@ Nitrogen dioxide`
     await locationMonitoringStationListPage.getChangeSearchAreaLink.click()
     await browser.refresh()
     const expectedURLAfterChangeSearchAreaLink =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/search-location'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
     const getURLAfterChangeSearchAreaLink = await browser.getUrl()
     await expect(getURLAfterChangeSearchAreaLink).toMatch(
       expectedURLAfterChangeSearchAreaLink
@@ -114,7 +117,7 @@ Nitrogen dioxide`
       .click()
     const getCurrentURLOfA450Roadside = await browser.getUrl()
     const expectedURLOfA450Roadside =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
     await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)
     await common.getBackLink.click()
     browser.refresh()
@@ -124,7 +127,7 @@ Nitrogen dioxide`
       .click()
     const getCurrentURLOfBirminghamLadywood = await browser.getUrl()
     const expectedURLOfBirminghamLadywood =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails/BirminghamLadywood'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/BirminghamLadywood'
     await expect(getCurrentURLOfBirminghamLadywood).toMatch(
       expectedURLOfBirminghamLadywood
     )
@@ -136,7 +139,7 @@ Nitrogen dioxide`
       .click()
     const getCurrentURLOfOldburyBirminghamRoad = await browser.getUrl()
     const expectedURLOfOldburyBirminghamRoad =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails/OldburyBirminghamRoad'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/OldburyBirminghamRoad'
     await expect(getCurrentURLOfOldburyBirminghamRoad).toMatch(
       expectedURLOfOldburyBirminghamRoad
     )

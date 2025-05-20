@@ -12,6 +12,9 @@ import createLogger from '../helpers/logger.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
+import passwordPage from '../page-objects/passwordPage.js'
+import common from '../page-objects/common.js'
+
 const logger = createLogger()
 describe('happyPath', () => {
   it('simple test', async () => {
@@ -19,6 +22,8 @@ describe('happyPath', () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
+    await passwordPage.inputPassword('airqualitydataset')
+    await common.continueButton.click()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
@@ -57,7 +62,7 @@ describe('happyPath', () => {
     await footer.getFooterOverall.isDisplayed()
     const getCurrentURLOfA450Roadside = await browser.getUrl()
     const expectedURLOfA450Roadside =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
     await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)
     const getMonitoringPageHeading =
       await monitoringStationPage.getMonitoringPageHeading.getText()

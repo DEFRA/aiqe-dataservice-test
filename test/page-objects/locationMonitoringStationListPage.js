@@ -32,7 +32,7 @@ class LocationMonitoringStationListPage {
   }
 
   get getParagraph() {
-    return $$("p[class='govuk-body']")[1]
+    return $$("p[class='govuk-body']")[5]
   }
 
   get getListItem() {

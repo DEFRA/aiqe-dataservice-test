@@ -4,6 +4,7 @@ import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
 import common from '../page-objects/common.js'
+import passwordPage from '../page-objects/passwordPage.js'
 import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
@@ -13,6 +14,8 @@ describe('search page content/functionality checks/styling checks', () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.maximizeWindow()
     await browser.url('')
+    await passwordPage.inputPassword('airqualitydataset')
+    await common.continueButton.click()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
@@ -44,7 +47,7 @@ Continue`
     await searchPage.continueBtnClick()
     const getCurrentURLAfterSearch1 = await browser.getUrl()
     const expectedURL1 =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=london&locationMiles=5'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=london&locationMiles=5'
     await expect(getCurrentURLAfterSearch1).toMatch(expectedURL1)
     await browser.back()
     await browser.refresh()
@@ -54,7 +57,7 @@ Continue`
     await searchPage.continueBtnClick()
     const getCurrentURLAfterSearch2 = await browser.getUrl()
     const expectedURL2 =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=birmingham&locationMiles=25'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=birmingham&locationMiles=25'
     await expect(getCurrentURLAfterSearch2).toMatch(expectedURL2)
     await browser.back()
     await browser.refresh()
@@ -64,7 +67,7 @@ Continue`
     await searchPage.continueBtnClick()
     const getCurrentURLAfterSearch3 = await browser.getUrl()
     const expectedURL3 =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=B2+4QA&locationMiles=50'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=B2+4QA&locationMiles=50'
     await expect(getCurrentURLAfterSearch3).toMatch(expectedURL3)
     await browser.back()
     await browser.refresh()
@@ -76,7 +79,7 @@ Continue`
     await searchPage.continueBtnClick()
     const getCurrentURLAfterSearch4 = await browser.getUrl()
     const expectedURL4 =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=WD17+1DF&locationMiles=50'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=WD17+1DF&locationMiles=50'
     await expect(getCurrentURLAfterSearch4).toMatch(expectedURL4)
     await browser.back()
     await browser.refresh()
