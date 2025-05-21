@@ -14,8 +14,8 @@ import passwordPage from '../page-objects/passwordPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 
-describe('monitoring station list page tests', () => {
-  it('url, content and titles ', async () => {
+describe('monitoring station page tests', () => {
+  it('url, titles ', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
@@ -28,78 +28,62 @@ describe('monitoring station list page tests', () => {
     await startNowPage.startNowBtnClick()
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
-    await searchPage.setsearch('B2 4QA')
+    await searchPage.setsearch('London')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
-    await disambigurationPage.locationLinkClick('B2 4QA')
+    await disambigurationPage.locationLinkClick('City of London')
     await locationMonitoringStationListPage
-      .getMonitoringStationLink('Birmingham A4540 Roadside')
+      .getMonitoringStationLink('London Bloomsbury')
       .click()
 
-    const getCurrentURLOfA450Roadside = await browser.getUrl()
-    const expectedURLOfA450Roadside =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
-    await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)
+    const getCurrentURLOfLondonBloomsbury = await browser.getUrl()
+    const expectedURLOfLondonBloomsbury =
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/LondonBloomsbury'
+    await expect(getCurrentURLOfLondonBloomsbury).toMatch(
+      expectedURLOfLondonBloomsbury
+    )
 
     const getMonitoringPageHeading =
       await monitoringStationPage.getMonitoringPageHeading.getText()
-    const expectedMonitoringPageHeading = 'Birmingham A4540 Roadside'
+    const expectedMonitoringPageHeading = 'London Bloomsbury'
     await expect(getMonitoringPageHeading).toMatch(
       expectedMonitoringPageHeading
     )
+  })
 
-    /* const getMonitoringPageContent =
-      await monitoringStationPage.getMonitoringPageContent.getText()
-    const expectedMonitoringPageContent = `Birmingham A4540 Roadside
-Active Latest at on 1 April 2025
-Monitoring network
-Automatic Urban and Rural
-Region
-West Midlands
-Site type
-Urban Traffic
-View on Google Maps (opens in a new tab)
-Air pollution levels in 2025
-1 January to 2 April
-2018
-2019
-2020
-2021
-2022
-2023
-2024
-2025
-Pollutant Average Daily exceedances Hourly exceedances
-Download data for 2025
-Approximate file sizes (CSV)
-All pollutants
-Download hourly data
-(Visual only)·
-Download daily average data
-(Visual only)
-PM2.5
-Download hourly data
-(Visual only)·
-Download daily average data
-(Visual only)
-PM10
-Download hourly data
-(Visual only)·
-Download daily average data
-(Visual only)
-Nitrogen dioxide
-Download hourly data
-(Visual only)·
-Download daily average data
-(Visual only)
-Ozone
-Download hourly data
-(Visual only)·
-Download daily average data
-(Visual only)`
-    await expect(getMonitoringPageContent).toMatch(
-      expectedMonitoringPageContent
-    ) */
+  it('Network, Region, & Site type AQD-315', async () => {
+    const getMonitoringNetworkTypeTitle =
+      await monitoringStationPage.getMonitoringNetworkTitle.getText()
+    const expectedMonitoringNetworkTypeTitle = 'Monitoring network'
+    await expect(getMonitoringNetworkTypeTitle).toMatch(
+      expectedMonitoringNetworkTypeTitle
+    )
+
+    const getMonitoringNetworkTypeData =
+      await monitoringStationPage.getMonitoringNetworkData.getText()
+    const expectedMonitoringNetworkTypeData = 'Automatic Urban and Rural'
+    await expect(getMonitoringNetworkTypeData).toMatch(
+      expectedMonitoringNetworkTypeData
+    )
+
+    const getRegionTitle = await monitoringStationPage.getRegionTitle.getText()
+    const expectedRegionTitle = 'Region'
+    await expect(getRegionTitle).toMatch(expectedRegionTitle)
+
+    const getRegionData = await monitoringStationPage.getRegionData.getText()
+    const expectedRegionData = 'Greater London'
+    await expect(getRegionData).toMatch(expectedRegionData)
+
+    const getSiteTypeTitle =
+      await monitoringStationPage.getSiteTypeTitle.getText()
+    const expectedSiteTypeTitle = `Site type`
+    await expect(getSiteTypeTitle).toMatch(expectedSiteTypeTitle)
+
+    const getSiteTypeData =
+      await monitoringStationPage.getSiteTypeData.getText()
+    const expectedSiteTypeData = `Urban Background
+View on Google Maps (opens in a new tab)`
+    await expect(getSiteTypeData).toMatch(expectedSiteTypeData)
   })
 
   it('styling tests', async () => {
@@ -417,12 +401,12 @@ Download daily average data
     await common.getBackLink.click()
     const getURLAfterBackLinkCLick = await browser.getUrl()
     const expectedgetURLAfterBackLinkCLick =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/b2-4qa_birmingham'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/city-of-london_city-and-county-of-the-city-of-london'
     await expect(getURLAfterBackLinkCLick).toMatch(
       expectedgetURLAfterBackLinkCLick
     )
     await locationMonitoringStationListPage
-      .getMonitoringStationLink('Birmingham A4540 Roadside')
+      .getMonitoringStationLink('London Bloomsbury')
       .click()
     await monitoringStationPage.getGoogleMapLink.click()
     // await monitoringStationPage.getGoogleCookieAccept.click()
