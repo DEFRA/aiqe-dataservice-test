@@ -51,10 +51,20 @@ class LocationMonitoringStationListPage {
     return $("th[class='govuk-table__cell']")
   }
 
-  get getTablecell2Padding() {
-    return $("td[class='govuk-table__cell govuk-table__cell--numeric']")
+  get getPollutantList1() {
+    return $$("td[class='govuk-table__cell govuk-table__cell--numeric']")[1]
+  }
+
+  async getPollutionListFromListPage(pollutantList) {
+    const table = await $(pollutantList) // "td[class='govuk-table__cell govuk-table__cell--numeric']"[1]
+    const Elements = await table.$$('li')
+    const pollutants = []
+    for (const el of Elements) {
+      const text = await el.getText()
+      pollutants.push(text.trim())
+    }
+    return pollutants
   }
 }
 
-// module.exports=new StartNowPage()
 export default new LocationMonitoringStationListPage()

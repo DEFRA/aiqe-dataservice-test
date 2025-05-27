@@ -51,7 +51,7 @@ describe('monitoring station page tests', () => {
     )
   })
 
-  it('Network, Region, & Site type AQD-315', async () => {
+  it('Network, Region, & Site type , manual test : AQD-315, regression ticket : AQD 554', async () => {
     const getMonitoringNetworkTypeTitle =
       await monitoringStationPage.getMonitoringNetworkTitle.getText()
     const expectedMonitoringNetworkTypeTitle = 'Monitoring network'
