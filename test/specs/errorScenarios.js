@@ -125,7 +125,7 @@ Enter a town or postcode`
 })
 
 describe('Error scenarios', () => {
-  it('could not find error page validation', async () => {
+  it('could not find error page validation, no results with invalid search', async () => {
     await searchPage.setsearch('!!!!"£')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
@@ -231,6 +231,129 @@ Go back to search a location`
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+    }
+  })
+  it('could not find results, valid search AQD-585', async () => {
+    // search checks and title checks
+    await common.getBackLink.click()
+    await searchPage.setsearch('portree')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    const portreeHeading1 = `There are no monitoring stations within 5 miles of 'portree'`
+    const getportreeErrorHeading1 =
+      await errorPage.getCouldNotFindHeading.getText()
+    await expect(portreeHeading1).toMatch(getportreeErrorHeading1)
+    await common.getBackLink.click()
+
+    await searchPage.setsearch('portree')
+    await searchPage.milesOptionClick('25 miles')
+    await searchPage.continueBtnClick()
+    const portreeHeading2 = `There are no monitoring stations within 25 miles of 'portree'`
+    const getportreeErrorHeading2 =
+      await errorPage.getCouldNotFindHeading.getText()
+    await expect(portreeHeading2).toMatch(getportreeErrorHeading2)
+    await common.getBackLink.click()
+
+    await searchPage.setsearch('portree')
+    await searchPage.milesOptionClick('50 miles')
+    await searchPage.continueBtnClick()
+    const portreeHeading3 = `There are no monitoring stations within 50 miles of 'portree'`
+    const getportreeErrorHeading3 =
+      await errorPage.getCouldNotFindHeading.getText()
+    await expect(portreeHeading3).toMatch(getportreeErrorHeading3)
+    // content checks
+    const paragraphContent = await errorPage.getCouldNotFindP.getText()
+    const expectedParagraphContent = `You should either:`
+    await expect(paragraphContent).toMatch(expectedParagraphContent)
+    const getCouldNotFindListContent =
+      await errorPage.getCouldNotFindList.getText()
+    const expectedgetCouldNotFindList = `choose a different search area
+choose a different location`
+    await expect(getCouldNotFindListContent).toMatch(
+      expectedgetCouldNotFindList
+    )
+    // styling checks for paragraph and list
+    const getParagraphStyle = [await errorPage.getCouldNotFindP]
+
+    const getParagraphStyleProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of getParagraphStyle) {
+      const styles = await common.getStyles(
+        element,
+        getParagraphStyleProperties
+      )
+
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+    }
+
+    const getCouldNotFindListStyle = [await errorPage.getCouldNotFindList]
+
+    const getCouldNotFindListStyleProperties = [
+      'list-style-type',
+      'padding-left',
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight'
+    ]
+
+    for (const element of getCouldNotFindListStyle) {
+      const styles = await common.getStyles(
+        element,
+        getCouldNotFindListStyleProperties
+      )
+
+      expect(styles['list-style-type']).toBe('disc')
+      expect(styles['padding-left']).toBe('20px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+    }
+
+    const getCouldNotFindListItemStyle = [
+      await errorPage.getCouldNotFindListItem
+    ]
+
+    const getCouldNotFindListItemStyleProperties = [
+      'margin-bottom',
+      'display',
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight'
+    ]
+
+    for (const element of getCouldNotFindListItemStyle) {
+      const styles = await common.getStyles(
+        element,
+        getCouldNotFindListItemStyleProperties
+      )
+
+      expect(styles['margin-bottom']).toBe('5px')
+      expect(styles.display).toBe('list-item')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
   })
