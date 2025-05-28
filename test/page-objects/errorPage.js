@@ -14,6 +14,18 @@ class ErrorPage {
     return $$("a[href='/search-location']")[1]
   }
 
+  get getCouldNotFindP() {
+    return $$("p[class='govuk-body']")[4]
+  }
+
+  get getCouldNotFindList() {
+    return $("ul[class='govuk-list govuk-list--bullet']")
+  }
+
+  get getCouldNotFindListItem() {
+    return $('li')
+  }
+
   // search page error
   get getErrorSummary() {
     return $("div[class='govuk-error-summary']")
