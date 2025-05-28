@@ -12,6 +12,7 @@ import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import passwordPage from '../page-objects/passwordPage.js'
+import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 
 describe('monitoring station list page tests', () => {
   it('titles and content', async () => {
@@ -28,53 +29,14 @@ describe('monitoring station list page tests', () => {
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     await searchPage.setsearch('B2 4QA')
-    await searchPage.milesOptionClick('5 miles')
+    await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()
     await disambigurationPage.locationLinkClick('B2 4QA')
 
-    // monitoring station list page
-    const listPageHeading = `Monitoring stations within 5 miles of B2 4QA`
+    const listPageHeading = `Monitoring stations within 50 miles of B2 4QA`
     const getlistPageHeading =
       await locationMonitoringStationListPage.getMonitoringStationListPageHeading.getText()
     await expect(getlistPageHeading).toMatch(listPageHeading)
-    // checking content failing for no apparent reason
-    /* const listPageContent = `Monitoring stations within 5 miles of B2 4QA
-Change search area
-Monitoring station Site type Pollutants
-Birmingham A4540 Roadside
-0.9 miles away
-Urban Traffic
-PM2.5
-PM10
-Nitrogen dioxide
-Ozone
-Birmingham Ladywood
-1.0 miles away
-Urban Background
-PM2.5
-PM10
-Nitrogen dioxide
-Ozone
-Sulphur dioxide
-Birmingham Hall Green
-3.9 miles away
-Urban Background
-PM2.5
-PM10
-Nitrogen dioxide
-Ozone
-West Bromwich Kenrick Park
-4.3 miles away
-Urban Background
-Nitrogen dioxide
-Ozone
-Oldbury Birmingham Road
-4.8 miles away
-Urban Traffic
-Nitrogen dioxide`
-    const getlistPageContent =
-      await locationMonitoringStationListPage.getMonitoringStationListPageContent.getText()
-    await expect(getlistPageContent).toMatch(listPageContent) */
   })
 
   it('checking links', async () => {
@@ -108,6 +70,7 @@ Nitrogen dioxide`
       await searchPage.defaultOption.isSelected()
     await expect(defaultMilesOptionIsSelectedAfterChangeSearchArea).toBe(true)
     await searchPage.setsearch('B2 4QA')
+    await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()
     await disambigurationPage.locationLinkClick('B2 4QA')
 
@@ -476,19 +439,102 @@ Nitrogen dioxide`
       expect(styles.padding).toBe('10px 20px 10px 0px')
     }
 
-    const getTablecell2Padding = [
-      await locationMonitoringStationListPage.getTablecell2Padding
+    const getPollutantList = [
+      await locationMonitoringStationListPage.getPollutantList1
     ]
 
-    const getTablecell2PaddingProperties = ['padding', 'padding-right']
+    const getPollutantListProperties = ['padding', 'padding-right']
 
-    for (const element of getTablecell2Padding) {
-      const styles = await common.getStyles(
-        element,
-        getTablecell2PaddingProperties
-      )
+    for (const element of getPollutantList) {
+      const styles = await common.getStyles(element, getPollutantListProperties)
       expect(styles.padding).toBe('10px 0px')
       expect(styles['padding-right']).toBe('0px')
     }
+  })
+
+  it('Include applicable pollutants in list of monitoring stations and match to summary data table, manual test : AQD-320, regression ticket : AQD-557', async () => {
+    const pollutantListBirminghamLadywood =
+      await locationMonitoringStationListPage.getPollutionListFromListPage(
+        "tr:nth-child(2) td[class='govuk-table__cell govuk-table__cell--numeric']"
+      )
+    const pollutantListBirminghamLadywoodString =
+      pollutantListBirminghamLadywood.join(',')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Birmingham Ladywood')
+      .click()
+    const birminghamLadywoodSummaryTablePollutantList =
+      await monitoringStationPage.getPollutionListFromSummaryTable()
+    const birminghamLadywoodSummaryTablePollutantListString =
+      birminghamLadywoodSummaryTablePollutantList.join(',')
+    await expect(pollutantListBirminghamLadywoodString).toMatch(
+      birminghamLadywoodSummaryTablePollutantListString
+    )
+    await common.getBackLink.click()
+
+    const pollutantListBirminghamA4540Roadside =
+      await locationMonitoringStationListPage.getPollutionListFromListPage(
+        "tr:nth-child(1) td[class='govuk-table__cell govuk-table__cell--numeric']"
+      )
+    const pollutantListBirminghamA4540RoadsideString =
+      pollutantListBirminghamA4540Roadside.join(',')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Birmingham A4540 Roadside')
+      .click()
+    const birminghamA4540RoadsideSummaryTablePollutantList =
+      await monitoringStationPage.getPollutionListFromSummaryTable()
+    const birminghamA4540RoadsideSummaryTablePollutantListString =
+      birminghamA4540RoadsideSummaryTablePollutantList.join(',')
+    await expect(pollutantListBirminghamA4540RoadsideString).toMatch(
+      birminghamA4540RoadsideSummaryTablePollutantListString
+    )
+    await common.getBackLink.click()
+
+    const pollutantListDerbyStockbrookPark =
+      await locationMonitoringStationListPage.getPollutionListFromListPage(
+        "tr:nth-child(16) td[class='govuk-table__cell govuk-table__cell--numeric']"
+      )
+    const pollutantListDerbyStockbrookParkString =
+      pollutantListDerbyStockbrookPark.join(',')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Derby Stockbrook Park')
+      .click()
+    const DerbyStockbrookParkSummaryTablePollutantList =
+      await monitoringStationPage.getPollutionListFromSummaryTable()
+    const DerbyStockbrookParkSummaryTablePollutantListString =
+      DerbyStockbrookParkSummaryTablePollutantList.join(',')
+    await expect(pollutantListDerbyStockbrookParkString).toMatch(
+      DerbyStockbrookParkSummaryTablePollutantListString
+    )
+    await common.getBackLink.click()
+
+    const pollutantListWestBromwichKenrickPark =
+      await locationMonitoringStationListPage.getPollutionListFromListPage(
+        "tr:nth-child(3) td[class='govuk-table__cell govuk-table__cell--numeric']"
+      )
+    const pollutantListWestBromwichKenrickParkString =
+      pollutantListWestBromwichKenrickPark.join(',')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('West Bromwich Kenrick Park')
+      .click()
+    const WestBromwichKenrickParkSummaryTablePollutantList =
+      await monitoringStationPage.getPollutionListFromSummaryTable()
+    const WestBromwichKenrickParkSummaryTablePollutantListString =
+      WestBromwichKenrickParkSummaryTablePollutantList.join(',')
+    await expect(pollutantListWestBromwichKenrickParkString).toMatch(
+      WestBromwichKenrickParkSummaryTablePollutantListString
+    )
+    await common.getBackLink.click()
+
+    /*
+    const pollutantListOldburyBirminghamRoad     =
+      await locationMonitoringStationListPage.getPollutionListFromListPage("tr:nth-child(4) td[class='govuk-table__cell govuk-table__cell--numeric']")
+    const pollutantListOldburyBirminghamRoadString = pollutantListOldburyBirminghamRoad.join(',');
+    await console.log(pollutantListOldburyBirminghamRoadString)
+    await locationMonitoringStationListPage.getMonitoringStationLink('Oldbury Birmingham Road').click()
+    const oldburyBirminghamRoadSummaryTablePollutantList = await monitoringStationPage.getPollutionListFromSummaryTable()
+    const oldburyBirminghamRoadSummaryTablePollutantListString = oldburyBirminghamRoadSummaryTablePollutantList.join(',');
+    await console.log(oldburyBirminghamRoadSummaryTablePollutantListString)
+    await expect(pollutantListOldburyBirminghamRoadString).toMatch(oldburyBirminghamRoadSummaryTablePollutantListString)
+    await common.getBackLink.click() */ // theres a bug with api
   })
 })

@@ -76,6 +76,25 @@ class MonitoringStationPage {
   get getGoogleCookieAccept() {
     return $("form[action*='https://consent.google.co.uk/save']")
   }
+
+  async getPollutionListFromSummaryTable() {
+    await $(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--pollutant'"
+    ).waitForExist({ timeout: 5000 })
+
+    const tds = await $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--pollutant'"
+    )
+    const cleanData = []
+    for (const td of tds) {
+      const text = await td.getText()
+      if (typeof text === 'string') {
+        const firstLine = text.split('\n')[0].trim()
+        cleanData.push(firstLine)
+      }
+    }
+    return cleanData
+  }
 }
 
 // module.exports=new StartNowPage()
