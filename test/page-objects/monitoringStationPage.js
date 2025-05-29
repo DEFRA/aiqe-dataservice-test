@@ -95,6 +95,50 @@ class MonitoringStationPage {
     }
     return cleanData
   }
+
+  get getSumarryTableHeading() {
+    return $("h2[id*='airpollution-heading']")
+  }
+
+  get getDurationTag() {
+    return $("p[id*='duration_current']")
+  }
+
+  get get2018Button() {
+    return $("a[id*='link-2018']")
+  }
+
+  get get2019Button() {
+    return $("a[id*='link-2019']")
+  }
+
+  get get2020Button() {
+    return $("a[id*='link-2020']")
+  }
+
+  get get2021Button() {
+    return $("a[id*='link-2021']")
+  }
+
+  get get2022Button() {
+    return $("a[id*='link-2022']")
+  }
+
+  get get2023Button() {
+    return $("a[id*='link-2023']")
+  }
+
+  get get2024Button() {
+    return $("a[id*='link-2024']")
+  }
+
+  get get2025Button() {
+    return $("a[id*='link-2025']")
+  }
+
+  get getVerifiedTag() {
+    return $$("h3[class*='govuk-heading-s']")[0]
+  }
 }
 
 // module.exports=new StartNowPage()

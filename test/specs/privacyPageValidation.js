@@ -26,7 +26,7 @@ describe('privacy page content/functionality checks/styling checks', () => {
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
 
-    const privacyPageHeading = `Get air pollution data privacy notice`
+    const privacyPageHeading = `Privacy notice`
     const getPrivacyPageHeading =
       await privacyPage.getPrivacyPageHeading.getText()
     await expect(getPrivacyPageHeading).toMatch(privacyPageHeading)
