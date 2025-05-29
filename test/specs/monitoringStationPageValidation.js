@@ -82,7 +82,7 @@ describe('monitoring station page tests', () => {
     const getSiteTypeData =
       await monitoringStationPage.getSiteTypeData.getText()
     const expectedSiteTypeData = `Urban Background
-View on Google Maps (opens in a new tab)`
+View on Google Maps (opens in new tab)`
     await expect(getSiteTypeData).toMatch(expectedSiteTypeData)
   })
 
@@ -397,7 +397,6 @@ View on Google Maps (opens in a new tab)`
   })
 
   it('checkng links', async () => {
-    // checking links
     await common.getBackLink.click()
     const getURLAfterBackLinkCLick = await browser.getUrl()
     const expectedgetURLAfterBackLinkCLick =
@@ -408,6 +407,187 @@ View on Google Maps (opens in a new tab)`
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Bloomsbury')
       .click()
+  })
+
+  it('Yearly Tab , AQD-586', async () => {
+    const get2025Button = await monitoringStationPage.get2025Button
+    await get2025Button.isDisplayed()
+    await monitoringStationPage.get2025Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 700))
+        return true
+      },
+      { timeout: 750 }
+    )
+    const yearlyTab2025Title =
+      await monitoringStationPage.getSumarryTableHeading.getText()
+    const expectedyearlyTab2025Title = 'Air pollution levels in 2025'
+    await expect(yearlyTab2025Title).toMatch(expectedyearlyTab2025Title)
+    const durationTag2025 = await monitoringStationPage.getDurationTag.getText()
+    const expectedDurationTag2025 = '1 January to 29 May'
+    await expect(durationTag2025).toMatch(expectedDurationTag2025)
+    const getVerifiedTag2025 =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expectedVerifiedTag2025 = 'Data has not been verified'
+    await expect(getVerifiedTag2025).toMatch(expectedVerifiedTag2025)
+
+    const get2024Button = await monitoringStationPage.get2024Button
+    await get2024Button.isDisplayed()
+    await monitoringStationPage.get2024Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 700))
+        return true
+      },
+      { timeout: 750 }
+    )
+    const yearlyTab2024Title =
+      await monitoringStationPage.getSumarryTableHeading.getText()
+    const expectedyearlyTab2024Title = 'Air pollution levels in 2024'
+    await expect(yearlyTab2024Title).toMatch(expectedyearlyTab2024Title)
+    const durationTag2024 = await monitoringStationPage.getDurationTag.getText()
+    const expectedDurationTag2024 = '1 January to 31 December'
+    await expect(durationTag2024).toMatch(expectedDurationTag2024)
+    const getVerifiedTag2024 =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expectedVerifiedTag2024 = 'Data has been verified'
+    await expect(getVerifiedTag2024).toMatch(expectedVerifiedTag2024)
+
+    const get2023Button = await monitoringStationPage.get2023Button
+    await get2023Button.isDisplayed()
+    await monitoringStationPage.get2023Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 700))
+        return true
+      },
+      { timeout: 750 }
+    )
+    const yearlyTab2023Title =
+      await monitoringStationPage.getSumarryTableHeading.getText()
+    const expectedyearlyTab2023Title = 'Air pollution levels in 2023'
+    await expect(yearlyTab2023Title).toMatch(expectedyearlyTab2023Title)
+    const durationTag2023 = await monitoringStationPage.getDurationTag.getText()
+    const expectedDurationTag2023 = '1 January to 31 December'
+    await expect(durationTag2023).toMatch(expectedDurationTag2023)
+    const getVerifiedTag2023 =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expectedVerifiedTag2023 = 'Data has been verified'
+    await expect(getVerifiedTag2023).toMatch(expectedVerifiedTag2023)
+
+    const get2022Button = await monitoringStationPage.get2023Button
+    await get2022Button.isDisplayed()
+    await monitoringStationPage.get2022Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 700))
+        return true
+      },
+      { timeout: 750 }
+    )
+    const yearlyTab2022Title =
+      await monitoringStationPage.getSumarryTableHeading.getText()
+    const expectedyearlyTab2022Title = 'Air pollution levels in 2022'
+    await expect(yearlyTab2022Title).toMatch(expectedyearlyTab2022Title)
+    const durationTag2022 = await monitoringStationPage.getDurationTag.getText()
+    const expectedDurationTag2022 = '1 January to 31 December'
+    await expect(durationTag2022).toMatch(expectedDurationTag2022)
+    const getVerifiedTag2022 =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expectedVerifiedTag2022 = 'Data has been verified'
+    await expect(getVerifiedTag2022).toMatch(expectedVerifiedTag2022)
+
+    const get2021Button = await monitoringStationPage.get2021Button
+    await get2021Button.isDisplayed()
+    await monitoringStationPage.get2021Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 700))
+        return true
+      },
+      { timeout: 750 }
+    )
+    const yearlyTab2021Title =
+      await monitoringStationPage.getSumarryTableHeading.getText()
+    const expectedyearlyTab2021Title = 'Air pollution levels in 2021'
+    await expect(yearlyTab2021Title).toMatch(expectedyearlyTab2021Title)
+    const durationTag2021 = await monitoringStationPage.getDurationTag.getText()
+    const expectedDurationTag2021 = '1 January to 31 December'
+    await expect(durationTag2021).toMatch(expectedDurationTag2021)
+    const getVerifiedTag2021 =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expectedVerifiedTag2021 = 'Data has been verified'
+    await expect(getVerifiedTag2021).toMatch(expectedVerifiedTag2021)
+
+    const get2020Button = await monitoringStationPage.get2020Button
+    await get2020Button.isDisplayed()
+    await monitoringStationPage.get2020Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 700))
+        return true
+      },
+      { timeout: 750 }
+    )
+    const yearlyTab2020Title =
+      await monitoringStationPage.getSumarryTableHeading.getText()
+    const expectedyearlyTab2020Title = 'Air pollution levels in 2020'
+    await expect(yearlyTab2020Title).toMatch(expectedyearlyTab2020Title)
+    const durationTag2020 = await monitoringStationPage.getDurationTag.getText()
+    const expectedDurationTag2020 = '1 January to 31 December'
+    await expect(durationTag2020).toMatch(expectedDurationTag2020)
+    const getVerifiedTag2020 =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expectedVerifiedTag2020 = 'Data has been verified'
+    await expect(getVerifiedTag2020).toMatch(expectedVerifiedTag2020)
+
+    const get2019Button = await monitoringStationPage.get2019Button
+    await get2019Button.isDisplayed()
+    await monitoringStationPage.get2019Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 700))
+        return true
+      },
+      { timeout: 750 }
+    )
+    const yearlyTab2019Title =
+      await monitoringStationPage.getSumarryTableHeading.getText()
+    const expectedyearlyTab2019Title = 'Air pollution levels in 2019'
+    await expect(yearlyTab2019Title).toMatch(expectedyearlyTab2019Title)
+    const durationTag2019 = await monitoringStationPage.getDurationTag.getText()
+    const expectedDurationTag2019 = '1 January to 31 December'
+    await expect(durationTag2019).toMatch(expectedDurationTag2019)
+    const getVerifiedTag2019 =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expectedVerifiedTag2019 = 'Data has been verified'
+    await expect(getVerifiedTag2019).toMatch(expectedVerifiedTag2019)
+
+    const get2018Button = await monitoringStationPage.get2018Button
+    await get2018Button.isDisplayed()
+    await monitoringStationPage.get2018Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 700))
+        return true
+      },
+      { timeout: 750 }
+    )
+    const yearlyTab2018Title =
+      await monitoringStationPage.getSumarryTableHeading.getText()
+    const expectedyearlyTab2018Title = 'Air pollution levels in 2018'
+    await expect(yearlyTab2018Title).toMatch(expectedyearlyTab2018Title)
+    const durationTag2018 = await monitoringStationPage.getDurationTag.getText()
+    const expectedDurationTag2018 = '1 January to 31 December'
+    await expect(durationTag2018).toMatch(expectedDurationTag2018)
+    const getVerifiedTag2018 =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expectedVerifiedTag2018 = 'Data has been verified'
+    await expect(getVerifiedTag2018).toMatch(expectedVerifiedTag2018)
+  })
+
+  it('checkng google link', async () => {
     await monitoringStationPage.getGoogleMapLink.click()
     // await monitoringStationPage.getGoogleCookieAccept.click()
 
