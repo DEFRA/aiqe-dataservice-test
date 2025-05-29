@@ -54,7 +54,7 @@ describe('header validation', () => {
       // checking beta banner whole text
       await header.getBetaBannerText.isDisplayed()
       const BetaBannerText =
-        'This is a new service. Help us improve it and give your feedback (opens in new tab).'
+        'This is a new service. Help us improve it and give your feedback'
       const getBetaBannerText = await header.getBetaBannerText.getText()
       await expect(BetaBannerText).toMatch(getBetaBannerText)
 
