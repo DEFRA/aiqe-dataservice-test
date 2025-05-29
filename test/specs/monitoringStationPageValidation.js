@@ -585,6 +585,135 @@ View on Google Maps (opens in new tab)`
       await monitoringStationPage.getVerifiedTag.getText()
     const expectedVerifiedTag2018 = 'Data has been verified'
     await expect(getVerifiedTag2018).toMatch(expectedVerifiedTag2018)
+
+    const getSumarryTableHeading = [
+      await monitoringStationPage.getSumarryTableHeading
+    ]
+
+    const getSumarryTableHeadingProperties = [
+      'margin-top',
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'display',
+      'font-weight'
+    ]
+
+    for (const element of getSumarryTableHeading) {
+      const styles = await common.getStyles(
+        element,
+        getSumarryTableHeadingProperties
+      )
+      expect(styles['margin-top']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('10px')
+      expect(styles['font-size']).toBe('36px')
+      expect(styles['line-height']).toBe('40px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles.display).toBe('block')
+      expect(styles['font-weight']).toBe('700')
+    }
+
+    const getDurationTag = [await monitoringStationPage.getDurationTag]
+
+    const getDurationTagProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of getDurationTag) {
+      const styles = await common.getStyles(element, getDurationTagProperties)
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+    }
+
+    const getYearButtons = [
+      await monitoringStationPage.get2019Button,
+      await monitoringStationPage.get2020Button,
+      await monitoringStationPage.get2021Button,
+      await monitoringStationPage.get2022Button,
+      await monitoringStationPage.get2023Button,
+      await monitoringStationPage.get2024Button,
+      await monitoringStationPage.get2025Button
+    ]
+
+    const getYearButtonsProperties = [
+      'color',
+      'font-family',
+      'padding-bottom',
+      'padding-top',
+      'font-size',
+      'line-height',
+      'font-weight'
+    ]
+
+    for (const element of getYearButtons) {
+      const styles = await common.getStyles(element, getYearButtonsProperties)
+      expect(styles.color).toBe('rgb(29, 112, 184)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['padding-bottom']).toBe('12px')
+      expect(styles['padding-top']).toBe('12px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-weight']).toBe('400')
+    }
+
+    const getCurrentYearButton = [await monitoringStationPage.get2018Button]
+
+    const getCurrentYearButtonProperties = [
+      'color',
+      'font-family',
+      'padding-bottom',
+      'padding-top',
+      'font-size',
+      'line-height',
+      'font-weight'
+    ]
+
+    for (const element of getCurrentYearButton) {
+      const styles = await common.getStyles(
+        element,
+        getCurrentYearButtonProperties
+      )
+      expect(styles.color).toBe('rgb(0, 48, 120)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['padding-bottom']).toBe('12px')
+      expect(styles['padding-top']).toBe('12px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-weight']).toBe('400')
+    }
+
+    const getVerifiedTag = [await monitoringStationPage.getVerifiedTag]
+
+    const getVerifiedTagsProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of getVerifiedTag) {
+      const styles = await common.getStyles(element, getVerifiedTagsProperties)
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
+    }
   })
 
   it('checkng google link', async () => {
