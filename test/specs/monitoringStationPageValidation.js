@@ -415,32 +415,39 @@ View on Google Maps (opens in new tab)`
     await monitoringStationPage.get2025Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 700))
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         return true
       },
-      { timeout: 750 }
+      { timeout: 2000 }
     )
     const yearlyTab2025Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
     const expectedyearlyTab2025Title = 'Air pollution levels in 2025'
     await expect(yearlyTab2025Title).toMatch(expectedyearlyTab2025Title)
     const durationTag2025 = await monitoringStationPage.getDurationTag.getText()
-    const expectedDurationTag2025 = '1 January to 29 May'
+    const todaysDate = await monitoringStationPage.getTodayAsDayMonthString()
+    const expectedDurationTag2025 = `1 January to ${todaysDate}`
     await expect(durationTag2025).toMatch(expectedDurationTag2025)
     const getVerifiedTag2025 =
       await monitoringStationPage.getVerifiedTag.getText()
     const expectedVerifiedTag2025 = 'Data has not been verified'
     await expect(getVerifiedTag2025).toMatch(expectedVerifiedTag2025)
+    const getdownloadDataHeading2025 =
+      await monitoringStationPage.getdownloadDataHeading.getText()
+    const expectedgetdownloadDataHeading2025 = 'Download data for 2025'
+    await expect(getdownloadDataHeading2025).toMatch(
+      expectedgetdownloadDataHeading2025
+    )
 
     const get2024Button = await monitoringStationPage.get2024Button
     await get2024Button.isDisplayed()
     await monitoringStationPage.get2024Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 700))
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         return true
       },
-      { timeout: 750 }
+      { timeout: 2000 }
     )
     const yearlyTab2024Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -453,16 +460,22 @@ View on Google Maps (opens in new tab)`
       await monitoringStationPage.getVerifiedTag.getText()
     const expectedVerifiedTag2024 = 'Data has been verified'
     await expect(getVerifiedTag2024).toMatch(expectedVerifiedTag2024)
+    const getdownloadDataHeading2024 =
+      await monitoringStationPage.getdownloadDataHeading.getText()
+    const expectedgetdownloadDataHeading2024 = 'Download data for 2024'
+    await expect(getdownloadDataHeading2024).toMatch(
+      expectedgetdownloadDataHeading2024
+    )
 
     const get2023Button = await monitoringStationPage.get2023Button
     await get2023Button.isDisplayed()
     await monitoringStationPage.get2023Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 700))
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         return true
       },
-      { timeout: 750 }
+      { timeout: 2000 }
     )
     const yearlyTab2023Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -475,16 +488,22 @@ View on Google Maps (opens in new tab)`
       await monitoringStationPage.getVerifiedTag.getText()
     const expectedVerifiedTag2023 = 'Data has been verified'
     await expect(getVerifiedTag2023).toMatch(expectedVerifiedTag2023)
+    const getdownloadDataHeading2023 =
+      await monitoringStationPage.getdownloadDataHeading.getText()
+    const expectedgetdownloadDataHeading2023 = 'Download data for 2023'
+    await expect(getdownloadDataHeading2023).toMatch(
+      expectedgetdownloadDataHeading2023
+    )
 
-    const get2022Button = await monitoringStationPage.get2023Button
+    const get2022Button = await monitoringStationPage.get2022Button
     await get2022Button.isDisplayed()
     await monitoringStationPage.get2022Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 700))
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         return true
       },
-      { timeout: 750 }
+      { timeout: 2000 }
     )
     const yearlyTab2022Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -497,16 +516,22 @@ View on Google Maps (opens in new tab)`
       await monitoringStationPage.getVerifiedTag.getText()
     const expectedVerifiedTag2022 = 'Data has been verified'
     await expect(getVerifiedTag2022).toMatch(expectedVerifiedTag2022)
+    const getdownloadDataHeading2022 =
+      await monitoringStationPage.getdownloadDataHeading.getText()
+    const expectedgetdownloadDataHeading2022 = 'Download data for 2022'
+    await expect(getdownloadDataHeading2022).toMatch(
+      expectedgetdownloadDataHeading2022
+    )
 
     const get2021Button = await monitoringStationPage.get2021Button
     await get2021Button.isDisplayed()
     await monitoringStationPage.get2021Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 700))
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         return true
       },
-      { timeout: 750 }
+      { timeout: 2000 }
     )
     const yearlyTab2021Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -519,16 +544,22 @@ View on Google Maps (opens in new tab)`
       await monitoringStationPage.getVerifiedTag.getText()
     const expectedVerifiedTag2021 = 'Data has been verified'
     await expect(getVerifiedTag2021).toMatch(expectedVerifiedTag2021)
+    const getdownloadDataHeading2021 =
+      await monitoringStationPage.getdownloadDataHeading.getText()
+    const expectedgetdownloadDataHeading2021 = 'Download data for 2021'
+    await expect(getdownloadDataHeading2021).toMatch(
+      expectedgetdownloadDataHeading2021
+    )
 
     const get2020Button = await monitoringStationPage.get2020Button
     await get2020Button.isDisplayed()
     await monitoringStationPage.get2020Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 700))
+        await new Promise((resolve) => setTimeout(resolve, 2000))
         return true
       },
-      { timeout: 750 }
+      { timeout: 2000 }
     )
     const yearlyTab2020Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -541,16 +572,22 @@ View on Google Maps (opens in new tab)`
       await monitoringStationPage.getVerifiedTag.getText()
     const expectedVerifiedTag2020 = 'Data has been verified'
     await expect(getVerifiedTag2020).toMatch(expectedVerifiedTag2020)
+    const getdownloadDataHeading2020 =
+      await monitoringStationPage.getdownloadDataHeading.getText()
+    const expectedgetdownloadDataHeading2020 = 'Download data for 2020'
+    await expect(getdownloadDataHeading2020).toMatch(
+      expectedgetdownloadDataHeading2020
+    )
 
     const get2019Button = await monitoringStationPage.get2019Button
     await get2019Button.isDisplayed()
     await monitoringStationPage.get2019Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 700))
+        await new Promise((resolve) => setTimeout(resolve, 2000))
         return true
       },
-      { timeout: 750 }
+      { timeout: 2000 }
     )
     const yearlyTab2019Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -563,16 +600,22 @@ View on Google Maps (opens in new tab)`
       await monitoringStationPage.getVerifiedTag.getText()
     const expectedVerifiedTag2019 = 'Data has been verified'
     await expect(getVerifiedTag2019).toMatch(expectedVerifiedTag2019)
+    const getdownloadDataHeading2019 =
+      await monitoringStationPage.getdownloadDataHeading.getText()
+    const expectedgetdownloadDataHeading2019 = 'Download data for 2019'
+    await expect(getdownloadDataHeading2019).toMatch(
+      expectedgetdownloadDataHeading2019
+    )
 
     const get2018Button = await monitoringStationPage.get2018Button
     await get2018Button.isDisplayed()
     await monitoringStationPage.get2018Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 700))
+        await new Promise((resolve) => setTimeout(resolve, 2000))
         return true
       },
-      { timeout: 750 }
+      { timeout: 2000 }
     )
     const yearlyTab2018Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -585,6 +628,12 @@ View on Google Maps (opens in new tab)`
       await monitoringStationPage.getVerifiedTag.getText()
     const expectedVerifiedTag2018 = 'Data has been verified'
     await expect(getVerifiedTag2018).toMatch(expectedVerifiedTag2018)
+    const getdownloadDataHeading2018 =
+      await monitoringStationPage.getdownloadDataHeading.getText()
+    const expectedgetdownloadDataHeading2018 = 'Download data for 2018'
+    await expect(getdownloadDataHeading2018).toMatch(
+      expectedgetdownloadDataHeading2018
+    )
 
     const getSumarryTableHeading = [
       await monitoringStationPage.getSumarryTableHeading
@@ -713,6 +762,117 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
+    }
+  })
+
+  it('Download Hourly Data for All pollutants,AQD-588', async () => {
+    const getAllPollutantsSubHeading =
+      await monitoringStationPage.getAllPollutantsSubHeading.getText()
+    const expectedAllPollutantsSubHeading = 'All pollutants'
+    await expect(getAllPollutantsSubHeading).toMatch(
+      expectedAllPollutantsSubHeading
+    )
+
+    const getDownloadAllPollutantsHourlyData =
+      await monitoringStationPage.getDownloadAllPollutantsHourlyData.getText()
+    await monitoringStationPage.getDownloadAllPollutantsHourlyData.isDisplayed()
+    await monitoringStationPage.getDownloadAllPollutantsHourlyData.isClickable()
+    const expectedDownloadAllPollutantsHourlyData = 'Download hourly data'
+    await expect(getDownloadAllPollutantsHourlyData).toMatch(
+      expectedDownloadAllPollutantsHourlyData
+    )
+
+    // styling
+    const getdownloadDataHeading = [
+      await monitoringStationPage.getdownloadDataHeading
+    ]
+
+    const getdownloadDataHeadingProperties = [
+      'margin-top',
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of getdownloadDataHeading) {
+      const styles = await common.getStyles(
+        element,
+        getdownloadDataHeadingProperties
+      )
+      expect(styles['margin-top']).toBe('40px')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles['font-size']).toBe('36px')
+      expect(styles['line-height']).toBe('40px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
+    }
+
+    const AllPollutantsSubHeading = [
+      await monitoringStationPage.getAllPollutantsSubHeading
+    ]
+
+    const getAllPollutantsSubHeadingProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of AllPollutantsSubHeading) {
+      const styles = await common.getStyles(
+        element,
+        getAllPollutantsSubHeadingProperties
+      )
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('24px')
+      expect(styles['line-height']).toBe('30px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
+    }
+
+    const DownloadAllPollutantsHourlyData = [
+      await monitoringStationPage.getDownloadAllPollutantsHourlyData
+    ]
+
+    const getDownloadAllPollutantsHourlyDataProperties = [
+      'font-size',
+      'line-height',
+      'display',
+      'font-family',
+      'background-color',
+      'border',
+      'color',
+      'font-weight',
+      'margin',
+      'outline',
+      'padding',
+      'margin-bottom'
+    ]
+
+    for (const element of DownloadAllPollutantsHourlyData) {
+      const styles = await common.getStyles(
+        element,
+        getDownloadAllPollutantsHourlyDataProperties
+      )
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
+      expect(styles.display).toBe('inline-block')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0.666667px solid rgb(177, 180, 182)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.padding).toBe('9px 10px 10px')
+      expect(styles['margin-bottom']).toBe('15px')
     }
   })
 

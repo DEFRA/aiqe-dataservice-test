@@ -1,16 +1,12 @@
 import { $ } from '@wdio/globals'
 
 class MonitoringStationPage {
-  get getGoogleMapLink() {
-    return $("a[href='https://www.google.co.uk/maps?q=51.52229,-0.125889']")
+  get getMonitoringPageHeading() {
+    return $("h1[class*='govuk-heading-xl govuk-!-margin-bottom-1']")
   }
 
   get getMonitoringPageContent() {
     return $("main[class*='govuk-main-wrapper app-main-wrapper']")
-  }
-
-  get getMonitoringPageHeading() {
-    return $("h1[class*='govuk-heading-xl govuk-!-margin-bottom-1']")
   }
 
   get getMonitoringStationStatus() {
@@ -45,24 +41,8 @@ class MonitoringStationPage {
     return $$("dd[class*='defra-aq-features__value govuk-body']")[2]
   }
 
-  get getgridSideStyles() {
-    return $("div[class*='govuk-grid-column-full']")
-  }
-
-  get getgridTopBottomStyles() {
-    return $("dl[class*='defra-aq-features__list govuk-!-margin-top-3']")
-  }
-
-  get getFeatureItem() {
-    return $("div[class*='defra-aq-features__item']")
-  }
-
-  get getFeatureCaption() {
-    return $("dt[class*='defra-aq-features__key govuk-caption-m']")
-  }
-
-  get getFeatureBody() {
-    return $("dd[class*='defra-aq-features__value govuk-body']")
+  get getGoogleMapLink() {
+    return $("a[href='https://www.google.co.uk/maps?q=51.52229,-0.125889']")
   }
 
   get getToggleTip() {
@@ -77,31 +57,18 @@ class MonitoringStationPage {
     return $("form[action*='https://consent.google.co.uk/save']")
   }
 
-  async getPollutionListFromSummaryTable() {
-    await $(
-      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--pollutant'"
-    ).waitForExist({ timeout: 5000 })
-
-    const tds = await $$(
-      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--pollutant'"
-    )
-    const cleanData = []
-    for (const td of tds) {
-      const text = await td.getText()
-      if (typeof text === 'string') {
-        const firstLine = text.split('\n')[0].trim()
-        cleanData.push(firstLine)
-      }
-    }
-    return cleanData
-  }
-
   get getSumarryTableHeading() {
     return $("h2[id*='airpollution-heading']")
   }
 
   get getDurationTag() {
     return $("p[id*='duration_current']")
+  }
+
+  async getTodayAsDayMonthString() {
+    const today = new Date()
+    const options = { day: 'numeric', month: 'long' }
+    return today.toLocaleDateString('en-GB', options)
   }
 
   get get2018Button() {
@@ -138,6 +105,57 @@ class MonitoringStationPage {
 
   get getVerifiedTag() {
     return $$("h3[class*='govuk-heading-s']")[0]
+  }
+
+  async getPollutionListFromSummaryTable() {
+    await $(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--pollutant'"
+    ).waitForExist({ timeout: 5000 })
+
+    const tds = await $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--pollutant'"
+    )
+    const cleanData = []
+    for (const td of tds) {
+      const text = await td.getText()
+      if (typeof text === 'string') {
+        const firstLine = text.split('\n')[0].trim()
+        cleanData.push(firstLine)
+      }
+    }
+    return cleanData
+  }
+
+  get getgridSideStyles() {
+    return $("div[class*='govuk-grid-column-full']")
+  }
+
+  get getgridTopBottomStyles() {
+    return $("dl[class*='defra-aq-features__list govuk-!-margin-top-3']")
+  }
+
+  get getFeatureItem() {
+    return $("div[class*='defra-aq-features__item']")
+  }
+
+  get getFeatureCaption() {
+    return $("dt[class*='defra-aq-features__key govuk-caption-m']")
+  }
+
+  get getFeatureBody() {
+    return $("dd[class*='defra-aq-features__value govuk-body']")
+  }
+
+  get getdownloadDataHeading() {
+    return $("h2[id*='year-heading']")
+  }
+
+  get getAllPollutantsSubHeading() {
+    return $$("h3[id*='all-p']")[0]
+  }
+
+  get getDownloadAllPollutantsHourlyData() {
+    return $$("a[id*='download-link']")[0]
   }
 }
 
