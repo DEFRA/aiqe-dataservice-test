@@ -157,6 +157,14 @@ class MonitoringStationPage {
   get getDownloadAllPollutantsHourlyData() {
     return $$("a[id*='download-link']")[0]
   }
+
+  get getSulphurDioxideSubHeading() {
+    return $$("h2[id*='all-p']")[4]
+  }
+
+  get getDownloadSulphurDioxideHourlyDataLink() {
+    return $$("a[id*='download-link']")[15]
+  }
 }
 
 // module.exports=new StartNowPage()
