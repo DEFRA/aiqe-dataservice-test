@@ -189,6 +189,14 @@ class MonitoringStationPage {
   get getDownloadOzoneHourlyDataLink() {
     return $$("a[id*='download-link']")[9]
   }
+
+  get getNitrogenDioxideSubHeading() {
+    return $$("h2[id*='all-p']")[2]
+  }
+
+  get getDownloadNitrogenDioxideHourlyDataLink() {
+    return $$("a[id*='download-link']")[6]
+  }
 }
 
 // module.exports=new StartNowPage()
