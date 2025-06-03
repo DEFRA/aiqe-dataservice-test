@@ -957,6 +957,84 @@ View on Google Maps (opens in new tab)`
     }
   })
 
+  it('Download Hourly Data for PM10, AQD-595', async () => {
+    const getPM10SubHeading =
+      await monitoringStationPage.getPM10SubHeading.getText()
+    const expectedgetPM10SubHeading = 'PM10'
+    await expect(getPM10SubHeading).toMatch(expectedgetPM10SubHeading)
+
+    const getDownloadPM10HourlyDataLink =
+      await monitoringStationPage.getDownloadPM10HourlyDataLink.getText()
+    await monitoringStationPage.getDownloadPM10HourlyDataLink.isDisplayed()
+    await monitoringStationPage.getDownloadPM10HourlyDataLink.isClickable()
+    const expectedDownloadPM10HourlyDataLink = 'Download hourly data'
+    await expect(getDownloadPM10HourlyDataLink).toMatch(
+      expectedDownloadPM10HourlyDataLink
+    )
+
+    const PM10SubHeading = [await monitoringStationPage.getPM10SubHeading]
+
+    const getPM10SubHeadingProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of PM10SubHeading) {
+      const styles = await common.getStyles(
+        element,
+        getPM10SubHeadingProperties
+      )
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('24px')
+      expect(styles['line-height']).toBe('30px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
+    }
+
+    const DownloadPM10HourlyDataLink = [
+      await monitoringStationPage.getDownloadPM10HourlyDataLink
+    ]
+
+    const getDownloadPM10HourlyDataLinkProperties = [
+      'font-size',
+      'line-height',
+      'display',
+      'font-family',
+      'background-color',
+      'border',
+      'color',
+      'font-weight',
+      'margin',
+      'outline',
+      'padding',
+      'margin-bottom'
+    ]
+
+    for (const element of DownloadPM10HourlyDataLink) {
+      const styles = await common.getStyles(
+        element,
+        getDownloadPM10HourlyDataLinkProperties
+      )
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
+      expect(styles.display).toBe('inline-block')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0.666667px solid rgb(177, 180, 182)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.padding).toBe('9px 10px 10px')
+      expect(styles['margin-bottom']).toBe('15px')
+    }
+  })
+
   it('checkng google link', async () => {
     await monitoringStationPage.getGoogleMapLink.click()
     // await monitoringStationPage.getGoogleCookieAccept.click()
