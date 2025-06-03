@@ -25,6 +25,16 @@ class Common {
   get continueButton() {
     return $("button[type='submit']")
   }
+
+  async getList(pageElement) {
+    const elements = await $$(pageElement)
+    const headingsText = []
+    for (const el of elements) {
+      const text = await el.getText()
+      headingsText.push(text)
+    }
+    return headingsText
+  }
 }
 
 export default new Common()
