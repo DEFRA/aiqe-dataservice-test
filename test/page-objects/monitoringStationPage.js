@@ -181,6 +181,14 @@ class MonitoringStationPage {
   get getDownloadPM25HourlyDataLink() {
     return $$("a[id*='download-link']")[3]
   }
+
+  get getOzoneSubHeading() {
+    return $$("h2[id*='all-p']")[3]
+  }
+
+  get getDownloadOzoneHourlyDataLink() {
+    return $$("a[id*='download-link']")[9]
+  }
 }
 
 // module.exports=new StartNowPage()
