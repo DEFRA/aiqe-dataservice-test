@@ -173,6 +173,14 @@ class MonitoringStationPage {
   get getDownloadPM10HourlyDataLink() {
     return $$("a[id*='download-link']")[6]
   }
+
+  get getPM25SubHeading() {
+    return $$("h2[id*='all-p']")[0]
+  }
+
+  get getDownloadPM25HourlyDataLink() {
+    return $$("a[id*='download-link']")[3]
+  }
 }
 
 // module.exports=new StartNowPage()
