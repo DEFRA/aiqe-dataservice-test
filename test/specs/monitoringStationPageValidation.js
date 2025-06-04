@@ -1271,7 +1271,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
-
+    // checking download pollutant order
     const pollutantDownloadListOrder = await common.getList('h2[id=all-p]')
     const expectedpollutantDownloadListOrder = [
       'PM2.5',
@@ -1283,6 +1283,20 @@ View on Google Maps (opens in new tab)`
     await expect(pollutantDownloadListOrder).toEqual(
       expectedpollutantDownloadListOrder
     )
+  })
+
+  it('Station Summary Data - List Pollutants in Summary Table Order, AQD-613', async () => {
+    const summaryTablePollutantList =
+      await monitoringStationPage.getPollutionListFromSummaryTable()
+
+    const expectedPollutantListOrder = [
+      'PM2.5',
+      'PM10',
+      'Nitrogen dioxide',
+      'Ozone',
+      'Sulphur dioxide'
+    ]
+    await expect(summaryTablePollutantList).toEqual(expectedPollutantListOrder)
   })
 
   it('checkng google link', async () => {
