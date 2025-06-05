@@ -209,6 +209,10 @@ class MonitoringStationPage {
   get getDownloadPM25DailyDataLink() {
     return $(`a[onclick*='PM2.5'][onclick*='Daily']`)
   }
+
+  get getDownloadPM10DailyDataLink() {
+    return $(`a[onclick*='PM10'][onclick*='Daily']`)
+  }
 }
 
 // module.exports=new StartNowPage()
