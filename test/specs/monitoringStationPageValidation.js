@@ -1299,6 +1299,56 @@ View on Google Maps (opens in new tab)`
     await expect(summaryTablePollutantList).toEqual(expectedPollutantListOrder)
   })
 
+  it('Download Daily Data for All Pollutants, AQD-621', async () => {
+    const getDownloadAllPollutantsDailyDataLink =
+      await monitoringStationPage.getDownloadAllPollutantsDailyDataLink.getText()
+    await monitoringStationPage.getDownloadAllPollutantsDailyDataLink.isDisplayed()
+    await monitoringStationPage.getDownloadAllPollutantsDailyDataLink.isClickable()
+    const expectedDownloadAllPollutantsDailyDataLink =
+      'Download daily average data'
+    await expect(getDownloadAllPollutantsDailyDataLink).toMatch(
+      expectedDownloadAllPollutantsDailyDataLink
+    )
+
+    const DownloadAllPollutantsDailyDataLink = [
+      await monitoringStationPage.getDownloadAllPollutantsDailyDataLink
+    ]
+
+    const DownloadAllPollutantsDailyDataLinkProperties = [
+      'font-size',
+      'line-height',
+      'display',
+      'font-family',
+      'background-color',
+      'border',
+      'color',
+      'font-weight',
+      'margin',
+      'outline',
+      'padding',
+      'margin-bottom'
+    ]
+
+    for (const element of DownloadAllPollutantsDailyDataLink) {
+      const styles = await common.getStyles(
+        element,
+        DownloadAllPollutantsDailyDataLinkProperties
+      )
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
+      expect(styles.display).toBe('inline-block')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0.666667px solid rgb(177, 180, 182)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.padding).toBe('9px 10px 10px')
+      expect(styles['margin-bottom']).toBe('15px')
+    }
+  })
+
   it('checkng google link', async () => {
     await monitoringStationPage.getGoogleMapLink.click()
     // await monitoringStationPage.getGoogleCookieAccept.click()

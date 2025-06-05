@@ -197,6 +197,10 @@ class MonitoringStationPage {
   get getDownloadNitrogenDioxideHourlyDataLink() {
     return $$("a[id*='download-link']")[6]
   }
+
+  get getDownloadAllPollutantsDailyDataLink() {
+    return $$("a[id*='download-link']")[1]
+  }
 }
 
 // module.exports=new StartNowPage()
