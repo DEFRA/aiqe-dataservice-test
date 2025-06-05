@@ -205,6 +205,10 @@ class MonitoringStationPage {
   get getDownloadNitrogenDioxideDailyDataLink() {
     return $(`a[onclick*='Nitrogen dioxide'][onclick*='Daily']`)
   }
+
+  get getDownloadPM25DailyDataLink() {
+    return $(`a[onclick*='PM2.5'][onclick*='Daily']`)
+  }
 }
 
 // module.exports=new StartNowPage()
