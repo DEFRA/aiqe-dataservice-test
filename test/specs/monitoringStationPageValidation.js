@@ -1399,6 +1399,55 @@ View on Google Maps (opens in new tab)`
     }
   })
 
+  it('Download Daily Data for PM2.5, AQD-628', async () => {
+    const getDownloadPM25DailyDataLink =
+      await monitoringStationPage.getDownloadPM25DailyDataLink.getText()
+    await monitoringStationPage.getDownloadPM25DailyDataLink.isDisplayed()
+    await monitoringStationPage.getDownloadPM25DailyDataLink.isClickable()
+    const expectedgetDownloadPM25DailyDataLink = 'Download daily average data'
+    await expect(getDownloadPM25DailyDataLink).toMatch(
+      expectedgetDownloadPM25DailyDataLink
+    )
+
+    const DownloadPM25DailyDataLink = [
+      await monitoringStationPage.getDownloadPM25DailyDataLink
+    ]
+
+    const DownloadPM25DailyDataLinkProperties = [
+      'font-size',
+      'line-height',
+      'display',
+      'font-family',
+      'background-color',
+      'border',
+      'color',
+      'font-weight',
+      'margin',
+      'outline',
+      'padding',
+      'margin-bottom'
+    ]
+
+    for (const element of DownloadPM25DailyDataLink) {
+      const styles = await common.getStyles(
+        element,
+        DownloadPM25DailyDataLinkProperties
+      )
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
+      expect(styles.display).toBe('inline-block')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0.666667px solid rgb(177, 180, 182)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.padding).toBe('9px 10px 10px')
+      expect(styles['margin-bottom']).toBe('15px')
+    }
+  })
+
   it('checking google link', async () => {
     await monitoringStationPage.getGoogleMapLink.click()
     // await monitoringStationPage.getGoogleCookieAccept.click()
