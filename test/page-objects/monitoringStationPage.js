@@ -217,6 +217,10 @@ class MonitoringStationPage {
   get getDownloadOzoneDailyDataLink() {
     return $(`a[onclick*='Ozone'][onclick*='Daily']`)
   }
+
+  get getDownloadSulphurDioxideDailyDataLink() {
+    return $(`a[onclick*='Sulphur dioxide'][onclick*='Daily']`)
+  }
 }
 
 // module.exports=new StartNowPage()
