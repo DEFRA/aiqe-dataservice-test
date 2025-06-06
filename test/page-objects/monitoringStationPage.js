@@ -221,6 +221,36 @@ class MonitoringStationPage {
   get getDownloadSulphurDioxideDailyDataLink() {
     return $(`a[onclick*='Sulphur dioxide'][onclick*='Daily']`)
   }
+
+  get getPM25HourlyExceedence() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
+    )[0]
+  }
+
+  get getPM10HourlyExceedence() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
+    )[1]
+  }
+
+  get getNOHourlyExceedence() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
+    )[2]
+  }
+
+  get getOzoneHourlyExceedence() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
+    )[3]
+  }
+
+  get getSDHourlyExceedence() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
+    )[4]
+  }
 }
 
 // module.exports=new StartNowPage()
