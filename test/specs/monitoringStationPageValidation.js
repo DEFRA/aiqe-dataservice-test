@@ -1546,6 +1546,56 @@ View on Google Maps (opens in new tab)`
     }
   })
 
+  it('Download Daily Data for Sulphur Dioxide, AQD-631', async () => {
+    const getDownloadSulphurDioxideDailyDataLink =
+      await monitoringStationPage.getDownloadSulphurDioxideDailyDataLink.getText()
+    await monitoringStationPage.getDownloadSulphurDioxideDailyDataLink.isDisplayed()
+    await monitoringStationPage.getDownloadSulphurDioxideDailyDataLink.isClickable()
+    const expectedgetDownloadSulphurDioxideDailyDataLink =
+      'Download daily average data'
+    await expect(getDownloadSulphurDioxideDailyDataLink).toMatch(
+      expectedgetDownloadSulphurDioxideDailyDataLink
+    )
+
+    const DownloadSulphurDioxideDailyDataLink = [
+      await monitoringStationPage.getDownloadSulphurDioxideDailyDataLink
+    ]
+
+    const DownloadSulphurDioxideDailyDataLinkProperties = [
+      'font-size',
+      'line-height',
+      'display',
+      'font-family',
+      'background-color',
+      'border',
+      'color',
+      'font-weight',
+      'margin',
+      'outline',
+      'padding',
+      'margin-bottom'
+    ]
+
+    for (const element of DownloadSulphurDioxideDailyDataLink) {
+      const styles = await common.getStyles(
+        element,
+        DownloadSulphurDioxideDailyDataLinkProperties
+      )
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
+      expect(styles.display).toBe('inline-block')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0.666667px solid rgb(177, 180, 182)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.padding).toBe('9px 10px 10px')
+      expect(styles['margin-bottom']).toBe('15px')
+    }
+  })
+
   it('checking google link', async () => {
     await monitoringStationPage.getGoogleMapLink.click()
     // await monitoringStationPage.getGoogleCookieAccept.click()
