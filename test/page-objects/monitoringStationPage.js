@@ -213,6 +213,10 @@ class MonitoringStationPage {
   get getDownloadPM10DailyDataLink() {
     return $(`a[onclick*='PM10'][onclick*='Daily']`)
   }
+
+  get getDownloadOzoneDailyDataLink() {
+    return $(`a[onclick*='Ozone'][onclick*='Daily']`)
+  }
 }
 
 // module.exports=new StartNowPage()
