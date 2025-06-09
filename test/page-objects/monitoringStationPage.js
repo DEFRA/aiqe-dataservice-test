@@ -251,6 +251,36 @@ class MonitoringStationPage {
       "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
     )[4]
   }
+
+  get getPM25DailyExceedence() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--daily']"
+    )[0]
+  }
+
+  get getPM10DailyExceedence() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--daily']"
+    )[1]
+  }
+
+  get getNODailyExceedence() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--daily']"
+    )[2]
+  }
+
+  get getOzoneDailyExceedence() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--daily']"
+    )[3]
+  }
+
+  get getSDDailyExceedence() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--daily']"
+    )[4]
+  }
 }
 
 // module.exports=new StartNowPage()
