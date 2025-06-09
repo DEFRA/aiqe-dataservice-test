@@ -869,7 +869,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -951,7 +951,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -1029,7 +1029,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -1107,7 +1107,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -1185,7 +1185,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -1267,7 +1267,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -1343,7 +1343,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -1393,7 +1393,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -1442,7 +1442,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -1491,7 +1491,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -1540,7 +1540,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -1590,7 +1590,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
