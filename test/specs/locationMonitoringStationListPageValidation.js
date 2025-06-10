@@ -337,9 +337,7 @@ describe('monitoring station list page tests', () => {
       )
       expect(styles['padding-right']).toBe('0px')
       expect(styles.width).toBe('240px')
-      expect(styles['border-bottom']).toBe(
-        '0.666667px solid rgb(177, 180, 182)'
-      )
+      expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.padding).toBe('10px 0px')
       expect(styles['text-align']).toBe('right')
       expect(styles['vertical-align']).toBe('top')

@@ -1656,7 +1656,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(219, 218, 217)')
-      expect(styles.border).toBe('0.666667px solid rgb(177, 180, 182)')
+      expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
