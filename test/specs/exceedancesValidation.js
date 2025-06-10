@@ -14,8 +14,8 @@ import passwordPage from '../page-objects/passwordPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 
-describe('exceedences, AQD-632', () => {
-  it('hourly exceedences ', async () => {
+describe('exceedences', () => {
+  it('hourly exceedences , AQD-632', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
@@ -254,7 +254,7 @@ describe('exceedences, AQD-632', () => {
     }
   })
 
-  it('daily exceedences ', async () => {
+  it('daily exceedences, AQD-633', async () => {
     const PM25DailyExceedence =
       await monitoringStationPage.getPM25DailyExceedence.getText()
     const PM10DailyExceedence =
@@ -460,6 +460,86 @@ describe('exceedences, AQD-632', () => {
       expect(styles['border-spacing']).toBe('0px 0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
+    }
+  })
+
+  it('Toggle Tips for Hourly exceedances, AQD-634', async () => {
+    await monitoringStationPage.getNOHourlyExceedenceToggleTip.isDisplayed()
+    await monitoringStationPage.getNOHourlyExceedenceToggleTip.isClickable()
+
+    await monitoringStationPage.getSDHourlyExceedenceToggleTip.isDisplayed()
+    await monitoringStationPage.getSDHourlyExceedenceToggleTip.isClickable()
+
+    const getNOHourlyExceedenceToggleTip = [
+      await monitoringStationPage.getNOHourlyExceedenceToggleTip
+    ]
+
+    const getNOHourlyExceedenceToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getNOHourlyExceedenceToggleTip) {
+      const styles = await common.getStyles(
+        element,
+        getNOHourlyExceedenceToggleTipProperties
+      )
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
+    }
+
+    const getSDHourlyExceedenceToggleTip = [
+      await monitoringStationPage.getSDHourlyExceedenceToggleTip
+    ]
+
+    const getSDHourlyExceedenceToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getSDHourlyExceedenceToggleTip) {
+      const styles = await common.getStyles(
+        element,
+        getSDHourlyExceedenceToggleTipProperties
+      )
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
     }
   })
 })
