@@ -396,7 +396,7 @@ View on Google Maps (opens in new tab)`
     }
   })
 
-  it('checkng links', async () => {
+  it('checking links', async () => {
     await common.getBackLink.click()
     const getURLAfterBackLinkCLick = await browser.getUrl()
     const expectedgetURLAfterBackLinkCLick =
@@ -409,7 +409,7 @@ View on Google Maps (opens in new tab)`
       .click()
   })
 
-  it('Yearly Tab , AQD-586', async () => {
+  it('Yearly Tab AQD-586,AQD-641 Display Data Capture % ', async () => {
     const get2025Button = await monitoringStationPage.get2025Button
     await get2025Button.isDisplayed()
     await monitoringStationPage.get2025Button.click()
@@ -438,6 +438,11 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2025).toMatch(
       expectedgetdownloadDataHeading2025
     )
+    await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    await monitoringStationPage.getNODataCapture.isDisplayed()
+    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    await monitoringStationPage.getSDDataCapture.isDisplayed()
 
     const get2024Button = await monitoringStationPage.get2024Button
     await get2024Button.isDisplayed()
@@ -466,6 +471,11 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2024).toMatch(
       expectedgetdownloadDataHeading2024
     )
+    await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    await monitoringStationPage.getNODataCapture.isDisplayed()
+    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    await monitoringStationPage.getSDDataCapture.isDisplayed()
 
     const get2023Button = await monitoringStationPage.get2023Button
     await get2023Button.isDisplayed()
@@ -494,6 +504,11 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2023).toMatch(
       expectedgetdownloadDataHeading2023
     )
+    await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    await monitoringStationPage.getNODataCapture.isDisplayed()
+    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    await monitoringStationPage.getSDDataCapture.isDisplayed()
 
     const get2022Button = await monitoringStationPage.get2022Button
     await get2022Button.isDisplayed()
@@ -522,6 +537,11 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2022).toMatch(
       expectedgetdownloadDataHeading2022
     )
+    await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    await monitoringStationPage.getNODataCapture.isDisplayed()
+    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    await monitoringStationPage.getSDDataCapture.isDisplayed()
 
     const get2021Button = await monitoringStationPage.get2021Button
     await get2021Button.isDisplayed()
@@ -550,6 +570,11 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2021).toMatch(
       expectedgetdownloadDataHeading2021
     )
+    await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    await monitoringStationPage.getNODataCapture.isDisplayed()
+    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    await monitoringStationPage.getSDDataCapture.isDisplayed()
 
     const get2020Button = await monitoringStationPage.get2020Button
     await get2020Button.isDisplayed()
@@ -578,6 +603,11 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2020).toMatch(
       expectedgetdownloadDataHeading2020
     )
+    await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    await monitoringStationPage.getNODataCapture.isDisplayed()
+    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    await monitoringStationPage.getSDDataCapture.isDisplayed()
 
     const get2019Button = await monitoringStationPage.get2019Button
     await get2019Button.isDisplayed()
@@ -606,6 +636,11 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2019).toMatch(
       expectedgetdownloadDataHeading2019
     )
+    await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    await monitoringStationPage.getNODataCapture.isDisplayed()
+    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    await monitoringStationPage.getSDDataCapture.isDisplayed()
 
     const get2018Button = await monitoringStationPage.get2018Button
     await get2018Button.isDisplayed()
@@ -634,6 +669,11 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2018).toMatch(
       expectedgetdownloadDataHeading2018
     )
+    await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    await monitoringStationPage.getNODataCapture.isDisplayed()
+    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    await monitoringStationPage.getSDDataCapture.isDisplayed()
 
     const getSumarryTableHeading = [
       await monitoringStationPage.getSumarryTableHeading
@@ -762,6 +802,36 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
+    }
+
+    const DataCaptureStyles = [
+      await monitoringStationPage.getPM25DataCapture,
+      await monitoringStationPage.getPM10DataCapture,
+      await monitoringStationPage.getNODataCapture,
+      await monitoringStationPage.getOzoneDataCapture,
+      await monitoringStationPage.getSDDataCapture
+    ]
+
+    const getPM25DataCaptureProperties = [
+      'font-size',
+      'font-weight',
+      'margin-top',
+      'line-height',
+      'font-family',
+      'text-align'
+    ]
+
+    for (const element of DataCaptureStyles) {
+      const styles = await common.getStyles(
+        element,
+        getPM25DataCaptureProperties
+      )
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['margin-top']).toBe('5px')
+      expect(styles['line-height']).toBe('21.0526px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['text-align']).toBe('left')
     }
   })
 
@@ -1590,7 +1660,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }

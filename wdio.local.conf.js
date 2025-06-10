@@ -28,7 +28,7 @@ export const config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/**/exceedancesValidation.js'],
+  specs: ['./test/specs/**/monitoringStationPageValidation.js'],
   // Patterns to exclude.
   exclude: [],
   // injectGlobals: false,
@@ -66,7 +66,7 @@ export const config = {
               '--no-sandbox',
               '--disable-infobars',
               '--disable-gpu',
-              '--window-size=1920,1080'
+              '--window-size=2000,1100'
             ]
           }
         }
