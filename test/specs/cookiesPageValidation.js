@@ -350,9 +350,7 @@ Save cookie settings`
 
     for (const element of getTableHeading) {
       const styles = await common.getStyles(element, getTableHeadingProperties)
-      expect(styles['border-bottom']).toBe(
-        '0.666667px solid rgb(177, 180, 182)'
-      )
+      expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('left')
       expect(styles['vertical-align']).toBe('top')
