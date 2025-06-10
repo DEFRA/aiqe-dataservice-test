@@ -293,6 +293,26 @@ class MonitoringStationPage {
       "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
     )[4]
   }
+
+  get getPM25DataCapture() {
+    return $$("span[class*='defra-aq-levels-table__cell--data']")[0]
+  }
+
+  get getPM10DataCapture() {
+    return $$("span[class*='defra-aq-levels-table__cell--data']")[1]
+  }
+
+  get getNODataCapture() {
+    return $$("span[class*='defra-aq-levels-table__cell--data']")[2]
+  }
+
+  get getOzoneDataCapture() {
+    return $$("span[class*='defra-aq-levels-table__cell--data']")[3]
+  }
+
+  get getSDDataCapture() {
+    return $$("span[class*='defra-aq-levels-table__cell--data']")[4]
+  }
 }
 
 // module.exports=new StartNowPage()
