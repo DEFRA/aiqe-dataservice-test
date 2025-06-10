@@ -281,6 +281,18 @@ class MonitoringStationPage {
       "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--daily']"
     )[4]
   }
+
+  get getNOHourlyExceedenceToggleTip() {
+    return $$(
+      "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
+    )[2]
+  }
+
+  get getSDHourlyExceedenceToggleTip() {
+    return $$(
+      "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
+    )[4]
+  }
 }
 
 // module.exports=new StartNowPage()
