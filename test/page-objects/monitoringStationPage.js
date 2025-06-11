@@ -313,6 +313,22 @@ class MonitoringStationPage {
   get getSDDataCapture() {
     return $$("span[class*='defra-aq-levels-table__cell--data']")[4]
   }
+
+  async isAnyCaptureOver100(elements) {
+    let anyOver100 = false
+
+    for (const element of elements) {
+      const text = await element.getText()
+      const match = text.match(/([\d.]+)%/)
+      if (match) {
+        const value = parseFloat(match[1])
+        if (value > 100) {
+          anyOver100 = true
+        }
+      }
+    }
+    return anyOver100
+  }
 }
 
 // module.exports=new StartNowPage()

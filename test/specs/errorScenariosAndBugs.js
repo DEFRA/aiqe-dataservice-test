@@ -7,6 +7,9 @@ import common from '../page-objects/common.js'
 import errorPage from '../page-objects/errorPage.js'
 import searchPage from '../page-objects/searchPage.js'
 import passwordPage from '../page-objects/passwordPage.js'
+import disambigurationPage from '../page-objects/disambigurationPage.js'
+import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
+import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 
 describe('Error scenarios', () => {
   it('search page error message validation', async () => {
@@ -356,5 +359,53 @@ choose a different location`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
+  })
+
+  it('data capture showing incorrect percentage,AQD-642', async () => {
+    await common.getBackLink.click()
+    await searchPage.setsearch('london')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.get2024Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2000))
+        return true
+      },
+      { timeout: 2000 }
+    )
+    const DataCapturePercentage2024 = [
+      await monitoringStationPage.getPM25DataCapture,
+      await monitoringStationPage.getPM10DataCapture,
+      await monitoringStationPage.getNODataCapture,
+      await monitoringStationPage.getOzoneDataCapture,
+      await monitoringStationPage.getSDDataCapture
+    ]
+    const areAnyDataCapturePercentage2024Over100 =
+      await monitoringStationPage.isAnyCaptureOver100(DataCapturePercentage2024)
+    expect(areAnyDataCapturePercentage2024Over100).toBe(false)
+
+    await monitoringStationPage.get2025Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2000))
+        return true
+      },
+      { timeout: 2000 }
+    )
+    const DataCapturePercentage2025 = [
+      await monitoringStationPage.getPM25DataCapture,
+      await monitoringStationPage.getPM10DataCapture,
+      await monitoringStationPage.getNODataCapture,
+      await monitoringStationPage.getOzoneDataCapture,
+      await monitoringStationPage.getSDDataCapture
+    ]
+    const areAnyDataCapturePercentage2025Over100 =
+      await monitoringStationPage.isAnyCaptureOver100(DataCapturePercentage2025)
+    expect(areAnyDataCapturePercentage2025Over100).toBe(false)
   })
 })
