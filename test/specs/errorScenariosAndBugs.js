@@ -407,5 +407,89 @@ choose a different location`
     const areAnyDataCapturePercentage2025Over100 =
       await monitoringStationPage.isAnyCaptureOver100(DataCapturePercentage2025)
     expect(areAnyDataCapturePercentage2025Over100).toBe(false)
+
+    const dataCaptureStyles = [
+      await monitoringStationPage.getPM25DataCapture,
+      await monitoringStationPage.getPM10DataCapture,
+      await monitoringStationPage.getNODataCapture,
+      await monitoringStationPage.getOzoneDataCapture,
+      await monitoringStationPage.getSDDataCapture
+    ]
+
+    const dataCaptureStylesProperties = [
+      'display',
+      'font-size',
+      'font-weight',
+      'margin-top',
+      'line-height',
+      'font-family',
+      'text-align'
+    ]
+
+    for (const element of dataCaptureStyles) {
+      const styles = await common.getStyles(
+        element,
+        dataCaptureStylesProperties
+      )
+
+      expect(styles.display).toBe('block')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['margin-top']).toBe('5px')
+      expect(styles['line-height']).toBe('21.0526px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['text-align']).toBe('left')
+    }
+  })
+
+  it('No Data for Selected Year,AQD-643', async () => {
+    await common.getBackLink.click()
+    await locationMonitoringStationListPage.getChangeSearchAreaLink.click()
+    await searchPage.setsearch('Tolladine')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Worcester Tolladine')
+      .click()
+    await monitoringStationPage.get2023Button.click()
+    await errorPage.noDataForThisYearMessage.isDisplayed()
+    const getNoDataForThisYearMessage =
+      await errorPage.noDataForThisYearMessage.getText()
+    const NoDataForThisYearMessage = 'There is no data available for this year.'
+    await expect(getNoDataForThisYearMessage).toMatch(NoDataForThisYearMessage)
+
+    const noDataForThisYearMessageStyles = [
+      await errorPage.noDataForThisYearMessage
+    ]
+
+    const noDataForThisYearMessageStylesProperties = [
+      'margin-bottom',
+      'margin-top',
+      'font-size',
+      'line-height',
+      'font-family',
+      'border-left',
+      'clear',
+      'color',
+      'font-weight',
+      'padding'
+    ]
+
+    for (const element of noDataForThisYearMessageStyles) {
+      const styles = await common.getStyles(
+        element,
+        noDataForThisYearMessageStylesProperties
+      )
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles['margin-top']).toBe('30px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['border-left']).toBe('10px solid rgb(177, 180, 182)')
+      expect(styles.clear).toBe('both')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.padding).toBe('15px')
+    }
   })
 })
