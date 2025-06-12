@@ -42,6 +42,11 @@ class ErrorPage {
   get getErrorMessage() {
     return $("p[class='govuk-error-message']")
   }
+
+  // no data for this year
+  get noDataForThisYearMessage() {
+    return $("div[class='govuk-inset-text']")
+  }
 }
 
 // module.exports=new StartNowPage()
