@@ -294,6 +294,18 @@ class MonitoringStationPage {
     )[4]
   }
 
+  get getPM10DailyExceedenceToggleTip() {
+    return $$(
+      "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
+    )[1]
+  }
+
+  get getSDDailyExceedenceToggleTip() {
+    return $$(
+      "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
+    )[3]
+  }
+
   get getPM25DataCapture() {
     return $$("span[class*='defra-aq-levels-table__cell--data']")[0]
   }
