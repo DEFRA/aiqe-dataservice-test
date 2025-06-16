@@ -542,4 +542,84 @@ describe('exceedences', () => {
       expect(styles.width).toBe('26px')
     }
   })
+
+  it('Toggle Tips for daily exceedances, AQD-652', async () => {
+    await monitoringStationPage.getPM10DailyExceedenceToggleTip.isDisplayed()
+    await monitoringStationPage.getPM10DailyExceedenceToggleTip.isClickable()
+
+    await monitoringStationPage.getSDDailyExceedenceToggleTip.isDisplayed()
+    await monitoringStationPage.getSDDailyExceedenceToggleTip.isClickable()
+
+    const getPM10DailyExceedenceToggleTip = [
+      await monitoringStationPage.getPM10DailyExceedenceToggleTip
+    ]
+
+    const getPM10DailyExceedenceToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getPM10DailyExceedenceToggleTip) {
+      const styles = await common.getStyles(
+        element,
+        getPM10DailyExceedenceToggleTipProperties
+      )
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
+    }
+
+    const getSDDailyExceedenceToggleTip = [
+      await monitoringStationPage.getSDDailyExceedenceToggleTip
+    ]
+
+    const getSDDailyExceedenceToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getSDDailyExceedenceToggleTip) {
+      const styles = await common.getStyles(
+        element,
+        getSDDailyExceedenceToggleTipProperties
+      )
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
+    }
+  })
 })
