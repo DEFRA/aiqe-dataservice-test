@@ -239,7 +239,20 @@ Go back to search a location`
   })
   it('could not find results, valid search AQD-585', async () => {
     // search checks and title checks
+
     await common.getBackLink.click()
+    await searchPage.setsearch('portree')
+    await searchPage.milesOptionClick('50 miles')
+    await searchPage.continueBtnClick()
+    const portreeHeading3 = `There are no monitoring stations within 50 miles of 'portree'`
+    const getportreeErrorHeading3 =
+      await errorPage.getCouldNotFindHeading.getText()
+    await expect(portreeHeading3).toMatch(getportreeErrorHeading3)
+    const paragraphContent50 = await errorPage.getCouldNotFindP.getText()
+    const expectedParagraphContent50 = `Go back to search a location`
+    await expect(paragraphContent50).toMatch(expectedParagraphContent50)
+    await common.getBackLink.click()
+
     await searchPage.setsearch('portree')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
@@ -247,6 +260,16 @@ Go back to search a location`
     const getportreeErrorHeading1 =
       await errorPage.getCouldNotFindHeading.getText()
     await expect(portreeHeading1).toMatch(getportreeErrorHeading1)
+    const paragraphContent5 = await errorPage.getCouldNotFindP.getText()
+    const expectedParagraphContent5 = `You should either:`
+    await expect(paragraphContent5).toMatch(expectedParagraphContent5)
+    const getCouldNotFindListContent5 =
+      await errorPage.getCouldNotFindList.getText()
+    const expectedgetCouldNotFindList5 = `choose a different search area
+choose a different location`
+    await expect(getCouldNotFindListContent5).toMatch(
+      expectedgetCouldNotFindList5
+    )
     await common.getBackLink.click()
 
     await searchPage.setsearch('portree')
@@ -256,16 +279,6 @@ Go back to search a location`
     const getportreeErrorHeading2 =
       await errorPage.getCouldNotFindHeading.getText()
     await expect(portreeHeading2).toMatch(getportreeErrorHeading2)
-    await common.getBackLink.click()
-
-    await searchPage.setsearch('portree')
-    await searchPage.milesOptionClick('50 miles')
-    await searchPage.continueBtnClick()
-    const portreeHeading3 = `There are no monitoring stations within 50 miles of 'portree'`
-    const getportreeErrorHeading3 =
-      await errorPage.getCouldNotFindHeading.getText()
-    await expect(portreeHeading3).toMatch(getportreeErrorHeading3)
-    // content checks
     const paragraphContent = await errorPage.getCouldNotFindP.getText()
     const expectedParagraphContent = `You should either:`
     await expect(paragraphContent).toMatch(expectedParagraphContent)
@@ -276,6 +289,7 @@ choose a different location`
     await expect(getCouldNotFindListContent).toMatch(
       expectedgetCouldNotFindList
     )
+
     // styling checks for paragraph and list
     const getParagraphStyle = [await errorPage.getCouldNotFindP]
 
