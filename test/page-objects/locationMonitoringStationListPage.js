@@ -51,6 +51,10 @@ class LocationMonitoringStationListPage {
     return $("th[class='govuk-table__cell']")
   }
 
+  get getPollutantList1() {
+    return $$("td[class='govuk-table__cell govuk-table__cell--numeric']")[1]
+  }
+
   async getPollutionListFromListPage(pollutantList) {
     const table = await $(pollutantList) // "td[class='govuk-table__cell govuk-table__cell--numeric']"[1]
     const Elements = await table.$$('li')

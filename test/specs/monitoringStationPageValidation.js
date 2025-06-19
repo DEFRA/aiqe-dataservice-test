@@ -835,6 +835,8 @@ View on Google Maps (opens in new tab)`
     }
   })
 
+  it('Download Hourly Data for All pollutants,AQD-588', async () => {})
+
   it('Download Hourly Data for All pollutants,AQD-588', async () => {
     const getAllPollutantsSubHeading =
       await monitoringStationPage.getAllPollutantsSubHeading.getText()
@@ -1369,6 +1371,97 @@ View on Google Maps (opens in new tab)`
     await expect(summaryTablePollutantList).toEqual(expectedPollutantListOrder)
   })
 
+  it(`Update 'Approximate file sizes (CSV)' content - missing 'MB', AQD-667`, async () => {
+    await monitoringStationPage.getApproximateFileSizesDropDownLink.isDisplayed()
+    const getApproximateFileSizesDropDownLinkText =
+      await monitoringStationPage.getApproximateFileSizesDropDownLink.getText()
+    const expectedApproximateFileSizesDropDownLinkText =
+      'Approximate file sizes (CSV)'
+    await expect(getApproximateFileSizesDropDownLinkText).toMatch(
+      expectedApproximateFileSizesDropDownLinkText
+    )
+    const getApproximateFileSizesDropDownLinkStyles = [
+      await monitoringStationPage.getApproximateFileSizesDropDownLink
+    ]
+
+    const getApproximateFileSizesDropDownLinkStylesProperties = [
+      'text-decoration',
+      'text-decoration-thickness',
+      'text-underline-offset',
+      'color',
+      'font-size',
+      'line-height',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of getApproximateFileSizesDropDownLinkStyles) {
+      const styles = await common.getStyles(
+        element,
+        getApproximateFileSizesDropDownLinkStylesProperties
+      )
+      expect(styles['text-decoration']).toBe(
+        'underline 1px solid rgb(29, 112, 184)'
+      )
+      expect(styles['text-decoration-thickness']).toBe('1px')
+      expect(styles['text-underline-offset']).toBe('2.9982px')
+      expect(styles.color).toBe('rgb(29, 112, 184)')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+    }
+    await monitoringStationPage.getApproximateFileSizesDropDownLink.click()
+    await monitoringStationPage.getApproximateFileSizesContent.isDisplayed()
+    await monitoringStationPage.getApproximateFileSizesDropDownLink.click()
+    await monitoringStationPage.getApproximateFileSizesContent.waitForDisplayed(
+      { reverse: true }
+    )
+    await monitoringStationPage.getApproximateFileSizesDropDownLink.click()
+
+    const getApproximateFileSizesContent =
+      await monitoringStationPage.getApproximateFileSizesContent.getText()
+    const expectedgetApproximateFileSizesContent = `File sizes for a year of data:
+hourly data - usually less than 1MB
+daily average data - usually less than 500KB
+annual average data - usually less than 100KB`
+    await expect(getApproximateFileSizesContent).toMatch(
+      expectedgetApproximateFileSizesContent
+    )
+
+    const getApproximateFileSizesContentStyles = [
+      await monitoringStationPage.getApproximateFileSizesContent
+    ]
+
+    const getApproximateFileSizesContentStylesProperties = [
+      'border-left',
+      'padding-bottom',
+      'padding-left',
+      'padding-top',
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight'
+    ]
+
+    for (const element of getApproximateFileSizesContentStyles) {
+      const styles = await common.getStyles(
+        element,
+        getApproximateFileSizesContentStylesProperties
+      )
+      expect(styles['border-left']).toBe('5px solid rgb(177, 180, 182)')
+      expect(styles['padding-bottom']).toBe('15px')
+      expect(styles['padding-left']).toBe('20px')
+      expect(styles['padding-top']).toBe('15px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+    }
+  })
+
   it('Download Daily Data for All Pollutants, AQD-621', async () => {
     const getDownloadAllPollutantsDailyDataLink =
       await monitoringStationPage.getDownloadAllPollutantsDailyDataLink.getText()
@@ -1660,7 +1753,7 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
