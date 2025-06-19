@@ -506,4 +506,121 @@ choose a different location`
       expect(styles.padding).toBe('15px')
     }
   })
+
+  it('Error 404,AQD-666', async () => {
+    await browser.url(
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/404'
+    )
+
+    const getError404HeadingStyling = [await errorPage.getError404Heading]
+
+    const getError404HeadingProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of getError404HeadingStyling) {
+      const styles = await common.getStyles(
+        element,
+        getError404HeadingProperties
+      )
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles['font-size']).toBe('36px')
+      expect(styles['line-height']).toBe('40px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
+    }
+
+    const getError404MainContentStyling = [
+      await errorPage.getError404MainContent
+    ]
+
+    const getError404MainContentStylingProperties = [
+      'padding-bottom',
+      'padding-top'
+    ]
+
+    for (const element of getError404MainContentStyling) {
+      const styles = await common.getStyles(
+        element,
+        getError404MainContentStylingProperties
+      )
+      expect(styles['padding-bottom']).toBe('40px')
+      expect(styles['padding-top']).toBe('40px')
+    }
+
+    const getError404PContentStyling = [
+      await errorPage.getError404PContentStyling
+    ]
+
+    const getError404PContentStylingProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight',
+      'margin-top'
+    ]
+
+    for (const element of getError404PContentStyling) {
+      const styles = await common.getStyles(
+        element,
+        getError404PContentStylingProperties
+      )
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['margin-top']).toBe('0px')
+    }
+
+    const getError404AirQualityEmailLinkStyling = [
+      await errorPage.getError404AirQualityEmailLink
+    ]
+
+    const getError404AirQualityEmailLinkStylingProperties = [
+      'color',
+      'text-decoration',
+      'font-size',
+      'line-height',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of getError404AirQualityEmailLinkStyling) {
+      const styles = await common.getStyles(
+        element,
+        getError404AirQualityEmailLinkStylingProperties
+      )
+      expect(styles.color).toBe('rgb(0, 0, 238)')
+      expect(styles['text-decoration']).toBe('underline solid rgb(0, 0, 238)')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+    }
+
+    const Error404Heading = 'Page not found'
+    const getError404Heading = await errorPage.getError404Heading.getText()
+    await expect(Error404Heading).toMatch(getError404Heading)
+
+    const Error404MainContent = `Page not found
+If you typed the web address, check it is correct.
+If you pasted the web address, check you copied the entire address.
+Contact the air quality team if you continue to get this error message`
+    const getError404MainContent =
+      await errorPage.getError404MainContent.getText()
+    await expect(Error404MainContent).toMatch(getError404MainContent)
+    const contactLink = await errorPage.getError404AirQualityEmailLink
+    const href = await contactLink.getAttribute('href')
+    expect(href).toContain('mailto:getairpollutiondata@defra.gov.uk')
+  })
 })

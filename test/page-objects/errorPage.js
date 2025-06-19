@@ -47,6 +47,23 @@ class ErrorPage {
   get noDataForThisYearMessage() {
     return $("div[class='govuk-inset-text']")
   }
+
+  // error 404
+  get getError404Heading() {
+    return $("h1[class='govuk-heading-l']")
+  }
+
+  get getError404MainContent() {
+    return $("main[class='govuk-main-wrapper app-main-wrapper']")
+  }
+
+  get getError404PContentStyling() {
+    return $("p[class='govuk-body']")
+  }
+
+  get getError404AirQualityEmailLink() {
+    return $("a[href='mailto:getairpollutiondata@defra.gov.uk']")
+  }
 }
 
 // module.exports=new StartNowPage()
