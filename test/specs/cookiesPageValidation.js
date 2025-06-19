@@ -42,7 +42,7 @@ Essential cookies we use
 Name Purpose Expires
 airaqie_cookies_analytics Saves your cookie consent settings 1 year
 _ga Helps us count how many people visit 'get air pollution data' by telling us if you’ve visited before 2 years
-_gat_UA-[G-8CMZBTDQBC] Used to reduce the number of requests 1 minute
+_gat_UA-[G-V4MBMR0QPC] Used to reduce the number of requests 1 minute
 session Application related data is managed in this cookie. It's required for the application to work 30 minutes
 The cookies _ga_ and _gat_UA-[G-8CMZBTDQBC] will only be active if you accept cookies. If you do not accept cookies, they may still appear in your cookie session, but they will not be active.
 Analytics cookies (optional)
