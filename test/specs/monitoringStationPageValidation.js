@@ -61,7 +61,7 @@ describe('monitoring station page tests', () => {
 
     const getMonitoringNetworkTypeData =
       await monitoringStationPage.getMonitoringNetworkData.getText()
-    const expectedMonitoringNetworkTypeData = 'Automatic Urban and Rural'
+    const expectedMonitoringNetworkTypeData = 'Automatic Urban and Rural (AURN)'
     await expect(getMonitoringNetworkTypeData).toMatch(
       expectedMonitoringNetworkTypeData
     )
@@ -1039,7 +1039,7 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(219, 218, 217)')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -1746,7 +1746,7 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(219, 218, 217)')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
