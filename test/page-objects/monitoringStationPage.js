@@ -150,6 +150,14 @@ class MonitoringStationPage {
     return $("h2[id*='year-heading']")
   }
 
+  get getApproximateFileSizesDropDownLink() {
+    return $("span[class*='govuk-details__summary-text']")
+  }
+
+  get getApproximateFileSizesContent() {
+    return $("div[class*='govuk-details__text']")
+  }
+
   get getAllPollutantsSubHeading() {
     return $$("h3[id*='all-p']")[0]
   }

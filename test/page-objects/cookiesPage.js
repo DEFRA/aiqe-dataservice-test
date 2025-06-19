@@ -60,7 +60,7 @@ class CookiesPage {
   }
 
   get getAcceptCookiesQuestion() {
-    return $("legend[class='govuk-fieldset__legend govuk-fieldset__legend--l']")
+    return $("legend[class='govuk-fieldset__legend govuk-fieldset__legend--s']")
   }
 
   get getYesLabel() {
