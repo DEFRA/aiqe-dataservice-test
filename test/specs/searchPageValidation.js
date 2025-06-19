@@ -28,9 +28,8 @@ describe('search page content/functionality checks/styling checks', () => {
     await startNowPage.startNowBtnClick()
 
     // page content validation
-    const seachPageContent = `Back
-Find monitoring stations by location
-You can only search by postcode for locations in Northern Ireland.
+    const seachPageContent = `Find monitoring stations by location
+For locations in Northern Ireland, you can only search by postcode.
 Enter a town or postcode
 Approximate search area
 5 miles
