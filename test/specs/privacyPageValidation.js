@@ -31,47 +31,55 @@ describe('privacy page content/functionality checks/styling checks', () => {
       await privacyPage.getPrivacyPageHeading.getText()
     await expect(getPrivacyPageHeading).toMatch(privacyPageHeading)
 
-    const privacyPageContent = `Get air pollution data privacy notice
-This privacy notice explains how the Get air pollution data service processes and shares your personal data. If you have any queries about the content of this privacy notice, email data.protection@defra.gov.uk
+    const privacyPageContent = `Privacy notice
+This privacy notice explains how the Get air pollution data website processes and shares your personal data. If you have any queries about the content of this privacy notice, email data.protection@defra.gov.uk
 Who collects your personal data
 The Department for Environment, Food and Rural Affairs (Defra) is the controller for the personal data we collect.
-If you want more information about how Defra uses your personal data and your associated rights, contact the Defra data protection manager by email or post.
-Email: data.protection@defra.gov.uk
-Post: Department for Environment, Food and Rural Affairs
-        Seacole Building
-        2 Marsham Street
-        London
-        SW1P 4DF
-The data protection officer for Defra is responsible for checking that Defra complies with legislation. You can contact them at DefraGroupDataProtectionOfficer@defra.gov.uk or at the above postal address.
+For more information about how Defra uses your personal data and your associated rights, contact the Defra data protection manager by email or post.
+Email: data.protection@defra.gov.uk.
+Post:
+Department for Environment, Food and Rural Affairs
+Seacole Building
+2 Marsham Street
+London
+SW1P 4DF
+The data protection officer for Defra is responsible for checking that Defra complies with legislation. You can contact them by email or post.
+Email: DefraGroupDataProtectionOfficer@defra.gov.uk.
+Post:
+Department for Environment, Food and Rural Affairs
+Seacole Building
+2 Marsham Street
+London
+SW1P 4DF
 What personal data we collect and how it’s used
-For the service to be functional, we collect the postcode or placename that you search for. This is essential data for the service to work.
+We collect the postcode or placename you search for so that the website will work.
 If you accept Google Analytics cookies, we will collect:
 your IP address so that we can collect your location information - this will help us see what geographical locations our users are in
-your device and operating system to help us improve our service
-the search term you used to find the 'Get air pollution data' service to help us improve it
-the pages you interact with in the 'Get air pollution data' service to help us improve it
+data on your device and operating system - to help us improve our website
+the search term you used to find the 'get air pollution data' website - to help us improve it
+the pages you interact with in the 'get air pollution data' website - to help us improve it
 You can opt in and out of cookies.
 Lawful basis for processing your personal data
-The lawful basis for processing your personal data to conduct research on the effectiveness of this service is ‘consent’. You do not have to provide your consent, and you can withdraw it at any time.
+The lawful basis for processing your personal data to conduct research on the effectiveness of this website is ‘consent’. You do not have to provide your consent, and you can withdraw it at any time.
 Consent to process your personal data
-The processing of your personal data is based on consent. We do not collect any information that could be personally linked to an individual. However, we will need to record your IP address for the service to work.
-If you have consented to cookies, any information that we collect cannot be removed. This is because we will not be able to identify that information to a specific individual.
+Processing your personal data is based on consent. We do not collect any information that could be personally linked to an individual. However, we need to record your IP address for the website to work.
+If you accept cookies, any information that we collect cannot be removed. This is because we will not be able to identify that information to a specific individual.
 Who we share your personal data with
-We do not share the personal data we collect under this privacy notice with other organisations
-We respect your personal privacy when we respond to access to information requests. We only share information when necessary to meet the statutory requirements of the Environmental Information Regulations 2004 and the Freedom of Information Act 2000.
+We do not share the personal data we collect under this privacy notice with other organisations.
+We respect your personal privacy when we respond to ‘access to information’ requests. We only share information when necessary to meet the statutory requirements of the Environmental Information Regulations 2004 and the Freedom of Information Act 2000.
 How long we keep personal data
-We will keep your personal data for 7 years in line with legislative requirements.
+We keep your personal data for 7 years in line with legal requirements.
 What happens if you do not provide personal data
-If you do not provide the personal data of the postcode or location you’re searching for, you will not be able to use this service. We will not be able to provide you with any air pollution data.
-The other personal data is optional and only required for service improvement.
+If you do not provide the postcode or location you are searching for, we will not be able to give you air pollution data.
+Providing other personal data is optional. We only collect it to help us improve our website.
 Use of automated decision-making or profiling
 The personal data you provide is not used for:
-automated decision making (making a decision by automated means without any human involvement)
+automated decision-making (making a decision by automated means without any human involvement)
 profiling (automated processing of personal data to evaluate certain things about an individual)
 Transfer of your personal data outside the UK
 We will only transfer your personal data to a country that is deemed adequate for data protection purposes.
 Your rights
-Based on the lawful processing above, your individual rights are:
+Based on lawful processing, your individual rights are:
 consent
 the right to be informed
 the right of access
@@ -79,15 +87,18 @@ the right to rectification
 the right to erasure
 the right to restrict processing
 the right to data portability
-rights in relation to automated decision making and profiling
-You can find more information about your rights under the UK General Data Protection Regulation and the Data Protection Act 2018 at the Information Commissioner’s Office.
+rights in relation to automated decision-making and profiling
+Find more information about your rights under the UK General Data Protection Regulation and the Data Protection Act 2018 at the Information Commissioner’s Office.
 Complaints
 You have the right to make a complaint to the Information Commissioner’s Office at any time.
 Personal information charter
 Our personal information charter explains more about your rights over your personal data.`
     const getPrivacyPagecontent =
       await privacyPage.getPrivacyPageContent.getText()
-    await expect(privacyPageContent).toMatch(getPrivacyPagecontent)
+    const normalize = (str) => str.replace(/\s+/g, ' ').trim()
+    await expect(normalize(privacyPageContent)).toMatch(
+      normalize(getPrivacyPagecontent)
+    )
   })
 
   it('link validation', async () => {
