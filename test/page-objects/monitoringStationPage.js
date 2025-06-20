@@ -146,6 +146,36 @@ class MonitoringStationPage {
     return $("dd[class*='defra-aq-features__value govuk-body']")
   }
 
+  get getPM25AnnaulAverageST() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--average']"
+    )[0]
+  }
+
+  get getPM10AnnaulAverageST() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--average']"
+    )[1]
+  }
+
+  get getNitrogenDioxideAnnaulAverageST() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--average']"
+    )[2]
+  }
+
+  get getOzoneAnnaulAverageST() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--average']"
+    )[3]
+  }
+
+  get getSulphurDioxideAnnaulAverageST() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--average']"
+    )[4]
+  }
+
   get getdownloadDataHeading() {
     return $("h2[id*='year-heading']")
   }

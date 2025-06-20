@@ -879,6 +879,85 @@ View on Google Maps (opens in new tab)`
     }
   })
 
+  it(`Station Summary Data - Annual Average for selected Year', AQD-673`, async () => {
+    await monitoringStationPage.getPM25AnnaulAverageST.isDisplayed()
+    await monitoringStationPage.getPM10AnnaulAverageST.isDisplayed()
+    await monitoringStationPage.getNitrogenDioxideAnnaulAverageST.isDisplayed()
+    await monitoringStationPage.getOzoneAnnaulAverageST.isDisplayed()
+    await monitoringStationPage.getSulphurDioxideAnnaulAverageST.isDisplayed()
+
+    const getPM25AnnaulAverageST =
+      await monitoringStationPage.getPM25AnnaulAverageST.getText()
+    const getPM10AnnaulAverageST =
+      await monitoringStationPage.getPM10AnnaulAverageST.getText()
+    const getNitrogenDioxideAnnaulAverageST =
+      await monitoringStationPage.getNitrogenDioxideAnnaulAverageST.getText()
+    const getOzoneAnnaulAverageST =
+      await monitoringStationPage.getOzoneAnnaulAverageST.getText()
+    const getSulphurDioxideAnnaulAverageST =
+      await monitoringStationPage.getSulphurDioxideAnnaulAverageST.getText()
+
+    const expectedgetPM25AnnaulAverageST = `10 µg/m3`
+    const expectedPM10AnnaulAverageST = `17 µg/m3`
+    const expectedNitrogenDioxideAnnaulAverageST = `36 µg/m3`
+    const expectedOzoneAnnaulAverageST = `35 µg/m3`
+    const expectedSulphurDioxideAnnaulAverageST = `2 µg/m3`
+
+    await expect(getPM25AnnaulAverageST).toMatch(expectedgetPM25AnnaulAverageST)
+
+    await expect(getPM10AnnaulAverageST).toMatch(expectedPM10AnnaulAverageST)
+
+    await expect(getNitrogenDioxideAnnaulAverageST).toMatch(
+      expectedNitrogenDioxideAnnaulAverageST
+    )
+
+    await expect(getOzoneAnnaulAverageST).toMatch(expectedOzoneAnnaulAverageST)
+
+    await expect(getSulphurDioxideAnnaulAverageST).toMatch(
+      expectedSulphurDioxideAnnaulAverageST
+    )
+
+    const summaryTableAnnualAverageStyles = [
+      await monitoringStationPage.getPM25AnnaulAverageST,
+      await monitoringStationPage.getPM10AnnaulAverageST,
+      await monitoringStationPage.getNitrogenDioxideAnnaulAverageST,
+      await monitoringStationPage.getOzoneAnnaulAverageST,
+      await monitoringStationPage.getSulphurDioxideAnnaulAverageST
+    ]
+
+    const summaryTableAnnualAverageStylesProperties = [
+      'text-align',
+      'border-bottom',
+      'padding',
+      'vertical-align',
+      'font-size',
+      'line-height',
+      'font-family',
+      'border-collapse',
+      'border-spacing',
+      'color',
+      'font-weight'
+    ]
+
+    for (const element of summaryTableAnnualAverageStyles) {
+      const styles = await common.getStyles(
+        element,
+        summaryTableAnnualAverageStylesProperties
+      )
+      expect(styles['text-align']).toBe('right')
+      expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.padding).toBe('20px 0px')
+      expect(styles['vertical-align']).toBe('middle')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['border-collapse']).toBe('collapse')
+      expect(styles['border-spacing']).toBe('0px 0px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+    }
+  })
+
   it(`Update 'Approximate file sizes (CSV)' content - missing 'MB', AQD-667`, async () => {
     await monitoringStationPage.getApproximateFileSizesDropDownLink.isDisplayed()
     const getApproximateFileSizesDropDownLinkText =
