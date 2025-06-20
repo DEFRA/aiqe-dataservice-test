@@ -230,6 +230,10 @@ class MonitoringStationPage {
     return $(`a[onclick*='Sulphur dioxide'][onclick*='Daily']`)
   }
 
+  get getDownloadAllPollutantsAnnualDataLink() {
+    return $(`a[onclick*='AllPollutants'][onclick*='Annual']`)
+  }
+
   get getPM25HourlyExceedence() {
     return $$(
       "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
