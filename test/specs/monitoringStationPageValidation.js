@@ -51,7 +51,7 @@ describe('monitoring station page tests', () => {
     )
   })
 
-  it('Network, Region, & Site type , manual test : AQD-315, regression ticket : AQD 554', async () => {
+  it('Network, Region, & Site type , AQD 554', async () => {
     const getMonitoringNetworkTypeTitle =
       await monitoringStationPage.getMonitoringNetworkTitle.getText()
     const expectedMonitoringNetworkTypeTitle = 'Monitoring network'
@@ -84,6 +84,36 @@ describe('monitoring station page tests', () => {
     const expectedSiteTypeData = `Urban Background
 View on Google Maps (opens in new tab)`
     await expect(getSiteTypeData).toMatch(expectedSiteTypeData)
+  })
+
+  it('Monitoring network, Region, and Site Type data out of alignment AQD-671', async () => {
+    const getMonitoringNetworkTypeTitleLocation =
+      await monitoringStationPage.getMonitoringNetworkTitle.getLocation()
+    const getMonitoringNetworkTypeDataLocation =
+      await monitoringStationPage.getMonitoringNetworkData.getLocation()
+    const xLocationDifferenceNetworkType = Math.abs(
+      getMonitoringNetworkTypeTitleLocation.x -
+        getMonitoringNetworkTypeDataLocation.x
+    )
+    expect(xLocationDifferenceNetworkType).toBeLessThanOrEqual(1)
+
+    const getRegionTitleLocation =
+      await monitoringStationPage.getRegionTitle.getLocation()
+    const getRegionDataLocation =
+      await monitoringStationPage.getRegionData.getLocation()
+    const xLocationDifferenceRegion = Math.abs(
+      getRegionTitleLocation.x - getRegionDataLocation.x
+    )
+    expect(xLocationDifferenceRegion).toBeLessThanOrEqual(1)
+
+    const getSiteTypeTitleLocation =
+      await monitoringStationPage.getSiteTypeTitle.getLocation()
+    const getSiteTypeDataLocation =
+      await monitoringStationPage.getSiteTypeData.getLocation()
+    const xLocationDifferenceSiteType = Math.abs(
+      getSiteTypeTitleLocation.x - getSiteTypeDataLocation.x
+    )
+    expect(xLocationDifferenceSiteType).toBeLessThanOrEqual(1)
   })
 
   it('styling tests', async () => {
