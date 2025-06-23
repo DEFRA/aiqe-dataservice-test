@@ -101,73 +101,6 @@ Our personal information charter explains more about your rights over your perso
     )
   })
 
-  it('link validation', async () => {
-    await privacyPage.getGetAirPollutionDataLink.click()
-    const getAirPolutionDataLinkURL = await browser.getUrl()
-    const expectedgetAirPolutionDataLinkURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
-    await expect(getAirPolutionDataLinkURL).toMatch(
-      expectedgetAirPolutionDataLinkURL
-    )
-    await browser.back()
-    await browser.refresh()
-
-    await privacyPage.getCookieOptLink.click()
-    const getCookieOptLinkURL = await browser.getUrl()
-    const expectedGetCookieOptLinkURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/cookies'
-    await expect(getCookieOptLinkURL).toMatch(expectedGetCookieOptLinkURL)
-    await browser.back()
-    await browser.refresh()
-
-    await privacyPage
-      .getInformationCommisionersOfficeLink(
-        'Information Commissioner’s Office.'
-      )
-      .click()
-    const getInformationCommisionersOfficeLinkURL = await browser.getUrl()
-    const expectedgetInformationCommisionersOfficeLinkURL =
-      'https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/'
-    await expect(getInformationCommisionersOfficeLinkURL).toMatch(
-      expectedgetInformationCommisionersOfficeLinkURL
-    )
-    await browser.back()
-    await browser.refresh()
-
-    await privacyPage.getMakeAComplaintLink.click()
-    const getMakeAComplaintLinkURL = await browser.getUrl()
-    const expectedgetMakeAComplaintLinkURL =
-      'https://ico.org.uk/make-a-complaint/'
-    await expect(getMakeAComplaintLinkURL).toMatch(
-      expectedgetMakeAComplaintLinkURL
-    )
-    await browser.back()
-    await browser.refresh()
-
-    await privacyPage.getPersonalInformationCharterLink.click()
-    const getPersonalInformationCharterLinkURL = await browser.getUrl()
-    const expectedgetPersonalInformationCharterLinkURL =
-      'https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs/about/personal-information-charter'
-    await expect(getPersonalInformationCharterLinkURL).toMatch(
-      expectedgetPersonalInformationCharterLinkURL
-    )
-    await browser.back()
-    await browser.refresh()
-
-    // checking mailto links
-    const mailtoLinks = await $$('a[href^="mailto:"]')
-    const currentURL = await browser.getUrl()
-    expect(mailtoLinks.length).toBe(3)
-    for (const link of mailtoLinks) {
-      const hrefValue = await link.getAttribute('href')
-      expect(hrefValue).toMatch(/^mailto:/)
-      await link.click()
-      expect(await browser.getUrl()).toBe(currentURL)
-    }
-
-    await browser.refresh()
-  })
-
   it('styling checks', async () => {
     const PrivacyPageHeading = [await privacyPage.getPrivacyPageHeading]
 
@@ -206,32 +139,31 @@ Our personal information charter explains more about your rights over your perso
       expect(styles['padding-top']).toBe('40px')
     }
 
-    /* const privacyLinks = [
+    const privacyLinks = [
       await privacyPage.getGetAirPollutionDataLink,
       await privacyPage.getCookieOptLink,
-      // await privacyPage.getInformationCommisionersOfficeLink,
       await privacyPage.getMakeAComplaintLink,
       await privacyPage.getPersonalInformationCharterLink
     ]
 
     const privacyLinksProperties = [
-       'color',
-       'font-family',
-       'font-size',
-       'line-height',
-       'font-weight'
+      'font-family',
+      'font-size',
+      'line-height',
+      'font-weight',
+      'color'
     ]
 
     for (const element of privacyLinks) {
       const styles = await common.getStyles(element, privacyLinksProperties)
-      expect(styles.color).toBe('rgb(0, 0, 238)')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif') this is a styling bug
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('normal')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-weight']).toBe('400')
-    } */
+      expect(styles.color).toBe('rgb(29, 112, 184)')
+    }
 
-    /* const getparagraph = [await privacyPage.getparagraph]
+    const getparagraph = [await privacyPage.getparagraph]
 
     const getparagraphProperties = [
       'margin-bottom',
@@ -244,13 +176,13 @@ Our personal information charter explains more about your rights over your perso
 
     for (const element of getparagraph) {
       const styles = await common.getStyles(element, getparagraphProperties)
-      expect(styles['margin-bottom']).toBe('16px') 
-      expect(styles['font-size']).toBe('16px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
-    } */ // bug raised
+    }
 
     const getSubTitle = [await privacyPage.getSubTitle]
 
@@ -318,5 +250,72 @@ Our personal information charter explains more about your rights over your perso
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
+  })
+
+  it('link validation', async () => {
+    await privacyPage.getGetAirPollutionDataLink.click()
+    const getAirPolutionDataLinkURL = await browser.getUrl()
+    const expectedgetAirPolutionDataLinkURL =
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
+    await expect(getAirPolutionDataLinkURL).toMatch(
+      expectedgetAirPolutionDataLinkURL
+    )
+    await browser.back()
+    await browser.refresh()
+
+    await privacyPage.getCookieOptLink.click()
+    const getCookieOptLinkURL = await browser.getUrl()
+    const expectedGetCookieOptLinkURL =
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/cookies'
+    await expect(getCookieOptLinkURL).toMatch(expectedGetCookieOptLinkURL)
+    await browser.back()
+    await browser.refresh()
+
+    await privacyPage
+      .getInformationCommisionersOfficeLink(
+        'Information Commissioner’s Office.'
+      )
+      .click()
+    const getInformationCommisionersOfficeLinkURL = await browser.getUrl()
+    const expectedgetInformationCommisionersOfficeLinkURL =
+      'https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/'
+    await expect(getInformationCommisionersOfficeLinkURL).toMatch(
+      expectedgetInformationCommisionersOfficeLinkURL
+    )
+    await browser.back()
+    await browser.refresh()
+
+    await privacyPage.getMakeAComplaintLink.click()
+    const getMakeAComplaintLinkURL = await browser.getUrl()
+    const expectedgetMakeAComplaintLinkURL =
+      'https://ico.org.uk/make-a-complaint/'
+    await expect(getMakeAComplaintLinkURL).toMatch(
+      expectedgetMakeAComplaintLinkURL
+    )
+    await browser.back()
+    await browser.refresh()
+
+    await privacyPage.getPersonalInformationCharterLink.click()
+    const getPersonalInformationCharterLinkURL = await browser.getUrl()
+    const expectedgetPersonalInformationCharterLinkURL =
+      'https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs/about/personal-information-charter'
+    await expect(getPersonalInformationCharterLinkURL).toMatch(
+      expectedgetPersonalInformationCharterLinkURL
+    )
+    await browser.back()
+    await browser.refresh()
+
+    // checking mailto links
+    const mailtoLinks = await $$('a[href^="mailto:"]')
+    const currentURL = await browser.getUrl()
+    expect(mailtoLinks.length).toBe(3)
+    for (const link of mailtoLinks) {
+      const hrefValue = await link.getAttribute('href')
+      expect(hrefValue).toMatch(/^mailto:/)
+      await link.click()
+      expect(await browser.getUrl()).toBe(currentURL)
+    }
+
+    await browser.refresh()
   })
 })

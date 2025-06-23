@@ -14,7 +14,7 @@ class PrivacyPage {
   }
 
   get getCookieOptLink() {
-    return $$("a[href='/cookies']")[3]
+    return $$("a[href='/cookies']")[2]
   }
 
   get getInformationCommisionersOfficeLink() {
@@ -32,7 +32,7 @@ class PrivacyPage {
   }
 
   get getparagraph() {
-    return $$('p')[5]
+    return $("p[class*='govuk-body']")
   }
 
   get getSubTitle() {
