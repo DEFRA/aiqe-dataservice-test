@@ -64,11 +64,11 @@ class CookiesPage {
   }
 
   get getYesLabel() {
-    return $("label[for='whereDoYouLive']")
+    return $("label[class='govuk-label govuk-radios__label']")
   }
 
   get getNoLabel() {
-    return $("label[for='whereDoYouLive-2']")
+    return $$("label[class='govuk-label govuk-radios__label']")[1]
   }
 
   get getRadioItem() {
