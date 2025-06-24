@@ -403,6 +403,22 @@ class MonitoringStationPage {
     }
     return anyOver100
   }
+
+  async isAnyCaptureUnder40(elements) {
+    let anyUnder40 = false
+
+    for (const element of elements) {
+      const text = await element.getText()
+      const match = text.match(/([\d.]+)%/)
+      if (match) {
+        const value = parseFloat(match[1])
+        if (value < 40) {
+          anyUnder40 = true
+        }
+      }
+    }
+    return anyUnder40
+  }
 }
 
 // module.exports=new StartNowPage()
