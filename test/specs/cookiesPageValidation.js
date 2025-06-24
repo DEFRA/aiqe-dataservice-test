@@ -469,7 +469,7 @@ Save cookie settings`
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-weight']).toBe('700')
-      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['margin-bottom']).toBe('10px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['box-sizing']).toBe('border-box')
       expect(styles.color).toBe('rgb(11, 12, 12)')

@@ -375,7 +375,8 @@ choose a different location`
     }
   })
 
-  it('data capture showing incorrect percentage,AQD-642', async () => {
+  it(`data capture showing incorrect percentage,AQD-642
+      Data Capture % Logic Change Required,AQD-679`, async () => {
     await common.getBackLink.click()
     await searchPage.setsearch('london')
     await searchPage.milesOptionClick('5 miles')
@@ -421,6 +422,9 @@ choose a different location`
     const areAnyDataCapturePercentage2025Over100 =
       await monitoringStationPage.isAnyCaptureOver100(DataCapturePercentage2025)
     expect(areAnyDataCapturePercentage2025Over100).toBe(false)
+    const areAnyDataCapturePercentage2025Below40 =
+      await monitoringStationPage.isAnyCaptureUnder40(DataCapturePercentage2025)
+    expect(areAnyDataCapturePercentage2025Below40).toBe(false)
 
     const dataCaptureStyles = [
       await monitoringStationPage.getPM25DataCapture,
