@@ -467,7 +467,7 @@ Save cookie settings`
         getAcceptCookiesQuestionProperties
       )
       expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('40px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-weight']).toBe('700')
       expect(styles['margin-bottom']).toBe('15px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
