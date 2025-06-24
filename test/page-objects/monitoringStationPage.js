@@ -268,6 +268,10 @@ class MonitoringStationPage {
     return $(`a[onclick*='PM2.5'][onclick*='Annual']`)
   }
 
+  get getDownloadPM10AnnualDataLink() {
+    return $(`a[onclick*='PM10'][onclick*='Annual']`)
+  }
+
   get getPM25HourlyExceedence() {
     return $$(
       "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
