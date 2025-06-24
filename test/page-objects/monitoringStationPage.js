@@ -276,6 +276,10 @@ class MonitoringStationPage {
     return $(`a[onclick*='Nitrogen dioxide'][onclick*='Annual']`)
   }
 
+  get getDownloadOzoneAnnualDataLink() {
+    return $(`a[onclick*='Ozone'][onclick*='Annual']`)
+  }
+
   get getPM25HourlyExceedence() {
     return $$(
       "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"

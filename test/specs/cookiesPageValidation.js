@@ -466,7 +466,7 @@ Save cookie settings`
         element,
         getAcceptCookiesQuestionProperties
       )
-      expect(styles['font-size']).toBe('36px')
+      expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('40px')
       expect(styles['font-weight']).toBe('700')
       expect(styles['margin-bottom']).toBe('15px')
