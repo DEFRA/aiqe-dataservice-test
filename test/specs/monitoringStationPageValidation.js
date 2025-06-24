@@ -1965,6 +1965,55 @@ annual average data - usually less than 100KB`
     }
   })
 
+  it('Download Annual Data for PM2.5, AQD-674', async () => {
+    const getDownloadPM10AnnualDataLink =
+      await monitoringStationPage.getDownloadPM10AnnualDataLink.getText()
+    await monitoringStationPage.getDownloadPM10AnnualDataLink.isDisplayed()
+    await monitoringStationPage.getDownloadPM10AnnualDataLink.isClickable()
+    const expectedDownloadPM10AnnualDataLink = 'Download annual average data'
+    await expect(getDownloadPM10AnnualDataLink).toMatch(
+      expectedDownloadPM10AnnualDataLink
+    )
+
+    const DownloadPM10AnnualDataLinkStyling = [
+      await monitoringStationPage.getDownloadPM10AnnualDataLink
+    ]
+
+    const DownloadPM10AnnualDataLinkStylingProperties = [
+      'font-size',
+      'line-height',
+      'display',
+      'font-family',
+      'background-color',
+      'border',
+      'color',
+      'font-weight',
+      'margin',
+      'outline',
+      'padding',
+      'margin-bottom'
+    ]
+
+    for (const element of DownloadPM10AnnualDataLinkStyling) {
+      const styles = await common.getStyles(
+        element,
+        DownloadPM10AnnualDataLinkStylingProperties
+      )
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
+      expect(styles.display).toBe('inline-block')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
+      expect(styles.padding).toBe('9px 10px 10px')
+      expect(styles['margin-bottom']).toBe('15px')
+    }
+  })
+
   it('checking google link', async () => {
     await monitoringStationPage.getGoogleMapLink.click()
     // await monitoringStationPage.getGoogleCookieAccept.click()
