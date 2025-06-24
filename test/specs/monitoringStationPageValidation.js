@@ -1965,7 +1965,7 @@ annual average data - usually less than 100KB`
     }
   })
 
-  it('Download Annual Data for PM2.5, AQD-674', async () => {
+  it('Download Annual Data for PM10, AQD-675', async () => {
     const getDownloadPM10AnnualDataLink =
       await monitoringStationPage.getDownloadPM10AnnualDataLink.getText()
     await monitoringStationPage.getDownloadPM10AnnualDataLink.isDisplayed()
