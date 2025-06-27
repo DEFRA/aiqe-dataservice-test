@@ -347,25 +347,55 @@ class MonitoringStationPage {
   get getNOHourlyExceedenceToggleTip() {
     return $$(
       "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
-    )[2]
+    )[5]
   }
 
   get getSDHourlyExceedenceToggleTip() {
     return $$(
       "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
-    )[4]
+    )[9]
   }
 
   get getPM10DailyExceedenceToggleTip() {
     return $$(
       "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
-    )[1]
+    )[3]
   }
 
   get getSDDailyExceedenceToggleTip() {
     return $$(
       "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
-    )[3]
+    )[8]
+  }
+
+  get getPM25AnnualAverageToggleTip() {
+    return $$(
+      "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
+    )[1]
+  }
+
+  get getPM10AnnualAverageToggleTip() {
+    return $$(
+      "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
+    )[2]
+  }
+
+  get getNitrogenDioxideAnnualAverageToggleTip() {
+    return $$(
+      "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
+    )[4]
+  }
+
+  get getOzoneAnnualAverageToggleTip() {
+    return $$(
+      "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
+    )[6]
+  }
+
+  get getSulphurDioxideAnnualAverageToggleTip() {
+    return $(
+      "button[aria-label*='More information about the UK annual average limit value for sulphur dioxide']"
+    )
   }
 
   get getPM25DataCapture() {

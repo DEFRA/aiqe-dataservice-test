@@ -622,4 +622,216 @@ describe('exceedences', () => {
       expect(styles.width).toBe('26px')
     }
   })
+
+  it('Toggle Tips for annaul average, AQD-686', async () => {
+    await monitoringStationPage.getPM25AnnualAverageToggleTip.isDisplayed()
+    await monitoringStationPage.getPM25AnnualAverageToggleTip.isClickable()
+
+    await monitoringStationPage.getPM10AnnualAverageToggleTip.isDisplayed()
+    await monitoringStationPage.getPM10AnnualAverageToggleTip.isClickable()
+
+    await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip.isDisplayed()
+    await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip.isClickable()
+
+    await monitoringStationPage.getOzoneAnnualAverageToggleTip.isDisplayed()
+    await monitoringStationPage.getOzoneAnnualAverageToggleTip.isClickable()
+
+    await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.isDisplayed()
+    await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.isClickable()
+
+    const getPM25AnnualAverageToggleTip = [
+      await monitoringStationPage.getPM25AnnualAverageToggleTip
+    ]
+
+    const getPM25AnnualAverageToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getPM25AnnualAverageToggleTip) {
+      const styles = await common.getStyles(
+        element,
+        getPM25AnnualAverageToggleTipProperties
+      )
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
+    }
+
+    const getPM10AnnualAverageToggleTip = [
+      await monitoringStationPage.getPM10AnnualAverageToggleTip
+    ]
+
+    const getPM10AnnualAverageToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getPM10AnnualAverageToggleTip) {
+      const styles = await common.getStyles(
+        element,
+        getPM10AnnualAverageToggleTipProperties
+      )
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
+    }
+
+    const getNitrogenDioxideAnnualAverageToggleTip = [
+      await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip
+    ]
+
+    const getNitrogenDioxideAnnualAverageToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getNitrogenDioxideAnnualAverageToggleTip) {
+      const styles = await common.getStyles(
+        element,
+        getNitrogenDioxideAnnualAverageToggleTipProperties
+      )
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
+    }
+
+    const getOzoneAnnualAverageToggleTip = [
+      await monitoringStationPage.getOzoneAnnualAverageToggleTip
+    ]
+
+    const getOzoneAnnualAverageToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getOzoneAnnualAverageToggleTip) {
+      const styles = await common.getStyles(
+        element,
+        getOzoneAnnualAverageToggleTipProperties
+      )
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
+    }
+
+    const getSulphurDioxideAnnualAverageToggleTip = [
+      await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip
+    ]
+
+    const getSulphurDioxideAnnualAverageToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getSulphurDioxideAnnualAverageToggleTip) {
+      const styles = await common.getStyles(
+        element,
+        getSulphurDioxideAnnualAverageToggleTipProperties
+      )
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
+    }
+
+    await monitoringStationPage.get2020Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 4000))
+        return true
+      },
+      { timeout: 4000 }
+    )
+
+    await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.waitForDisplayed(
+      {
+        reverse: true
+      }
+    )
+  })
 })
