@@ -898,7 +898,8 @@ View on Google Maps (opens in new tab)`
     const getSulphurDioxideAnnaulAverageST =
       await monitoringStationPage.getSulphurDioxideAnnaulAverageST.getText()
 
-    const expectedgetPM25AnnaulAverageST = `10 µg/m3`
+    const expectedgetPM25AnnaulAverageST = `11 µg/m3
+i`
     const expectedPM10AnnaulAverageST = `17 µg/m3`
     const expectedNitrogenDioxideAnnaulAverageST = `36 µg/m3`
     const expectedOzoneAnnaulAverageST = `35 µg/m3`
