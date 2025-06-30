@@ -82,6 +82,7 @@ describe('monitoring station page tests', () => {
     const getSiteTypeData =
       await monitoringStationPage.getSiteTypeData.getText()
     const expectedSiteTypeData = `Urban Background
+i
 View on Google Maps (opens in new tab)`
     await expect(getSiteTypeData).toMatch(expectedSiteTypeData)
   })
@@ -330,7 +331,7 @@ View on Google Maps (opens in new tab)`
 
     for (const element of getFeatureItem) {
       const styles = await common.getStyles(element, getFeatureItemProperties)
-      expect(styles.width).toBe('336px')
+      expect(styles.width).toBe('293.328px')
       expect(styles['box-sizing']).toBe('border-box')
       expect(styles.float).toBe('left')
       expect(styles['min-width']).toBe('96px')
