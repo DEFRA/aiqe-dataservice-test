@@ -197,7 +197,7 @@ class MonitoringStationPage {
   }
 
   get getSulphurDioxideSubHeading() {
-    return $$("h2[id*='all-p']")[4]
+    return $$("h3[id*='all-p']")[4]
   }
 
   get getDownloadSulphurDioxideHourlyDataLink() {
@@ -205,7 +205,7 @@ class MonitoringStationPage {
   }
 
   get getPM10SubHeading() {
-    return $$("h2[id*='all-p']")[1]
+    return $$("h3[id*='all-p']")[1]
   }
 
   get getDownloadPM10HourlyDataLink() {
@@ -213,7 +213,7 @@ class MonitoringStationPage {
   }
 
   get getPM25SubHeading() {
-    return $$("h2[id*='all-p']")[0]
+    return $$("h3[id*='all-p']")[0]
   }
 
   get getDownloadPM25HourlyDataLink() {
@@ -221,7 +221,7 @@ class MonitoringStationPage {
   }
 
   get getOzoneSubHeading() {
-    return $$("h2[id*='all-p']")[3]
+    return $$("h3[id*='all-p']")[3]
   }
 
   get getDownloadOzoneHourlyDataLink() {
@@ -229,7 +229,7 @@ class MonitoringStationPage {
   }
 
   get getNitrogenDioxideSubHeading() {
-    return $$("h2[id*='all-p']")[2]
+    return $$("h3[id*='all-p']")[2]
   }
 
   get getDownloadNitrogenDioxideHourlyDataLink() {
