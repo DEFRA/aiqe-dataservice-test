@@ -1560,6 +1560,7 @@ annual average data - usually less than 100KB`
     // checking download pollutant order
     const pollutantDownloadListOrder = await common.getList('h3[id=all-p]')
     const expectedpollutantDownloadListOrder = [
+      'All pollutants',
       'PM2.5',
       'PM10',
       'Nitrogen dioxide',
