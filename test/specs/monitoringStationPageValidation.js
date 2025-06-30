@@ -1558,7 +1558,7 @@ annual average data - usually less than 100KB`
       expect(styles['margin-bottom']).toBe('15px')
     }
     // checking download pollutant order
-    const pollutantDownloadListOrder = await common.getList('h2[id=all-p]')
+    const pollutantDownloadListOrder = await common.getList('h3[id=all-p]')
     const expectedpollutantDownloadListOrder = [
       'PM2.5',
       'PM10',
