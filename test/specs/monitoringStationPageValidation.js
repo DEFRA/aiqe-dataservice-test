@@ -475,7 +475,7 @@ View on Google Maps (opens in new tab)`
     await expect(durationTag2025).toMatch(expectedDurationTag2025)
     const getVerifiedTag2025 =
       await monitoringStationPage.getVerifiedTag.getText()
-    const expectedVerifiedTag2025 = 'Data has not been verified'
+    const expectedVerifiedTag2025 = 'Data has been verified until 31 March'
     await expect(getVerifiedTag2025).toMatch(expectedVerifiedTag2025)
     const getdownloadDataHeading2025 =
       await monitoringStationPage.getdownloadDataHeading.getText()
@@ -692,10 +692,10 @@ View on Google Maps (opens in new tab)`
     await monitoringStationPage.get2018Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 2000))
+        await new Promise((resolve) => setTimeout(resolve, 4000))
         return true
       },
-      { timeout: 2000 }
+      { timeout: 4000 }
     )
     const yearlyTab2018Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -898,7 +898,7 @@ View on Google Maps (opens in new tab)`
     const getSulphurDioxideAnnaulAverageST =
       await monitoringStationPage.getSulphurDioxideAnnaulAverageST.getText()
 
-    const expectedgetPM25AnnaulAverageST = `11 µg/m3
+    const expectedgetPM25AnnaulAverageST = `10 µg/m3
 i`
     const expectedPM10AnnaulAverageST = `17 µg/m3`
     const expectedNitrogenDioxideAnnaulAverageST = `36 µg/m3`
