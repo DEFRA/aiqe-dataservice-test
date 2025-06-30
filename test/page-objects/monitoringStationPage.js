@@ -197,7 +197,7 @@ class MonitoringStationPage {
   }
 
   get getSulphurDioxideSubHeading() {
-    return $$("h3[id*='all-p']")[4]
+    return $$("h3[id*='all-p']")[5]
   }
 
   get getDownloadSulphurDioxideHourlyDataLink() {
