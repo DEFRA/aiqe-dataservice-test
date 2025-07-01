@@ -374,10 +374,18 @@ class MonitoringStationPage {
     )[1]
   }
 
+  get getPM25AnnualAverageToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[1]
+  }
+
   get getPM10AnnualAverageToggleTip() {
     return $$(
       "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
     )[2]
+  }
+
+  get getPM10AnnualAverageToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[2]
   }
 
   get getNitrogenDioxideAnnualAverageToggleTip() {
@@ -386,16 +394,28 @@ class MonitoringStationPage {
     )[4]
   }
 
+  get getNitrogenDioxideAnnualAverageToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[4]
+  }
+
   get getOzoneAnnualAverageToggleTip() {
     return $$(
       "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
     )[6]
   }
 
+  get getOzoneAnnualAverageToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[6]
+  }
+
   get getSulphurDioxideAnnualAverageToggleTip() {
     return $(
       "button[aria-label*='More information about the UK annual average limit value for sulphur dioxide']"
     )
+  }
+
+  get getSulphurDioxideAnnualAverageToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[7]
   }
 
   get getPM25DataCapture() {
