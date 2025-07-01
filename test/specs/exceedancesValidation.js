@@ -640,7 +640,11 @@ describe('exceedences', () => {
     await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.isClickable()
 
     const getPM25AnnualAverageToggleTip = [
-      await monitoringStationPage.getPM25AnnualAverageToggleTip
+      await monitoringStationPage.getPM25AnnualAverageToggleTip,
+      await monitoringStationPage.getPM10AnnualAverageToggleTip,
+      await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip,
+      await monitoringStationPage.getOzoneAnnualAverageToggleTip,
+      await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip
     ]
 
     const getPM25AnnualAverageToggleTipProperties = [
@@ -675,150 +679,6 @@ describe('exceedences', () => {
       expect(styles.width).toBe('26px')
     }
 
-    const getPM10AnnualAverageToggleTip = [
-      await monitoringStationPage.getPM10AnnualAverageToggleTip
-    ]
-
-    const getPM10AnnualAverageToggleTipProperties = [
-      'background-color',
-      'border',
-      'color',
-      'cursor',
-      'height',
-      'left',
-      'padding',
-      'position',
-      'text-align',
-      'top',
-      'width'
-    ]
-
-    for (const element of getPM10AnnualAverageToggleTip) {
-      const styles = await common.getStyles(
-        element,
-        getPM10AnnualAverageToggleTipProperties
-      )
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles.cursor).toBe('help')
-      expect(styles.height).toBe('26px')
-      expect(styles.left).toBe('0px')
-      expect(styles.padding).toBe('0px')
-      expect(styles.position).toBe('absolute')
-      expect(styles['text-align']).toBe('center')
-      expect(styles.top).toBe('0px')
-      expect(styles.width).toBe('26px')
-    }
-
-    const getNitrogenDioxideAnnualAverageToggleTip = [
-      await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip
-    ]
-
-    const getNitrogenDioxideAnnualAverageToggleTipProperties = [
-      'background-color',
-      'border',
-      'color',
-      'cursor',
-      'height',
-      'left',
-      'padding',
-      'position',
-      'text-align',
-      'top',
-      'width'
-    ]
-
-    for (const element of getNitrogenDioxideAnnualAverageToggleTip) {
-      const styles = await common.getStyles(
-        element,
-        getNitrogenDioxideAnnualAverageToggleTipProperties
-      )
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles.cursor).toBe('help')
-      expect(styles.height).toBe('26px')
-      expect(styles.left).toBe('0px')
-      expect(styles.padding).toBe('0px')
-      expect(styles.position).toBe('absolute')
-      expect(styles['text-align']).toBe('center')
-      expect(styles.top).toBe('0px')
-      expect(styles.width).toBe('26px')
-    }
-
-    const getOzoneAnnualAverageToggleTip = [
-      await monitoringStationPage.getOzoneAnnualAverageToggleTip
-    ]
-
-    const getOzoneAnnualAverageToggleTipProperties = [
-      'background-color',
-      'border',
-      'color',
-      'cursor',
-      'height',
-      'left',
-      'padding',
-      'position',
-      'text-align',
-      'top',
-      'width'
-    ]
-
-    for (const element of getOzoneAnnualAverageToggleTip) {
-      const styles = await common.getStyles(
-        element,
-        getOzoneAnnualAverageToggleTipProperties
-      )
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles.cursor).toBe('help')
-      expect(styles.height).toBe('26px')
-      expect(styles.left).toBe('0px')
-      expect(styles.padding).toBe('0px')
-      expect(styles.position).toBe('absolute')
-      expect(styles['text-align']).toBe('center')
-      expect(styles.top).toBe('0px')
-      expect(styles.width).toBe('26px')
-    }
-
-    const getSulphurDioxideAnnualAverageToggleTip = [
-      await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip
-    ]
-
-    const getSulphurDioxideAnnualAverageToggleTipProperties = [
-      'background-color',
-      'border',
-      'color',
-      'cursor',
-      'height',
-      'left',
-      'padding',
-      'position',
-      'text-align',
-      'top',
-      'width'
-    ]
-
-    for (const element of getSulphurDioxideAnnualAverageToggleTip) {
-      const styles = await common.getStyles(
-        element,
-        getSulphurDioxideAnnualAverageToggleTipProperties
-      )
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles.cursor).toBe('help')
-      expect(styles.height).toBe('26px')
-      expect(styles.left).toBe('0px')
-      expect(styles.padding).toBe('0px')
-      expect(styles.position).toBe('absolute')
-      expect(styles['text-align']).toBe('center')
-      expect(styles.top).toBe('0px')
-      expect(styles.width).toBe('26px')
-    }
-
     await monitoringStationPage.get2020Button.click()
     await browser.waitUntil(
       async () => {
@@ -833,5 +693,168 @@ describe('exceedences', () => {
         reverse: true
       }
     )
+  })
+
+  it('Annual Average Toggle Tips text and functionality, AQD-687', async () => {
+    await monitoringStationPage.get2025Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 4000))
+        return true
+      },
+      { timeout: 4000 }
+    )
+
+    const getAnnualAverageToggleTipInfoText = [
+      await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText,
+      await monitoringStationPage.getPM10AnnualAverageToggleTipInfoText,
+      await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTipInfoText,
+      await monitoringStationPage.getOzoneAnnualAverageToggleTipInfoText,
+      await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTipInfoText
+    ]
+
+    const getAnnualAverageToggleTipInfoTextProperties = ['visibility']
+
+    for (const element of getAnnualAverageToggleTipInfoText) {
+      const styles = await common.getStyles(
+        element,
+        getAnnualAverageToggleTipInfoTextProperties
+      )
+      expect(styles.visibility).toBe('hidden')
+    }
+
+    await monitoringStationPage.getPM25AnnualAverageToggleTip.moveTo()
+    const getPM25AnnualAverageToggleTipInfoTextHover = [
+      await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText
+    ]
+
+    const getPM25AnnualAverageToggleTipInfoTextProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getPM25AnnualAverageToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        getPM25AnnualAverageToggleTipInfoTextProperties
+      )
+      expect(styles.visibility).toBe('visible')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+    const getPM25ToggleTipText =
+      await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText.getText()
+    const PM25ToggleTipText = `Annual average PM2.5 levels at any site must not go above 20 micrograms per cubic metre (µg/m³) in a calendar year (when rounded to a whole number).`
+    await expect(getPM25ToggleTipText).toMatch(PM25ToggleTipText)
+    await monitoringStationPage.getPM25AnnualAverageToggleTip.click()
+
+    await monitoringStationPage.getPM10AnnualAverageToggleTip.moveTo()
+    const getPM10AnnualAverageToggleTipInfoTextHover = [
+      await monitoringStationPage.getPM10AnnualAverageToggleTipInfoText
+    ]
+
+    const getPM10AnnualAverageToggleTipInfoTextProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getPM10AnnualAverageToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        getPM10AnnualAverageToggleTipInfoTextProperties
+      )
+      expect(styles.visibility).toBe('visible')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+    const getPM10ToggleTipText =
+      await monitoringStationPage.getPM10AnnualAverageToggleTipInfoText.getText()
+    const PM10ToggleTipText = `Annual average PM10 levels at any site must not go above 40 micrograms per cubic metre (µg/m³) in a calendar year (when rounded to a whole number).`
+    await expect(getPM10ToggleTipText).toMatch(PM10ToggleTipText)
+    await monitoringStationPage.getPM10AnnualAverageToggleTip.click()
+
+    await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip.moveTo()
+    const getNitrogenDioxideAnnualAverageToggleTipInfoTextHover = [
+      await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTipInfoText
+    ]
+
+    const getNitrogenDioxideAnnualAverageToggleTipInfoTextProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getNitrogenDioxideAnnualAverageToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        getNitrogenDioxideAnnualAverageToggleTipInfoTextProperties
+      )
+      expect(styles.visibility).toBe('visible')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+    const getNitrogenDioxideToggleTipText =
+      await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTipInfoText.getText()
+    const NitrogenDioxideToggleTipText = `Annual average nitrogen dioxide levels at any site must not go above 40 micrograms per cubic metre (µg/m³) in a calendar year (when rounded to a whole number).`
+    await expect(getNitrogenDioxideToggleTipText).toMatch(
+      NitrogenDioxideToggleTipText
+    )
+    await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip.click()
+
+    await monitoringStationPage.getOzoneAnnualAverageToggleTip.moveTo()
+    const getOzoneAnnualAverageToggleTipInfoTextHover = [
+      await monitoringStationPage.getOzoneAnnualAverageToggleTipInfoText
+    ]
+
+    const getOzoneAnnualAverageToggleTipInfoTextProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getOzoneAnnualAverageToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        getOzoneAnnualAverageToggleTipInfoTextProperties
+      )
+      expect(styles.visibility).toBe('visible')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+    const getOzoneToggleTipText =
+      await monitoringStationPage.getOzoneAnnualAverageToggleTipInfoText.getText()
+    const OzoneToggleTipText = `There is no annual average limit value for ozone.`
+    await expect(getOzoneToggleTipText).toMatch(OzoneToggleTipText)
+    await monitoringStationPage.getOzoneAnnualAverageToggleTip.click()
+
+    await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.moveTo()
+    const getSulphurDioxideAnnualAverageToggleTipInfoTextHover = [
+      await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTipInfoText
+    ]
+
+    const getSulphurDioxideAnnualAverageToggleTipInfoTextProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getSulphurDioxideAnnualAverageToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        getSulphurDioxideAnnualAverageToggleTipInfoTextProperties
+      )
+      expect(styles.visibility).toBe('visible')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+    const getSulphurDioxideToggleTipText =
+      await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTipInfoText.getText()
+    const SulphurDioxideToggleTipText = `There is no annual average limit value for sulphur dioxide.`
+    await expect(getSulphurDioxideToggleTipText).toMatch(
+      SulphurDioxideToggleTipText
+    )
+    await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.click()
   })
 })
