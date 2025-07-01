@@ -639,7 +639,7 @@ describe('exceedences', () => {
     await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.isDisplayed()
     await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.isClickable()
 
-    const getPM25AnnualAverageToggleTip = [
+    const getAnnualAverageToggleTipsStyles = [
       await monitoringStationPage.getPM25AnnualAverageToggleTip,
       await monitoringStationPage.getPM10AnnualAverageToggleTip,
       await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip,
@@ -647,7 +647,7 @@ describe('exceedences', () => {
       await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip
     ]
 
-    const getPM25AnnualAverageToggleTipProperties = [
+    const getAnnualAverageToggleTipProperties = [
       'background-color',
       'border',
       'color',
@@ -661,10 +661,10 @@ describe('exceedences', () => {
       'width'
     ]
 
-    for (const element of getPM25AnnualAverageToggleTip) {
+    for (const element of getAnnualAverageToggleTipsStyles) {
       const styles = await common.getStyles(
         element,
-        getPM25AnnualAverageToggleTipProperties
+        getAnnualAverageToggleTipProperties
       )
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('0px none rgb(11, 12, 12)')
