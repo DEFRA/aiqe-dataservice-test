@@ -73,155 +73,15 @@ describe('exceedences', () => {
 
     await expect(SDHourlyExceedence).toMatch(expectedSDHourlyExceedence)
 
-    const getPM10HourlyExceedence = [
-      await monitoringStationPage.getPM10HourlyExceedence
-    ]
-
-    const getPM10HourlyExceedenceProperties = [
-      'text-align',
-      'border-bottom',
-      'padding',
-      'vertical-align',
-      'display',
-      'font-size',
-      'line-height',
-      'font-family',
-      'border-spacing',
-      'color',
-      'font-weight'
-    ]
-
-    for (const element of getPM10HourlyExceedence) {
-      const styles = await common.getStyles(
-        element,
-        getPM10HourlyExceedenceProperties
-      )
-      expect(styles['text-align']).toBe('right')
-      expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.padding).toBe('20px 0px')
-      expect(styles['vertical-align']).toBe('middle')
-      expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px 0px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-    }
-
-    const getPM25HourlyExceedence = [
-      await monitoringStationPage.getPM25HourlyExceedence
-    ]
-
-    const getPM25HourlyExceedenceProperties = [
-      'text-align',
-      'border-bottom',
-      'padding',
-      'vertical-align',
-      'display',
-      'font-size',
-      'line-height',
-      'font-family',
-      'border-spacing',
-      'color',
-      'font-weight'
-    ]
-
-    for (const element of getPM25HourlyExceedence) {
-      const styles = await common.getStyles(
-        element,
-        getPM25HourlyExceedenceProperties
-      )
-      expect(styles['text-align']).toBe('right')
-      expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.padding).toBe('20px 0px')
-      expect(styles['vertical-align']).toBe('middle')
-      expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px 0px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-    }
-
-    const getNOHourlyExceedence = [
-      await monitoringStationPage.getNOHourlyExceedence
-    ]
-
-    const getNOHourlyExceedenceProperties = [
-      'text-align',
-      'border-bottom',
-      'padding',
-      'vertical-align',
-      'display',
-      'font-size',
-      'line-height',
-      'font-family',
-      'border-spacing',
-      'color',
-      'font-weight'
-    ]
-
-    for (const element of getNOHourlyExceedence) {
-      const styles = await common.getStyles(
-        element,
-        getNOHourlyExceedenceProperties
-      )
-      expect(styles['text-align']).toBe('right')
-      expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.padding).toBe('20px 0px')
-      expect(styles['vertical-align']).toBe('middle')
-      expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px 0px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-    }
-
-    const getOzoneHourlyExceedence = [
-      await monitoringStationPage.getOzoneHourlyExceedence
-    ]
-
-    const getOzoneHourlyExceedenceProperties = [
-      'text-align',
-      'border-bottom',
-      'padding',
-      'vertical-align',
-      'display',
-      'font-size',
-      'line-height',
-      'font-family',
-      'border-spacing',
-      'color',
-      'font-weight'
-    ]
-
-    for (const element of getOzoneHourlyExceedence) {
-      const styles = await common.getStyles(
-        element,
-        getOzoneHourlyExceedenceProperties
-      )
-      expect(styles['text-align']).toBe('right')
-      expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.padding).toBe('20px 0px')
-      expect(styles['vertical-align']).toBe('middle')
-      expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px 0px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-    }
-
-    const getSDHourlyExceedence = [
+    const getHourlyExceedenceStyles = [
+      await monitoringStationPage.getPM10HourlyExceedence,
+      await monitoringStationPage.getPM25HourlyExceedence,
+      await monitoringStationPage.getNOHourlyExceedence,
+      await monitoringStationPage.getOzoneHourlyExceedence,
       await monitoringStationPage.getSDHourlyExceedence
     ]
 
-    const getSDHourlyExceedenceProperties = [
+    const getHourlyExceedenceStylesProperties = [
       'text-align',
       'border-bottom',
       'padding',
@@ -235,10 +95,10 @@ describe('exceedences', () => {
       'font-weight'
     ]
 
-    for (const element of getSDHourlyExceedence) {
+    for (const element of getHourlyExceedenceStyles) {
       const styles = await common.getStyles(
         element,
-        getSDHourlyExceedenceProperties
+        getHourlyExceedenceStylesProperties
       )
       expect(styles['text-align']).toBe('right')
       expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
@@ -282,155 +142,15 @@ describe('exceedences', () => {
 
     await expect(SDDailyExceedence).toMatch(expectedSDDailyExceedence)
 
-    const getPM10DailyExceedence = [
-      await monitoringStationPage.getPM10DailyExceedence
-    ]
-
-    const getPM10DailyExceedenceProperties = [
-      'text-align',
-      'border-bottom',
-      'padding',
-      'vertical-align',
-      'display',
-      'font-size',
-      'line-height',
-      'font-family',
-      'border-spacing',
-      'color',
-      'font-weight'
-    ]
-
-    for (const element of getPM10DailyExceedence) {
-      const styles = await common.getStyles(
-        element,
-        getPM10DailyExceedenceProperties
-      )
-      expect(styles['text-align']).toBe('right')
-      expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.padding).toBe('20px 0px')
-      expect(styles['vertical-align']).toBe('middle')
-      expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px 0px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-    }
-
-    const getPM25DailyExceedence = [
-      await monitoringStationPage.getPM25DailyExceedence
-    ]
-
-    const getPM25DailyExceedenceProperties = [
-      'text-align',
-      'border-bottom',
-      'padding',
-      'vertical-align',
-      'display',
-      'font-size',
-      'line-height',
-      'font-family',
-      'border-spacing',
-      'color',
-      'font-weight'
-    ]
-
-    for (const element of getPM25DailyExceedence) {
-      const styles = await common.getStyles(
-        element,
-        getPM25DailyExceedenceProperties
-      )
-      expect(styles['text-align']).toBe('right')
-      expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.padding).toBe('20px 0px')
-      expect(styles['vertical-align']).toBe('middle')
-      expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px 0px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-    }
-
-    const getNODailyExceedence = [
-      await monitoringStationPage.getNODailyExceedence
-    ]
-
-    const getNODailyExceedenceProperties = [
-      'text-align',
-      'border-bottom',
-      'padding',
-      'vertical-align',
-      'display',
-      'font-size',
-      'line-height',
-      'font-family',
-      'border-spacing',
-      'color',
-      'font-weight'
-    ]
-
-    for (const element of getNODailyExceedence) {
-      const styles = await common.getStyles(
-        element,
-        getNODailyExceedenceProperties
-      )
-      expect(styles['text-align']).toBe('right')
-      expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.padding).toBe('20px 0px')
-      expect(styles['vertical-align']).toBe('middle')
-      expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px 0px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-    }
-
-    const getOzoneDailyExceedence = [
-      await monitoringStationPage.getOzoneDailyExceedence
-    ]
-
-    const getOzoneDailyExceedenceProperties = [
-      'text-align',
-      'border-bottom',
-      'padding',
-      'vertical-align',
-      'display',
-      'font-size',
-      'line-height',
-      'font-family',
-      'border-spacing',
-      'color',
-      'font-weight'
-    ]
-
-    for (const element of getOzoneDailyExceedence) {
-      const styles = await common.getStyles(
-        element,
-        getOzoneDailyExceedenceProperties
-      )
-      expect(styles['text-align']).toBe('right')
-      expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.padding).toBe('20px 0px')
-      expect(styles['vertical-align']).toBe('middle')
-      expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px 0px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-    }
-
-    const getSDDailyExceedence = [
+    const getDailyExceedenceStyles = [
+      await monitoringStationPage.getPM10DailyExceedence,
+      await monitoringStationPage.getPM25DailyExceedence,
+      await monitoringStationPage.getNODailyExceedence,
+      await monitoringStationPage.getOzoneDailyExceedence,
       await monitoringStationPage.getSDDailyExceedence
     ]
 
-    const getSDDailyExceedenceProperties = [
+    const getDailyExceedenceStylesProperties = [
       'text-align',
       'border-bottom',
       'padding',
@@ -444,10 +164,10 @@ describe('exceedences', () => {
       'font-weight'
     ]
 
-    for (const element of getSDDailyExceedence) {
+    for (const element of getDailyExceedenceStyles) {
       const styles = await common.getStyles(
         element,
-        getSDDailyExceedenceProperties
+        getDailyExceedenceStylesProperties
       )
       expect(styles['text-align']).toBe('right')
       expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
@@ -471,7 +191,8 @@ describe('exceedences', () => {
     await monitoringStationPage.getSDHourlyExceedenceToggleTip.isClickable()
 
     const getNOHourlyExceedenceToggleTip = [
-      await monitoringStationPage.getNOHourlyExceedenceToggleTip
+      await monitoringStationPage.getNOHourlyExceedenceToggleTip,
+      await monitoringStationPage.getSDHourlyExceedenceToggleTip
     ]
 
     const getNOHourlyExceedenceToggleTipProperties = [
@@ -505,42 +226,6 @@ describe('exceedences', () => {
       expect(styles.top).toBe('0px')
       expect(styles.width).toBe('26px')
     }
-
-    const getSDHourlyExceedenceToggleTip = [
-      await monitoringStationPage.getSDHourlyExceedenceToggleTip
-    ]
-
-    const getSDHourlyExceedenceToggleTipProperties = [
-      'background-color',
-      'border',
-      'color',
-      'cursor',
-      'height',
-      'left',
-      'padding',
-      'position',
-      'text-align',
-      'top',
-      'width'
-    ]
-
-    for (const element of getSDHourlyExceedenceToggleTip) {
-      const styles = await common.getStyles(
-        element,
-        getSDHourlyExceedenceToggleTipProperties
-      )
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles.cursor).toBe('help')
-      expect(styles.height).toBe('26px')
-      expect(styles.left).toBe('0px')
-      expect(styles.padding).toBe('0px')
-      expect(styles.position).toBe('absolute')
-      expect(styles['text-align']).toBe('center')
-      expect(styles.top).toBe('0px')
-      expect(styles.width).toBe('26px')
-    }
   })
 
   it('Toggle Tips for daily exceedances, AQD-652', async () => {
@@ -551,7 +236,8 @@ describe('exceedences', () => {
     await monitoringStationPage.getSDDailyExceedenceToggleTip.isClickable()
 
     const getPM10DailyExceedenceToggleTip = [
-      await monitoringStationPage.getPM10DailyExceedenceToggleTip
+      await monitoringStationPage.getPM10DailyExceedenceToggleTip,
+      await monitoringStationPage.getSDDailyExceedenceToggleTip
     ]
 
     const getPM10DailyExceedenceToggleTipProperties = [
@@ -585,45 +271,9 @@ describe('exceedences', () => {
       expect(styles.top).toBe('0px')
       expect(styles.width).toBe('26px')
     }
-
-    const getSDDailyExceedenceToggleTip = [
-      await monitoringStationPage.getSDDailyExceedenceToggleTip
-    ]
-
-    const getSDDailyExceedenceToggleTipProperties = [
-      'background-color',
-      'border',
-      'color',
-      'cursor',
-      'height',
-      'left',
-      'padding',
-      'position',
-      'text-align',
-      'top',
-      'width'
-    ]
-
-    for (const element of getSDDailyExceedenceToggleTip) {
-      const styles = await common.getStyles(
-        element,
-        getSDDailyExceedenceToggleTipProperties
-      )
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles.cursor).toBe('help')
-      expect(styles.height).toBe('26px')
-      expect(styles.left).toBe('0px')
-      expect(styles.padding).toBe('0px')
-      expect(styles.position).toBe('absolute')
-      expect(styles['text-align']).toBe('center')
-      expect(styles.top).toBe('0px')
-      expect(styles.width).toBe('26px')
-    }
   })
 
-  it('Toggle Tips for annaul average, AQD-686', async () => {
+  it('Toggle Tips for annaul average,display and styling, AQD-686', async () => {
     await monitoringStationPage.getPM25AnnualAverageToggleTip.isDisplayed()
     await monitoringStationPage.getPM25AnnualAverageToggleTip.isClickable()
 
@@ -695,7 +345,7 @@ describe('exceedences', () => {
     )
   })
 
-  it('Annual Average Toggle Tips text and functionality, AQD-687', async () => {
+  it('Annual Average Toggle Tips text and hover functionality, AQD-687', async () => {
     await monitoringStationPage.get2025Button.click()
     await browser.waitUntil(
       async () => {
