@@ -51,6 +51,77 @@ describe('monitoring station page tests', () => {
     )
   })
 
+  it('Station status, & last reading, AQD-694', async () => {
+    const getMonitoringStationStatusText =
+      await monitoringStationPage.getMonitoringStationStatus.getText()
+    const expectedMonitoringStationStatusText = 'Active'
+    await expect(getMonitoringStationStatusText).toMatch(
+      expectedMonitoringStationStatusText
+    )
+
+    await monitoringStationPage.getMonitoringStationLastReading.isDisplayed()
+
+    const getMonitoringStationStatus = [
+      await monitoringStationPage.getMonitoringStationStatus
+    ]
+
+    const getMonitoringStationStatusProperties = [
+      'background-color',
+      'color',
+      'font-size',
+      'line-height',
+      'font-family',
+      'font-weight',
+      'padding'
+    ]
+
+    for (const element of getMonitoringStationStatus) {
+      const styles = await common.getStyles(
+        element,
+        getMonitoringStationStatusProperties
+      )
+      expect(styles['background-color']).toBe('rgb(204, 226, 216)')
+      expect(styles.color).toBe('rgb(0, 90, 48)')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.padding).toBe('2px 8px 3px')
+    }
+
+    const getMonitoringStationLastReading = [
+      await monitoringStationPage.getMonitoringStationLastReading
+    ]
+
+    const getMonitoringStationLastReadingProperties = [
+      'margin-left',
+      'display',
+      // 'color', bug
+      'margin-top',
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of getMonitoringStationLastReading) {
+      const styles = await common.getStyles(
+        element,
+        getMonitoringStationLastReadingProperties
+      )
+      expect(styles['margin-left']).toBe('5px')
+      expect(styles.display).toBe('inline-block')
+      // expect(styles.color).toBe('rgb(80, 90, 95)') bug raised
+      expect(styles['margin-top']).toBe('15px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+    }
+  })
+
   it('Network, Region, & Site type , AQD 554', async () => {
     const getMonitoringNetworkTypeTitle =
       await monitoringStationPage.getMonitoringNetworkTitle.getText()
@@ -208,66 +279,6 @@ View on Google Maps (opens in new tab)`
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
-    }
-
-    const getMonitoringStationStatus = [
-      await monitoringStationPage.getMonitoringStationStatus
-    ]
-
-    const getMonitoringStationStatusProperties = [
-      'background-color',
-      'color',
-      'font-size',
-      'line-height',
-      'font-family',
-      'font-weight',
-      'padding'
-    ]
-
-    for (const element of getMonitoringStationStatus) {
-      const styles = await common.getStyles(
-        element,
-        getMonitoringStationStatusProperties
-      )
-      expect(styles['background-color']).toBe('rgb(204, 226, 216)')
-      expect(styles.color).toBe('rgb(0, 90, 48)')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-weight']).toBe('400')
-      expect(styles.padding).toBe('2px 8px 3px')
-    }
-
-    const getMonitoringStationLastReading = [
-      await monitoringStationPage.getMonitoringStationLastReading
-    ]
-
-    const getMonitoringStationLastReadingProperties = [
-      'margin-left',
-      'display',
-      // 'color', bug
-      'margin-top',
-      'margin-bottom',
-      'font-size',
-      'line-height',
-      'font-family',
-      'font-weight'
-    ]
-
-    for (const element of getMonitoringStationLastReading) {
-      const styles = await common.getStyles(
-        element,
-        getMonitoringStationLastReadingProperties
-      )
-      expect(styles['margin-left']).toBe('5px')
-      expect(styles.display).toBe('inline-block')
-      // expect(styles.color).toBe('rgb(80, 90, 95)') bug raised
-      expect(styles['margin-top']).toBe('15px')
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-weight']).toBe('400')
     }
 
     const getgridSideStyles = [await monitoringStationPage.getgridSideStyles]
