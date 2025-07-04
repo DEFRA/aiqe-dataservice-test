@@ -45,8 +45,14 @@ class MonitoringStationPage {
     return $("a[href='https://www.google.co.uk/maps?q=51.52229,-0.125889']")
   }
 
-  get getToggleTip() {
-    return $("div[class*='defra-toggletip']")
+  get getSiteTypeToggleTip() {
+    return $$(
+      "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
+    )[0]
+  }
+
+  get getSiteTypeToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[0]
   }
 
   get getMapLinkPadding() {

@@ -188,6 +188,81 @@ View on Google Maps (opens in new tab)`
     expect(xLocationDifferenceSiteType).toBeLessThanOrEqual(1)
   })
 
+  it('Site type toggle tip and text, AQD-695', async () => {
+    await monitoringStationPage.getSiteTypeToggleTip.isDisplayed()
+    await monitoringStationPage.getSiteTypeToggleTip.isClickable()
+
+    const getToggleTip = [await monitoringStationPage.getSiteTypeToggleTip]
+
+    const getToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getToggleTip) {
+      const styles = await common.getStyles(element, getToggleTipProperties)
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
+    }
+
+    const getSiteTypeToggleTipInfoText = [
+      await monitoringStationPage.getSiteTypeToggleTipInfoText
+    ]
+
+    const getSiteTypeToggleTipInfoTextProperties = ['visibility']
+
+    for (const element of getSiteTypeToggleTipInfoText) {
+      const styles = await common.getStyles(
+        element,
+        getSiteTypeToggleTipInfoTextProperties
+      )
+      expect(styles.visibility).toBe('hidden')
+    }
+
+    await monitoringStationPage.getSiteTypeToggleTip.moveTo()
+    const getSiteTypeToggleTipInfoTextHover = [
+      await monitoringStationPage.getSiteTypeToggleTipInfoText
+    ]
+
+    const SiteTypeToggleTipInfoTextProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getSiteTypeToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        SiteTypeToggleTipInfoTextProperties
+      )
+      expect(styles.visibility).toBe('visible')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+    const getSiteTypeToggleTipText =
+      await monitoringStationPage.getSiteTypeToggleTipInfoText.getText()
+    const SiteTypeToggleTipText = `This monitoring site is in a city or town close to roads, motorways or highways.`
+    await expect(getSiteTypeToggleTipText).toMatch(SiteTypeToggleTipText)
+  })
+
   it('styling tests', async () => {
     const getBackLink = [await common.getBackLink]
 
@@ -397,31 +472,6 @@ View on Google Maps (opens in new tab)`
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
       // expect(styles.margin).toBe('5px 5px 20px 0px') styling bug
-    }
-
-    const getToggleTip = [await monitoringStationPage.getToggleTip]
-
-    const getToggleTipProperties = [
-      'padding-right',
-      'display',
-      'position',
-      'font-size',
-      'line-height',
-      'color',
-      'font-family',
-      'font-weight'
-    ]
-
-    for (const element of getToggleTip) {
-      const styles = await common.getStyles(element, getToggleTipProperties)
-      expect(styles['padding-right']).toBe('26px')
-      expect(styles.display).toBe('inline-block')
-      expect(styles.position).toBe('relative')
-      expect(styles['font-size']).toBe('22px')
-      expect(styles['line-height']).toBe('28.9474px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-weight']).toBe('400')
     }
 
     const getMapLinkPadding = [await monitoringStationPage.getMapLinkPadding]
