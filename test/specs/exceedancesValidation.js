@@ -183,96 +183,6 @@ describe('exceedences', () => {
     }
   })
 
-  it('Toggle Tips for Hourly exceedances, AQD-634', async () => {
-    await monitoringStationPage.getNOHourlyExceedenceToggleTip.isDisplayed()
-    await monitoringStationPage.getNOHourlyExceedenceToggleTip.isClickable()
-
-    await monitoringStationPage.getSDHourlyExceedenceToggleTip.isDisplayed()
-    await monitoringStationPage.getSDHourlyExceedenceToggleTip.isClickable()
-
-    const getNOHourlyExceedenceToggleTip = [
-      await monitoringStationPage.getNOHourlyExceedenceToggleTip,
-      await monitoringStationPage.getSDHourlyExceedenceToggleTip
-    ]
-
-    const getNOHourlyExceedenceToggleTipProperties = [
-      'background-color',
-      'border',
-      'color',
-      'cursor',
-      'height',
-      'left',
-      'padding',
-      'position',
-      'text-align',
-      'top',
-      'width'
-    ]
-
-    for (const element of getNOHourlyExceedenceToggleTip) {
-      const styles = await common.getStyles(
-        element,
-        getNOHourlyExceedenceToggleTipProperties
-      )
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles.cursor).toBe('help')
-      expect(styles.height).toBe('26px')
-      expect(styles.left).toBe('0px')
-      expect(styles.padding).toBe('0px')
-      expect(styles.position).toBe('absolute')
-      expect(styles['text-align']).toBe('center')
-      expect(styles.top).toBe('0px')
-      expect(styles.width).toBe('26px')
-    }
-  })
-
-  it('Toggle Tips for daily exceedances, AQD-652', async () => {
-    await monitoringStationPage.getPM10DailyExceedenceToggleTip.isDisplayed()
-    await monitoringStationPage.getPM10DailyExceedenceToggleTip.isClickable()
-
-    await monitoringStationPage.getSDDailyExceedenceToggleTip.isDisplayed()
-    await monitoringStationPage.getSDDailyExceedenceToggleTip.isClickable()
-
-    const getPM10DailyExceedenceToggleTip = [
-      await monitoringStationPage.getPM10DailyExceedenceToggleTip,
-      await monitoringStationPage.getSDDailyExceedenceToggleTip
-    ]
-
-    const getPM10DailyExceedenceToggleTipProperties = [
-      'background-color',
-      'border',
-      'color',
-      'cursor',
-      'height',
-      'left',
-      'padding',
-      'position',
-      'text-align',
-      'top',
-      'width'
-    ]
-
-    for (const element of getPM10DailyExceedenceToggleTip) {
-      const styles = await common.getStyles(
-        element,
-        getPM10DailyExceedenceToggleTipProperties
-      )
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles.cursor).toBe('help')
-      expect(styles.height).toBe('26px')
-      expect(styles.left).toBe('0px')
-      expect(styles.padding).toBe('0px')
-      expect(styles.position).toBe('absolute')
-      expect(styles['text-align']).toBe('center')
-      expect(styles.top).toBe('0px')
-      expect(styles.width).toBe('26px')
-    }
-  })
-
   it('Toggle Tips for annaul average,display and styling, AQD-686', async () => {
     await monitoringStationPage.getPM25AnnualAverageToggleTip.isDisplayed()
     await monitoringStationPage.getPM25AnnualAverageToggleTip.isClickable()
@@ -506,5 +416,166 @@ describe('exceedences', () => {
       SulphurDioxideToggleTipText
     )
     await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.click()
+  })
+
+  it('Toggle Tips for Hourly exceedances, AQD-634', async () => {
+    await monitoringStationPage.getNOHourlyExceedenceToggleTip.isDisplayed()
+    await monitoringStationPage.getNOHourlyExceedenceToggleTip.isClickable()
+
+    await monitoringStationPage.getSDHourlyExceedenceToggleTip.isDisplayed()
+    await monitoringStationPage.getSDHourlyExceedenceToggleTip.isClickable()
+
+    const getNOHourlyExceedenceToggleTip = [
+      await monitoringStationPage.getNOHourlyExceedenceToggleTip,
+      await monitoringStationPage.getSDHourlyExceedenceToggleTip
+    ]
+
+    const getNOHourlyExceedenceToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getNOHourlyExceedenceToggleTip) {
+      const styles = await common.getStyles(
+        element,
+        getNOHourlyExceedenceToggleTipProperties
+      )
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
+    }
+  })
+
+  it('Toggle Tip text for Hourly exceedances, AQD-708', async () => {
+    const getHourlyExceedenceToggleTipInfoTextHidden = [
+      await monitoringStationPage.getNOHourlyExceedenceToggleTipInfoText,
+      await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText
+    ]
+
+    const getHourlyExceedenceToggleTipInfoTextHiddenProperties = ['visibility']
+
+    for (const element of getHourlyExceedenceToggleTipInfoTextHidden) {
+      const styles = await common.getStyles(
+        element,
+        getHourlyExceedenceToggleTipInfoTextHiddenProperties
+      )
+      expect(styles.visibility).toBe('hidden')
+    }
+
+    await monitoringStationPage.getSDHourlyExceedenceToggleTip.moveTo()
+    const getSDHourlyExceedenceToggleTipInfoTextHover = [
+      await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText
+    ]
+
+    const getSDHourlyExceedenceToggleTipInfoTextHoverProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getSDHourlyExceedenceToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        getSDHourlyExceedenceToggleTipInfoTextHoverProperties
+      )
+      expect(styles.visibility).toBe('visible')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+    const getSDHourlyExceedenceToggleTipInfoText =
+      await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.getText()
+    const expectedSDHourlyExceedenceToggleTipInfoText = `Hourly sulphur dioxide levels must not go above 350 micrograms per cubic metre (µg/m³) more than 24 times in a calendar year (when rounded to a whole number).`
+    await expect(getSDHourlyExceedenceToggleTipInfoText).toMatch(
+      expectedSDHourlyExceedenceToggleTipInfoText
+    )
+
+    await monitoringStationPage.getNOHourlyExceedenceToggleTip.moveTo()
+    const getNOHourlyExceedenceToggleTipInfoTextHover = [
+      await monitoringStationPage.getNOHourlyExceedenceToggleTipInfoText
+    ]
+
+    const getNOHourlyExceedenceToggleTipInfoTextHoverProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getNOHourlyExceedenceToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        getNOHourlyExceedenceToggleTipInfoTextHoverProperties
+      )
+      expect(styles.visibility).toBe('visible')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+    const getNOHourlyExceedenceToggleTipInfoText =
+      await monitoringStationPage.getNOHourlyExceedenceToggleTipInfoText.getText()
+    const expectedNOHourlyExceedenceToggleTipInfoText = `Hourly nitrogen dioxide levels must not go above 200 micrograms per cubic metre (µg/m³) more than 18 times in a calendar year (when rounded to a whole number).`
+    await expect(getNOHourlyExceedenceToggleTipInfoText).toMatch(
+      expectedNOHourlyExceedenceToggleTipInfoText
+    )
+  })
+
+  it('Toggle Tips for daily exceedances, AQD-652', async () => {
+    await monitoringStationPage.getPM10DailyExceedenceToggleTip.isDisplayed()
+    await monitoringStationPage.getPM10DailyExceedenceToggleTip.isClickable()
+
+    await monitoringStationPage.getSDDailyExceedenceToggleTip.isDisplayed()
+    await monitoringStationPage.getSDDailyExceedenceToggleTip.isClickable()
+
+    const getPM10DailyExceedenceToggleTip = [
+      await monitoringStationPage.getPM10DailyExceedenceToggleTip,
+      await monitoringStationPage.getSDDailyExceedenceToggleTip
+    ]
+
+    const getPM10DailyExceedenceToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getPM10DailyExceedenceToggleTip) {
+      const styles = await common.getStyles(
+        element,
+        getPM10DailyExceedenceToggleTipProperties
+      )
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
+    }
   })
 })
