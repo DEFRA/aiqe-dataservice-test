@@ -578,4 +578,75 @@ describe('exceedences', () => {
       expect(styles.width).toBe('26px')
     }
   })
+
+  it('Toggle Tip text for Daily exceedances, AQD-708', async () => {
+    const getDailyExceedenceToggleTipInfoTextHidden = [
+      await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText,
+      await monitoringStationPage.getSDDailyExceedenceToggleTipInfoText
+    ]
+
+    const getDailyExceedenceToggleTipInfoTextHiddenProperties = ['visibility']
+
+    for (const element of getDailyExceedenceToggleTipInfoTextHidden) {
+      const styles = await common.getStyles(
+        element,
+        getDailyExceedenceToggleTipInfoTextHiddenProperties
+      )
+      expect(styles.visibility).toBe('hidden')
+    }
+
+    await monitoringStationPage.getPM10DailyExceedenceToggleTip.moveTo()
+    const getPM10DailyExceedenceToggleTipInfoTextHover = [
+      await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText
+    ]
+
+    const getPM10DailyExceedenceToggleTipInfoTextHoverProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getPM10DailyExceedenceToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        getPM10DailyExceedenceToggleTipInfoTextHoverProperties
+      )
+      expect(styles.visibility).toBe('visible')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+    const getPM10DailyExceedenceToggleTipInfoText =
+      await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText.getText()
+    const expectedPM10DailyExceedenceToggleTipInfoText = `There must not be more than 35 daily exceedances over 50 micrograms per cubic metre (µg/m3) for PM10 in a calendar year.`
+    await expect(getPM10DailyExceedenceToggleTipInfoText).toMatch(
+      expectedPM10DailyExceedenceToggleTipInfoText
+    )
+
+    await monitoringStationPage.getSDDailyExceedenceToggleTip.moveTo()
+    const getSDDailyExceedenceToggleTipInfoTextHover = [
+      await monitoringStationPage.getSDDailyExceedenceToggleTipInfoText
+    ]
+
+    const getSDDailyExceedenceToggleTipInfoTextHoverProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getSDDailyExceedenceToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        getSDDailyExceedenceToggleTipInfoTextHoverProperties
+      )
+      expect(styles.visibility).toBe('visible')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+    const getSDDailyExceedenceToggleTipInfoText =
+      await monitoringStationPage.getSDDailyExceedenceToggleTipInfoText.getText()
+    const expectedSDDailyExceedenceToggleTipInfoText = `Daily average sulphur dioxide levels must not go above 125 micrograms per cubic metre (µg/m³) more than 3 times in a calendar year (when rounded to a whole number).`
+    await expect(getSDDailyExceedenceToggleTipInfoText).toMatch(
+      expectedSDDailyExceedenceToggleTipInfoText
+    )
+  })
 })
