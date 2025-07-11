@@ -627,4 +627,33 @@ Contact the air quality team if you continue to get this error message`
     const href = await contactLink.getAttribute('href')
     expect(href).toContain('mailto:getairpollutiondata@defra.gov.uk')
   })
+
+  it('PM10 Toggle Tip not behaving as expected for Wrexham Monitoring Station, AQD-712', async () => {
+    await browser.url('')
+    await startNowPage.startNowBtnClick()
+    await searchPage.setsearch('Wrexham')
+    await searchPage.milesOptionClick('50 miles')
+    await searchPage.continueBtnClick()
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Wrexham')
+      .click()
+    await monitoringStationPage.getPM10DailyExceedenceToggleTip.moveTo()
+    const getPM10DailyExceedenceToggleTipInfoTextHover = [
+      await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText
+    ]
+
+    const getPM10DailyExceedenceToggleTipInfoTextHoverProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getPM10DailyExceedenceToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        getPM10DailyExceedenceToggleTipInfoTextHoverProperties
+      )
+      expect(styles.visibility).toBe('visible')
+    }
+  })
 })
