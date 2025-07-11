@@ -657,7 +657,7 @@ Contact the air quality team if you continue to get this error message`
     }
   })
 
-  it('PM10 Toggle Tip not behaving as expected for Wrexham Monitoring Station, AQD-712', async () => {
+  it('site ID missing for tower hamlets, remove it from station list, AQD-713', async () => {
     await browser.url('')
     await startNowPage.startNowBtnClick()
     await searchPage.setsearch('Tower Hamlets')
