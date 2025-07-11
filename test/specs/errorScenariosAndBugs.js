@@ -656,4 +656,17 @@ Contact the air quality team if you continue to get this error message`
       expect(styles.visibility).toBe('visible')
     }
   })
+
+  it('PM10 Toggle Tip not behaving as expected for Wrexham Monitoring Station, AQD-712', async () => {
+    await browser.url('')
+    await startNowPage.startNowBtnClick()
+    await searchPage.setsearch('Tower Hamlets')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    const noTowerHamletStation =
+      await errorPage.getCouldNotFindHeading.getText()
+    const expectedPageHeading =
+      "There are no monitoring stations within 5 miles of 'Tower Hamlets'"
+    await expect(noTowerHamletStation).toMatch(expectedPageHeading)
+  })
 })
