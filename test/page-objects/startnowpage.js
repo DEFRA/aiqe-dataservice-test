@@ -21,10 +21,6 @@ class StartNowPage {
     return $$("a[class='govuk-link']")[4]
   }
 
-  async citizenServiceLinkClick() {
-    await this.getCitizenServiceLink.click()
-  }
-
   get getstartNowPageBodyText() {
     return $("p[class*='govuk-body']")
   }

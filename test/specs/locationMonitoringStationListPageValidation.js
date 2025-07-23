@@ -234,10 +234,12 @@ describe('monitoring station list page tests', () => {
         element,
         getMonitoringStationLinkProperties
       )
-      expect(styles.color).toBe('rgb(0, 0, 238)')
+      expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe('underline solid rgb(0, 0, 238)')
-      expect(styles['text-decoration-thickness']).toBe('auto')
+      expect(styles['text-decoration']).toBe(
+        'underline 1px solid rgb(29, 112, 184)'
+      )
+      expect(styles['text-decoration-thickness']).toBe('1px')
       // expect(styles['font-weight']).toBe('700') styling bug
       expect(styles['text-align']).toBe('left')
       expect(styles['font-size']).toBe('19px')
