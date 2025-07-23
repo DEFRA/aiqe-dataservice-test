@@ -238,7 +238,7 @@ describe('exceedences', () => {
       expect(styles.top).toBe('0px')
       expect(styles.width).toBe('26px')
     }
-
+    // checking that toggle tip doesnt show if theres no data
     await monitoringStationPage.get2020Button.click()
     await browser.waitUntil(
       async () => {
@@ -617,7 +617,7 @@ describe('exceedences', () => {
     }
     const getPM10DailyExceedenceToggleTipInfoText =
       await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText.getText()
-    const expectedPM10DailyExceedenceToggleTipInfoText = `There must not be more than 35 daily exceedances over 50 micrograms per cubic metre (µg/m3) for PM10 in a calendar year.`
+    const expectedPM10DailyExceedenceToggleTipInfoText = `Daily average PM10 levels must not go above 50 micrograms per cubic metre (µg/m³) more than 35 times in a calendar year (when rounded to a whole number).`
     await expect(getPM10DailyExceedenceToggleTipInfoText).toMatch(
       expectedPM10DailyExceedenceToggleTipInfoText
     )

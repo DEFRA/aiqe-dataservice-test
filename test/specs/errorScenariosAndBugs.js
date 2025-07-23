@@ -604,8 +604,10 @@ choose a different location`
         element,
         getError404AirQualityEmailLinkStylingProperties
       )
-      expect(styles.color).toBe('rgb(0, 0, 238)')
-      expect(styles['text-decoration']).toBe('underline solid rgb(0, 0, 238)')
+      expect(styles.color).toBe('rgb(29, 112, 184)')
+      expect(styles['text-decoration']).toBe(
+        'underline 1px solid rgb(29, 112, 184)'
+      )
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')

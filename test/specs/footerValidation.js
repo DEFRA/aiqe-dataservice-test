@@ -149,7 +149,7 @@ describe('footer content and functionality checks', () => {
       const crownLogo = [await footer.getCrownCoprightLogo]
 
       const crownLogoProperties = [
-        'background-image',
+        'mask-image',
         'background-size',
         'min-width',
         'padding-top'
@@ -157,8 +157,8 @@ describe('footer content and functionality checks', () => {
 
       for (const element of crownLogo) {
         const styles = await common.getStyles(element, crownLogoProperties)
-        expect(styles['background-image']).toBe(
-          'url("https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/assets/images/govuk-crest.svg")'
+        expect(styles['mask-image']).toBe(
+          'url("https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/public/assets/images/govuk-crest.svg")'
         )
         expect(styles['background-size']).toBe('125px 102px')
         expect(styles['min-width']).toBe('125px')

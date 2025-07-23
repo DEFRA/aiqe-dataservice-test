@@ -184,7 +184,7 @@ Alternatively, try searching again`
     for (const element of getLocationLink) {
       const styles = await common.getStyles(element, getLocationLinkProperties)
       expect(styles['font-weight']).toBe('700')
-      expect(styles.color).toBe('rgb(0, 0, 238)')
+      expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')

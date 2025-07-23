@@ -22,7 +22,6 @@ describe('start now page content/functionality checks/styling checks', () => {
     // page content validation
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
-
     const startnowPageContent = `Get air pollution data
 Use this service to:
 find air quality monitoring stations
@@ -34,10 +33,7 @@ PM10
 nitrogen dioxide
 ozone
 sulphur dioxide
-Start now
-You can check air quality to look up:
-air quality in a local area, including the air pollution forecast for the next 5 days
-health advice to reduce your exposure to pollutants`
+Start now`
     const getStartNowPagecontent =
       await startNowPage.getStartNowPagecontent.getText()
     await expect(startnowPageContent).toMatch(getStartNowPagecontent)
@@ -54,13 +50,6 @@ health advice to reduce your exposure to pollutants`
     const expectedStartNowPageURL =
       'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
     await expect(startNowPageURL).toMatch(expectedStartNowPageURL)
-    await browser.refresh()
-    await startNowPage.citizenServiceLinkClick()
-    const citizenServicePageURL = await browser.getUrl()
-    const expectedCitizenServicePageURL =
-      'https://check-local-air-quality.defra.gov.uk/'
-    await expect(citizenServicePageURL).toMatch(expectedCitizenServicePageURL)
-    await browser.back()
     await browser.refresh()
   })
 
