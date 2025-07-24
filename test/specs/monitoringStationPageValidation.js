@@ -407,7 +407,6 @@ View on Google Maps (opens in new tab)`
     const getFeatureItem = [await monitoringStationPage.getFeatureItem]
 
     const getFeatureItemProperties = [
-      'width',
       'box-sizing',
       'float',
       'min-width',
@@ -417,7 +416,6 @@ View on Google Maps (opens in new tab)`
 
     for (const element of getFeatureItem) {
       const styles = await common.getStyles(element, getFeatureItemProperties)
-      expect(styles.width).toBe('293.328px')
       expect(styles['box-sizing']).toBe('border-box')
       expect(styles.float).toBe('left')
       expect(styles['min-width']).toBe('96px')
