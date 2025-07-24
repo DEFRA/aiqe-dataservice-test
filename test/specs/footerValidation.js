@@ -45,9 +45,9 @@ describe('footer content and functionality checks', () => {
       // checking OGL logo
       await footer.getOGLLogo.isDisplayed()
       // checking OGL statement
-      // const OGLStatementText = `All content is available under the Open Government Licence v3.0, except where otherwise stated`
-      // const getOGLStatementText = await footer.getOGLStatement.getText()
-      // await expect(OGLStatementText).toMatch(getOGLStatementText)
+      const OGLStatementText = `All content is available under the Open Government Licence v3.0, except where otherwise stated`
+      const getOGLStatementText = await footer.getOGLStatement.getText()
+      await expect(OGLStatementText).toMatch(getOGLStatementText)
       // checking crown logo is present
       await footer.getCrownCoprightLogo.isDisplayed()
 
@@ -149,20 +149,16 @@ describe('footer content and functionality checks', () => {
       const crownLogo = [await footer.getCrownCoprightLogo]
 
       const crownLogoProperties = [
-        'mask-image',
-        'background-size',
-        'min-width',
-        'padding-top'
+        'margin-bottom',
+        'margin-left',
+        'margin-right'
       ]
 
       for (const element of crownLogo) {
         const styles = await common.getStyles(element, crownLogoProperties)
-        expect(styles['mask-image']).toBe(
-          'url("https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/public/assets/images/govuk-crest.svg")'
-        )
-        expect(styles['background-size']).toBe('125px 102px')
-        expect(styles['min-width']).toBe('125px')
-        expect(styles['padding-top']).toBe('112px')
+        expect(styles['margin-bottom']).toBe('25px')
+        expect(styles['margin-left']).toBe('15px')
+        expect(styles['margin-right']).toBe('15px')
       }
       // OGLStatement
       const oglStatement = [await footer.getOGLStatement]

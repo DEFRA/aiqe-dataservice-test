@@ -35,7 +35,7 @@ class Footer {
   // logo
 
   get getCrownCoprightLogo() {
-    return $("a[class='govuk-footer__link govuk-footer__copyright-logo']")
+    return $("div[class='govuk-footer__meta-item'")
   }
 }
 
