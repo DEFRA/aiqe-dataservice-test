@@ -26,7 +26,7 @@ class SearchPage {
   }
 
   get approxSearchAreaLabel() {
-    return $("legend[class='govuk-fieldset__legend']")
+    return $("legend[class='govuk-fieldset__legend ']")
   }
 
   get getOptionByText() {

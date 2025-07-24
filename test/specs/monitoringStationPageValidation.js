@@ -391,7 +391,7 @@ View on Google Maps (opens in new tab)`
         element,
         getgridTopBottomStylesProperties
       )
-      expect(styles.gap).toBe('40px')
+      expect(styles.gap).toBe('80px')
       expect(styles['padding-bottom']).toBe('0px')
       expect(styles['margin-top']).toBe('15px')
       expect(styles['box-shadow']).toBe(
