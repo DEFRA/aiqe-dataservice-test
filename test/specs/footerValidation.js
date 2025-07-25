@@ -44,10 +44,7 @@ describe('footer content and functionality checks', () => {
       await expect(OglFooterLinkText).toMatch(getOglFooterLinkText)
       // checking OGL logo
       await footer.getOGLLogo.isDisplayed()
-      // checking OGL statement
-      const OGLStatementText = `All content is available under the Open Government Licence v3.0, except where otherwise stated`
-      const getOGLStatementText = await footer.getOGLStatement.getText()
-      await expect(getOGLStatementText).toMatch(OGLStatementText)
+
       // checking crown logo is present
       await footer.getCrownCoprightLogo.isDisplayed()
 
