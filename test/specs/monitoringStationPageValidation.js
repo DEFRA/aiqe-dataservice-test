@@ -259,7 +259,7 @@ View on Google Maps (opens in new tab)`
     }
     const getSiteTypeToggleTipText =
       await monitoringStationPage.getSiteTypeToggleTipInfoText.getText()
-    const SiteTypeToggleTipText = `This monitoring site is in a city or town close to roads, motorways or highways.`
+    const SiteTypeToggleTipText = `This monitoring area is in a city or town. It is located so pollutant measurements do not come from one specific source.`
     await expect(getSiteTypeToggleTipText).toMatch(SiteTypeToggleTipText)
   })
 
