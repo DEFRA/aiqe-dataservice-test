@@ -463,13 +463,14 @@ choose a different location`
   it('No Data for Selected Year,AQD-643', async () => {
     await common.getBackLink.click()
     await locationMonitoringStationListPage.getChangeSearchAreaLink.click()
-    await searchPage.setsearch('Tolladine')
-    await searchPage.milesOptionClick('5 miles')
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
     await locationMonitoringStationListPage
-      .getMonitoringStationLink('Worcester Tolladine')
+      .getMonitoringStationLink('Worthing East Ten Acres')
       .click()
-    await monitoringStationPage.get2023Button.click()
+    await monitoringStationPage.get2018Button.click()
     await errorPage.noDataForThisYearMessage.isDisplayed()
     const getNoDataForThisYearMessage =
       await errorPage.noDataForThisYearMessage.getText()
