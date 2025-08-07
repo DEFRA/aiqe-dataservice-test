@@ -401,7 +401,7 @@ choose a different location`
       await monitoringStationPage.getSDDataCapture
     ]
     const areAnyDataCapturePercentage2024Over100 =
-      await monitoringStationPage.isAnyCaptureOver100(DataCapturePercentage2024)
+      await common.isAnyCaptureOverAmount(DataCapturePercentage2024, 100)
     expect(areAnyDataCapturePercentage2024Over100).toBe(false)
 
     await monitoringStationPage.get2025Button.click()
@@ -420,10 +420,10 @@ choose a different location`
       await monitoringStationPage.getSDDataCapture
     ]
     const areAnyDataCapturePercentage2025Over100 =
-      await monitoringStationPage.isAnyCaptureOver100(DataCapturePercentage2025)
+      await common.isAnyCaptureOverAmount(DataCapturePercentage2025, 100)
     expect(areAnyDataCapturePercentage2025Over100).toBe(false)
     const areAnyDataCapturePercentage2025Below40 =
-      await monitoringStationPage.isAnyCaptureUnder40(DataCapturePercentage2025)
+      await common.isAnyCaptureUnderAmount(DataCapturePercentage2025, 40)
     expect(areAnyDataCapturePercentage2025Below40).toBe(false)
 
     const dataCaptureStyles = [

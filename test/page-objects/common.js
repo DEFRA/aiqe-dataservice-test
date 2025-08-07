@@ -35,6 +35,44 @@ class Common {
     }
     return headingsText
   }
+
+  async isAnyCaptureUnderAmount(elements, Number) {
+    let anyUnderNumber = false
+
+    for (const element of elements) {
+      const text = await element.getText()
+      const match = text.match(/([\d.]+)%/)
+      if (match) {
+        const value = parseFloat(match[1])
+        if (value < Number) {
+          anyUnderNumber = true
+        }
+      }
+    }
+    return anyUnderNumber
+  }
+
+  async isAnyCaptureOverAmount(elements, Number) {
+    let anyOverAmount = false
+
+    for (const element of elements) {
+      const text = await element.getText()
+      const match = text.match(/([\d.]+)%/)
+      if (match) {
+        const value = parseFloat(match[1])
+        if (value > Number) {
+          anyOverAmount = true
+        }
+      }
+    }
+    return anyOverAmount
+  }
+
+  async notDisplayed(element) {
+    await element.waitForDisplayed({
+      reverse: true
+    })
+  }
 }
 
 export default new Common()

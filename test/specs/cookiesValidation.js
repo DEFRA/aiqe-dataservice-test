@@ -221,7 +221,7 @@ describe('Cookies Tests', () => {
       expect(styles['text-align']).toBe('center')
     }
     await cookiesBanner.getHideCookiesButton.click()
-    await cookiesBanner.getCookieBanner.waitForDisplayed({ reverse: true })
+    await common.notDisplayed(await cookiesBanner.getCookieBanner)
   })
 
   it('cookiebanner, AQD-651, reject cookies scenario', async () => {

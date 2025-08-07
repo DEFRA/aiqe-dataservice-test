@@ -460,36 +460,14 @@ class MonitoringStationPage {
     return $$("span[class*='defra-aq-levels-table__cell--data']")[4]
   }
 
-  async isAnyCaptureOver100(elements) {
-    let anyOver100 = false
-
-    for (const element of elements) {
-      const text = await element.getText()
-      const match = text.match(/([\d.]+)%/)
-      if (match) {
-        const value = parseFloat(match[1])
-        if (value > 100) {
-          anyOver100 = true
-        }
-      }
-    }
-    return anyOver100
+  get getDataCaptureToggleTip() {
+    return $(
+      "button[aria-label*='More information about the Data capture percentage']"
+    )
   }
 
-  async isAnyCaptureUnder40(elements) {
-    let anyUnder40 = false
-
-    for (const element of elements) {
-      const text = await element.getText()
-      const match = text.match(/([\d.]+)%/)
-      if (match) {
-        const value = parseFloat(match[1])
-        if (value < 40) {
-          anyUnder40 = true
-        }
-      }
-    }
-    return anyUnder40
+  get getDataCaptureToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[7]
   }
 }
 
