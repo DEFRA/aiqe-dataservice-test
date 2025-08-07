@@ -25,7 +25,7 @@ describe('DAC tests ', () => {
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     await searchPage.setsearch('London')
-    await searchPage.milesOptionClick('5 miles')
+    await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()
     await disambigurationPage.locationLinkClick('City of London')
     await locationMonitoringStationListPage
@@ -150,5 +150,79 @@ describe('DAC tests ', () => {
     await monitoringStationPage.getSDDailyExceedenceToggleTipInfoText.isDisplayed()
     await browser.keys('Tab')
     await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.isDisplayed()
+  })
+
+  it('Change aria-label for Site type toggletip, AQD-759', async () => {
+    await common.getBackLink.click()
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Southwark A2 Old Kent Road')
+      .click()
+    const urbanTrafficSiteTypeToggleTipAriaLabel =
+      await monitoringStationPage.getSiteTypeToggleTip.getAttribute(
+        'aria-label'
+      )
+    expect(urbanTrafficSiteTypeToggleTipAriaLabel).toBe(
+      'More information about Urban Traffic'
+    )
+
+    await common.getBackLink.click()
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Harlington')
+      .click()
+    const urbanIndustrialSiteTypeToggleTipAriaLabel =
+      await monitoringStationPage.getSiteTypeToggleTip.getAttribute(
+        'aria-label'
+      )
+    expect(urbanIndustrialSiteTypeToggleTipAriaLabel).toBe(
+      'More information about Urban Industrial'
+    )
+
+    await common.getBackLink.click()
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Horley')
+      .click()
+    const suburbanIndustrialSiteTypeToggleTipAriaLabel =
+      await monitoringStationPage.getSiteTypeToggleTip.getAttribute(
+        'aria-label'
+      )
+    expect(suburbanIndustrialSiteTypeToggleTipAriaLabel).toBe(
+      'More information about Suburban Industrial'
+    )
+
+    await common.getBackLink.click()
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bexley')
+      .click()
+    const suburbanBackgroundSiteTypeToggleTipAriaLabel =
+      await monitoringStationPage.getSiteTypeToggleTip.getAttribute(
+        'aria-label'
+      )
+    expect(suburbanBackgroundSiteTypeToggleTipAriaLabel).toBe(
+      'More information about Suburban Background'
+    )
+
+    await common.getBackLink.click()
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Rochester Stoke')
+      .click()
+    const ruralBackgroundSiteTypeToggleTipAriaLabel =
+      await monitoringStationPage.getSiteTypeToggleTip.getAttribute(
+        'aria-label'
+      )
+    expect(ruralBackgroundSiteTypeToggleTipAriaLabel).toBe(
+      'More information about Rural Background'
+    )
+
+    await common.getBackLink.click()
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    const urbanBackgroundSiteTypeToggleTipAriaLabel =
+      await monitoringStationPage.getSiteTypeToggleTip.getAttribute(
+        'aria-label'
+      )
+    expect(urbanBackgroundSiteTypeToggleTipAriaLabel).toBe(
+      'More information about Urban Background'
+    )
   })
 })
