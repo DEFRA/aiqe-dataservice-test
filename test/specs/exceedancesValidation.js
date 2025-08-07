@@ -108,7 +108,7 @@ describe('exceedences', () => {
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px 0px')
+      expect(styles['border-spacing']).toBe('0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
@@ -177,7 +177,7 @@ describe('exceedences', () => {
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px 0px')
+      expect(styles['border-spacing']).toBe('0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
@@ -247,11 +247,8 @@ describe('exceedences', () => {
       },
       { timeout: 4000 }
     )
-
-    await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.waitForDisplayed(
-      {
-        reverse: true
-      }
+    await common.notDisplayed(
+      await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip
     )
   })
 

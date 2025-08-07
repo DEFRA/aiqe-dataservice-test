@@ -21,10 +21,6 @@ describe('monitoring station page tests', () => {
     await browser.maximizeWindow()
     await passwordPage.inputPassword('airqualitydataset')
     await common.continueButton.click()
-    // Handle the cookie banner
-    // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-    // await cookieBanner.rejectButtonCookiesDialog.click()
-    // await cookieBanner.hideButtonHideDialog.click()
     await startNowPage.startNowBtnClick()
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
@@ -51,219 +47,7 @@ describe('monitoring station page tests', () => {
     )
   })
 
-  it('Station status, & last reading, AQD-694', async () => {
-    const getMonitoringStationStatusText =
-      await monitoringStationPage.getMonitoringStationStatus.getText()
-    const expectedMonitoringStationStatusText = 'Active'
-    await expect(getMonitoringStationStatusText).toMatch(
-      expectedMonitoringStationStatusText
-    )
-
-    await monitoringStationPage.getMonitoringStationLastReading.isDisplayed()
-
-    const getMonitoringStationStatus = [
-      await monitoringStationPage.getMonitoringStationStatus
-    ]
-
-    const getMonitoringStationStatusProperties = [
-      'background-color',
-      'color',
-      'font-size',
-      'line-height',
-      'font-family',
-      'font-weight',
-      'padding'
-    ]
-
-    for (const element of getMonitoringStationStatus) {
-      const styles = await common.getStyles(
-        element,
-        getMonitoringStationStatusProperties
-      )
-      expect(styles['background-color']).toBe('rgb(204, 226, 216)')
-      expect(styles.color).toBe('rgb(0, 90, 48)')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-weight']).toBe('400')
-      expect(styles.padding).toBe('2px 8px 3px')
-    }
-
-    const getMonitoringStationLastReading = [
-      await monitoringStationPage.getMonitoringStationLastReading
-    ]
-
-    const getMonitoringStationLastReadingProperties = [
-      'margin-left',
-      'display',
-      // 'color', bug
-      'margin-top',
-      'margin-bottom',
-      'font-size',
-      'line-height',
-      'font-family',
-      'font-weight'
-    ]
-
-    for (const element of getMonitoringStationLastReading) {
-      const styles = await common.getStyles(
-        element,
-        getMonitoringStationLastReadingProperties
-      )
-      expect(styles['margin-left']).toBe('5px')
-      expect(styles.display).toBe('inline-block')
-      // expect(styles.color).toBe('rgb(80, 90, 95)') bug raised
-      expect(styles['margin-top']).toBe('15px')
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-weight']).toBe('400')
-    }
-  })
-
-  it('Network, Region, & Site type , AQD 554', async () => {
-    const getMonitoringNetworkTypeTitle =
-      await monitoringStationPage.getMonitoringNetworkTitle.getText()
-    const expectedMonitoringNetworkTypeTitle = 'Monitoring network'
-    await expect(getMonitoringNetworkTypeTitle).toMatch(
-      expectedMonitoringNetworkTypeTitle
-    )
-
-    const getMonitoringNetworkTypeData =
-      await monitoringStationPage.getMonitoringNetworkData.getText()
-    const expectedMonitoringNetworkTypeData = 'Automatic Urban and Rural (AURN)'
-    await expect(getMonitoringNetworkTypeData).toMatch(
-      expectedMonitoringNetworkTypeData
-    )
-
-    const getRegionTitle = await monitoringStationPage.getRegionTitle.getText()
-    const expectedRegionTitle = 'Region'
-    await expect(getRegionTitle).toMatch(expectedRegionTitle)
-
-    const getRegionData = await monitoringStationPage.getRegionData.getText()
-    const expectedRegionData = 'Greater London'
-    await expect(getRegionData).toMatch(expectedRegionData)
-
-    const getSiteTypeTitle =
-      await monitoringStationPage.getSiteTypeTitle.getText()
-    const expectedSiteTypeTitle = `Site type`
-    await expect(getSiteTypeTitle).toMatch(expectedSiteTypeTitle)
-
-    const getSiteTypeData =
-      await monitoringStationPage.getSiteTypeData.getText()
-    const expectedSiteTypeData = `Urban Background
-i
-View on Google Maps (opens in new tab)`
-    await expect(getSiteTypeData).toMatch(expectedSiteTypeData)
-  })
-
-  it('Monitoring network, Region, and Site Type data out of alignment AQD-671', async () => {
-    const getMonitoringNetworkTypeTitleLocation =
-      await monitoringStationPage.getMonitoringNetworkTitle.getLocation()
-    const getMonitoringNetworkTypeDataLocation =
-      await monitoringStationPage.getMonitoringNetworkData.getLocation()
-    const xLocationDifferenceNetworkType = Math.abs(
-      getMonitoringNetworkTypeTitleLocation.x -
-        getMonitoringNetworkTypeDataLocation.x
-    )
-    expect(xLocationDifferenceNetworkType).toBeLessThanOrEqual(1)
-
-    const getRegionTitleLocation =
-      await monitoringStationPage.getRegionTitle.getLocation()
-    const getRegionDataLocation =
-      await monitoringStationPage.getRegionData.getLocation()
-    const xLocationDifferenceRegion = Math.abs(
-      getRegionTitleLocation.x - getRegionDataLocation.x
-    )
-    expect(xLocationDifferenceRegion).toBeLessThanOrEqual(1)
-
-    const getSiteTypeTitleLocation =
-      await monitoringStationPage.getSiteTypeTitle.getLocation()
-    const getSiteTypeDataLocation =
-      await monitoringStationPage.getSiteTypeData.getLocation()
-    const xLocationDifferenceSiteType = Math.abs(
-      getSiteTypeTitleLocation.x - getSiteTypeDataLocation.x
-    )
-    expect(xLocationDifferenceSiteType).toBeLessThanOrEqual(1)
-  })
-
-  it('Site type toggle tip and text, AQD-695', async () => {
-    await monitoringStationPage.getSiteTypeToggleTip.isDisplayed()
-    await monitoringStationPage.getSiteTypeToggleTip.isClickable()
-
-    const getToggleTip = [await monitoringStationPage.getSiteTypeToggleTip]
-
-    const getToggleTipProperties = [
-      'background-color',
-      'border',
-      'color',
-      'cursor',
-      'height',
-      'left',
-      'padding',
-      'position',
-      'text-align',
-      'top',
-      'width'
-    ]
-
-    for (const element of getToggleTip) {
-      const styles = await common.getStyles(element, getToggleTipProperties)
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles.cursor).toBe('help')
-      expect(styles.height).toBe('26px')
-      expect(styles.left).toBe('0px')
-      expect(styles.padding).toBe('0px')
-      expect(styles.position).toBe('absolute')
-      expect(styles['text-align']).toBe('center')
-      expect(styles.top).toBe('0px')
-      expect(styles.width).toBe('26px')
-    }
-
-    const getSiteTypeToggleTipInfoText = [
-      await monitoringStationPage.getSiteTypeToggleTipInfoText
-    ]
-
-    const getSiteTypeToggleTipInfoTextProperties = ['visibility']
-
-    for (const element of getSiteTypeToggleTipInfoText) {
-      const styles = await common.getStyles(
-        element,
-        getSiteTypeToggleTipInfoTextProperties
-      )
-      expect(styles.visibility).toBe('hidden')
-    }
-
-    await monitoringStationPage.getSiteTypeToggleTip.moveTo()
-    const getSiteTypeToggleTipInfoTextHover = [
-      await monitoringStationPage.getSiteTypeToggleTipInfoText
-    ]
-
-    const SiteTypeToggleTipInfoTextProperties = [
-      'visibility',
-      'color',
-      'background-color'
-    ]
-
-    for (const element of getSiteTypeToggleTipInfoTextHover) {
-      const styles = await common.getStyles(
-        element,
-        SiteTypeToggleTipInfoTextProperties
-      )
-      expect(styles.visibility).toBe('visible')
-      expect(styles.color).toBe('rgb(255, 255, 255)')
-      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
-    }
-    const getSiteTypeToggleTipText =
-      await monitoringStationPage.getSiteTypeToggleTipInfoText.getText()
-    const SiteTypeToggleTipText = `This monitoring area is in a city or town. It is located so pollutant measurements do not come from one specific source.`
-    await expect(getSiteTypeToggleTipText).toMatch(SiteTypeToggleTipText)
-  })
-
-  it('styling tests', async () => {
+  it('page styling tests', async () => {
     const getBackLink = [await common.getBackLink]
 
     const getBackLinkProperties = [
@@ -486,7 +270,7 @@ View on Google Maps (opens in new tab)`
     }
   })
 
-  it('checking links', async () => {
+  it('checking back link', async () => {
     await common.getBackLink.click()
     const getURLAfterBackLinkCLick = await browser.getUrl()
     const expectedgetURLAfterBackLinkCLick =
@@ -497,6 +281,218 @@ View on Google Maps (opens in new tab)`
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Bloomsbury')
       .click()
+  })
+
+  it('Station status, & last reading, AQD-694', async () => {
+    const getMonitoringStationStatusText =
+      await monitoringStationPage.getMonitoringStationStatus.getText()
+    const expectedMonitoringStationStatusText = 'Active'
+    await expect(getMonitoringStationStatusText).toMatch(
+      expectedMonitoringStationStatusText
+    )
+
+    await monitoringStationPage.getMonitoringStationLastReading.isDisplayed()
+
+    const getMonitoringStationStatus = [
+      await monitoringStationPage.getMonitoringStationStatus
+    ]
+
+    const getMonitoringStationStatusProperties = [
+      'background-color',
+      'color',
+      'font-size',
+      'line-height',
+      'font-family',
+      'font-weight',
+      'padding'
+    ]
+
+    for (const element of getMonitoringStationStatus) {
+      const styles = await common.getStyles(
+        element,
+        getMonitoringStationStatusProperties
+      )
+      expect(styles['background-color']).toBe('rgb(204, 226, 216)')
+      expect(styles.color).toBe('rgb(0, 90, 48)')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.padding).toBe('2px 8px 3px')
+    }
+
+    const getMonitoringStationLastReading = [
+      await monitoringStationPage.getMonitoringStationLastReading
+    ]
+
+    const getMonitoringStationLastReadingProperties = [
+      'margin-left',
+      'display',
+      // 'color', bug
+      'margin-top',
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of getMonitoringStationLastReading) {
+      const styles = await common.getStyles(
+        element,
+        getMonitoringStationLastReadingProperties
+      )
+      expect(styles['margin-left']).toBe('5px')
+      expect(styles.display).toBe('inline-block')
+      // expect(styles.color).toBe('rgb(80, 90, 95)') bug raised
+      expect(styles['margin-top']).toBe('15px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+    }
+  })
+
+  it('Network, Region, & Site type , AQD 554', async () => {
+    const getMonitoringNetworkTypeTitle =
+      await monitoringStationPage.getMonitoringNetworkTitle.getText()
+    const expectedMonitoringNetworkTypeTitle = 'Monitoring network'
+    await expect(getMonitoringNetworkTypeTitle).toMatch(
+      expectedMonitoringNetworkTypeTitle
+    )
+
+    const getMonitoringNetworkTypeData =
+      await monitoringStationPage.getMonitoringNetworkData.getText()
+    const expectedMonitoringNetworkTypeData = 'Automatic Urban and Rural (AURN)'
+    await expect(getMonitoringNetworkTypeData).toMatch(
+      expectedMonitoringNetworkTypeData
+    )
+
+    const getRegionTitle = await monitoringStationPage.getRegionTitle.getText()
+    const expectedRegionTitle = 'Region'
+    await expect(getRegionTitle).toMatch(expectedRegionTitle)
+
+    const getRegionData = await monitoringStationPage.getRegionData.getText()
+    const expectedRegionData = 'Greater London'
+    await expect(getRegionData).toMatch(expectedRegionData)
+
+    const getSiteTypeTitle =
+      await monitoringStationPage.getSiteTypeTitle.getText()
+    const expectedSiteTypeTitle = `Site type`
+    await expect(getSiteTypeTitle).toMatch(expectedSiteTypeTitle)
+
+    const getSiteTypeData =
+      await monitoringStationPage.getSiteTypeData.getText()
+    const expectedSiteTypeData = `Urban Background
+i
+View on Google Maps (opens in new tab)`
+    await expect(getSiteTypeData).toMatch(expectedSiteTypeData)
+  })
+
+  it('Monitoring network, Region, and Site Type data out of alignment AQD-671', async () => {
+    const getMonitoringNetworkTypeTitleLocation =
+      await monitoringStationPage.getMonitoringNetworkTitle.getLocation()
+    const getMonitoringNetworkTypeDataLocation =
+      await monitoringStationPage.getMonitoringNetworkData.getLocation()
+    const xLocationDifferenceNetworkType = Math.abs(
+      getMonitoringNetworkTypeTitleLocation.x -
+        getMonitoringNetworkTypeDataLocation.x
+    )
+    expect(xLocationDifferenceNetworkType).toBeLessThanOrEqual(1)
+
+    const getRegionTitleLocation =
+      await monitoringStationPage.getRegionTitle.getLocation()
+    const getRegionDataLocation =
+      await monitoringStationPage.getRegionData.getLocation()
+    const xLocationDifferenceRegion = Math.abs(
+      getRegionTitleLocation.x - getRegionDataLocation.x
+    )
+    expect(xLocationDifferenceRegion).toBeLessThanOrEqual(1)
+
+    const getSiteTypeTitleLocation =
+      await monitoringStationPage.getSiteTypeTitle.getLocation()
+    const getSiteTypeDataLocation =
+      await monitoringStationPage.getSiteTypeData.getLocation()
+    const xLocationDifferenceSiteType = Math.abs(
+      getSiteTypeTitleLocation.x - getSiteTypeDataLocation.x
+    )
+    expect(xLocationDifferenceSiteType).toBeLessThanOrEqual(1)
+  })
+
+  it('Site type toggle tip and text, AQD-695', async () => {
+    await monitoringStationPage.getSiteTypeToggleTip.isDisplayed()
+    await monitoringStationPage.getSiteTypeToggleTip.isClickable()
+
+    const getToggleTip = [await monitoringStationPage.getSiteTypeToggleTip]
+
+    const getToggleTipProperties = [
+      'background-color',
+      'border',
+      'color',
+      'cursor',
+      'height',
+      'left',
+      'padding',
+      'position',
+      'text-align',
+      'top',
+      'width'
+    ]
+
+    for (const element of getToggleTip) {
+      const styles = await common.getStyles(element, getToggleTipProperties)
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.cursor).toBe('help')
+      expect(styles.height).toBe('26px')
+      expect(styles.left).toBe('0px')
+      expect(styles.padding).toBe('0px')
+      expect(styles.position).toBe('absolute')
+      expect(styles['text-align']).toBe('center')
+      expect(styles.top).toBe('0px')
+      expect(styles.width).toBe('26px')
+    }
+
+    const getSiteTypeToggleTipInfoText = [
+      await monitoringStationPage.getSiteTypeToggleTipInfoText
+    ]
+
+    const getSiteTypeToggleTipInfoTextProperties = ['visibility']
+
+    for (const element of getSiteTypeToggleTipInfoText) {
+      const styles = await common.getStyles(
+        element,
+        getSiteTypeToggleTipInfoTextProperties
+      )
+      expect(styles.visibility).toBe('hidden')
+    }
+
+    await monitoringStationPage.getSiteTypeToggleTip.moveTo()
+    const getSiteTypeToggleTipInfoTextHover = [
+      await monitoringStationPage.getSiteTypeToggleTipInfoText
+    ]
+
+    const SiteTypeToggleTipInfoTextProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getSiteTypeToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        SiteTypeToggleTipInfoTextProperties
+      )
+      expect(styles.visibility).toBe('visible')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+    const getSiteTypeToggleTipText =
+      await monitoringStationPage.getSiteTypeToggleTipInfoText.getText()
+    const SiteTypeToggleTipText = `This monitoring area is in a city or town. It is located so pollutant measurements do not come from one specific source.`
+    await expect(getSiteTypeToggleTipText).toMatch(SiteTypeToggleTipText)
   })
 
   it('Station Summary Data - List Pollutants in Summary Table Order, AQD-613', async () => {
@@ -1062,8 +1058,8 @@ i`
     await monitoringStationPage.getApproximateFileSizesDropDownLink.click()
     await monitoringStationPage.getApproximateFileSizesContent.isDisplayed()
     await monitoringStationPage.getApproximateFileSizesDropDownLink.click()
-    await monitoringStationPage.getApproximateFileSizesContent.waitForDisplayed(
-      { reverse: true }
+    await common.notDisplayed(
+      await monitoringStationPage.getApproximateFileSizesContent
     )
     await monitoringStationPage.getApproximateFileSizesDropDownLink.click()
 
@@ -2225,14 +2221,66 @@ annual average data - usually less than 100KB`
     }
   })
 
-  it('checking google link', async () => {
-    await monitoringStationPage.getGoogleMapLink.click()
-    // await monitoringStationPage.getGoogleCookieAccept.click()
+  it('Low Data Capture % Toggle Tip, AQD-760', async () => {
+    await browser.url('')
+    await startNowPage.startNowBtnClick()
+    await searchPage.setsearch('Birmingham')
+    await searchPage.milesOptionClick('50 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('Birmingham')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Birmingham Ladywood')
+      .click()
+    await monitoringStationPage.get2023Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 4000))
+        return true
+      },
+      { timeout: 4000 }
+    )
+    const oneDataCapturePercentageUnder75 = [
+      await monitoringStationPage.getSDDataCapture
+    ]
+    const isDataCaptureUnder75 = await common.isAnyCaptureUnderAmount(
+      oneDataCapturePercentageUnder75,
+      75
+    )
+    expect(isDataCaptureUnder75).toBe(true)
+    const getAnnualAverage =
+      await monitoringStationPage.getSulphurDioxideAnnaulAverageST.getText()
+    const expectedAnnualAverage = `-`
+    await expect(getAnnualAverage).toMatch(expectedAnnualAverage)
+    await monitoringStationPage.getDataCaptureToggleTip.isDisplayed()
+    await monitoringStationPage.getDataCaptureToggleTip.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2000))
+        return true
+      },
+      { timeout: 2000 }
+    )
+    const getDataCaptureToggleTipInfoText =
+      await monitoringStationPage.getDataCaptureToggleTipInfoText.getText()
+    const expectedDataCaptureToggleTipInfoText = `Data capture under 75% is low. We do not calculate the average when data capture is low.`
+    await expect(getDataCaptureToggleTipInfoText).toMatch(
+      expectedDataCaptureToggleTipInfoText
+    )
 
-    // await browser.pause(30000)
-    // const getURLAfterGoogleMapClick = await browser.getUrl()
-    // const expectedgetURLAfterGoogleMapClick =
-    //  'https://www.google.co.uk/maps?q=52.476145,-1.874978'
-    // await expect(getURLAfterGoogleMapClick).toMatch(expectedgetURLAfterGoogleMapClick)
+    const DataCapturePercentageUnder75InfoText = [
+      await monitoringStationPage.getDataCaptureToggleTipInfoText
+    ]
+    const DataCapturePercentageUnder75InfoTextProperties = [
+      'color',
+      'background-color'
+    ]
+    for (const element of DataCapturePercentageUnder75InfoText) {
+      const styles = await common.getStyles(
+        element,
+        DataCapturePercentageUnder75InfoTextProperties
+      )
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
   })
 })
