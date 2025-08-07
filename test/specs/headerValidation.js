@@ -74,9 +74,9 @@ describe('header validation', () => {
         const styles = await common.getStyles(element, headerOverallProperties)
         expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
         expect(styles.background).toBe(
-          'rgb(11, 12, 12) none repeat scroll 0% 0% / auto padding-box border-box'
+          'rgb(29, 112, 184) none repeat scroll 0% 0% / auto padding-box border-box'
         )
-        expect(styles['border-bottom']).toBe('10px solid rgb(255, 255, 255)')
+        expect(styles['border-bottom']).toBe('1px solid rgba(0, 0, 0, 0)')
         expect(styles.color).toBe('rgb(255, 255, 255)')
         expect(styles['font-weight']).toBe('400')
       }
@@ -100,7 +100,7 @@ describe('header validation', () => {
         expect(styles['padding-right']).toBe('15px')
         expect(styles['vertical-align']).toBe('top')
         // expect(styles.width).toBe('319.953px')
-        expect(styles['margin-bottom']).toBe('10px')
+        expect(styles['margin-bottom']).toBe('0px')
         expect(styles['font-weight']).toBe('400')
       }
       // checking beta banner feedback link styling

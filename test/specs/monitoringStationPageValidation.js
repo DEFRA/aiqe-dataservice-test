@@ -490,7 +490,7 @@ View on Google Maps (opens in new tab)`
     await common.getBackLink.click()
     const getURLAfterBackLinkCLick = await browser.getUrl()
     const expectedgetURLAfterBackLinkCLick =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/city-of-london_city-and-county-of-the-city-of-london'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/city-of-london-city-and-county-of-the-city-of-london'
     await expect(getURLAfterBackLinkCLick).toMatch(
       expectedgetURLAfterBackLinkCLick
     )
