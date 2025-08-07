@@ -23,7 +23,7 @@ describe('Cookies Tests', () => {
 
     for (const element of getCookieBanner) {
       const styles = await common.getStyles(element, getCookieBannerProperties)
-      expect(styles['background-color']).toBe('rgb(243, 242, 241)')
+      expect(styles['background-color']).toBe('rgb(244, 248, 251)')
       expect(styles['border-bottom']).toBe('10px solid rgba(0, 0, 0, 0)')
       expect(styles['padding-top']).toBe('20px')
     }
