@@ -37,6 +37,10 @@ class Footer {
   get getCrownCoprightLogo() {
     return $("div[class='govuk-footer__meta-item'")
   }
+
+  get getFooterCrownLogo() {
+    return $("svg[class='govuk-footer__crown'")
+  }
 }
 
 export default new Footer()

@@ -18,9 +18,9 @@ describe('footer content and functionality checks', () => {
       // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
       // await cookieBanner.rejectButtonCookiesDialog.click()
       // await cookieBanner.hideButtonHideDialog.click()
-
-      // footer text validation
       await footer.getFooterOverall.isDisplayed()
+      await footer.getFooterCrownLogo.isDisplayed()
+
       // checking privacy link text
       const privacyLinkText = 'Privacy'
       const getPrivacyFooterLinkText =
@@ -96,12 +96,23 @@ describe('footer content and functionality checks', () => {
       // checking footer padding
       const footerOverall = [await footer.getFooterOverall]
 
-      const footerOverallProperties = ['padding-bottom', 'padding-top']
+      const footerOverallProperties = [
+        'background',
+        'padding-bottom',
+        'padding-top',
+        'border-top',
+        'color'
+      ]
 
       for (const element of footerOverall) {
         const styles = await common.getStyles(element, footerOverallProperties)
+        expect(styles.background).toBe(
+          'rgb(244, 248, 251) none repeat scroll 0% 0% / auto padding-box border-box'
+        )
         expect(styles['padding-bottom']).toBe('25px')
         expect(styles['padding-top']).toBe('40px')
+        expect(styles['border-top']).toBe('10px solid rgb(29, 112, 184)')
+        expect(styles.color).toBe('rgb(11, 12, 12)')
       }
       // checking links styling
       const footerLinks = [
@@ -174,6 +185,18 @@ describe('footer content and functionality checks', () => {
         expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
         expect(styles['font-size']).toBe('16px')
         expect(styles['line-height']).toBe('20px')
+      }
+
+      const FooterCrownLogo = [await footer.getFooterCrownLogo]
+
+      const FooterCrownLogoProperties = ['margin-bottom']
+
+      for (const element of FooterCrownLogo) {
+        const styles = await common.getStyles(
+          element,
+          FooterCrownLogoProperties
+        )
+        expect(styles['margin-bottom']).toBe('25px')
       }
     })
   })
