@@ -6,7 +6,6 @@ import { browser, expect } from '@wdio/globals'
 import common from '../page-objects/common.js'
 import errorPage from '../page-objects/errorPage.js'
 import searchPage from '../page-objects/searchPage.js'
-import passwordPage from '../page-objects/passwordPage.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
@@ -16,8 +15,6 @@ describe('Error scenarios', () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.maximizeWindow()
     await browser.url('')
-    await passwordPage.inputPassword('airqualitydataset')
-    await common.continueButton.click()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
@@ -36,7 +33,7 @@ describe('Error scenarios', () => {
     const GetErrorTitle = await errorPage.getErrorTitle.getText()
     await expect(errorTitle).toMatch(GetErrorTitle)
 
-    const errorLink = 'Enter a town or postcode'
+    const errorLink = 'Enter a town or postcode using only numbers and letters'
     const GetErrorLink = await errorPage.getErrorLink.getText()
     await expect(errorLink).toMatch(GetErrorLink)
 
@@ -44,6 +41,12 @@ describe('Error scenarios', () => {
 Enter a town or postcode`
     const GetErrorMessage = await errorPage.getErrorMessage.getText()
     await expect(errorMessage).toMatch(GetErrorMessage)
+
+    await searchPage.setsearch('!"£$%^&*()')
+    await errorPage.getErrorSummary.isDisplayed()
+    await errorPage.getErrorTitle.isDisplayed()
+    await errorPage.getErrorLink.isDisplayed()
+    await errorPage.getErrorMessage.isDisplayed()
   })
 
   it('search page error message Styling', async () => {
@@ -124,22 +127,41 @@ Enter a town or postcode`
       expect(styles['font-weight']).toBe('700')
       expect(styles['margin-bottom']).toBe('15px')
     }
+
+    const getErrorFormGroup = [await errorPage.getErrorFormGroup]
+
+    const getErrorFormGroupProperties = [
+      'border-left',
+      'padding-left',
+      'margin-bottom'
+    ]
+
+    for (const element of getErrorFormGroup) {
+      const styles = await common.getStyles(
+        element,
+        getErrorFormGroupProperties
+      )
+      expect(styles['border-left']).toBe('5px rgb(212, 53, 28)')
+      expect(styles['padding-left']).toBe('15px')
+      expect(styles['margin-bottom']).toBe('30px')
+    }
+
+    const getErrorSearchBox = [await errorPage.getErrorSearchBox]
+
+    const getErrorSearchBoxProperties = ['border-color']
+
+    for (const element of getErrorSearchBox) {
+      const styles = await common.getStyles(
+        element,
+        getErrorSearchBoxProperties
+      )
+      expect(styles['border-color']).toBe('rgb(212, 53, 28)')
+    }
   })
 })
 
 describe('Error scenarios', () => {
   it('could not find error page validation, no results with invalid search', async () => {
-    await searchPage.setsearch('!!!!"£')
-    await searchPage.milesOptionClick('5 miles')
-    await searchPage.continueBtnClick()
-    const PageHeading1 = `We could not find '!!!!"£'`
-    const getPageHeading1 = await errorPage.getCouldNotFindHeading.getText()
-    await expect(PageHeading1).toMatch(getPageHeading1)
-    await common.getBackLink.click()
-    const getCurrentURLAfterBackLink = await browser.getUrl()
-    const expectedURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
-    await expect(getCurrentURLAfterBackLink).toMatch(expectedURL)
     await searchPage.setsearch('dddffggggjgjj')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
@@ -458,6 +480,7 @@ choose a different location`
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['text-align']).toBe('left')
     }
+    await monitoringStationPage.get2018Button.click()
   })
 
   it('No Data for Selected Year,AQD-643', async () => {
@@ -468,9 +491,16 @@ choose a different location`
     await searchPage.continueBtnClick()
     await disambigurationPage.locationLinkClick('City of London')
     await locationMonitoringStationListPage
-      .getMonitoringStationLink('Worthing East Ten Acres')
+      .getMonitoringStationLink('Milton Keynes Civic Centre')
       .click()
     await monitoringStationPage.get2018Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2000))
+        return true
+      },
+      { timeout: 2000 }
+    )
     await errorPage.noDataForThisYearMessage.isDisplayed()
     const getNoDataForThisYearMessage =
       await errorPage.noDataForThisYearMessage.getText()

@@ -43,6 +43,14 @@ class ErrorPage {
     return $("p[class='govuk-error-message']")
   }
 
+  get getErrorFormGroup() {
+    return $("div[class='govuk-form-group govuk-form-group--error']")
+  }
+
+  get getErrorSearchBox() {
+    return $("input[class='govuk-input govuk-input--error']")
+  }
+
   // no data for this year
   get noDataForThisYearMessage() {
     return $("div[class='govuk-inset-text']")

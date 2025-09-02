@@ -3,7 +3,6 @@ import { browser, expect } from '@wdio/globals'
 // import createLogger from 'helpers/logger'
 import footer from '../page-objects/footer.js'
 import common from '../page-objects/common.js'
-import passwordPage from '../page-objects/passwordPage.js'
 
 const pages = ['https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/']
 describe('footer content and functionality checks', () => {
@@ -12,8 +11,6 @@ describe('footer content and functionality checks', () => {
       // await browser.deleteCookies(['airaqie_cookie'])
       await browser.url(page)
       await browser.maximizeWindow()
-      await passwordPage.inputPassword('airqualitydataset')
-      await common.continueButton.click()
       // Handle the cookie banner
       // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
       // await cookieBanner.rejectButtonCookiesDialog.click()
