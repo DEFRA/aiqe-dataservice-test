@@ -14,7 +14,7 @@ class MonitoringStationPage {
   }
 
   get getMonitoringStationLastReading() {
-    return $("p[class*='govuk-body status-description govuk-!-margin-top-3']")
+    return $("p[class*='status-description govuk-!-margin-top-3']")
   }
 
   get getMonitoringNetworkTitle() {
@@ -457,7 +457,7 @@ class MonitoringStationPage {
   }
 
   get getSDDataCapture() {
-    return $$("span[class*='defra-aq-levels-table__cell--data']")[4]
+    return $$("span[style*='margin-top: 4px;']")[4]
   }
 
   get getDataCaptureToggleTip() {
@@ -468,6 +468,14 @@ class MonitoringStationPage {
 
   get getDataCaptureToggleTipInfoText() {
     return $$("span[class*='defra-toggletip__text']")[7]
+  }
+
+  get getLowDataCaptureFlag() {
+    return $("strong[class*='govuk-tag govuk-tag--red govuk-!-font-size-16']")
+  }
+
+  get getAboveLimitFlag() {
+    return $("strong[class*='govuk-tag govuk-tag--red govuk-!-font-size-16']")
   }
 }
 

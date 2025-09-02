@@ -18,7 +18,7 @@ class SearchPage {
   }
 
   get searchBox() {
-    return $("input[class='govuk-input']")
+    return $("input[id='search-input']")
   }
 
   async setsearch(searchTerm) {

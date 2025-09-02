@@ -12,8 +12,6 @@ import createLogger from '../helpers/logger.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
-import passwordPage from '../page-objects/passwordPage.js'
-import common from '../page-objects/common.js'
 
 const logger = createLogger()
 describe('happyPath', () => {
@@ -22,8 +20,6 @@ describe('happyPath', () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
-    await passwordPage.inputPassword('airqualitydataset')
-    await common.continueButton.click()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()

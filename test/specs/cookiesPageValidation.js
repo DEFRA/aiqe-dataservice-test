@@ -8,7 +8,6 @@ import common from '../page-objects/common.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import cookiesPage from '../page-objects/cookiesPage.js'
-import passwordPage from '../page-objects/passwordPage.js'
 
 describe('cookie page tests', () => {
   it('title and content checks', async () => {
@@ -19,8 +18,6 @@ describe('cookie page tests', () => {
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
     // await cookieBanner.hideButtonHideDialog.click()
-    await passwordPage.inputPassword('airqualitydataset')
-    await common.continueButton.click()
     await footer.getCookiesFooterLink.click()
     // page content validation
     await headersObject.getHeaderOverall.isDisplayed()

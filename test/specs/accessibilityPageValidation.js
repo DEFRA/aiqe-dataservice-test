@@ -8,7 +8,6 @@ import common from '../page-objects/common.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import accessibilityPage from '../page-objects/accessibilityPage.js'
-import passwordPage from '../page-objects/passwordPage.js'
 
 describe('accessibility page tests', () => {
   it('title and content checks', async () => {
@@ -19,8 +18,6 @@ describe('accessibility page tests', () => {
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
     // await cookieBanner.hideButtonHideDialog.click()
-    await passwordPage.inputPassword('airqualitydataset')
-    await common.continueButton.click()
     await footer.getAccessibilityStatementFooterLink.click()
     // page content validation
     await headersObject.getHeaderOverall.isDisplayed()
@@ -39,9 +36,8 @@ This accessibility statement applies to the Get air pollution data service.
 Compliance status
 This website is fully compliant with the Web Content Accessibility Guidelines (WCAG) version 2.2 AA.
 Preparation of this accessibility statement
-The 'Get air pollution data' service was evaluated for accessibility by Defra.
-This statement was prepared on 8 January 2025.
-This statement was last reviewed on 20 January 2025.
+This statement was prepared on 8 January 2025.It was last reviewed on 19 August 2025.
+This website was last tested on 5 June 2025.The test was carried out by the Digital Accessibility Centre.
 Feedback and contact information
 If you notice any compliance failures or need to request information and content that is not provided in this document, email accessibility@defra.gov.uk.
 Enforcement procedure

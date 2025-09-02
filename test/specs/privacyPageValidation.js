@@ -4,7 +4,6 @@ import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
 import common from '../page-objects/common.js'
-import passwordPage from '../page-objects/passwordPage.js'
 // import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
@@ -15,8 +14,6 @@ describe('privacy page content/functionality checks/styling checks', () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
-    await passwordPage.inputPassword('airqualitydataset')
-    await common.continueButton.click()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()

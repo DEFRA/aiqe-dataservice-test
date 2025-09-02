@@ -10,7 +10,6 @@ import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
-import passwordPage from '../page-objects/passwordPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 
@@ -19,8 +18,6 @@ describe('monitoring station page tests', () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
-    await passwordPage.inputPassword('airqualitydataset')
-    await common.continueButton.click()
     await startNowPage.startNowBtnClick()
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
@@ -328,7 +325,7 @@ describe('monitoring station page tests', () => {
     const getMonitoringStationLastReadingProperties = [
       'margin-left',
       'display',
-      // 'color', bug
+      'color',
       'margin-top',
       'margin-bottom',
       'font-size',
@@ -344,7 +341,7 @@ describe('monitoring station page tests', () => {
       )
       expect(styles['margin-left']).toBe('5px')
       expect(styles.display).toBe('inline-block')
-      // expect(styles.color).toBe('rgb(80, 90, 95)') bug raised
+      expect(styles.color).toBe('rgb(80, 90, 95)')
       expect(styles['margin-top']).toBe('15px')
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('19px')
@@ -364,7 +361,8 @@ describe('monitoring station page tests', () => {
 
     const getMonitoringNetworkTypeData =
       await monitoringStationPage.getMonitoringNetworkData.getText()
-    const expectedMonitoringNetworkTypeData = 'Automatic Urban and Rural (AURN)'
+    const expectedMonitoringNetworkTypeData =
+      'Automatic Urban and Rural Network (AURN)'
     await expect(getMonitoringNetworkTypeData).toMatch(
       expectedMonitoringNetworkTypeData
     )
@@ -2255,10 +2253,10 @@ annual average data - usually less than 100KB`
     await monitoringStationPage.getDataCaptureToggleTip.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 2000))
+        await new Promise((resolve) => setTimeout(resolve, 3000))
         return true
       },
-      { timeout: 2000 }
+      { timeout: 3000 }
     )
     const getDataCaptureToggleTipInfoText =
       await monitoringStationPage.getDataCaptureToggleTipInfoText.getText()
@@ -2281,6 +2279,34 @@ annual average data - usually less than 100KB`
       )
       expect(styles.color).toBe('rgb(255, 255, 255)')
       expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+
+    await monitoringStationPage.getLowDataCaptureFlag.isDisplayed()
+    const getLowDataCaptureFlagText =
+      await monitoringStationPage.getLowDataCaptureFlag.getText()
+    const expectedLowDataCaptureFlagText = `Low data capture`
+    await expect(getLowDataCaptureFlagText).toMatch(
+      expectedLowDataCaptureFlagText
+    )
+
+    const getLowDataCaptureFlagStyles = [
+      await monitoringStationPage.getLowDataCaptureFlag
+    ]
+    const getLowDataCaptureFlagStylesProperties = [
+      'font-size',
+      'line-height',
+      'background-color',
+      'color'
+    ]
+    for (const element of getLowDataCaptureFlagStyles) {
+      const styles = await common.getStyles(
+        element,
+        getLowDataCaptureFlagStylesProperties
+      )
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
+      expect(styles['background-color']).toBe('rgb(244, 205, 198)')
+      expect(styles.color).toBe('rgb(42, 11, 6)')
     }
   })
 })

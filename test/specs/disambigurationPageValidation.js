@@ -10,7 +10,6 @@ import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
-import passwordPage from '../page-objects/passwordPage.js'
 
 describe('disambiguration page tests', () => {
   it('checking titles and content', async () => {
@@ -21,8 +20,6 @@ describe('disambiguration page tests', () => {
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
     // await cookieBanner.hideButtonHideDialog.click()
-    await passwordPage.inputPassword('airqualitydataset')
-    await common.continueButton.click()
     // startnow-block
     await startNowPage.startNowBtnClick()
 

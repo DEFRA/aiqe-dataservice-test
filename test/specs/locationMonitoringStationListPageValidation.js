@@ -11,7 +11,6 @@ import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
-import passwordPage from '../page-objects/passwordPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 
 describe('monitoring station list page tests', () => {
@@ -19,8 +18,6 @@ describe('monitoring station list page tests', () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
-    await passwordPage.inputPassword('airqualitydataset')
-    await common.continueButton.click()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
@@ -45,7 +42,7 @@ describe('monitoring station list page tests', () => {
     await browser.refresh()
     const getCurrentURLAfterBackLink = await browser.getUrl()
     const expectedURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations?fullSearchQuery=B2%204QA&locationMiles=5'
+      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations'
     await expect(getCurrentURLAfterBackLink).toMatch(expectedURL)
     await disambigurationPage.locationLinkClick('B2 4QA')
 

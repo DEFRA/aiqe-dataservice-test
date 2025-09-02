@@ -10,7 +10,6 @@ import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
-import passwordPage from '../page-objects/passwordPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 
@@ -19,8 +18,6 @@ describe('exceedences', () => {
     // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
-    await passwordPage.inputPassword('airqualitydataset')
-    await common.continueButton.click()
     await startNowPage.startNowBtnClick()
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
@@ -108,7 +105,7 @@ describe('exceedences', () => {
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px')
+      expect(styles['border-spacing']).toBe('0px 0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
@@ -177,7 +174,7 @@ describe('exceedences', () => {
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px')
+      expect(styles['border-spacing']).toBe('0px 0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
@@ -645,5 +642,49 @@ describe('exceedences', () => {
     await expect(getSDDailyExceedenceToggleTipInfoText).toMatch(
       expectedSDDailyExceedenceToggleTipInfoText
     )
+  })
+
+  it('Station Summary Data - Hourly Exceedances - Above Limit Flag, AQD-791', async () => {
+    await browser.url('')
+    await startNowPage.startNowBtnClick()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('50 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Marylebone Road')
+      .click()
+    await monitoringStationPage.get2018Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 4000))
+        return true
+      },
+      { timeout: 4000 }
+    )
+    await monitoringStationPage.getAboveLimitFlag.isDisplayed()
+    const getAboveLimitFlagText =
+      await monitoringStationPage.getAboveLimitFlag.getText()
+    const expectedAboveLimitFlagText = `Above limit`
+    await expect(getAboveLimitFlagText).toMatch(expectedAboveLimitFlagText)
+    const getAboveLimitFlagStyles = [
+      await monitoringStationPage.getAboveLimitFlag
+    ]
+    const getAboveLimitFlagStylesProperties = [
+      'font-size',
+      'line-height',
+      'background-color',
+      'color'
+    ]
+    for (const element of getAboveLimitFlagStyles) {
+      const styles = await common.getStyles(
+        element,
+        getAboveLimitFlagStylesProperties
+      )
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
+      expect(styles['background-color']).toBe('rgb(244, 205, 198)')
+      expect(styles.color).toBe('rgb(42, 11, 6)')
+    }
   })
 })

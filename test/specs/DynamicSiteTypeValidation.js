@@ -9,8 +9,6 @@ import searchPage from '../page-objects/searchPage.js'
 import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
-import common from '../page-objects/common.js'
-import passwordPage from '../page-objects/passwordPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 
@@ -18,8 +16,6 @@ describe('site type tests', () => {
   it('dynamic site type, AQD-735', async () => {
     await browser.url('')
     await browser.maximizeWindow()
-    await passwordPage.inputPassword('airqualitydataset')
-    await common.continueButton.click()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
