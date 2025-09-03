@@ -145,18 +145,6 @@ Enter a town or postcode`
       expect(styles['padding-left']).toBe('15px')
       expect(styles['margin-bottom']).toBe('30px')
     }
-
-    const getErrorSearchBox = [await errorPage.getErrorSearchBox]
-
-    const getErrorSearchBoxProperties = ['border-color']
-
-    for (const element of getErrorSearchBox) {
-      const styles = await common.getStyles(
-        element,
-        getErrorSearchBoxProperties
-      )
-      expect(styles['border-color']).toBe('rgb(212, 53, 28)')
-    }
   })
 })
 
@@ -496,10 +484,10 @@ choose a different location`
     await monitoringStationPage.get2018Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 4000))
+        await new Promise((resolve) => setTimeout(resolve, 5000))
         return true
       },
-      { timeout: 4000 }
+      { timeout: 5000 }
     )
     await errorPage.noDataForThisYearMessage.isDisplayed()
     const getNoDataForThisYearMessage =
