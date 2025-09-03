@@ -141,7 +141,7 @@ Enter a town or postcode`
         element,
         getErrorFormGroupProperties
       )
-      expect(styles['border-left']).toBe('5px rgb(212, 53, 28)')
+      expect(styles['border-left']).toBe('5px solid rgb(212, 53, 28)')
       expect(styles['padding-left']).toBe('15px')
       expect(styles['margin-bottom']).toBe('30px')
     }
