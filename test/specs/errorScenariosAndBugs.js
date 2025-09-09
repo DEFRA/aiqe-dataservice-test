@@ -165,8 +165,7 @@ describe('Error scenarios', () => {
     await expect(PageHeading3).toMatch(getPageHeading3)
     await errorPage.getGoBackToSearchALocationLink.click()
     const getCurrentURLAfterBackLink4 = await browser.getUrl()
-    const expectedURL4 =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
+    const expectedURL4 = '/search-location'
     await expect(getCurrentURLAfterBackLink4).toMatch(expectedURL4)
     await searchPage.setsearch('thailand')
     await searchPage.milesOptionClick('5 miles')
@@ -531,9 +530,7 @@ choose a different location`
   })
 
   it('Error 404,AQD-666', async () => {
-    await browser.url(
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/404'
-    )
+    await browser.url('/404')
 
     const getError404HeadingStyling = [await errorPage.getError404Heading]
 

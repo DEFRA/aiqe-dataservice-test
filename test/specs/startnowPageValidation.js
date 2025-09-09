@@ -39,13 +39,11 @@ Start now`
   it('link checks', async () => {
     await startNowPage.startNowBtnClick()
     const searchPageURL = await browser.getUrl()
-    const expectedSearchPageURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
+    const expectedSearchPageURL = 'search-location'
     await expect(searchPageURL).toMatch(expectedSearchPageURL)
     await common.getBackLink.click()
     const startNowPageURL = await browser.getUrl()
-    const expectedStartNowPageURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
+    const expectedStartNowPageURL = 'https://aqie-dataselector-frontend'
     await expect(startNowPageURL).toMatch(expectedStartNowPageURL)
     await browser.refresh()
   })

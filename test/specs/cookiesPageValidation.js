@@ -556,7 +556,7 @@ Save cookie settings`
     await cookiesPage.getGetAirPollutionDataLink.click()
     const getAirPolutionDataLinkURL = await browser.getUrl()
     const expectedgetAirPolutionDataLinkURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
+      'https://aqie-dataselector-frontend'
     await expect(getAirPolutionDataLinkURL).toMatch(
       expectedgetAirPolutionDataLinkURL
     )

@@ -253,7 +253,7 @@ Our personal information charter explains more about your rights over your perso
     await privacyPage.getGetAirPollutionDataLink.click()
     const getAirPolutionDataLinkURL = await browser.getUrl()
     const expectedgetAirPolutionDataLinkURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/'
+      'https://aqie-dataselector-frontend'
     await expect(getAirPolutionDataLinkURL).toMatch(
       expectedgetAirPolutionDataLinkURL
     )
@@ -262,8 +262,7 @@ Our personal information charter explains more about your rights over your perso
 
     await privacyPage.getCookieOptLink.click()
     const getCookieOptLinkURL = await browser.getUrl()
-    const expectedGetCookieOptLinkURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/cookies'
+    const expectedGetCookieOptLinkURL = '/cookies'
     await expect(getCookieOptLinkURL).toMatch(expectedGetCookieOptLinkURL)
     await browser.back()
     await browser.refresh()

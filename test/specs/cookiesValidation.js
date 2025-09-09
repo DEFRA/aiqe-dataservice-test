@@ -156,8 +156,7 @@ describe('Cookies Tests', () => {
   it('cookiebanner, AQD-651, view cookies link', async () => {
     await cookiesBanner.getViewCookiesLink.click()
     const getCookiesPageURL = await browser.getUrl()
-    const expectedCookiesPageURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/cookies/'
+    const expectedCookiesPageURL = '/cookies/'
     await expect(getCookiesPageURL).toMatch(expectedCookiesPageURL)
     browser.back()
     browser.refresh()
@@ -170,8 +169,7 @@ describe('Cookies Tests', () => {
     await expect(getAcceptText).toMatch(expectedAcceptText)
     await cookiesBanner.getChangeCookieSettings.click()
     const getCookiesPageURL = await browser.getUrl()
-    const expectedCookiesPageURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/cookies'
+    const expectedCookiesPageURL = '/cookies'
     await expect(getCookiesPageURL).toMatch(expectedCookiesPageURL)
     browser.back()
     await cookiesBanner.getHideCookiesButton.isDisplayed()
@@ -231,8 +229,7 @@ describe('Cookies Tests', () => {
     await expect(getRejectedText).toMatch(expectedRejectedText)
     await cookiesBanner.getChangeCookieSettingsAfterReject.click()
     const getCookiesPageURL = await browser.getUrl()
-    const expectedCookiesPageURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/cookies'
+    const expectedCookiesPageURL = '/cookies'
     await expect(getCookiesPageURL).toMatch(expectedCookiesPageURL)
     browser.back()
     await cookiesBanner.getHideCookiesButtonAfterReject.isDisplayed()

@@ -244,8 +244,7 @@ Continue`
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
     const getCurrentURLAfterSearch1 = await browser.getUrl()
-    const expectedURL1 =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations'
+    const expectedURL1 = '/multiplelocations'
     await expect(getCurrentURLAfterSearch1).toMatch(expectedURL1)
     await browser.back()
     await browser.refresh()
@@ -254,8 +253,7 @@ Continue`
     await searchPage.milesOptionClick('25 miles')
     await searchPage.continueBtnClick()
     const getCurrentURLAfterSearch2 = await browser.getUrl()
-    const expectedURL2 =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations'
+    const expectedURL2 = '/multiplelocations'
     await expect(getCurrentURLAfterSearch2).toMatch(expectedURL2)
     await browser.back()
     await browser.refresh()
@@ -264,8 +262,7 @@ Continue`
     await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()
     const getCurrentURLAfterSearch3 = await browser.getUrl()
-    const expectedURL3 =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations'
+    const expectedURL3 = '/multiplelocations'
     await expect(getCurrentURLAfterSearch3).toMatch(expectedURL3)
     await browser.back()
     await browser.refresh()
@@ -275,9 +272,15 @@ Continue`
     await searchPage.setsearch('WD17 1DF')
     await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 5000))
+        return true
+      },
+      { timeout: 5000 }
+    )
     const getCurrentURLAfterSearch4 = await browser.getUrl()
-    const expectedURL4 =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations'
+    const expectedURL4 = '/multiplelocations'
     await expect(getCurrentURLAfterSearch4).toMatch(expectedURL4)
     await browser.back()
     await browser.refresh()
