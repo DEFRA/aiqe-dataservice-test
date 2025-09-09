@@ -4,197 +4,182 @@ import { browser, expect } from '@wdio/globals'
 import footer from '../page-objects/footer.js'
 import common from '../page-objects/common.js'
 
-const pages = ['https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/']
 describe('footer content and functionality checks', () => {
-  pages.forEach((page) => {
-    it('titles, links, content, styling', async () => {
-      // await browser.deleteCookies(['airaqie_cookie'])
-      await browser.url(page)
-      await browser.maximizeWindow()
-      // Handle the cookie banner
-      // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-      // await cookieBanner.rejectButtonCookiesDialog.click()
-      // await cookieBanner.hideButtonHideDialog.click()
-      await footer.getFooterOverall.isDisplayed()
-      await footer.getFooterCrownLogo.isDisplayed()
+  it('titles, links, content, styling', async () => {
+    // await browser.deleteCookies(['airaqie_cookie'])
+    await browser.url()
+    await browser.maximizeWindow()
+    // Handle the cookie banner
+    // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
+    // await cookieBanner.rejectButtonCookiesDialog.click()
+    // await cookieBanner.hideButtonHideDialog.click()
+    await footer.getFooterOverall.isDisplayed()
+    await footer.getFooterCrownLogo.isDisplayed()
 
-      // checking privacy link text
-      const privacyLinkText = 'Privacy'
-      const getPrivacyFooterLinkText =
-        await footer.getPrivacyFooterLink.getText()
-      await expect(privacyLinkText).toMatch(getPrivacyFooterLinkText)
-      // checking cookies link text
-      const cookiesLinkText = 'Cookies'
-      const getCookiesFooterLinkText =
-        await footer.getCookiesFooterLink.getText()
-      await expect(cookiesLinkText).toMatch(getCookiesFooterLinkText)
-      // checking accessibility statement link text
-      const accessibilityStatementFooterLinkText = 'Accessibility statement'
-      const getAccessibiltyStatementFooterLinkText =
-        await footer.getAccessibilityStatementFooterLink.getText()
-      await expect(accessibilityStatementFooterLinkText).toMatch(
-        getAccessibiltyStatementFooterLinkText
+    // checking privacy link text
+    const privacyLinkText = 'Privacy'
+    const getPrivacyFooterLinkText = await footer.getPrivacyFooterLink.getText()
+    await expect(privacyLinkText).toMatch(getPrivacyFooterLinkText)
+    // checking cookies link text
+    const cookiesLinkText = 'Cookies'
+    const getCookiesFooterLinkText = await footer.getCookiesFooterLink.getText()
+    await expect(cookiesLinkText).toMatch(getCookiesFooterLinkText)
+    // checking accessibility statement link text
+    const accessibilityStatementFooterLinkText = 'Accessibility statement'
+    const getAccessibiltyStatementFooterLinkText =
+      await footer.getAccessibilityStatementFooterLink.getText()
+    await expect(accessibilityStatementFooterLinkText).toMatch(
+      getAccessibiltyStatementFooterLinkText
+    )
+    // checking OGL link text
+    const OglFooterLinkText = 'Open Government Licence v3.0'
+    const getOglFooterLinkText = await footer.getOglFooterLink.getText()
+    await expect(OglFooterLinkText).toMatch(getOglFooterLinkText)
+    // checking OGL logo
+    await footer.getOGLLogo.isDisplayed()
+
+    // checking crown logo is present
+    await footer.getCrownCoprightLogo.isDisplayed()
+
+    // footer links validation
+
+    await footer.getPrivacyFooterLink.click()
+    const privacyURL = await browser.getUrl()
+    const expectedPrivacyURL = '/privacy'
+    await expect(privacyURL).toMatch(expectedPrivacyURL)
+    await browser.back()
+
+    await browser.refresh()
+    await footer.getCookiesFooterLink.click()
+    const cookiesURL = await browser.getUrl()
+    const expectedCookiesURL = '/cookies'
+    await expect(cookiesURL).toMatch(expectedCookiesURL)
+    await browser.back()
+
+    await browser.refresh()
+    await footer.getAccessibilityStatementFooterLink.click()
+    const AccessibilityStatementURL = await browser.getUrl()
+    const expectedAccessibilityStatementURL = '/accessibility'
+    await expect(AccessibilityStatementURL).toMatch(
+      expectedAccessibilityStatementURL
+    )
+    await browser.back()
+
+    await browser.refresh()
+    await footer.getOglFooterLink.click()
+    const OGLURL = await browser.getUrl()
+    const expectedOGLURL =
+      'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/'
+    await expect(OGLURL).toMatch(expectedOGLURL)
+    await browser.back()
+
+    await browser.refresh()
+    await footer.getCrownCoprightLogo.click()
+    const crownCopyrightLogoURL = await browser.getUrl()
+    const expectedCrownCopyrightLogoURL =
+      'https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/'
+    await expect(crownCopyrightLogoURL).toMatch(expectedCrownCopyrightLogoURL)
+    await browser.back()
+    await browser.refresh()
+
+    // footer styling validation
+    // checking footer padding
+    const footerOverall = [await footer.getFooterOverall]
+
+    const footerOverallProperties = [
+      'background',
+      'padding-bottom',
+      'padding-top',
+      'border-top',
+      'color'
+    ]
+
+    for (const element of footerOverall) {
+      const styles = await common.getStyles(element, footerOverallProperties)
+      expect(styles.background).toBe(
+        'rgb(244, 248, 251) none repeat scroll 0% 0% / auto padding-box border-box'
       )
-      // checking OGL link text
-      const OglFooterLinkText = 'Open Government Licence v3.0'
-      const getOglFooterLinkText = await footer.getOglFooterLink.getText()
-      await expect(OglFooterLinkText).toMatch(getOglFooterLinkText)
-      // checking OGL logo
-      await footer.getOGLLogo.isDisplayed()
+      expect(styles['padding-bottom']).toBe('25px')
+      expect(styles['padding-top']).toBe('40px')
+      expect(styles['border-top']).toBe('10px solid rgb(29, 112, 184)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+    }
+    // checking links styling
+    const footerLinks = [
+      await footer.getPrivacyFooterLink,
+      await footer.getCookiesFooterLink,
+      await footer.getAccessibilityStatementFooterLink,
+      await footer.getOglFooterLink
+    ]
 
-      // checking crown logo is present
-      await footer.getCrownCoprightLogo.isDisplayed()
+    const footerLinkProperties = [
+      'color',
+      'font-family',
+      'text-decoration',
+      'font-size',
+      'line-height',
+      'font-weight'
+    ]
 
-      // footer links validation
-
-      await footer.getPrivacyFooterLink.click()
-      const privacyURL = await browser.getUrl()
-      const expectedPrivacyURL =
-        'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/privacy'
-      await expect(privacyURL).toMatch(expectedPrivacyURL)
-      await browser.back()
-
-      await browser.refresh()
-      await footer.getCookiesFooterLink.click()
-      const cookiesURL = await browser.getUrl()
-      const expectedCookiesURL =
-        'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/cookies'
-      await expect(cookiesURL).toMatch(expectedCookiesURL)
-      await browser.back()
-
-      await browser.refresh()
-      await footer.getAccessibilityStatementFooterLink.click()
-      const AccessibilityStatementURL = await browser.getUrl()
-      const expectedAccessibilityStatementURL =
-        'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/accessibility'
-      await expect(AccessibilityStatementURL).toMatch(
-        expectedAccessibilityStatementURL
+    for (const element of footerLinks) {
+      const styles = await common.getStyles(element, footerLinkProperties)
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['line-height']).toBe('20px')
+      expect(styles['text-decoration']).toBe(
+        'underline 1px solid rgb(11, 12, 12)'
       )
-      await browser.back()
+    }
+    // checking OGL logo styling
+    const oglLogo = [await footer.getOGLLogo]
 
-      await browser.refresh()
-      await footer.getOglFooterLink.click()
-      const OGLURL = await browser.getUrl()
-      const expectedOGLURL =
-        'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/'
-      await expect(OGLURL).toMatch(expectedOGLURL)
-      await browser.back()
+    const oglLogoProperties = ['height', 'margin-right', 'width']
 
-      await browser.refresh()
-      await footer.getCrownCoprightLogo.click()
-      const crownCopyrightLogoURL = await browser.getUrl()
-      const expectedCrownCopyrightLogoURL =
-        'https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/'
-      await expect(crownCopyrightLogoURL).toMatch(expectedCrownCopyrightLogoURL)
-      await browser.back()
-      await browser.refresh()
+    for (const element of oglLogo) {
+      const styles = await common.getStyles(element, oglLogoProperties)
+      expect(styles.height).toBe('17px')
+      expect(styles['margin-right']).toBe('10px')
+      expect(styles.width).toBe('41px')
+    }
+    // crown logo styling
+    const crownLogo = [await footer.getCrownCoprightLogo]
 
-      // footer styling validation
-      // checking footer padding
-      const footerOverall = [await footer.getFooterOverall]
+    const crownLogoProperties = ['margin-bottom', 'margin-left', 'margin-right']
 
-      const footerOverallProperties = [
-        'background',
-        'padding-bottom',
-        'padding-top',
-        'border-top',
-        'color'
-      ]
+    for (const element of crownLogo) {
+      const styles = await common.getStyles(element, crownLogoProperties)
+      expect(styles['margin-bottom']).toBe('25px')
+      expect(styles['margin-left']).toBe('15px')
+      expect(styles['margin-right']).toBe('15px')
+    }
+    // OGLStatement
+    const oglStatement = [await footer.getOGLStatement]
 
-      for (const element of footerOverall) {
-        const styles = await common.getStyles(element, footerOverallProperties)
-        expect(styles.background).toBe(
-          'rgb(244, 248, 251) none repeat scroll 0% 0% / auto padding-box border-box'
-        )
-        expect(styles['padding-bottom']).toBe('25px')
-        expect(styles['padding-top']).toBe('40px')
-        expect(styles['border-top']).toBe('10px solid rgb(29, 112, 184)')
-        expect(styles.color).toBe('rgb(11, 12, 12)')
-      }
-      // checking links styling
-      const footerLinks = [
-        await footer.getPrivacyFooterLink,
-        await footer.getCookiesFooterLink,
-        await footer.getAccessibilityStatementFooterLink,
-        await footer.getOglFooterLink
-      ]
+    const oglStatementProperties = [
+      'font-size',
+      'line-height',
+      'font-family',
+      'font-weight',
+      'color'
+    ]
 
-      const footerLinkProperties = [
-        'color',
-        'font-family',
-        'text-decoration',
-        'font-size',
-        'line-height',
-        'font-weight'
-      ]
+    for (const element of oglStatement) {
+      const styles = await common.getStyles(element, oglStatementProperties)
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
+    }
 
-      for (const element of footerLinks) {
-        const styles = await common.getStyles(element, footerLinkProperties)
-        expect(styles.color).toBe('rgb(11, 12, 12)')
-        expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-        expect(styles['font-size']).toBe('16px')
-        expect(styles['font-weight']).toBe('400')
-        expect(styles['line-height']).toBe('20px')
-        expect(styles['text-decoration']).toBe(
-          'underline 1px solid rgb(11, 12, 12)'
-        )
-      }
-      // checking OGL logo styling
-      const oglLogo = [await footer.getOGLLogo]
+    const FooterCrownLogo = [await footer.getFooterCrownLogo]
 
-      const oglLogoProperties = ['height', 'margin-right', 'width']
+    const FooterCrownLogoProperties = ['margin-bottom']
 
-      for (const element of oglLogo) {
-        const styles = await common.getStyles(element, oglLogoProperties)
-        expect(styles.height).toBe('17px')
-        expect(styles['margin-right']).toBe('10px')
-        expect(styles.width).toBe('41px')
-      }
-      // crown logo styling
-      const crownLogo = [await footer.getCrownCoprightLogo]
-
-      const crownLogoProperties = [
-        'margin-bottom',
-        'margin-left',
-        'margin-right'
-      ]
-
-      for (const element of crownLogo) {
-        const styles = await common.getStyles(element, crownLogoProperties)
-        expect(styles['margin-bottom']).toBe('25px')
-        expect(styles['margin-left']).toBe('15px')
-        expect(styles['margin-right']).toBe('15px')
-      }
-      // OGLStatement
-      const oglStatement = [await footer.getOGLStatement]
-
-      const oglStatementProperties = [
-        'font-size',
-        'line-height',
-        'font-family',
-        'font-weight',
-        'color'
-      ]
-
-      for (const element of oglStatement) {
-        const styles = await common.getStyles(element, oglStatementProperties)
-        expect(styles.color).toBe('rgb(11, 12, 12)')
-        expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-        expect(styles['font-size']).toBe('16px')
-        expect(styles['line-height']).toBe('20px')
-      }
-
-      const FooterCrownLogo = [await footer.getFooterCrownLogo]
-
-      const FooterCrownLogoProperties = ['margin-bottom']
-
-      for (const element of FooterCrownLogo) {
-        const styles = await common.getStyles(
-          element,
-          FooterCrownLogoProperties
-        )
-        expect(styles['margin-bottom']).toBe('25px')
-      }
-    })
+    for (const element of FooterCrownLogo) {
+      const styles = await common.getStyles(element, FooterCrownLogoProperties)
+      expect(styles['margin-bottom']).toBe('25px')
+    }
   })
 })

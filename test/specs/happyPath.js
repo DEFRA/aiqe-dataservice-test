@@ -57,8 +57,7 @@ describe('happyPath', () => {
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     const getCurrentURLOfA450Roadside = await browser.getUrl()
-    const expectedURLOfA450Roadside =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
+    const expectedURLOfA450Roadside = '/stationdetails/BirminghamA4540Roadside'
     await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)
     const getMonitoringPageHeading =
       await monitoringStationPage.getMonitoringPageHeading.getText()

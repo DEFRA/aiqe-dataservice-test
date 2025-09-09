@@ -41,16 +41,14 @@ describe('monitoring station list page tests', () => {
     await common.getBackLink.click()
     await browser.refresh()
     const getCurrentURLAfterBackLink = await browser.getUrl()
-    const expectedURL =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/multiplelocations'
+    const expectedURL = '/multiplelocations'
     await expect(getCurrentURLAfterBackLink).toMatch(expectedURL)
     await disambigurationPage.locationLinkClick('B2 4QA')
 
     // checking change search area link
     await locationMonitoringStationListPage.getChangeSearchAreaLink.click()
     await browser.refresh()
-    const expectedURLAfterChangeSearchAreaLink =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/search-location'
+    const expectedURLAfterChangeSearchAreaLink = '/search-location'
     const getURLAfterChangeSearchAreaLink = await browser.getUrl()
     await expect(getURLAfterChangeSearchAreaLink).toMatch(
       expectedURLAfterChangeSearchAreaLink
@@ -76,8 +74,7 @@ describe('monitoring station list page tests', () => {
       .getMonitoringStationLink('Birmingham A4540 Roadside')
       .click()
     const getCurrentURLOfA450Roadside = await browser.getUrl()
-    const expectedURLOfA450Roadside =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/BirminghamA4540Roadside'
+    const expectedURLOfA450Roadside = '/stationdetails/BirminghamA4540Roadside'
     await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)
     await common.getBackLink.click()
     browser.refresh()
@@ -86,8 +83,7 @@ describe('monitoring station list page tests', () => {
       .getMonitoringStationLink('Birmingham Ladywood')
       .click()
     const getCurrentURLOfBirminghamLadywood = await browser.getUrl()
-    const expectedURLOfBirminghamLadywood =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/BirminghamLadywood'
+    const expectedURLOfBirminghamLadywood = '/stationdetails/BirminghamLadywood'
     await expect(getCurrentURLOfBirminghamLadywood).toMatch(
       expectedURLOfBirminghamLadywood
     )
@@ -99,7 +95,7 @@ describe('monitoring station list page tests', () => {
       .click()
     const getCurrentURLOfOldburyBirminghamRoad = await browser.getUrl()
     const expectedURLOfOldburyBirminghamRoad =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/OldburyBirminghamRoad'
+      '/stationdetails/OldburyBirminghamRoad'
     await expect(getCurrentURLOfOldburyBirminghamRoad).toMatch(
       expectedURLOfOldburyBirminghamRoad
     )

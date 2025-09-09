@@ -30,8 +30,7 @@ describe('exceedences', () => {
       .click()
 
     const getCurrentURLOfLondonBloomsbury = await browser.getUrl()
-    const expectedURLOfLondonBloomsbury =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/LondonBloomsbury'
+    const expectedURLOfLondonBloomsbury = '/stationdetails/LondonBloomsbury'
     await expect(getCurrentURLOfLondonBloomsbury).toMatch(
       expectedURLOfLondonBloomsbury
     )

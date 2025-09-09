@@ -30,8 +30,7 @@ describe('monitoring station page tests', () => {
       .click()
 
     const getCurrentURLOfLondonBloomsbury = await browser.getUrl()
-    const expectedURLOfLondonBloomsbury =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/stationdetails/LondonBloomsbury'
+    const expectedURLOfLondonBloomsbury = '/stationdetails/LondonBloomsbury'
     await expect(getCurrentURLOfLondonBloomsbury).toMatch(
       expectedURLOfLondonBloomsbury
     )
@@ -271,7 +270,7 @@ describe('monitoring station page tests', () => {
     await common.getBackLink.click()
     const getURLAfterBackLinkCLick = await browser.getUrl()
     const expectedgetURLAfterBackLinkCLick =
-      'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/location/city-of-london-city-and-county-of-the-city-of-london'
+      '/location/city-of-london-city-and-county-of-the-city-of-london'
     await expect(getURLAfterBackLinkCLick).toMatch(
       expectedgetURLAfterBackLinkCLick
     )
