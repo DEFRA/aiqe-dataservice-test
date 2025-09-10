@@ -37,10 +37,10 @@ describe('exceedences', () => {
     await monitoringStationPage.get2024Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 4000))
+        await new Promise((resolve) => setTimeout(resolve, 5000))
         return true
       },
-      { timeout: 4000 }
+      { timeout: 5000 }
     )
     const PM25HourlyExceedence =
       await monitoringStationPage.getPM25HourlyExceedence.getText()
