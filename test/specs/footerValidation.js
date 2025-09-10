@@ -7,7 +7,7 @@ import common from '../page-objects/common.js'
 describe('footer content and functionality checks', () => {
   it('titles, links, content, styling', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
-    await browser.url()
+    await browser.url('')
     await browser.maximizeWindow()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {

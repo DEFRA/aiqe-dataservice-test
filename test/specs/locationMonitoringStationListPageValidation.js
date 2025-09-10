@@ -15,7 +15,7 @@ import monitoringStationPage from '../page-objects/monitoringStationPage.js'
 
 describe('monitoring station list page tests', () => {
   it('titles and content', async () => {
-    // await browser.deleteCookies(['airaqie_cookie'])
+    await browser.deleteCookies(['airaqie_cookies_analytics'])
     await browser.url('')
     await browser.maximizeWindow()
     // Handle the cookie banner
@@ -480,7 +480,7 @@ describe('monitoring station list page tests', () => {
 
     const pollutantListDerbyStockbrookPark =
       await locationMonitoringStationListPage.getPollutionListFromListPage(
-        "tr:nth-child(15) td[class='govuk-table__cell govuk-table__cell--numeric']"
+        "tr:nth-child(14) td[class='govuk-table__cell govuk-table__cell--numeric']"
       )
     const pollutantListDerbyStockbrookParkString =
       pollutantListDerbyStockbrookPark.join(',')

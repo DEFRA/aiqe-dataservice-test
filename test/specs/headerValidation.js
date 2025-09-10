@@ -9,7 +9,7 @@ import common from '../page-objects/common.js'
 describe('header validation', () => {
   it('content checks/functionality checks/styling checks', async () => {
     // await browser.deleteCookies(['airaqie_cookie'])
-    await browser.url()
+    await browser.url('')
     await browser.maximizeWindow()
     // Handle the cookie banner
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
