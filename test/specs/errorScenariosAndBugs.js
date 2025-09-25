@@ -33,7 +33,7 @@ describe('Error scenarios', () => {
     const GetErrorTitle = await errorPage.getErrorTitle.getText()
     await expect(errorTitle).toMatch(GetErrorTitle)
 
-    const errorLink = 'Enter a town or postcode using only numbers and letters'
+    const errorLink = 'Enter a town or postcode'
     const GetErrorLink = await errorPage.getErrorLink.getText()
     await expect(errorLink).toMatch(GetErrorLink)
 
@@ -42,7 +42,9 @@ Enter a town or postcode`
     const GetErrorMessage = await errorPage.getErrorMessage.getText()
     await expect(errorMessage).toMatch(GetErrorMessage)
 
-    await searchPage.setsearch('!"£$%^&*()')
+    await searchPage.setsearch(
+      '! " # $ % & ` ( ) * + , - / : ; < = > ? @ [ ] ^ _ { | } ~'
+    )
     await errorPage.getErrorSummary.isDisplayed()
     await errorPage.getErrorTitle.isDisplayed()
     await errorPage.getErrorLink.isDisplayed()

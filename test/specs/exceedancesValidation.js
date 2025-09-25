@@ -472,33 +472,6 @@ describe('exceedences', () => {
       expect(styles.visibility).toBe('hidden')
     }
 
-    await monitoringStationPage.getSDHourlyExceedenceToggleTip.moveTo()
-    const getSDHourlyExceedenceToggleTipInfoTextHover = [
-      await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText
-    ]
-
-    const getSDHourlyExceedenceToggleTipInfoTextHoverProperties = [
-      'visibility',
-      'color',
-      'background-color'
-    ]
-
-    for (const element of getSDHourlyExceedenceToggleTipInfoTextHover) {
-      const styles = await common.getStyles(
-        element,
-        getSDHourlyExceedenceToggleTipInfoTextHoverProperties
-      )
-      expect(styles.visibility).toBe('visible')
-      expect(styles.color).toBe('rgb(255, 255, 255)')
-      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
-    }
-    const getSDHourlyExceedenceToggleTipInfoText =
-      await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.getText()
-    const expectedSDHourlyExceedenceToggleTipInfoText = `Hourly sulphur dioxide levels must not go above 350 micrograms per cubic metre (µg/m³) more than 24 times in a calendar year (when rounded to a whole number).`
-    await expect(getSDHourlyExceedenceToggleTipInfoText).toMatch(
-      expectedSDHourlyExceedenceToggleTipInfoText
-    )
-
     await monitoringStationPage.getNOHourlyExceedenceToggleTip.moveTo()
     const getNOHourlyExceedenceToggleTipInfoTextHover = [
       await monitoringStationPage.getNOHourlyExceedenceToggleTipInfoText
@@ -524,6 +497,33 @@ describe('exceedences', () => {
     const expectedNOHourlyExceedenceToggleTipInfoText = `Hourly nitrogen dioxide levels must not go above 200 micrograms per cubic metre (µg/m³) more than 18 times in a calendar year (when rounded to a whole number).`
     await expect(getNOHourlyExceedenceToggleTipInfoText).toMatch(
       expectedNOHourlyExceedenceToggleTipInfoText
+    )
+
+    await monitoringStationPage.getSDHourlyExceedenceToggleTip.moveTo()
+    const getSDHourlyExceedenceToggleTipInfoTextHover = [
+      await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText
+    ]
+
+    const getSDHourlyExceedenceToggleTipInfoTextHoverProperties = [
+      'visibility',
+      'color',
+      'background-color'
+    ]
+
+    for (const element of getSDHourlyExceedenceToggleTipInfoTextHover) {
+      const styles = await common.getStyles(
+        element,
+        getSDHourlyExceedenceToggleTipInfoTextHoverProperties
+      )
+      expect(styles.visibility).toBe('visible')
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(0, 0, 0)')
+    }
+    const getSDHourlyExceedenceToggleTipInfoText =
+      await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.getText()
+    const expectedSDHourlyExceedenceToggleTipInfoText = `Hourly sulphur dioxide levels must not go above 350 micrograms per cubic metre (µg/m³) more than 24 times in a calendar year (when rounded to a whole number).`
+    await expect(getSDHourlyExceedenceToggleTipInfoText).toMatch(
+      expectedSDHourlyExceedenceToggleTipInfoText
     )
   })
 
