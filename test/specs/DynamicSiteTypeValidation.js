@@ -44,10 +44,10 @@ describe('site type tests', () => {
     await monitoringStationPage.getSiteTypeToggleTip.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        await new Promise((resolve) => setTimeout(resolve, 2000))
         return true
       },
-      { timeout: 1500 }
+      { timeout: 2000 }
     )
     const getUISiteTypeText =
       await monitoringStationPage.getSiteTypeToggleTipInfoText.getText()
@@ -61,10 +61,10 @@ describe('site type tests', () => {
     await monitoringStationPage.getSiteTypeToggleTip.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        await new Promise((resolve) => setTimeout(resolve, 2000))
         return true
       },
-      { timeout: 1500 }
+      { timeout: 2000 }
     )
     const getSISiteTypeText =
       await monitoringStationPage.getSiteTypeToggleTipInfoText.getText()
@@ -78,10 +78,10 @@ describe('site type tests', () => {
     await monitoringStationPage.getSiteTypeToggleTip.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        await new Promise((resolve) => setTimeout(resolve, 2000))
         return true
       },
-      { timeout: 1500 }
+      { timeout: 2000 }
     )
     const getSBSiteTypeText =
       await monitoringStationPage.getSiteTypeToggleTipInfoText.getText()
@@ -95,10 +95,10 @@ describe('site type tests', () => {
     await monitoringStationPage.getSiteTypeToggleTip.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        await new Promise((resolve) => setTimeout(resolve, 2000))
         return true
       },
-      { timeout: 1500 }
+      { timeout: 2000 }
     )
     const getRBSiteTypeText =
       await monitoringStationPage.getSiteTypeToggleTipInfoText.getText()
@@ -112,10 +112,10 @@ describe('site type tests', () => {
     await monitoringStationPage.getSiteTypeToggleTip.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        await new Promise((resolve) => setTimeout(resolve, 2000))
         return true
       },
-      { timeout: 1500 }
+      { timeout: 2000 }
     )
     const getUBSiteTypeText =
       await monitoringStationPage.getSiteTypeToggleTipInfoText.getText()

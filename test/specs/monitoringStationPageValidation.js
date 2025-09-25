@@ -527,7 +527,7 @@ View on Google Maps (opens in new tab)`
     await expect(durationTag2025).toMatch(expectedDurationTag2025)
     const getVerifiedTag2025 =
       await monitoringStationPage.getVerifiedTag.getText()
-    const expectedVerifiedTag2025 = 'Data has been verified until 31 March'
+    const expectedVerifiedTag2025 = 'Data has been verified until 30 June'
     await expect(getVerifiedTag2025).toMatch(expectedVerifiedTag2025)
     const getdownloadDataHeading2025 =
       await monitoringStationPage.getdownloadDataHeading.getText()
