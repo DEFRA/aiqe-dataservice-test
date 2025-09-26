@@ -32,6 +32,13 @@ describe('site type tests', () => {
       .click()
 
     await monitoringStationPage.getSiteTypeToggleTip.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2000))
+        return true
+      },
+      { timeout: 2000 }
+    )
     const getUTSiteTypeText =
       await monitoringStationPage.getSiteTypeToggleTipInfoText.getText()
     const expectedUTSiteTypeText = `This monitoring site is in a city or town close to roads, motorways or highways.`
