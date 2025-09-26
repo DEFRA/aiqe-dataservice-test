@@ -469,7 +469,6 @@ choose a different location`
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['text-align']).toBe('left')
     }
-    await monitoringStationPage.get2018Button.click()
   })
 
   it('No Data for Selected Year,AQD-643', async () => {
@@ -485,10 +484,10 @@ choose a different location`
     await monitoringStationPage.get2019Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 5000))
+        await new Promise((resolve) => setTimeout(resolve, 6000))
         return true
       },
-      { timeout: 5000 }
+      { timeout: 6000 }
     )
     await errorPage.noDataForThisYearMessage.isDisplayed()
     const getNoDataForThisYearMessage =
