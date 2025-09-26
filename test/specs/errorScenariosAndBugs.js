@@ -475,14 +475,14 @@ choose a different location`
   it('No Data for Selected Year,AQD-643', async () => {
     await common.getBackLink.click()
     await locationMonitoringStationListPage.getChangeSearchAreaLink.click()
-    await searchPage.setsearch('London')
-    await searchPage.milesOptionClick('50 miles')
+    await searchPage.setsearch('milton keynes')
+    await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
-    await disambigurationPage.locationLinkClick('City of London')
+    await disambigurationPage.locationLinkClick('Milton Keynes')
     await locationMonitoringStationListPage
       .getMonitoringStationLink('Milton Keynes Civic Centre')
       .click()
-    await monitoringStationPage.get2018Button.click()
+    await monitoringStationPage.get2019Button.click()
     await browser.waitUntil(
       async () => {
         await new Promise((resolve) => setTimeout(resolve, 5000))
