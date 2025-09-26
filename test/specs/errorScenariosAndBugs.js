@@ -481,6 +481,7 @@ choose a different location`
     await locationMonitoringStationListPage
       .getMonitoringStationLink('Milton Keynes Civic Centre')
       .click()
+    await browser.refresh()
     await monitoringStationPage.get2019Button.click()
     await browser.waitUntil(
       async () => {
