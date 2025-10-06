@@ -8,28 +8,16 @@ import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 describe('start now page content/functionality checks/styling checks', () => {
   it('content and titles', async () => {
-    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
-    // Handle the cookie banner
-    // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-    // await cookieBanner.rejectButtonCookiesDialog.click()
-    // await cookieBanner.hideButtonHideDialog.click()
-
     // page content validation
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     const startnowPageContent = `Get air pollution data
-Use this service to:
-find air quality monitoring stations
-download air pollution data
-This service uses data from the Automatic Urban and Rural network (AURN).
-This service shows you data for:
-PM2.5
-PM10
-nitrogen dioxide
-ozone
-sulphur dioxide
+Use this service to view and download air pollution data from monitoring networks across the UK.
+To get air pollution data, you can:
+find monitoring stations by location
+create a custom dataset
 Start now`
     const getStartNowPagecontent =
       await startNowPage.getStartNowPagecontent.getText()
@@ -39,9 +27,10 @@ Start now`
   it('link checks', async () => {
     await startNowPage.startNowBtnClick()
     const searchPageURL = await browser.getUrl()
-    const expectedSearchPageURL = 'search-location'
+    const expectedSearchPageURL = '/hubpage'
     await expect(searchPageURL).toMatch(expectedSearchPageURL)
-    await common.getBackLink.click()
+    await browser.back()
+    await browser.refresh()
     const startNowPageURL = await browser.getUrl()
     const expectedStartNowPageURL = 'https://aqie-dataselector-frontend'
     await expect(startNowPageURL).toMatch(expectedStartNowPageURL)
@@ -142,6 +131,36 @@ Start now`
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
+    }
+
+    const startNowButton = [await startNowPage.getStartNowBtn]
+
+    const getStartNowBtnProperties = [
+      'color',
+      'font-size',
+      'line-height',
+      'font-weight',
+      'margin-bottom',
+      'font-family',
+      'background-color',
+      'border',
+      'box-shadow',
+      'padding'
+    ]
+
+    for (const element of startNowButton) {
+      const styles = await common.getStyles(element, getStartNowBtnProperties)
+
+      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles['font-size']).toBe('24px')
+      expect(styles['line-height']).toBe('24px')
+      expect(styles['font-weight']).toBe('700')
+      expect(styles['margin-bottom']).toBe('32px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['background-color']).toBe('rgb(0, 112, 60)')
+      expect(styles.border).toBe('2px solid rgba(0, 0, 0, 0)')
+      expect(styles['box-shadow']).toBe('rgb(0, 45, 24) 0px 2px 0px 0px')
+      expect(styles.padding).toBe('8px 10px 7px')
     }
   })
 })

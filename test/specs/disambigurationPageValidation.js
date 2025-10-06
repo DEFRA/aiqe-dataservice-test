@@ -10,6 +10,7 @@ import headersObject from '../page-objects/header.js'
 import footer from '../page-objects/footer.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
+import hubPage from '../page-objects/hubPage.js'
 
 describe('disambiguration page tests', () => {
   it('checking titles and content', async () => {
@@ -22,6 +23,7 @@ describe('disambiguration page tests', () => {
     // await cookieBanner.hideButtonHideDialog.click()
     // startnow-block
     await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
 
     // search block
     await headersObject.getHeaderOverall.isDisplayed()
