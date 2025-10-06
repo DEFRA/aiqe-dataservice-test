@@ -12,6 +12,7 @@ import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
+import hubPage from '../page-objects/hubPage.js'
 
 describe('monitoring station list page tests', () => {
   it('titles and content', async () => {
@@ -23,6 +24,7 @@ describe('monitoring station list page tests', () => {
     // await cookieBanner.rejectButtonCookiesDialog.click()
     // await cookieBanner.hideButtonHideDialog.click()
     await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     await searchPage.setsearch('B2 4QA')

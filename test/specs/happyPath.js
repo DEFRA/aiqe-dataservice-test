@@ -12,6 +12,7 @@ import createLogger from '../helpers/logger.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
+import hubPage from '../page-objects/hubPage.js'
 
 const logger = createLogger()
 describe('happyPath', () => {
@@ -33,6 +34,7 @@ describe('happyPath', () => {
       await startNowPage.getStartNowPageHeading.getText()
     await expect(startNowHeading).toMatch(getStartNowHeading)
     await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
 
     // search block
     await headersObject.getHeaderOverall.isDisplayed()

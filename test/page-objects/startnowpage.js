@@ -22,7 +22,7 @@ class StartNowPage {
   }
 
   get getstartNowPageBodyText() {
-    return $("p[class*='govuk-body']")
+    return $$("p[class*='govuk-body']")[4]
   }
 
   get getstartNowPageList() {
