@@ -28,7 +28,7 @@ export const config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/**/hubPageValidation.js'],
+  specs: ['./test/specs/**/downloadData.js'],
   // Patterns to exclude.
   exclude: [],
   // injectGlobals: false,
@@ -61,6 +61,9 @@ export const config = {
         {
           maxInstances: 1,
           browserName: 'chrome',
+          'goog:loggingPrefs': {
+            browser: 'ALL'
+          },
           'goog:chromeOptions': {
             args: [
               '--no-sandbox',
