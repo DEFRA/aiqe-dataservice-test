@@ -1,17 +1,17 @@
 import startNowPage from '../page-objects/startnowpage.js'
-// import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
-import { browser, expect } from '@wdio/globals'
-// import fs from 'node:fs'
-// import createLogger from 'helpers/logger'
+import { expect } from '@wdio/globals'
 import searchPage from '../page-objects/searchPage.js'
 import hubPage from '../page-objects/hubPage.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
-/* run these locally in dev every release */
-describe('download data function', () => {
-  it('downloading hourly data', async () => {
-    await browser.url('')
+
+/* run these locally in dev every release, uncomment disable javascript capability in local.conf */
+describe('No Javascript Happy Path', () => {
+  it('no javascript search by location flow', async () => {
+    await browser.url(
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/'
+    )
     await browser.maximizeWindow()
     await startNowPage.getStartNowBtn.click()
     await hubPage.getFindMonitoringStationsByLocation.click()
@@ -20,7 +20,7 @@ describe('download data function', () => {
     await searchPage.continueBtnClick()
     await disambigurationPage.locationLinkClick('Birmingham')
     await locationMonitoringStationListPage
-      .getMonitoringStationLink('Oldbury Birmingham Road')
+      .getMonitoringStationLink('Birmingham Ladywood')
       .click()
     await monitoringStationPage.getDownloadAllPollutantsHourlyData.click()
     await browser.waitUntil(
@@ -81,5 +81,38 @@ describe('download data function', () => {
 
     // Assert that the specific log entry exists
     expect(annualdownloadLog).toBeDefined()
+
+    await monitoringStationPage.getPM25AnnualAverageToggleTip.isClickable()
+    await monitoringStationPage.getPM25AnnualAverageToggleTip.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 5000))
+        return true
+      },
+      { timeout: 5000 }
+    )
+    await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText.isDisplayed()
+
+    await monitoringStationPage.getPM10DailyExceedenceToggleTip.isClickable()
+    await monitoringStationPage.getPM10DailyExceedenceToggleTip.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 5000))
+        return true
+      },
+      { timeout: 5000 }
+    )
+    await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText.isDisplayed()
+
+    await monitoringStationPage.getSDHourlyExceedenceToggleTip.isClickable()
+    await monitoringStationPage.getSDHourlyExceedenceToggleTip.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 5000))
+        return true
+      },
+      { timeout: 5000 }
+    )
+    await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.isDisplayed()
   })
 })

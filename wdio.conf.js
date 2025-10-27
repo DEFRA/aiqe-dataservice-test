@@ -46,7 +46,10 @@ export const config = {
   // Tests to run
   specs: ['./test/specs/**/*.js'],
   // Tests to exclude
-  exclude: ['./test/specs/**/downloadData.js'],
+  exclude: [
+    './test/specs/**/downloadData.js',
+    './test/specs/**/noJavascriptValidation.js'
+  ],
   maxInstances: 1,
 
   capabilities: [
