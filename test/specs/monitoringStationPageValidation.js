@@ -12,7 +12,7 @@ import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
-import hubPage from '../page-objects/hubPage.js'
+// import hubPage from '../page-objects/hubPage.js'
 
 describe('monitoring station page tests', () => {
   it('url, titles ', async () => {
@@ -20,7 +20,7 @@ describe('monitoring station page tests', () => {
     await browser.url('')
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()
-    await hubPage.getFindMonitoringStationsByLocation.click()
+    // await hubPage.getFindMonitoringStationsByLocation.click()
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     await searchPage.setsearch('London')
@@ -2223,7 +2223,7 @@ annual average data - usually less than 100KB`
   it('Low Data Capture % Toggle Tip, AQD-760', async () => {
     await browser.url('')
     await startNowPage.startNowBtnClick()
-    await hubPage.getFindMonitoringStationsByLocation.click()
+    // await hubPage.getFindMonitoringStationsByLocation.click()
     await searchPage.setsearch('Birmingham')
     await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()

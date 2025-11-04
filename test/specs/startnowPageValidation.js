@@ -14,11 +14,19 @@ describe('start now page content/functionality checks/styling checks', () => {
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     const startnowPageContent = `Get air pollution data
-Use this service to view and download air pollution data from monitoring networks across the UK.
-To get air pollution data, you can:
-find monitoring stations by location
-create a custom dataset
-Start now`
+Use this service to:
+find air quality monitoring stations
+download air pollution data
+This service uses data from the Automatic Urban and Rural network (AURN).
+This service shows you data for:
+PM2.5
+PM10
+nitrogen dioxide
+ozone
+sulphur dioxide
+Start now
+Other ways to get this information
+Email: getairpollutiondata@defra.gov.uk`
     const getStartNowPagecontent =
       await startNowPage.getStartNowPagecontent.getText()
     await expect(startnowPageContent).toMatch(getStartNowPagecontent)
@@ -27,7 +35,7 @@ Start now`
   it('link checks', async () => {
     await startNowPage.startNowBtnClick()
     const searchPageURL = await browser.getUrl()
-    const expectedSearchPageURL = '/hubpage'
+    const expectedSearchPageURL = '/search-location'
     await expect(searchPageURL).toMatch(expectedSearchPageURL)
     await browser.back()
     await browser.refresh()

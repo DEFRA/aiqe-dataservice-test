@@ -9,7 +9,7 @@ import searchPage from '../page-objects/searchPage.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
-import hubPage from '../page-objects/hubPage.js'
+// import hubPage from '../page-objects/hubPage.js'
 
 describe('Error scenarios', () => {
   it('search page error message validation', async () => {
@@ -21,7 +21,7 @@ describe('Error scenarios', () => {
     // await cookieBanner.rejectButtonCookiesDialog.click()
     // await cookieBanner.hideButtonHideDialog.click()
     await startNowPage.startNowBtnClick()
-    await hubPage.getFindMonitoringStationsByLocation.click()
+    // await hubPage.getFindMonitoringStationsByLocation.click()
     await searchPage.setsearch('')
     await searchPage.milesOptionClick('')
     await searchPage.continueBtnClick()
@@ -653,7 +653,7 @@ Contact the air quality team if you continue to get this error message`
   it('PM10 Toggle Tip not behaving as expected for Wrexham Monitoring Station, AQD-712', async () => {
     await browser.url('')
     await startNowPage.startNowBtnClick()
-    await hubPage.getFindMonitoringStationsByLocation.click()
+    // await hubPage.getFindMonitoringStationsByLocation.click()
     await searchPage.setsearch('Wrexham')
     await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()
@@ -683,7 +683,7 @@ Contact the air quality team if you continue to get this error message`
   it('site ID missing for tower hamlets, remove it from station list, AQD-713', async () => {
     await browser.url('')
     await startNowPage.startNowBtnClick()
-    await hubPage.getFindMonitoringStationsByLocation.click()
+    // await hubPage.getFindMonitoringStationsByLocation.click()
     await searchPage.setsearch('Tower Hamlets')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()

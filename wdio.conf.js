@@ -64,7 +64,7 @@ export const config = {
         testObservabilityOptions: {
           user: process.env.BROWSERSTACK_USER,
           key: process.env.BROWSERSTACK_KEY,
-          projectName: 'project-name-as-set-in-browserstack',
+          projectName: 'aiqe-dataservice-test',
           buildName: `test-run-${process.env.ENVIRONMENT}`
         },
         acceptInsecureCerts: true,
@@ -83,6 +83,7 @@ export const config = {
   // Tests to exclude
   exclude: [
     './test/specs/**/downloadData.js',
+    './test/specs/**/hubPageValidation.js',
     './test/specs/**/noJavascriptValidation.js'
   ],
   maxInstances: 1,
