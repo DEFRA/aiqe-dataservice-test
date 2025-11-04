@@ -12,7 +12,7 @@ import disambigurationPage from '../page-objects/disambigurationPage.js'
 import common from '../page-objects/common.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
-import hubPage from '../page-objects/hubPage.js'
+// import hubPage from '../page-objects/hubPage.js'
 
 describe('exceedences', () => {
   it('hourly exceedences , AQD-632', async () => {
@@ -20,7 +20,7 @@ describe('exceedences', () => {
     await browser.url('')
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()
-    await hubPage.getFindMonitoringStationsByLocation.click()
+    // await hubPage.getFindMonitoringStationsByLocation.click()
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     await searchPage.setsearch('London')
@@ -648,7 +648,7 @@ describe('exceedences', () => {
   it('Station Summary Data - Hourly Exceedances - Above Limit Flag, AQD-791', async () => {
     await browser.url('')
     await startNowPage.startNowBtnClick()
-    await hubPage.getFindMonitoringStationsByLocation.click()
+    // await hubPage.getFindMonitoringStationsByLocation.click()
     await searchPage.setsearch('London')
     await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()

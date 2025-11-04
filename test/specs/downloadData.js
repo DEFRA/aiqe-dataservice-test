@@ -4,7 +4,7 @@ import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
 import searchPage from '../page-objects/searchPage.js'
-import hubPage from '../page-objects/hubPage.js'
+// import hubPage from '../page-objects/hubPage.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
@@ -14,7 +14,7 @@ describe('download data function', () => {
     await browser.url('')
     await browser.maximizeWindow()
     await startNowPage.getStartNowBtn.click()
-    await hubPage.getFindMonitoringStationsByLocation.click()
+    // await hubPage.getFindMonitoringStationsByLocation.click()
     await searchPage.setsearch('birmingham')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
