@@ -1,6 +1,15 @@
 import fs from 'node:fs'
+import { ProxyAgent, setGlobalDispatcher } from 'undici'
+import { bootstrap } from 'global-agent'
 const debug = process.env.DEBUG
 const oneHour = 60 * 60 * 1000
+
+const dispatcher = new ProxyAgent({
+  uri: process.env.HTTP_PROXY
+})
+setGlobalDispatcher(dispatcher)
+bootstrap()
+global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY
 // const oneMinute = 60 * 1000
 
 //  let chromeProxyConfig = {}
@@ -15,7 +24,7 @@ const oneHour = 60 * 60 * 1000
 //  }
 //  }
 
-const chromeProxyConfig = !process.env.HTTP_PROXY
+/*  const chromeProxyConfig = !process.env.HTTP_PROXY
   ? {}
   : {
       proxy: {
@@ -23,7 +32,7 @@ const chromeProxyConfig = !process.env.HTTP_PROXY
         httpProxy: `localhost:3128`,
         sslProxy: `localhost:3128`
       }
-    }
+    } */
 
 export const config = {
   //
@@ -40,8 +49,34 @@ export const config = {
   baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`,
 
   // Connection to remote chromedriver
-  hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
-  port: process.env.CHROMEDRIVER_PORT || 4444,
+  // hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
+  // port: process.env.CHROMEDRIVER_PORT || 4444,
+
+  // connection to browserstack
+  user: process.env.BROWSERSTACK_USER,
+  key: process.env.BROWSERSTACK_KEY,
+
+  services: [
+    [
+      'browserstack',
+      {
+        testObservability: true, // Disable if you do not want to use the browserstack test observer functionality
+        testObservabilityOptions: {
+          user: process.env.BROWSERSTACK_USER,
+          key: process.env.BROWSERSTACK_KEY,
+          projectName: 'project-name-as-set-in-browserstack',
+          buildName: `test-run-${process.env.ENVIRONMENT}`
+        },
+        acceptInsecureCerts: true,
+        forceLocal: false,
+        browserstackLocal: true,
+        opts: {
+          proxyHost: 'localhost',
+          proxyPort: 3128
+        }
+      }
+    ]
+  ],
 
   // Tests to run
   specs: ['./test/specs/**/*.js'],
@@ -52,7 +87,24 @@ export const config = {
   ],
   maxInstances: 1,
 
+  commonCapabilities: {
+    'bstack:options': {
+      buildName: 'browserstack-build-1' // configure as required
+    }
+  },
+
   capabilities: [
+    {
+      browserName: 'Chrome', // Set these to whatever combination of browsers you require
+      'bstack:options': {
+        browserVersion: 'latest',
+        os: 'Windows',
+        osVersion: '11'
+      }
+    }
+  ],
+
+  /*   capabilities: [
     {
       ...chromeProxyConfig,
       ...{
@@ -76,7 +128,7 @@ export const config = {
         }
       }
     }
-  ],
+  ], */
 
   execArgv: [],
 
