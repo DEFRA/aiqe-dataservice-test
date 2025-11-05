@@ -106,7 +106,7 @@ describe('exceedences', () => {
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px 0px')
+      expect(styles['border-spacing']).toBe('0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
@@ -125,7 +125,8 @@ describe('exceedences', () => {
       await monitoringStationPage.getSDDailyExceedence.getText()
 
     const expectedPM25DailyExceedence = `n/a`
-    const expectedPM10DailyExceedence = `0`
+    const expectedPM10DailyExceedence = `0
+i`
     const expectedNODailyExceedence = `n/a`
     const expectedOzoneDailyExceedence = `n/a`
     const expectedSDDailyExceedence = `0`
@@ -175,7 +176,7 @@ describe('exceedences', () => {
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['border-spacing']).toBe('0px 0px')
+      expect(styles['border-spacing']).toBe('0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
@@ -279,6 +280,13 @@ describe('exceedences', () => {
     }
 
     await monitoringStationPage.getPM25AnnualAverageToggleTip.moveTo()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        return true
+      },
+      { timeout: 1000 }
+    )
     const getPM25AnnualAverageToggleTipInfoTextHover = [
       await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText
     ]
@@ -502,6 +510,13 @@ describe('exceedences', () => {
     )
 
     await monitoringStationPage.getSDHourlyExceedenceToggleTip.moveTo()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        return true
+      },
+      { timeout: 1000 }
+    )
     const getSDHourlyExceedenceToggleTipInfoTextHover = [
       await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText
     ]

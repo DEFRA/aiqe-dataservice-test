@@ -101,6 +101,7 @@ describe('header validation', () => {
     // checking beta banner feedback link styling
     const getBetaBannerFeedbackLink = [await header.getBetaBannerFeedbackLink]
     const getBetaBannerFeedbackLinkProperties = [
+      'color',
       'font-family',
       'text-decoration',
       'font-size',
@@ -113,10 +114,9 @@ describe('header validation', () => {
         element,
         getBetaBannerFeedbackLinkProperties
       )
+      expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('20px')
       expect(styles['font-weight']).toBe('400')

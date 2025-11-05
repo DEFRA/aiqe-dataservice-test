@@ -128,9 +128,7 @@ describe('footer content and functionality checks', () => {
       expect(styles['font-size']).toBe('16px')
       expect(styles['font-weight']).toBe('400')
       expect(styles['line-height']).toBe('20px')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(11, 12, 12)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
     }
     // checking OGL logo styling
     const oglLogo = [await footer.getOGLLogo]

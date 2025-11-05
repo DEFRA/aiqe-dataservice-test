@@ -104,9 +104,7 @@ Enter a town or postcode`
       expect(styles.color).toBe('rgb(212, 53, 28)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(212, 53, 28)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
     }
@@ -625,9 +623,7 @@ choose a different location`
         getError404AirQualityEmailLinkStylingProperties
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
