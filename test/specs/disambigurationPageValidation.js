@@ -157,7 +157,7 @@ Alternatively, try searching again`
       const styles = await common.getStyles(element, getTryAgainLinkProperties)
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe('underline 1px solid')
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['text-decoration-thickness']).toBe('1px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
