@@ -199,7 +199,7 @@ class MonitoringStationPage {
   }
 
   get getDownloadAllPollutantsHourlyData() {
-    return $("a[onclick*='getAPIstn_details1('AllPollutants','Hourly')']")
+    return $(`a[onclick*="getAPIstn_details1('AllPollutants','Hourly')"]`)
   }
 
   get getSulphurDioxideSubHeading() {
@@ -207,7 +207,7 @@ class MonitoringStationPage {
   }
 
   get getDownloadSulphurDioxideHourlyDataLink() {
-    return $("a[onclick*='getAPIstn_details1('Sulphur dioxide','Hourly')']")
+    return $(`a[onclick*="getAPIstn_details1('Sulphur dioxide','Hourly')"]`)
   }
 
   get getPM10SubHeading() {
@@ -215,7 +215,7 @@ class MonitoringStationPage {
   }
 
   get getDownloadPM10HourlyDataLink() {
-    return $("a[onclick*='getAPIstn_details1('PM10','Hourly')']")
+    return $(`a[onclick*="getAPIstn_details1('PM10','Hourly')"]`)
   }
 
   get getPM25SubHeading() {
@@ -223,7 +223,7 @@ class MonitoringStationPage {
   }
 
   get getDownloadPM25HourlyDataLink() {
-    return $("a[onclick*='getAPIstn_details1('PM2.5','Hourly')']")
+    return $(`a[onclick*="getAPIstn_details1('PM2.5','Hourly')"]`)
   }
 
   get getOzoneSubHeading() {
@@ -231,7 +231,7 @@ class MonitoringStationPage {
   }
 
   get getDownloadOzoneHourlyDataLink() {
-    return $("a[onclick*='getAPIstn_details1('Ozone','Hourly')']")
+    return $(`a[onclick*="getAPIstn_details1('Ozone','Hourly')"]`)
   }
 
   get getNitrogenDioxideSubHeading() {
@@ -239,55 +239,55 @@ class MonitoringStationPage {
   }
 
   get getDownloadNitrogenDioxideHourlyDataLink() {
-    return $("a[onclick*='getAPIstn_details1('Nitrogen dioxide','Hourly')']")
+    return $(`a[onclick*="getAPIstn_details1('Nitrogen dioxide','Hourly')"]`)
   }
 
   get getDownloadAllPollutantsDailyDataLink() {
-    return $("a[onclick*='getAPIstn_details1('AllPollutants','Daily')']")
+    return $(`a[onclick*="getAPIstn_details1('AllPollutants','Daily')"]`)
   }
 
   get getDownloadNitrogenDioxideDailyDataLink() {
-    return $("a[onclick*='getAPIstn_details1('Nitrogen dioxide','Daily')']")
+    return $(`a[onclick*="getAPIstn_details1('Nitrogen dioxide','Daily')"]`)
   }
 
   get getDownloadPM25DailyDataLink() {
-    return $("a[onclick*='getAPIstn_details1('PM2.5','Daily')']")
+    return $(`a[onclick*="getAPIstn_details1('PM2.5','Daily')"]`)
   }
 
   get getDownloadPM10DailyDataLink() {
-    return $("a[onclick*='getAPIstn_details1('PM10','Daily')']")
+    return $(`a[onclick*="getAPIstn_details1('PM10','Daily')"]`)
   }
 
   get getDownloadOzoneDailyDataLink() {
-    return $("a[onclick*='getAPIstn_details1('Ozone','Daily')']")
+    return $(`a[onclick*="getAPIstn_details1('Ozone','Daily')"]`)
   }
 
   get getDownloadSulphurDioxideDailyDataLink() {
-    return $("a[onclick*='getAPIstn_details1('Sulphur dioxide','Daily')']")
+    return $(`a[onclick*="getAPIstn_details1('Sulphur dioxide','Daily')"]`)
   }
 
   get getDownloadAllPollutantsAnnualDataLink() {
-    return $("a[onclick*='getAPIstn_details1('AllPollutants','Annual')']")
+    return $(`a[onclick*="getAPIstn_details1('AllPollutants','Annual')"]`)
   }
 
   get getDownloadPM25AnnualDataLink() {
-    return $("a[onclick*='getAPIstn_details1('PM2.5','Annual')']")
+    return $(`a[onclick*="getAPIstn_details1('PM2.5','Annual')"]`)
   }
 
   get getDownloadPM10AnnualDataLink() {
-    return $("a[onclick*='getAPIstn_details1('PM10','Annual')']")
+    return $(`a[onclick*="getAPIstn_details1('PM10','Annual')"]`)
   }
 
   get getDownloadNitrogenDioxideAnnualDataLink() {
-    return $("a[onclick*='getAPIstn_details1('Nitrogen dioxide','Annual')']")
+    return $(`a[onclick*="getAPIstn_details1('Nitrogen dioxide','Annual')"]`)
   }
 
   get getDownloadOzoneAnnualDataLink() {
-    return $("a[onclick*='getAPIstn_details1('Ozone','Annual')']")
+    return $(`a[onclick*="getAPIstn_details1('Ozone','Annual')"]`)
   }
 
   get getDownloadSulphurDioxideAnnualDataLink() {
-    return $("a[onclick*='getAPIstn_details1('Sulphur dioxide','Annual')']")
+    return $(`a[onclick*="getAPIstn_details1('Sulphur dioxide','Annual')"]`)
   }
 
   get getPM25HourlyExceedence() {
