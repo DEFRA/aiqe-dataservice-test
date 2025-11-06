@@ -43,6 +43,16 @@ Email: getairpollutiondata@defra.gov.uk`
     const expectedStartNowPageURL = 'https://aqie-dataselector-frontend'
     await expect(startNowPageURL).toMatch(expectedStartNowPageURL)
     await browser.refresh()
+    // checking email link
+    const mailtoLinks = await $$('a[href^="mailto:"]')
+    const currentURL = await browser.getUrl()
+    expect(mailtoLinks.length).toBe(1)
+    for (const link of mailtoLinks) {
+      const hrefValue = await link.getAttribute('href')
+      expect(hrefValue).toMatch(/^mailto:/)
+      await link.click()
+      expect(await browser.getUrl()).toBe(currentURL)
+    }
   })
 
   it('styling checks', async () => {
@@ -165,10 +175,37 @@ Email: getairpollutiondata@defra.gov.uk`
       expect(styles['font-weight']).toBe('700')
       expect(styles['margin-bottom']).toBe('32px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(0, 90, 48)')
+      expect(styles['background-color']).toBe('rgb(0, 112, 60)')
       expect(styles.border).toBe('2px solid rgba(0, 0, 0, 0)')
       expect(styles['box-shadow']).toBe('rgb(0, 45, 24) 0px 2px 0px 0px')
       expect(styles.padding).toBe('8px 10px 7px')
+    }
+
+    const OtherWaysToGetThisInfoTitle = [
+      await startNowPage.getOtherWaysToGetThisInfoTitle
+    ]
+
+    const OtherWaysToGetThisInfoTitlenProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of OtherWaysToGetThisInfoTitle) {
+      const styles = await common.getStyles(
+        element,
+        OtherWaysToGetThisInfoTitlenProperties
+      )
+
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('24px')
+      expect(styles['line-height']).toBe('30px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
     }
   })
 })

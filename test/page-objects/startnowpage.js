@@ -32,6 +32,10 @@ class StartNowPage {
   get getstartNowPageListItem() {
     return $('li')
   }
+
+  get getOtherWaysToGetThisInfoTitle() {
+    return $("p[class*='govuk-heading-m']")
+  }
 }
 
 // module.exports=new StartNowPage()
