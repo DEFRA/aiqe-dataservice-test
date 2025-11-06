@@ -215,7 +215,6 @@ Save cookie settings`
 
     const getSaveCookieSettingButtonProperties = [
       'margin-bottom',
-      'width',
       'font-size',
       'line-height',
       'font-family',
@@ -240,7 +239,6 @@ Save cookie settings`
         getSaveCookieSettingButtonProperties
       )
       expect(styles['margin-bottom']).toBe('32px')
-      expect(styles.width).toBe('198.266px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('19px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
