@@ -1044,7 +1044,7 @@ i`
         getApproximateFileSizesDropDownLinkStylesProperties
       )
       expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(11, 12, 12)'
+        'underline 1px solid rgb(29, 112, 184)'
       )
       expect(styles['text-decoration-thickness']).toBe('1px')
       expect(styles['text-underline-offset']).toBe('2.9982px')
