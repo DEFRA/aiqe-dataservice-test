@@ -1,15 +1,16 @@
 import fs from 'node:fs'
-import { ProxyAgent, setGlobalDispatcher } from 'undici'
-import { bootstrap } from 'global-agent'
+// import { ProxyAgent, setGlobalDispatcher } from 'undici'
+// import { bootstrap } from 'global-agent'
 const debug = process.env.DEBUG
 const oneHour = 60 * 60 * 1000
 
-const dispatcher = new ProxyAgent({
+/* const dispatcher = new ProxyAgent({
   uri: process.env.HTTP_PROXY
 })
 setGlobalDispatcher(dispatcher)
 bootstrap()
-global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY
+global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY */
+
 // const oneMinute = 60 * 1000
 
 //  let chromeProxyConfig = {}
@@ -23,8 +24,7 @@ global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY
 //    }
 //  }
 //  }
-
-/*  const chromeProxyConfig = !process.env.HTTP_PROXY
+const chromeProxyConfig = !process.env.HTTP_PROXY
   ? {}
   : {
       proxy: {
@@ -32,7 +32,7 @@ global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY
         httpProxy: `localhost:3128`,
         sslProxy: `localhost:3128`
       }
-    } */
+    }
 
 export const config = {
   //
@@ -49,14 +49,14 @@ export const config = {
   baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`,
 
   // Connection to remote chromedriver
-  // hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
-  // port: process.env.CHROMEDRIVER_PORT || 4444,
+  hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
+  port: process.env.CHROMEDRIVER_PORT || 4444,
 
   // connection to browserstack
-  user: process.env.BROWSERSTACK_USER,
-  key: process.env.BROWSERSTACK_KEY,
+  // user: process.env.BROWSERSTACK_USER,
+  // key: process.env.BROWSERSTACK_KEY,
 
-  services: [
+  /* services: [
     [
       'browserstack',
       {
@@ -76,7 +76,7 @@ export const config = {
         }
       }
     ]
-  ],
+  ], */
 
   // Tests to run
   specs: ['./test/specs/**/*.js'],
@@ -88,7 +88,7 @@ export const config = {
   ],
   maxInstances: 1,
 
-  commonCapabilities: {
+  /* commonCapabilities: {
     'bstack:options': {
       buildName: 'browserstack-build-1' // configure as required
     }
@@ -103,9 +103,9 @@ export const config = {
         osVersion: '11'
       }
     }
-  ],
+  ], */
 
-  /*   capabilities: [
+  capabilities: [
     {
       ...chromeProxyConfig,
       ...{
@@ -129,7 +129,7 @@ export const config = {
         }
       }
     }
-  ], */
+  ],
 
   execArgv: [],
 
