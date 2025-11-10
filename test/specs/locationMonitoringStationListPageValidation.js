@@ -200,7 +200,7 @@ describe('monitoring station list page tests', () => {
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(11, 12, 12)'
+        'underline 1px solid rgb(29, 112, 184)'
       )
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')

@@ -433,7 +433,7 @@ Save cookie settings`
       const styles = await common.getStyles(element, getListItemProperties)
       expect(styles['margin-bottom']).toBe('5px')
       expect(styles.display).toBe('list-item')
-      expect(styles['text-align']).toBe('start')
+      expect(styles['text-align']).toBe('left')
       expect(styles['list-style-type']).toBe('disc')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
