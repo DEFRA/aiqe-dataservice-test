@@ -11,19 +11,6 @@ setGlobalDispatcher(dispatcher)
 bootstrap()
 global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY */
 
-// const oneMinute = 60 * 1000
-
-//  let chromeProxyConfig = {}
-//  if (process.env.HTTP_PROXY) {
-//  const url = new URL(process.env.HTTP_PROXY)
-//  chromeProxyConfig = {
-//    proxy: {
-//      proxyType: 'manual',
-//      httpProxy: `${url.host}:${url.port}`,
-//      sslProxy: `${url.host}:${url.port}`
-//    }
-//  }
-//  }
 const chromeProxyConfig = !process.env.HTTP_PROXY
   ? {}
   : {
