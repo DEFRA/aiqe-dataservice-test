@@ -116,7 +116,9 @@ describe('header validation', () => {
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe('underline 1px')
+      expect(styles['text-decoration']).toBe(
+        'underline 1px solid rgb(29, 112, 184)'
+      )
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('20px')
       expect(styles['font-weight']).toBe('400')

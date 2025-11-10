@@ -104,7 +104,9 @@ describe('Cookies Tests', () => {
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['margin-top']).toBe('5px')
       expect(styles.color).toBe('rgb(29, 112, 184)')
-      expect(styles['text-decoration']).toBe('underline 1px')
+      expect(styles['text-decoration']).toBe(
+        'underline 1px solid rgb(29, 112, 184)'
+      )
     }
 
     const getAcceptCookiesButton = [await cookiesBanner.getAcceptCookiesButton]
