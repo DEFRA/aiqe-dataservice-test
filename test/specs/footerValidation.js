@@ -129,7 +129,7 @@ describe('footer content and functionality checks', () => {
       expect(styles['font-weight']).toBe('400')
       expect(styles['line-height']).toBe('20px')
       expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
+        'underline 1px solid rgb(11, 12, 12)'
       )
     }
     // checking OGL logo styling

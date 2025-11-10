@@ -138,7 +138,7 @@ Alternatively, try searching again`
       expect(styles['padding-left']).toBe('14px')
       expect(styles.position).toBe('relative')
       expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
+        'underline 1px solid rgb(11, 12, 12)'
       )
       expect(styles['text-decoration-thickness']).toBe('1px')
     }
