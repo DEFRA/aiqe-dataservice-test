@@ -173,7 +173,9 @@ describe('monitoring station list page tests', () => {
       expect(styles['margin-bottom']).toBe('15px')
       expect(styles['margin-top']).toBe('15px')
       expect(styles['padding-left']).toBe('14px')
-      expect(styles['text-decoration']).toBe('underline 1px')
+      expect(styles['text-decoration']).toBe(
+        'underline 1px solid rgb(11, 12, 12)'
+      )
       expect(styles['font-weight']).toBe('400')
     }
 
@@ -197,7 +199,9 @@ describe('monitoring station list page tests', () => {
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe('underline 1px')
+      expect(styles['text-decoration']).toBe(
+        'underline 1px solid rgb(11, 12, 12)'
+      )
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-weight']).toBe('400')
@@ -227,7 +231,9 @@ describe('monitoring station list page tests', () => {
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe('underline 1px')
+      expect(styles['text-decoration']).toBe(
+        'underline 1px solid rgb(11, 12, 12)'
+      )
       expect(styles['text-decoration-thickness']).toBe('1px')
       // expect(styles['font-weight']).toBe('700') styling bug
       expect(styles['text-align']).toBe('left')
@@ -476,7 +482,7 @@ describe('monitoring station list page tests', () => {
 
     const pollutantListDerbyStockbrookPark =
       await locationMonitoringStationListPage.getPollutionListFromListPage(
-        "tr:nth-child(14) td[class='govuk-table__cell govuk-table__cell--numeric']"
+        "tr:nth-child(15) td[class='govuk-table__cell govuk-table__cell--numeric']"
       )
     const pollutantListDerbyStockbrookParkString =
       pollutantListDerbyStockbrookPark.join(',')
