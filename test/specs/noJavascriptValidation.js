@@ -1,7 +1,7 @@
 import startNowPage from '../page-objects/startnowpage.js'
 import { expect } from '@wdio/globals'
 import searchPage from '../page-objects/searchPage.js'
-import hubPage from '../page-objects/hubPage.js'
+// import hubPage from '../page-objects/hubPage.js'
 import disambigurationPage from '../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../page-objects/monitoringStationPage.js'
@@ -14,7 +14,7 @@ describe('No Javascript Happy Path', () => {
     )
     await browser.maximizeWindow()
     await startNowPage.getStartNowBtn.click()
-    await hubPage.getFindMonitoringStationsByLocation.click()
+    // await hubPage.getFindMonitoringStationsByLocation.click()
     await searchPage.setsearch('birmingham')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
