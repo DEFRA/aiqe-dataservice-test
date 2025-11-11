@@ -87,7 +87,7 @@ export const config = {
     {
       browserName: 'Chrome', // Set these to whatever combination of browsers you require
       'bstack:options': {
-        browserVersion: '142.0.7444.x.',
+        browserVersion: '142',
         os: 'Windows',
         osVersion: '11'
       }
