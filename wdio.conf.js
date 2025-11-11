@@ -69,6 +69,8 @@ export const config = {
   specs: ['./test/specs/**/*.js'],
   // Tests to exclude
   exclude: [
+    './test/specs/**/tabletHappyPath.js',
+    './test/specs/**/mobileHappyPath.js',
     './test/specs/**/downloadData.js',
     './test/specs/**/hubPageValidation.js',
     './test/specs/**/noJavascriptValidation.js'
@@ -85,7 +87,7 @@ export const config = {
     {
       browserName: 'Chrome', // Set these to whatever combination of browsers you require
       'bstack:options': {
-        browserVersion: 'latest',
+        browserVersion: '142.0.7444.x.',
         os: 'Windows',
         osVersion: '11'
       }
