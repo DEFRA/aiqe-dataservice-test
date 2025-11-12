@@ -86,7 +86,7 @@ export const config = {
   capabilities: [
     {
       browserName: 'Chrome',
-      browserVersion: '127',
+      browserVersion: '127.0',
       'bstack:options': {
         os: 'Windows',
         osVersion: '11'
