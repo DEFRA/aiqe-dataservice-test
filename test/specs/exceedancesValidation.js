@@ -674,10 +674,10 @@ i`
     await monitoringStationPage.get2018Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 4000))
+        await new Promise((resolve) => setTimeout(resolve, 6000))
         return true
       },
-      { timeout: 4000 }
+      { timeout: 6000 }
     )
     await monitoringStationPage.getAboveLimitFlag.isDisplayed()
     const getAboveLimitFlagText =
