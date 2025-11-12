@@ -85,9 +85,9 @@ export const config = {
 
   capabilities: [
     {
-      browserName: 'Chrome', // Set these to whatever combination of browsers you require
+      browserName: 'Chrome',
+      browserVersion: '127',
       'bstack:options': {
-        browserVersion: '142',
         os: 'Windows',
         osVersion: '11'
       }
