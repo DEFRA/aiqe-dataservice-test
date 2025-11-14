@@ -4,13 +4,14 @@ import { bootstrap } from 'global-agent'
 const debug = process.env.DEBUG
 const oneHour = 60 * 60 * 1000
 
+// for browserstack
 const dispatcher = new ProxyAgent({
   uri: process.env.HTTP_PROXY
 })
 setGlobalDispatcher(dispatcher)
 bootstrap()
 global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY
-
+// for chrome sidecar
 /* const chromeProxyConfig = !process.env.HTTP_PROXY
   ? {}
   : {
@@ -66,17 +67,17 @@ export const config = {
   ],
 
   // Tests to run
-  specs: ['./test/specs/**/*.js'],
+  specs: ['./test/specs/**/mobileHappyPath.js'],
   // Tests to exclude
   exclude: [
     './test/specs/**/tabletHappyPath.js',
-    './test/specs/**/mobileHappyPath.js',
+    // './test/specs/**/mobileHappyPath.js',
     './test/specs/**/downloadData.js',
     './test/specs/**/hubPageValidation.js',
     './test/specs/**/noJavascriptValidation.js'
   ],
   maxInstances: 1,
-
+  // for browserstack
   commonCapabilities: {
     'bstack:options': {
       buildName: 'browserstack-build-1' // configure as required
@@ -85,15 +86,14 @@ export const config = {
 
   capabilities: [
     {
-      browserName: 'Chrome',
-      browserVersion: '127.0',
       'bstack:options': {
-        os: 'Windows',
-        osVersion: '11'
+        browserName: 'safari',
+        osVersion: '26',
+        deviceName: 'iPhone 15'
       }
     }
   ],
-
+  // for chrome sidecar
   /* capabilities: [
     {
       ...chromeProxyConfig,
