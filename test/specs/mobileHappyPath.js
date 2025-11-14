@@ -344,7 +344,7 @@ describe('mobile happy Path', () => {
       )
       expect(styles['margin-bottom']).toBe('15px')
       expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('25')
+      expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
@@ -365,7 +365,7 @@ describe('mobile happy Path', () => {
         searchPageHintTextProperties
       )
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('19px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(80, 90, 95)')
       expect(styles['font-weight']).toBe('400')
@@ -390,7 +390,7 @@ describe('mobile happy Path', () => {
         EnterTownOrPostcodeLabelProperties
       )
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -413,7 +413,7 @@ describe('mobile happy Path', () => {
         approxSearchAreaLabelProperties
       )
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -444,11 +444,11 @@ describe('mobile happy Path', () => {
       expect(styles['margin-bottom']).toBe('0px')
       expect(styles.padding).toBe('7px 15px')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.height).toBe('25px')
+      expect(styles.height).toBe('40px')
     }
     const continueButton = [await searchPage.getContinueBtn]
 
@@ -469,9 +469,9 @@ describe('mobile happy Path', () => {
 
     for (const element of continueButton) {
       const styles = await common.getStyles(element, continueButtonProperties)
-      expect(styles['margin-bottom']).toBe('22px')
+      expect(styles['margin-bottom']).toBe('17px')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('18px')
+      expect(styles['line-height']).toBe('19px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(0, 112, 60)')
       expect(styles.border).toBe('2px solid rgba(0, 0, 0, 0)')
