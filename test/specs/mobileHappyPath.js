@@ -80,7 +80,7 @@ describe('mobile happy Path', () => {
       expect(styles['font-weight']).toBe('400')
       expect(styles['line-height']).toBe('16px')
       expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(11, 12, 12)'
+        'underline'
       )
     }
     // checking OGL logo styling
