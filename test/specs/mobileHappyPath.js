@@ -467,7 +467,7 @@ describe('mobile happy Path', () => {
 
     for (const element of continueButton) {
       const styles = await common.getStyles(element, continueButtonProperties)
-      expect(styles['margin-bottom']).toBe('17px')
+      expect(styles['margin-bottom']).toBe('22px')
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('19px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
