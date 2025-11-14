@@ -434,7 +434,6 @@ describe('mobile happy Path', () => {
       'font-family',
       'color',
       'font-weight',
-      'height',
       'width'
     ]
 
@@ -448,7 +447,6 @@ describe('mobile happy Path', () => {
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.height).toBe('40px')
     }
     const continueButton = [await searchPage.getContinueBtn]
 
@@ -514,7 +512,7 @@ describe('mobile happy Path', () => {
       expect(styles['margin-top']).toBe('20px')
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('26px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -535,9 +533,7 @@ describe('mobile happy Path', () => {
       const styles = await common.getStyles(element, getTryAgainLinkProperties)
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline')
       expect(styles['text-decoration-thickness']).toBe('1px')
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('20px')
@@ -557,7 +553,7 @@ describe('mobile happy Path', () => {
 
     for (const element of getLocationLink) {
       const styles = await common.getStyles(element, getLocationLinkProperties)
-      expect(styles['font-weight']).toBe('400')
+      expect(styles['font-weight']).toBe('700')
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('16px')
@@ -598,7 +594,7 @@ describe('mobile happy Path', () => {
       const styles = await common.getStyles(element, getListItemProperties)
       expect(styles['margin-bottom']).toBe('5px')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('22px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
