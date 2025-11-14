@@ -50,8 +50,8 @@ describe('mobile happy Path', () => {
       expect(styles.background).toBe(
         'rgb(244, 248, 251) none repeat scroll 0% 0% / auto padding-box border-box'
       )
-      expect(styles['padding-bottom']).toBe('25px')
-      expect(styles['padding-top']).toBe('40px')
+      expect(styles['padding-bottom']).toBe('15px')
+      expect(styles['padding-top']).toBe('25px')
       expect(styles['border-top']).toBe('10px solid rgb(29, 112, 184)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
     }
@@ -76,9 +76,9 @@ describe('mobile happy Path', () => {
       const styles = await common.getStyles(element, footerLinkProperties)
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-size']).toBe('16px')
+      expect(styles['font-size']).toBe('14px')
       expect(styles['font-weight']).toBe('400')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles['text-decoration']).toBe(
         'underline 1px solid rgb(11, 12, 12)'
       )
@@ -86,13 +86,19 @@ describe('mobile happy Path', () => {
     // checking OGL logo styling
     const oglLogo = [await footer.getOGLLogo]
 
-    const oglLogoProperties = ['height', 'margin-right', 'width']
+    const oglLogoProperties = [
+      'height',
+      'margin-right',
+      'width',
+      'margin-bottom'
+    ]
 
     for (const element of oglLogo) {
       const styles = await common.getStyles(element, oglLogoProperties)
       expect(styles.height).toBe('17px')
       expect(styles['margin-right']).toBe('10px')
       expect(styles.width).toBe('41px')
+      expect(styles['margin-bottom']).toBe('15px')
     }
     // crown logo styling
     const crownLogo = [await footer.getCrownCoprightLogo]
@@ -120,8 +126,8 @@ describe('mobile happy Path', () => {
       const styles = await common.getStyles(element, oglStatementProperties)
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('16px')
     }
 
     const FooterCrownLogo = [await footer.getFooterCrownLogo]
