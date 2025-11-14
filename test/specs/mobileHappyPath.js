@@ -269,7 +269,7 @@ describe('mobile happy Path', () => {
       const styles = await common.getStyles(element, startNowPageListProperties)
       expect(styles['padding-left']).toBe('20px')
       expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('16px')
+      expect(styles['font-size']).toBe('20px')
       expect(styles['line-height']).toBe('18px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
@@ -293,7 +293,7 @@ describe('mobile happy Path', () => {
       )
       expect(styles['margin-bottom']).toBe('0px')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -343,8 +343,8 @@ describe('mobile happy Path', () => {
         searchPageHeadingProperties
       )
       expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('24')
-      expect(styles['line-height']).toBe('26')
+      expect(styles['font-size']).toBe('24px')
+      expect(styles['line-height']).toBe('25')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
