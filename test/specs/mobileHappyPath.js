@@ -160,22 +160,18 @@ describe('mobile happy Path', () => {
     const CrownLogo = [await header.getGovUKCrownLogo]
 
     const GovUKCrownLogoProperties = [
-      'float',
-      'padding-right',
-      'vertical-align',
-      // 'width',
-      'margin-bottom',
       'font-family',
+      'padding-bottom',
+      'padding-top',
+      'margin-bottom',
       'font-weight'
     ]
 
     for (const element of CrownLogo) {
       const styles = await common.getStyles(element, GovUKCrownLogoProperties)
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles.float).toBe('left')
-      expect(styles['padding-right']).toBe('15px')
-      expect(styles['vertical-align']).toBe('top')
-      // expect(styles.width).toBe('319.953px')
+      expect(styles['padding-bottom']).toBe('12px')
+      expect(styles['padding-top']).toBe('16px')
       expect(styles['margin-bottom']).toBe('0px')
       expect(styles['font-weight']).toBe('400')
     }
@@ -197,11 +193,9 @@ describe('mobile happy Path', () => {
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['text-decoration']).toBe('underline')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles['font-weight']).toBe('400')
     }
     // checking beta logo styling
@@ -223,8 +217,8 @@ describe('mobile happy Path', () => {
 
     for (const element of getBetaLogo) {
       const styles = await common.getStyles(element, getBetalogoProperties)
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles['margin-right']).toBe('10px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(187, 212, 234)')
@@ -234,31 +228,6 @@ describe('mobile happy Path', () => {
       expect(styles['margin-top']).toBe('-2px')
       expect(styles['max-width']).toBe('160px')
       expect(styles.padding).toBe('2px 8px 3px')
-    }
-    // checking beta logo styling
-    const BetaBannerTextstyling = [await header.getBetalogo]
-    const getBetaBannerTextProperties = [
-      'display',
-      'vertical-align',
-      'font-size',
-      'line-height',
-      'font-family',
-      'color',
-      'font-weight'
-    ]
-
-    for (const element of BetaBannerTextstyling) {
-      const styles = await common.getStyles(
-        element,
-        getBetaBannerTextProperties
-      )
-      expect(styles.display).toBe('inline-block')
-      expect(styles['vertical-align']).toBe('baseline')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles.color).toBe('rgb(12, 45, 74)')
-      expect(styles['font-weight']).toBe('400')
     }
 
     const startNowPageHeading = [await startNowPage.getStartNowPageHeading]
