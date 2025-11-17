@@ -487,6 +487,7 @@ describe('mobile happy Path', () => {
     await searchPage.setsearch('birmingham')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
+    await disambigurationPage.getDisambigurationPageHeading.isDisplayed()
 
     // results block
 
