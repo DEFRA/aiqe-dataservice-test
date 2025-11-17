@@ -487,7 +487,13 @@ describe('mobile happy Path', () => {
     await searchPage.setsearch('birmingham')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
-    await disambigurationPage.getDisambigurationPageHeading.isDisplayed()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+        return true
+      },
+      { timeout: 3000 }
+    )
 
     // results block
 
