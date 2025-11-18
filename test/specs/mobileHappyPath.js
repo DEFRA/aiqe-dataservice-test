@@ -1161,7 +1161,7 @@ describe('mobile happy Path', () => {
 
     for (const element of getVerifiedTag) {
       const styles = await common.getStyles(element, getVerifiedTagsProperties)
-      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['margin-bottom']).toBe('15px')
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
