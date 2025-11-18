@@ -1174,7 +1174,6 @@ describe('mobile happy Path', () => {
       await monitoringStationPage.getPM10DataCapture,
       await monitoringStationPage.getNODataCapture,
       await monitoringStationPage.getOzoneDataCapture
-      
     ]
 
     const getPM25DataCaptureProperties = [
@@ -1202,7 +1201,7 @@ describe('mobile happy Path', () => {
       await monitoringStationPage.getPM25AnnaulAverageST,
       await monitoringStationPage.getPM10AnnaulAverageST,
       await monitoringStationPage.getNitrogenDioxideAnnaulAverageST,
-      await monitoringStationPage.getOzoneAnnaulAverageST   
+      await monitoringStationPage.getOzoneAnnaulAverageST
     ]
 
     const summaryTableAnnualAverageStylesProperties = [
@@ -1391,7 +1390,7 @@ describe('mobile happy Path', () => {
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
-    
+
     const PM10SubHeading = [await monitoringStationPage.getPM10SubHeading]
 
     const getPM10SubHeadingProperties = [
