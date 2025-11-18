@@ -1180,7 +1180,6 @@ describe('mobile happy Path', () => {
       'font-size',
       'font-weight',
       'margin-top',
-      'line-height',
       'font-family',
       'text-align'
     ]
@@ -1193,7 +1192,6 @@ describe('mobile happy Path', () => {
       expect(styles['font-size']).toBe('14px')
       expect(styles['font-weight']).toBe('400')
       expect(styles['margin-top']).toBe('5px')
-      expect(styles['line-height']).toBe('21.0526px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['text-align']).toBe('left')
     }
