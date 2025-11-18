@@ -1057,7 +1057,7 @@ describe('mobile happy Path', () => {
     for (const element of getToggleTip) {
       const styles = await common.getStyles(element, getToggleTipProperties)
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('0px')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles.cursor).toBe('help')
       expect(styles.height).toBe('26px')
