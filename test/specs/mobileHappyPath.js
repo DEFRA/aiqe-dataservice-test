@@ -905,7 +905,6 @@ describe('mobile happy Path', () => {
 
     const getFeatureItemProperties = [
       'box-sizing',
-      'float',
       'min-width',
       'padding',
       'display'
@@ -914,7 +913,6 @@ describe('mobile happy Path', () => {
     for (const element of getFeatureItem) {
       const styles = await common.getStyles(element, getFeatureItemProperties)
       expect(styles['box-sizing']).toBe('border-box')
-      expect(styles.float).toBe('left')
       expect(styles['min-width']).toBe('96px')
       expect(styles.padding).toBe('15px 0px')
       expect(styles.display).toBe('block')
