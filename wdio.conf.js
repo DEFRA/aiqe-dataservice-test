@@ -88,8 +88,8 @@ export const config = {
     {
       'bstack:options': {
         browserName: 'safari',
-        osVersion: '14',
-        deviceName: 'iPhone 12 Pro'
+        osVersion: '26',
+        deviceName: 'iPhone 15'
       }
     }
   ],
