@@ -42,7 +42,7 @@ class MonitoringStationPage {
   }
 
   get getGoogleMapLink() {
-    return $("a[href='https://www.google.co.uk/maps?q=51.52229,-0.125889']")
+    return $("a[target='_blank']")
   }
 
   get getSiteTypeToggleTip() {
