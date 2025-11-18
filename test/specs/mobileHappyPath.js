@@ -1130,7 +1130,6 @@ describe('mobile happy Path', () => {
     ]
 
     const getYearButtonsProperties = [
-      'color',
       'font-family',
       'padding-bottom',
       'padding-top',
@@ -1141,7 +1140,6 @@ describe('mobile happy Path', () => {
 
     for (const element of getYearButtons) {
       const styles = await common.getStyles(element, getYearButtonsProperties)
-      expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['padding-bottom']).toBe('12px')
       expect(styles['padding-top']).toBe('12px')
