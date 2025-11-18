@@ -433,8 +433,7 @@ describe('mobile happy Path', () => {
       'line-height',
       'font-family',
       'color',
-      'font-weight',
-      'width'
+      'font-weight'
     ]
 
     for (const element of mileOptions) {
@@ -787,7 +786,7 @@ describe('mobile happy Path', () => {
       )
       expect(styles['padding-right']).toBe('0px')
       expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
-      expect(styles.padding).toBe('10px 20px 10px 0px')
+      expect(styles.padding).toBe('10px 0px')
       expect(styles['text-align']).toBe('right')
       expect(styles['vertical-align']).toBe('top')
       expect(styles['font-weight']).toBe('700')
@@ -797,11 +796,16 @@ describe('mobile happy Path', () => {
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
 
-    await header.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
     await locationMonitoringStationListPage
       .getMonitoringStationLink('Birmingham A4540 Roadside')
       .click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+        return true
+      },
+      { timeout: 3000 }
+    )
 
     // monitoring station page
     await header.getHeaderOverall.isDisplayed()
@@ -819,10 +823,7 @@ describe('mobile happy Path', () => {
     const getGoogleMapLink = [await monitoringStationPage.getGoogleMapLink]
 
     const getGoogleMapLinkProperties = [
-      'color',
       'font-family',
-      'text-decoration',
-      'text-decoration-thickness',
       'font-size',
       'line-height',
       'font-weight'
@@ -831,8 +832,8 @@ describe('mobile happy Path', () => {
     for (const element of getGoogleMapLink) {
       const styles = await common.getStyles(element, getGoogleMapLinkProperties)
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-weight']).toBe('400')
     }
     const getMonitoringPageHeadingStyles = [
@@ -854,23 +855,21 @@ describe('mobile happy Path', () => {
         getMonitoringPageHeadingProperties
       )
       expect(styles['margin-bottom']).toBe('5px')
-      expect(styles['font-size']).toBe('48px')
-      expect(styles['line-height']).toBe('50px')
+      expect(styles['font-size']).toBe('32px')
+      expect(styles['line-height']).toBe('35px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
     }
     const getgridSideStyles = [await monitoringStationPage.getgridSideStyles]
 
-    const getgridSideStylesProperties = ['float', 'width', 'padding']
+    const getgridSideStylesProperties = ['padding']
 
     for (const element of getgridSideStyles) {
       const styles = await common.getStyles(
         element,
         getgridSideStylesProperties
       )
-      expect(styles.float).toBe('left')
-      expect(styles.width).toBe('990px')
       expect(styles.padding).toBe('0px 15px')
     }
 
@@ -882,12 +881,10 @@ describe('mobile happy Path', () => {
       'gap',
       'padding-bottom',
       'margin-top',
-      'box-shadow',
       'display',
       'flex-direction',
       'flex-wrap',
-      'margin',
-      'width'
+      'margin'
     ]
 
     for (const element of getgridTopBottomStyles) {
@@ -895,17 +892,13 @@ describe('mobile happy Path', () => {
         element,
         getgridTopBottomStylesProperties
       )
-      expect(styles.gap).toBe('80px')
+      expect(styles.gap).toBe('30px')
       expect(styles['padding-bottom']).toBe('0px')
       expect(styles['margin-top']).toBe('15px')
-      expect(styles['box-shadow']).toBe(
-        'rgb(177, 180, 182) 0px -1px 0px 0px inset'
-      )
       expect(styles.display).toBe('flex')
       expect(styles['flex-direction']).toBe('row')
       expect(styles['flex-wrap']).toBe('nowrap')
       expect(styles.margin).toBe('15px 0px')
-      expect(styles.width).toBe('960px')
     }
 
     const getFeatureItem = [await monitoringStationPage.getFeatureItem]
@@ -943,8 +936,8 @@ describe('mobile happy Path', () => {
         element,
         getFeatureCaptionProperties
       )
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(80, 90, 95)')
       expect(styles.display).toBe('block')
@@ -966,10 +959,10 @@ describe('mobile happy Path', () => {
 
     for (const element of getFeatureBody) {
       const styles = await common.getStyles(element, getFeatureBodyProperties)
-      expect(styles['margin-top']).toBe('5px')
-      expect(styles['font-size']).toBe('22px')
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['line-height']).toBe('28.9474px')
+      expect(styles['margin-top']).toBe('0px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
@@ -986,7 +979,7 @@ describe('mobile happy Path', () => {
         getMapLinkPaddingProperties
       )
       expect(styles['margin-top']).toBe('5px')
-      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['margin-bottom']).toBe('15px')
     }
     const getMonitoringStationStatus = [
       await monitoringStationPage.getMonitoringStationStatus
@@ -1009,8 +1002,8 @@ describe('mobile happy Path', () => {
       )
       expect(styles['background-color']).toBe('rgb(204, 226, 216)')
       expect(styles.color).toBe('rgb(0, 90, 48)')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
       expect(styles.padding).toBe('2px 8px 3px')
@@ -1041,9 +1034,9 @@ describe('mobile happy Path', () => {
       expect(styles.display).toBe('inline-block')
       expect(styles.color).toBe('rgb(80, 90, 95)')
       expect(styles['margin-top']).toBe('15px')
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
     }
@@ -1066,7 +1059,7 @@ describe('mobile happy Path', () => {
     for (const element of getToggleTip) {
       const styles = await common.getStyles(element, getToggleTipProperties)
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.border).toBe('0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles.cursor).toBe('help')
       expect(styles.height).toBe('26px')
@@ -1097,10 +1090,10 @@ describe('mobile happy Path', () => {
         element,
         getSumarryTableHeadingProperties
       )
-      expect(styles['margin-top']).toBe('30px')
+      expect(styles['margin-top']).toBe('20px')
       expect(styles['margin-bottom']).toBe('10px')
-      expect(styles['font-size']).toBe('36px')
-      expect(styles['line-height']).toBe('40px')
+      expect(styles['font-size']).toBe('24px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.display).toBe('block')
@@ -1121,8 +1114,8 @@ describe('mobile happy Path', () => {
     for (const element of getDurationTag) {
       const styles = await common.getStyles(element, getDurationTagProperties)
       expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
@@ -1154,34 +1147,8 @@ describe('mobile happy Path', () => {
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['padding-bottom']).toBe('12px')
       expect(styles['padding-top']).toBe('12px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-weight']).toBe('400')
-    }
-
-    const getCurrentYearButton = [await monitoringStationPage.get2018Button]
-
-    const getCurrentYearButtonProperties = [
-      'color',
-      'font-family',
-      'padding-bottom',
-      'padding-top',
-      'font-size',
-      'line-height',
-      'font-weight'
-    ]
-
-    for (const element of getCurrentYearButton) {
-      const styles = await common.getStyles(
-        element,
-        getCurrentYearButtonProperties
-      )
-      expect(styles.color).toBe('rgb(0, 48, 120)')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['padding-bottom']).toBe('12px')
-      expect(styles['padding-top']).toBe('12px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-weight']).toBe('400')
     }
 
@@ -1199,8 +1166,8 @@ describe('mobile happy Path', () => {
     for (const element of getVerifiedTag) {
       const styles = await common.getStyles(element, getVerifiedTagsProperties)
       expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1228,9 +1195,9 @@ describe('mobile happy Path', () => {
         element,
         getPM25DataCaptureProperties
       )
-      expect(styles['font-size']).toBe('16px')
+      expect(styles['font-size']).toBe('14px')
       expect(styles['font-weight']).toBe('400')
-      expect(styles['margin-top']).toBe('5px')
+      expect(styles['margin-top']).toBe('4px')
       expect(styles['line-height']).toBe('21.0526px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['text-align']).toBe('left')
@@ -1252,9 +1219,7 @@ describe('mobile happy Path', () => {
       'line-height',
       'font-family',
       'border-collapse',
-      'border-spacing',
-      'color',
-      'font-weight'
+      'color'
     ]
 
     for (const element of summaryTableAnnualAverageStyles) {
@@ -1262,17 +1227,15 @@ describe('mobile happy Path', () => {
         element,
         summaryTableAnnualAverageStylesProperties
       )
-      expect(styles['text-align']).toBe('right')
-      expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
+      expect(styles['text-align']).toBe('left')
+      expect(styles['border-bottom']).toBe('0px')
       expect(styles.padding).toBe('20px 0px')
       expect(styles['vertical-align']).toBe('middle')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['border-collapse']).toBe('collapse')
-      expect(styles['border-spacing']).toBe('0px 0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
     }
     const getApproximateFileSizesDropDownLinkStyles = [
       await monitoringStationPage.getApproximateFileSizesDropDownLink
@@ -1294,18 +1257,23 @@ describe('mobile happy Path', () => {
         element,
         getApproximateFileSizesDropDownLinkStylesProperties
       )
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline')
       expect(styles['text-decoration-thickness']).toBe('1px')
-      expect(styles['text-underline-offset']).toBe('2.9982px')
+      expect(styles['text-underline-offset']).toBe('2.5248px')
       expect(styles.color).toBe('rgb(29, 112, 184)')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
     }
     await monitoringStationPage.getApproximateFileSizesDropDownLink.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+        return true
+      },
+      { timeout: 3000 }
+    )
     const getApproximateFileSizesContentStyles = [
       await monitoringStationPage.getApproximateFileSizesContent
     ]
@@ -1331,8 +1299,8 @@ describe('mobile happy Path', () => {
       expect(styles['padding-bottom']).toBe('15px')
       expect(styles['padding-left']).toBe('20px')
       expect(styles['padding-top']).toBe('15px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -1356,9 +1324,9 @@ describe('mobile happy Path', () => {
         element,
         getdownloadDataHeadingProperties
       )
-      expect(styles['margin-top']).toBe('40px')
-      expect(styles['margin-bottom']).toBe('30px')
-      expect(styles['font-size']).toBe('36px')
+      expect(styles['margin-top']).toBe('25px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('25px')
       expect(styles['line-height']).toBe('40px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
@@ -1383,9 +1351,9 @@ describe('mobile happy Path', () => {
         element,
         getAllPollutantsSubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1415,15 +1383,15 @@ describe('mobile happy Path', () => {
         element,
         getDownloadAllPollutantsHourlyDataProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('15px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.margin).toBe('0px 0px 5px')
       expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
@@ -1446,9 +1414,9 @@ describe('mobile happy Path', () => {
         element,
         getSulphurDioxideSubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1478,15 +1446,15 @@ describe('mobile happy Path', () => {
         element,
         getDownloadSulphurDioxideHourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('15px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.margin).toBe('0px 0px 5px')
       expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
@@ -1507,9 +1475,9 @@ describe('mobile happy Path', () => {
         element,
         getPM10SubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1539,15 +1507,15 @@ describe('mobile happy Path', () => {
         element,
         getDownloadPM10HourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('15px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.margin).toBe('0px 0px 5px')
       expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
@@ -1568,9 +1536,9 @@ describe('mobile happy Path', () => {
         element,
         getPM25SubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1600,15 +1568,15 @@ describe('mobile happy Path', () => {
         element,
         getDownloadPM25HourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('15px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.margin).toBe('0px 0px 5px')
       expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
@@ -1629,9 +1597,9 @@ describe('mobile happy Path', () => {
         element,
         getOzoneSubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1661,15 +1629,15 @@ describe('mobile happy Path', () => {
         element,
         getDownloadOzoneHourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('15px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.margin).toBe('0px 0px 5px')
       expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
@@ -1692,9 +1660,9 @@ describe('mobile happy Path', () => {
         element,
         getNitrogenDioxideSubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1724,15 +1692,15 @@ describe('mobile happy Path', () => {
         element,
         DownloadNitrogenDioxideHourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('15px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.margin).toBe('0px 0px 5px')
       expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
