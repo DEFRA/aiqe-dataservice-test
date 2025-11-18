@@ -547,7 +547,7 @@ describe('mobile happy Path', () => {
       expect(styles['font-weight']).toBe('400')
     }
     const getLocationLink = [
-      await disambigurationPage.getLocationLinkByText('City of London')
+      await disambigurationPage.getLocationLinkByText('Birmingham')
     ]
 
     const getLocationLinkProperties = [
@@ -631,7 +631,7 @@ describe('mobile happy Path', () => {
       )
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('32px')
-      expect(styles['line-height']).toBe('34px')
+      expect(styles['line-height']).toBe('35px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -660,7 +660,7 @@ describe('mobile happy Path', () => {
         'underline 1px solid rgb(29, 112, 184)'
       )
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('22px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-weight']).toBe('400')
     }
     const getMonitoringStationLink = [
