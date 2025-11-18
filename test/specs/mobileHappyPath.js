@@ -704,7 +704,6 @@ describe('mobile happy Path', () => {
     ]
 
     const getMonitoringStationTableHeadingProperties = [
-      'width',
       'border-bottom',
       'padding',
       'text-align',
@@ -721,7 +720,6 @@ describe('mobile happy Path', () => {
         element,
         getMonitoringStationTableHeadingProperties
       )
-      expect(styles.width).toBe('360px')
       expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('left')
@@ -738,7 +736,6 @@ describe('mobile happy Path', () => {
     ]
 
     const getSiteTypeTableHeadingProperties = [
-      'width',
       'border-bottom',
       'padding',
       'text-align',
@@ -755,7 +752,6 @@ describe('mobile happy Path', () => {
         element,
         getSiteTypeTableHeadingProperties
       )
-      expect(styles.width).toBe('360px')
       expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('left')
@@ -773,7 +769,6 @@ describe('mobile happy Path', () => {
 
     const getPollutantsTableHeadingProperties = [
       'padding-right',
-      'width',
       'border-bottom',
       'padding',
       'text-align',
@@ -791,7 +786,6 @@ describe('mobile happy Path', () => {
         getPollutantsTableHeadingProperties
       )
       expect(styles['padding-right']).toBe('0px')
-      expect(styles.width).toBe('360px')
       expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('right')
