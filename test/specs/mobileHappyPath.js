@@ -1374,7 +1374,7 @@ describe('mobile happy Path', () => {
         getDownloadAllPollutantsHourlyDataProperties
       )
       expect(styles['font-size']).toBe('14px')
-      expect(styles['line-height']).toBe('15px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
@@ -1436,7 +1436,7 @@ describe('mobile happy Path', () => {
         getDownloadPM10HourlyDataLinkProperties
       )
       expect(styles['font-size']).toBe('14px')
-      expect(styles['line-height']).toBe('15px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
@@ -1497,7 +1497,7 @@ describe('mobile happy Path', () => {
         getDownloadPM25HourlyDataLinkProperties
       )
       expect(styles['font-size']).toBe('14px')
-      expect(styles['line-height']).toBe('15px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
@@ -1558,7 +1558,7 @@ describe('mobile happy Path', () => {
         getDownloadOzoneHourlyDataLinkProperties
       )
       expect(styles['font-size']).toBe('14px')
-      expect(styles['line-height']).toBe('15px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
@@ -1621,7 +1621,7 @@ describe('mobile happy Path', () => {
         DownloadNitrogenDioxideHourlyDataLinkProperties
       )
       expect(styles['font-size']).toBe('14px')
-      expect(styles['line-height']).toBe('15px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
