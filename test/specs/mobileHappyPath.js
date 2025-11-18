@@ -609,6 +609,13 @@ describe('mobile happy Path', () => {
     await header.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     await disambigurationPage.locationLinkClick('Birmingham')
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+        return true
+      },
+      { timeout: 3000 }
+    )
 
     // monitor station list
     const getMonitoringStationListPageHeading = [
