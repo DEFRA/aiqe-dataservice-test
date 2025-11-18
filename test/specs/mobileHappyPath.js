@@ -1173,8 +1173,7 @@ describe('mobile happy Path', () => {
       await monitoringStationPage.getPM25DataCapture,
       await monitoringStationPage.getPM10DataCapture,
       await monitoringStationPage.getNODataCapture,
-      await monitoringStationPage.getOzoneDataCapture,
-      await monitoringStationPage.getSDDataCapture
+      await monitoringStationPage.getOzoneDataCapture
     ]
 
     const getPM25DataCaptureProperties = [
@@ -1202,8 +1201,7 @@ describe('mobile happy Path', () => {
       await monitoringStationPage.getPM25AnnaulAverageST,
       await monitoringStationPage.getPM10AnnaulAverageST,
       await monitoringStationPage.getNitrogenDioxideAnnaulAverageST,
-      await monitoringStationPage.getOzoneAnnaulAverageST,
-      await monitoringStationPage.getSulphurDioxideAnnaulAverageST
+      await monitoringStationPage.getOzoneAnnaulAverageST
     ]
 
     const summaryTableAnnualAverageStylesProperties = [
@@ -1392,69 +1390,7 @@ describe('mobile happy Path', () => {
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
-    const SulphurDioxideSubHeading = [
-      await monitoringStationPage.getSulphurDioxideSubHeading
-    ]
 
-    const getSulphurDioxideSubHeadingProperties = [
-      'margin-bottom',
-      'font-size',
-      'line-height',
-      'color',
-      'font-family',
-      'font-weight'
-    ]
-
-    for (const element of SulphurDioxideSubHeading) {
-      const styles = await common.getStyles(
-        element,
-        getSulphurDioxideSubHeadingProperties
-      )
-      expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('18px')
-      expect(styles['line-height']).toBe('20px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-weight']).toBe('700')
-    }
-
-    const DownloadSulphurDioxideHourlyDataLink = [
-      await monitoringStationPage.getDownloadSulphurDioxideHourlyDataLink
-    ]
-
-    const getDownloadSulphurDioxideHourlyDataLinkProperties = [
-      'font-size',
-      'line-height',
-      'display',
-      'font-family',
-      'background-color',
-      'border',
-      'color',
-      'font-weight',
-      'margin',
-      'outline',
-      'padding',
-      'margin-bottom'
-    ]
-
-    for (const element of DownloadSulphurDioxideHourlyDataLink) {
-      const styles = await common.getStyles(
-        element,
-        getDownloadSulphurDioxideHourlyDataLinkProperties
-      )
-      expect(styles['font-size']).toBe('14px')
-      expect(styles['line-height']).toBe('15px')
-      expect(styles.display).toBe('inline-block')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 5px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
-      expect(styles.padding).toBe('9px 10px 10px')
-      expect(styles['margin-bottom']).toBe('15px')
-    }
     const PM10SubHeading = [await monitoringStationPage.getPM10SubHeading]
 
     const getPM10SubHeadingProperties = [
