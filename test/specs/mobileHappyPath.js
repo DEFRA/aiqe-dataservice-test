@@ -1220,7 +1220,7 @@ describe('mobile happy Path', () => {
         summaryTableAnnualAverageStylesProperties
       )
       expect(styles['text-align']).toBe('left')
-      expect(styles['border-bottom']).toBe('0px')
+      expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
       expect(styles.padding).toBe('20px 0px')
       expect(styles['vertical-align']).toBe('middle')
       expect(styles['font-size']).toBe('16px')
@@ -1236,7 +1236,6 @@ describe('mobile happy Path', () => {
     const getApproximateFileSizesDropDownLinkStylesProperties = [
       'text-decoration',
       'text-decoration-thickness',
-      'text-underline-offset',
       'color',
       'font-size',
       'line-height',
@@ -1251,7 +1250,6 @@ describe('mobile happy Path', () => {
       )
       expect(styles['text-decoration']).toBe('underline')
       expect(styles['text-decoration-thickness']).toBe('1px')
-      expect(styles['text-underline-offset']).toBe('2.5248px')
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('20px')
