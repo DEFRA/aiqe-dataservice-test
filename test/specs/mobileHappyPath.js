@@ -663,9 +663,7 @@ describe('mobile happy Path', () => {
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline')
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('20px')
       expect(styles['font-weight']).toBe('400')
@@ -694,14 +692,12 @@ describe('mobile happy Path', () => {
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline')
       expect(styles['text-decoration-thickness']).toBe('1px')
       // expect(styles['font-weight']).toBe('700') styling bug
       expect(styles['text-align']).toBe('left')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('22px')
+      expect(styles['line-height']).toBe('20px')
     }
     const getMonitoringStationTableHeading = [
       await locationMonitoringStationListPage.getMonitoringStationTableHeading
@@ -725,15 +721,15 @@ describe('mobile happy Path', () => {
         element,
         getMonitoringStationTableHeadingProperties
       )
-      expect(styles.width).toBe('460px')
+      expect(styles.width).toBe('360px')
       expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('left')
       expect(styles['vertical-align']).toBe('top')
       expect(styles['font-weight']).toBe('700')
       expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
 
@@ -759,15 +755,15 @@ describe('mobile happy Path', () => {
         element,
         getSiteTypeTableHeadingProperties
       )
-      expect(styles.width).toBe('220px')
+      expect(styles.width).toBe('360px')
       expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('left')
       expect(styles['vertical-align']).toBe('top')
       expect(styles['font-weight']).toBe('700')
       expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
 
@@ -795,15 +791,15 @@ describe('mobile happy Path', () => {
         getPollutantsTableHeadingProperties
       )
       expect(styles['padding-right']).toBe('0px')
-      expect(styles.width).toBe('240px')
+      expect(styles.width).toBe('360px')
       expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
-      expect(styles.padding).toBe('10px 0px')
+      expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('right')
       expect(styles['vertical-align']).toBe('top')
       expect(styles['font-weight']).toBe('700')
       expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
 
