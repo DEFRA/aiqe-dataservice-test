@@ -1221,7 +1221,7 @@ describe('mobile happy Path', () => {
       )
       expect(styles['text-align']).toBe('left')
       expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.padding).toBe('20px 0px')
+      expect(styles.padding).toBe('0px 0px 10px')
       expect(styles['vertical-align']).toBe('middle')
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('20px')
