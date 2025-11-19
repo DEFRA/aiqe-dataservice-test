@@ -941,7 +941,6 @@ describe('tablet happy Path', () => {
     const getFeatureBodyProperties = [
       'font-size',
       'margin-bottom',
-      'line-height',
       'color',
       'font-family',
       'font-weight'
@@ -950,9 +949,8 @@ describe('tablet happy Path', () => {
 
     for (const element of getFeatureBody) {
       const styles = await common.getStyles(element, getFeatureBodyProperties)
-      expect(styles['font-size']).toBe('16px')
+      expect(styles['font-size']).toBe('22px')
       expect(styles['margin-bottom']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
@@ -1104,8 +1102,8 @@ describe('tablet happy Path', () => {
     for (const element of getDurationTag) {
       const styles = await common.getStyles(element, getDurationTagProperties)
       expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
@@ -1135,8 +1133,8 @@ describe('tablet happy Path', () => {
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['padding-bottom']).toBe('12px')
       expect(styles['padding-top']).toBe('12px')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-weight']).toBe('400')
     }
 
@@ -1153,9 +1151,9 @@ describe('tablet happy Path', () => {
 
     for (const element of getVerifiedTag) {
       const styles = await common.getStyles(element, getVerifiedTagsProperties)
-      expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1181,7 +1179,7 @@ describe('tablet happy Path', () => {
         element,
         getPM25DataCaptureProperties
       )
-      expect(styles['font-size']).toBe('14px')
+      expect(styles['font-size']).toBe('16px')
       expect(styles['font-weight']).toBe('400')
       expect(styles['margin-top']).toBe('5px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
@@ -1211,12 +1209,12 @@ describe('tablet happy Path', () => {
         element,
         summaryTableAnnualAverageStylesProperties
       )
-      expect(styles['text-align']).toBe('left')
-      expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
+      expect(styles['text-align']).toBe('right')
+      expect(styles['border-bottom']).toBe('0px')
       expect(styles.padding).toBe('0px 0px 10px')
       expect(styles['vertical-align']).toBe('middle')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['border-collapse']).toBe('collapse')
       expect(styles.color).toBe('rgb(11, 12, 12)')
