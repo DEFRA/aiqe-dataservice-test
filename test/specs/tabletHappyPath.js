@@ -950,7 +950,7 @@ describe('tablet happy Path', () => {
     for (const element of getFeatureBody) {
       const styles = await common.getStyles(element, getFeatureBodyProperties)
       expect(styles['font-size']).toBe('22px')
-      expect(styles['margin-bottom']).toBe('19px')
+      expect(styles['margin-bottom']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
