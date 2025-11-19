@@ -240,9 +240,9 @@ describe('tablet happy Path', () => {
         element,
         startNowPageHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('30px')
-      expect(styles['font-size']).toBe('32px')
-      expect(styles['line-height']).toBe('35px')
+      expect(styles['margin-bottom']).toBe('50px')
+      expect(styles['font-size']).toBe('48px')
+      expect(styles['line-height']).toBe('50px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -262,9 +262,9 @@ describe('tablet happy Path', () => {
     for (const element of startNowPageList) {
       const styles = await common.getStyles(element, startNowPageListProperties)
       expect(styles['padding-left']).toBe('20px')
-      expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -285,9 +285,9 @@ describe('tablet happy Path', () => {
         element,
         startNowPageListItemProperties
       )
-      expect(styles['margin-bottom']).toBe('0px')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['margin-bottom']).toBe('5px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -311,9 +311,9 @@ describe('tablet happy Path', () => {
         OtherWaysToGetThisInfoTitlenProperties
       )
 
-      expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('18px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('24px')
+      expect(styles['line-height']).toBe('30px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
