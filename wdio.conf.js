@@ -67,11 +67,11 @@ export const config = {
   ],
 
   // Tests to run
-  specs: ['./test/specs/**/mobileHappyPath.js'],
+  specs: ['./test/specs/**/tabletHappyPath.js'],
   // Tests to exclude
   exclude: [
-    './test/specs/**/tabletHappyPath.js',
-    // './test/specs/**/mobileHappyPath.js',
+    // './test/specs/**/tabletHappyPath.js',
+    './test/specs/**/mobileHappyPath.js',
     './test/specs/**/downloadData.js',
     './test/specs/**/hubPageValidation.js',
     './test/specs/**/noJavascriptValidation.js'
@@ -87,9 +87,9 @@ export const config = {
   capabilities: [
     {
       'bstack:options': {
-        browserName: 'safari',
+        browserName: 'chromium',
         osVersion: '26',
-        deviceName: 'iPhone 15'
+        deviceName: 'iPad Air 5'
       }
     }
   ],

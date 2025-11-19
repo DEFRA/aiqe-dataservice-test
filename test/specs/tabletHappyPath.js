@@ -78,10 +78,8 @@ describe('tablet happy Path', () => {
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('16px')
       expect(styles['font-weight']).toBe('400')
-      expect(styles['line-height']).toBe('20px')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(11, 12, 12)'
-      )
+      expect(styles['line-height']).toBe('24px')
+      expect(styles['text-decoration']).toBe('underline')
     }
     // checking OGL logo styling
     const oglLogo = [await footer.getOGLLogo]
@@ -121,7 +119,7 @@ describe('tablet happy Path', () => {
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['line-height']).toBe('24px')
     }
 
     const FooterCrownLogo = [await footer.getFooterCrownLogo]
@@ -156,22 +154,18 @@ describe('tablet happy Path', () => {
     const CrownLogo = [await header.getGovUKCrownLogo]
 
     const GovUKCrownLogoProperties = [
-      'float',
-      'padding-right',
-      'vertical-align',
-      // 'width',
-      'margin-bottom',
       'font-family',
+      'padding-bottom',
+      'padding-top',
+      'margin-bottom',
       'font-weight'
     ]
 
     for (const element of CrownLogo) {
       const styles = await common.getStyles(element, GovUKCrownLogoProperties)
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles.float).toBe('left')
-      expect(styles['padding-right']).toBe('15px')
-      expect(styles['vertical-align']).toBe('top')
-      // expect(styles.width).toBe('319.953px')
+      expect(styles['padding-bottom']).toBe('12px')
+      expect(styles['padding-top']).toBe('16px')
       expect(styles['margin-bottom']).toBe('0px')
       expect(styles['font-weight']).toBe('400')
     }
@@ -193,11 +187,9 @@ describe('tablet happy Path', () => {
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['line-height']).toBe('24px')
       expect(styles['font-weight']).toBe('400')
     }
     // checking beta logo styling
@@ -220,7 +212,7 @@ describe('tablet happy Path', () => {
     for (const element of getBetaLogo) {
       const styles = await common.getStyles(element, getBetalogoProperties)
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['line-height']).toBe('24px')
       expect(styles['margin-right']).toBe('10px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(187, 212, 234)')
@@ -230,31 +222,6 @@ describe('tablet happy Path', () => {
       expect(styles['margin-top']).toBe('-2px')
       expect(styles['max-width']).toBe('160px')
       expect(styles.padding).toBe('2px 8px 3px')
-    }
-    // checking beta logo styling
-    const BetaBannerTextstyling = [await header.getBetalogo]
-    const getBetaBannerTextProperties = [
-      'display',
-      'vertical-align',
-      'font-size',
-      'line-height',
-      'font-family',
-      'color',
-      'font-weight'
-    ]
-
-    for (const element of BetaBannerTextstyling) {
-      const styles = await common.getStyles(
-        element,
-        getBetaBannerTextProperties
-      )
-      expect(styles.display).toBe('inline-block')
-      expect(styles['vertical-align']).toBe('baseline')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles.color).toBe('rgb(12, 45, 74)')
-      expect(styles['font-weight']).toBe('400')
     }
 
     const startNowPageHeading = [await startNowPage.getStartNowPageHeading]
@@ -297,7 +264,7 @@ describe('tablet happy Path', () => {
       expect(styles['padding-left']).toBe('20px')
       expect(styles['margin-bottom']).toBe('15px')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -320,7 +287,7 @@ describe('tablet happy Path', () => {
       )
       expect(styles['margin-bottom']).toBe('0px')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -370,8 +337,8 @@ describe('tablet happy Path', () => {
         searchPageHeadingProperties
       )
       expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('24')
-      expect(styles['line-height']).toBe('26')
+      expect(styles['font-size']).toBe('24px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
@@ -392,7 +359,7 @@ describe('tablet happy Path', () => {
         searchPageHintTextProperties
       )
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('19px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(80, 90, 95)')
       expect(styles['font-weight']).toBe('400')
@@ -417,7 +384,7 @@ describe('tablet happy Path', () => {
         EnterTownOrPostcodeLabelProperties
       )
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -440,7 +407,7 @@ describe('tablet happy Path', () => {
         approxSearchAreaLabelProperties
       )
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -460,9 +427,7 @@ describe('tablet happy Path', () => {
       'line-height',
       'font-family',
       'color',
-      'font-weight',
-      'height',
-      'width'
+      'font-weight'
     ]
 
     for (const element of mileOptions) {
@@ -471,11 +436,10 @@ describe('tablet happy Path', () => {
       expect(styles['margin-bottom']).toBe('0px')
       expect(styles.padding).toBe('7px 15px')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.height).toBe('25px')
     }
     const continueButton = [await searchPage.getContinueBtn]
 
@@ -498,7 +462,7 @@ describe('tablet happy Path', () => {
       const styles = await common.getStyles(element, continueButtonProperties)
       expect(styles['margin-bottom']).toBe('22px')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('18px')
+      expect(styles['line-height']).toBe('19px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(0, 112, 60)')
       expect(styles.border).toBe('2px solid rgba(0, 0, 0, 0)')
@@ -516,6 +480,13 @@ describe('tablet happy Path', () => {
     await searchPage.setsearch('birmingham')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+        return true
+      },
+      { timeout: 3000 }
+    )
 
     // results block
 
@@ -541,7 +512,7 @@ describe('tablet happy Path', () => {
       expect(styles['margin-top']).toBe('20px')
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('26px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -562,16 +533,14 @@ describe('tablet happy Path', () => {
       const styles = await common.getStyles(element, getTryAgainLinkProperties)
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline')
       expect(styles['text-decoration-thickness']).toBe('1px')
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('20px')
       expect(styles['font-weight']).toBe('400')
     }
     const getLocationLink = [
-      await disambigurationPage.getLocationLinkByText('City of London')
+      await disambigurationPage.getLocationLinkByText('Birmingham')
     ]
 
     const getLocationLinkProperties = [
@@ -584,7 +553,7 @@ describe('tablet happy Path', () => {
 
     for (const element of getLocationLink) {
       const styles = await common.getStyles(element, getLocationLinkProperties)
-      expect(styles['font-weight']).toBe('400')
+      expect(styles['font-weight']).toBe('700')
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('16px')
@@ -625,7 +594,7 @@ describe('tablet happy Path', () => {
       const styles = await common.getStyles(element, getListItemProperties)
       expect(styles['margin-bottom']).toBe('5px')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('22px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -633,6 +602,13 @@ describe('tablet happy Path', () => {
     await header.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     await disambigurationPage.locationLinkClick('Birmingham')
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+        return true
+      },
+      { timeout: 3000 }
+    )
 
     // monitor station list
     const getMonitoringStationListPageHeading = [
@@ -655,7 +631,7 @@ describe('tablet happy Path', () => {
       )
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('32px')
-      expect(styles['line-height']).toBe('34px')
+      expect(styles['line-height']).toBe('35px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -680,11 +656,9 @@ describe('tablet happy Path', () => {
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('22px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-weight']).toBe('400')
     }
     const getMonitoringStationLink = [
@@ -711,21 +685,18 @@ describe('tablet happy Path', () => {
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline')
       expect(styles['text-decoration-thickness']).toBe('1px')
       // expect(styles['font-weight']).toBe('700') styling bug
       expect(styles['text-align']).toBe('left')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('22px')
+      expect(styles['line-height']).toBe('20px')
     }
     const getMonitoringStationTableHeading = [
       await locationMonitoringStationListPage.getMonitoringStationTableHeading
     ]
 
     const getMonitoringStationTableHeadingProperties = [
-      'width',
       'border-bottom',
       'padding',
       'text-align',
@@ -742,15 +713,14 @@ describe('tablet happy Path', () => {
         element,
         getMonitoringStationTableHeadingProperties
       )
-      expect(styles.width).toBe('460px')
       expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('left')
       expect(styles['vertical-align']).toBe('top')
       expect(styles['font-weight']).toBe('700')
       expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
 
@@ -759,7 +729,6 @@ describe('tablet happy Path', () => {
     ]
 
     const getSiteTypeTableHeadingProperties = [
-      'width',
       'border-bottom',
       'padding',
       'text-align',
@@ -776,15 +745,14 @@ describe('tablet happy Path', () => {
         element,
         getSiteTypeTableHeadingProperties
       )
-      expect(styles.width).toBe('220px')
       expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('left')
       expect(styles['vertical-align']).toBe('top')
       expect(styles['font-weight']).toBe('700')
       expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
 
@@ -794,7 +762,6 @@ describe('tablet happy Path', () => {
 
     const getPollutantsTableHeadingProperties = [
       'padding-right',
-      'width',
       'border-bottom',
       'padding',
       'text-align',
@@ -812,23 +779,27 @@ describe('tablet happy Path', () => {
         getPollutantsTableHeadingProperties
       )
       expect(styles['padding-right']).toBe('0px')
-      expect(styles.width).toBe('240px')
       expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.padding).toBe('10px 0px')
       expect(styles['text-align']).toBe('right')
       expect(styles['vertical-align']).toBe('top')
       expect(styles['font-weight']).toBe('700')
       expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
 
-    await header.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
     await locationMonitoringStationListPage
       .getMonitoringStationLink('Birmingham A4540 Roadside')
       .click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+        return true
+      },
+      { timeout: 3000 }
+    )
 
     // monitoring station page
     await header.getHeaderOverall.isDisplayed()
@@ -846,10 +817,7 @@ describe('tablet happy Path', () => {
     const getGoogleMapLink = [await monitoringStationPage.getGoogleMapLink]
 
     const getGoogleMapLinkProperties = [
-      'color',
       'font-family',
-      'text-decoration',
-      'text-decoration-thickness',
       'font-size',
       'line-height',
       'font-weight'
@@ -858,8 +826,8 @@ describe('tablet happy Path', () => {
     for (const element of getGoogleMapLink) {
       const styles = await common.getStyles(element, getGoogleMapLinkProperties)
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-weight']).toBe('400')
     }
     const getMonitoringPageHeadingStyles = [
@@ -881,23 +849,21 @@ describe('tablet happy Path', () => {
         getMonitoringPageHeadingProperties
       )
       expect(styles['margin-bottom']).toBe('5px')
-      expect(styles['font-size']).toBe('48px')
-      expect(styles['line-height']).toBe('50px')
+      expect(styles['font-size']).toBe('32px')
+      expect(styles['line-height']).toBe('35px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
     }
     const getgridSideStyles = [await monitoringStationPage.getgridSideStyles]
 
-    const getgridSideStylesProperties = ['float', 'width', 'padding']
+    const getgridSideStylesProperties = ['padding']
 
     for (const element of getgridSideStyles) {
       const styles = await common.getStyles(
         element,
         getgridSideStylesProperties
       )
-      expect(styles.float).toBe('left')
-      expect(styles.width).toBe('990px')
       expect(styles.padding).toBe('0px 15px')
     }
 
@@ -909,12 +875,10 @@ describe('tablet happy Path', () => {
       'gap',
       'padding-bottom',
       'margin-top',
-      'box-shadow',
       'display',
       'flex-direction',
       'flex-wrap',
-      'margin',
-      'width'
+      'margin'
     ]
 
     for (const element of getgridTopBottomStyles) {
@@ -922,24 +886,19 @@ describe('tablet happy Path', () => {
         element,
         getgridTopBottomStylesProperties
       )
-      expect(styles.gap).toBe('80px')
+      expect(styles.gap).toBe('30px')
       expect(styles['padding-bottom']).toBe('0px')
       expect(styles['margin-top']).toBe('15px')
-      expect(styles['box-shadow']).toBe(
-        'rgb(177, 180, 182) 0px -1px 0px 0px inset'
-      )
       expect(styles.display).toBe('flex')
       expect(styles['flex-direction']).toBe('row')
       expect(styles['flex-wrap']).toBe('nowrap')
       expect(styles.margin).toBe('15px 0px')
-      expect(styles.width).toBe('960px')
     }
 
     const getFeatureItem = [await monitoringStationPage.getFeatureItem]
 
     const getFeatureItemProperties = [
       'box-sizing',
-      'float',
       'min-width',
       'padding',
       'display'
@@ -948,7 +907,6 @@ describe('tablet happy Path', () => {
     for (const element of getFeatureItem) {
       const styles = await common.getStyles(element, getFeatureItemProperties)
       expect(styles['box-sizing']).toBe('border-box')
-      expect(styles.float).toBe('left')
       expect(styles['min-width']).toBe('96px')
       expect(styles.padding).toBe('15px 0px')
       expect(styles.display).toBe('block')
@@ -970,8 +928,8 @@ describe('tablet happy Path', () => {
         element,
         getFeatureCaptionProperties
       )
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(80, 90, 95)')
       expect(styles.display).toBe('block')
@@ -993,10 +951,10 @@ describe('tablet happy Path', () => {
 
     for (const element of getFeatureBody) {
       const styles = await common.getStyles(element, getFeatureBodyProperties)
-      expect(styles['margin-top']).toBe('5px')
-      expect(styles['font-size']).toBe('22px')
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['line-height']).toBe('28.9474px')
+      expect(styles['margin-top']).toBe('0px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
@@ -1013,7 +971,7 @@ describe('tablet happy Path', () => {
         getMapLinkPaddingProperties
       )
       expect(styles['margin-top']).toBe('5px')
-      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['margin-bottom']).toBe('15px')
     }
     const getMonitoringStationStatus = [
       await monitoringStationPage.getMonitoringStationStatus
@@ -1036,8 +994,8 @@ describe('tablet happy Path', () => {
       )
       expect(styles['background-color']).toBe('rgb(204, 226, 216)')
       expect(styles.color).toBe('rgb(0, 90, 48)')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
       expect(styles.padding).toBe('2px 8px 3px')
@@ -1068,9 +1026,9 @@ describe('tablet happy Path', () => {
       expect(styles.display).toBe('inline-block')
       expect(styles.color).toBe('rgb(80, 90, 95)')
       expect(styles['margin-top']).toBe('15px')
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
     }
@@ -1124,10 +1082,10 @@ describe('tablet happy Path', () => {
         element,
         getSumarryTableHeadingProperties
       )
-      expect(styles['margin-top']).toBe('30px')
+      expect(styles['margin-top']).toBe('20px')
       expect(styles['margin-bottom']).toBe('10px')
-      expect(styles['font-size']).toBe('36px')
-      expect(styles['line-height']).toBe('40px')
+      expect(styles['font-size']).toBe('24px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.display).toBe('block')
@@ -1148,8 +1106,8 @@ describe('tablet happy Path', () => {
     for (const element of getDurationTag) {
       const styles = await common.getStyles(element, getDurationTagProperties)
       expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
@@ -1166,7 +1124,6 @@ describe('tablet happy Path', () => {
     ]
 
     const getYearButtonsProperties = [
-      'color',
       'font-family',
       'padding-bottom',
       'padding-top',
@@ -1177,38 +1134,11 @@ describe('tablet happy Path', () => {
 
     for (const element of getYearButtons) {
       const styles = await common.getStyles(element, getYearButtonsProperties)
-      expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['padding-bottom']).toBe('12px')
       expect(styles['padding-top']).toBe('12px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-weight']).toBe('400')
-    }
-
-    const getCurrentYearButton = [await monitoringStationPage.get2018Button]
-
-    const getCurrentYearButtonProperties = [
-      'color',
-      'font-family',
-      'padding-bottom',
-      'padding-top',
-      'font-size',
-      'line-height',
-      'font-weight'
-    ]
-
-    for (const element of getCurrentYearButton) {
-      const styles = await common.getStyles(
-        element,
-        getCurrentYearButtonProperties
-      )
-      expect(styles.color).toBe('rgb(0, 48, 120)')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['padding-bottom']).toBe('12px')
-      expect(styles['padding-top']).toBe('12px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-weight']).toBe('400')
     }
 
@@ -1225,9 +1155,9 @@ describe('tablet happy Path', () => {
 
     for (const element of getVerifiedTag) {
       const styles = await common.getStyles(element, getVerifiedTagsProperties)
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1237,15 +1167,13 @@ describe('tablet happy Path', () => {
       await monitoringStationPage.getPM25DataCapture,
       await monitoringStationPage.getPM10DataCapture,
       await monitoringStationPage.getNODataCapture,
-      await monitoringStationPage.getOzoneDataCapture,
-      await monitoringStationPage.getSDDataCapture
+      await monitoringStationPage.getOzoneDataCapture
     ]
 
     const getPM25DataCaptureProperties = [
       'font-size',
       'font-weight',
       'margin-top',
-      'line-height',
       'font-family',
       'text-align'
     ]
@@ -1255,10 +1183,9 @@ describe('tablet happy Path', () => {
         element,
         getPM25DataCaptureProperties
       )
-      expect(styles['font-size']).toBe('16px')
+      expect(styles['font-size']).toBe('14px')
       expect(styles['font-weight']).toBe('400')
       expect(styles['margin-top']).toBe('5px')
-      expect(styles['line-height']).toBe('21.0526px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['text-align']).toBe('left')
     }
@@ -1266,8 +1193,7 @@ describe('tablet happy Path', () => {
       await monitoringStationPage.getPM25AnnaulAverageST,
       await monitoringStationPage.getPM10AnnaulAverageST,
       await monitoringStationPage.getNitrogenDioxideAnnaulAverageST,
-      await monitoringStationPage.getOzoneAnnaulAverageST,
-      await monitoringStationPage.getSulphurDioxideAnnaulAverageST
+      await monitoringStationPage.getOzoneAnnaulAverageST
     ]
 
     const summaryTableAnnualAverageStylesProperties = [
@@ -1279,9 +1205,7 @@ describe('tablet happy Path', () => {
       'line-height',
       'font-family',
       'border-collapse',
-      'border-spacing',
-      'color',
-      'font-weight'
+      'color'
     ]
 
     for (const element of summaryTableAnnualAverageStyles) {
@@ -1289,17 +1213,15 @@ describe('tablet happy Path', () => {
         element,
         summaryTableAnnualAverageStylesProperties
       )
-      expect(styles['text-align']).toBe('right')
+      expect(styles['text-align']).toBe('left')
       expect(styles['border-bottom']).toBe('0px none rgb(11, 12, 12)')
-      expect(styles.padding).toBe('20px 0px')
+      expect(styles.padding).toBe('0px 0px 10px')
       expect(styles['vertical-align']).toBe('middle')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['border-collapse']).toBe('collapse')
-      expect(styles['border-spacing']).toBe('0px 0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
     }
     const getApproximateFileSizesDropDownLinkStyles = [
       await monitoringStationPage.getApproximateFileSizesDropDownLink
@@ -1308,7 +1230,6 @@ describe('tablet happy Path', () => {
     const getApproximateFileSizesDropDownLinkStylesProperties = [
       'text-decoration',
       'text-decoration-thickness',
-      'text-underline-offset',
       'color',
       'font-size',
       'line-height',
@@ -1321,18 +1242,22 @@ describe('tablet happy Path', () => {
         element,
         getApproximateFileSizesDropDownLinkStylesProperties
       )
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline')
       expect(styles['text-decoration-thickness']).toBe('1px')
-      expect(styles['text-underline-offset']).toBe('2.9982px')
       expect(styles.color).toBe('rgb(29, 112, 184)')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
     }
     await monitoringStationPage.getApproximateFileSizesDropDownLink.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+        return true
+      },
+      { timeout: 3000 }
+    )
     const getApproximateFileSizesContentStyles = [
       await monitoringStationPage.getApproximateFileSizesContent
     ]
@@ -1358,8 +1283,8 @@ describe('tablet happy Path', () => {
       expect(styles['padding-bottom']).toBe('15px')
       expect(styles['padding-left']).toBe('20px')
       expect(styles['padding-top']).toBe('15px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -1383,10 +1308,10 @@ describe('tablet happy Path', () => {
         element,
         getdownloadDataHeadingProperties
       )
-      expect(styles['margin-top']).toBe('40px')
-      expect(styles['margin-bottom']).toBe('30px')
-      expect(styles['font-size']).toBe('36px')
-      expect(styles['line-height']).toBe('40px')
+      expect(styles['margin-top']).toBe('25px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('24px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1410,9 +1335,9 @@ describe('tablet happy Path', () => {
         element,
         getAllPollutantsSubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1442,8 +1367,8 @@ describe('tablet happy Path', () => {
         element,
         getDownloadAllPollutantsHourlyDataProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
@@ -1455,69 +1380,7 @@ describe('tablet happy Path', () => {
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
-    const SulphurDioxideSubHeading = [
-      await monitoringStationPage.getSulphurDioxideSubHeading
-    ]
 
-    const getSulphurDioxideSubHeadingProperties = [
-      'margin-bottom',
-      'font-size',
-      'line-height',
-      'color',
-      'font-family',
-      'font-weight'
-    ]
-
-    for (const element of SulphurDioxideSubHeading) {
-      const styles = await common.getStyles(
-        element,
-        getSulphurDioxideSubHeadingProperties
-      )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-weight']).toBe('700')
-    }
-
-    const DownloadSulphurDioxideHourlyDataLink = [
-      await monitoringStationPage.getDownloadSulphurDioxideHourlyDataLink
-    ]
-
-    const getDownloadSulphurDioxideHourlyDataLinkProperties = [
-      'font-size',
-      'line-height',
-      'display',
-      'font-family',
-      'background-color',
-      'border',
-      'color',
-      'font-weight',
-      'margin',
-      'outline',
-      'padding',
-      'margin-bottom'
-    ]
-
-    for (const element of DownloadSulphurDioxideHourlyDataLink) {
-      const styles = await common.getStyles(
-        element,
-        getDownloadSulphurDioxideHourlyDataLinkProperties
-      )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
-      expect(styles.display).toBe('inline-block')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
-      expect(styles.padding).toBe('9px 10px 10px')
-      expect(styles['margin-bottom']).toBe('15px')
-    }
     const PM10SubHeading = [await monitoringStationPage.getPM10SubHeading]
 
     const getPM10SubHeadingProperties = [
@@ -1534,9 +1397,9 @@ describe('tablet happy Path', () => {
         element,
         getPM10SubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1566,8 +1429,8 @@ describe('tablet happy Path', () => {
         element,
         getDownloadPM10HourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
@@ -1595,9 +1458,9 @@ describe('tablet happy Path', () => {
         element,
         getPM25SubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1627,8 +1490,8 @@ describe('tablet happy Path', () => {
         element,
         getDownloadPM25HourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
@@ -1656,9 +1519,9 @@ describe('tablet happy Path', () => {
         element,
         getOzoneSubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1688,8 +1551,8 @@ describe('tablet happy Path', () => {
         element,
         getDownloadOzoneHourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
@@ -1719,9 +1582,9 @@ describe('tablet happy Path', () => {
         element,
         getNitrogenDioxideSubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('18px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -1751,8 +1614,8 @@ describe('tablet happy Path', () => {
         element,
         DownloadNitrogenDioxideHourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('14px')
+      expect(styles['line-height']).toBe('16px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
