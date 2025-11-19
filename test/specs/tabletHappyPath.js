@@ -336,9 +336,9 @@ describe('tablet happy Path', () => {
         element,
         searchPageHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('36px')
+      expect(styles['line-height']).toBe('40px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
@@ -358,8 +358,8 @@ describe('tablet happy Path', () => {
         element,
         searchPageHintTextProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(80, 90, 95)')
       expect(styles['font-weight']).toBe('400')
@@ -383,8 +383,8 @@ describe('tablet happy Path', () => {
         element,
         EnterTownOrPostcodeLabelProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -406,8 +406,8 @@ describe('tablet happy Path', () => {
         element,
         approxSearchAreaLabelProperties
       )
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -435,8 +435,8 @@ describe('tablet happy Path', () => {
       expect(styles['align-self']).toBe('center')
       expect(styles['margin-bottom']).toBe('0px')
       expect(styles.padding).toBe('7px 15px')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -460,8 +460,8 @@ describe('tablet happy Path', () => {
 
     for (const element of continueButton) {
       const styles = await common.getStyles(element, continueButtonProperties)
-      expect(styles['margin-bottom']).toBe('22px')
-      expect(styles['font-size']).toBe('16px')
+      expect(styles['margin-bottom']).toBe('32px')
+      expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('19px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(0, 112, 60)')
