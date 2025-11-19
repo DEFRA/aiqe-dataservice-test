@@ -469,7 +469,7 @@ describe('tablet happy Path', () => {
       expect(styles['box-shadow']).toBe('rgb(0, 45, 24) 0px 2px 0px 0px')
       expect(styles.color).toBe('rgb(255, 255, 255)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 22px')
+      expect(styles.margin).toBe('0px 0px 32px')
       expect(styles.padding).toBe('8px 10px 7px')
       expect(styles['text-align']).toBe('center')
     }
@@ -509,10 +509,10 @@ describe('tablet happy Path', () => {
         element,
         getDisambigurationPageHeadingProperties
       )
-      expect(styles['margin-top']).toBe('20px')
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['margin-top']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles['font-size']).toBe('36px')
+      expect(styles['line-height']).toBe('40px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -535,8 +535,8 @@ describe('tablet happy Path', () => {
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['text-decoration']).toBe('underline')
       expect(styles['text-decoration-thickness']).toBe('1px')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-weight']).toBe('400')
     }
     const getLocationLink = [
@@ -556,8 +556,8 @@ describe('tablet happy Path', () => {
       expect(styles['font-weight']).toBe('700')
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
     }
     const getParagraphLink = [await disambigurationPage.getParagraph]
 
@@ -572,9 +572,9 @@ describe('tablet happy Path', () => {
 
     for (const element of getParagraphLink) {
       const styles = await common.getStyles(element, getParagraphLinkProperties)
-      expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
@@ -593,8 +593,8 @@ describe('tablet happy Path', () => {
     for (const element of getListItem) {
       const styles = await common.getStyles(element, getListItemProperties)
       expect(styles['margin-bottom']).toBe('5px')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
