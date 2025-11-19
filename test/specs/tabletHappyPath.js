@@ -78,7 +78,7 @@ describe('tablet happy Path', () => {
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('16px')
       expect(styles['font-weight']).toBe('400')
-      expect(styles['line-height']).toBe('24px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['text-decoration']).toBe('underline')
     }
     // checking OGL logo styling
@@ -119,7 +119,7 @@ describe('tablet happy Path', () => {
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('24px')
+      expect(styles['line-height']).toBe('20px')
     }
 
     const FooterCrownLogo = [await footer.getFooterCrownLogo]
@@ -189,7 +189,7 @@ describe('tablet happy Path', () => {
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['text-decoration']).toBe('underline')
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('24px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['font-weight']).toBe('400')
     }
     // checking beta logo styling
@@ -212,7 +212,7 @@ describe('tablet happy Path', () => {
     for (const element of getBetaLogo) {
       const styles = await common.getStyles(element, getBetalogoProperties)
       expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('24px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles['margin-right']).toBe('10px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(187, 212, 234)')
