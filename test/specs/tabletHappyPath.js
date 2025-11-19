@@ -629,9 +629,9 @@ describe('tablet happy Path', () => {
         element,
         getMonitoringStationListPageHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('32px')
-      expect(styles['line-height']).toBe('35px')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles['font-size']).toBe('48px')
+      expect(styles['line-height']).toBe('50px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
@@ -657,8 +657,8 @@ describe('tablet happy Path', () => {
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['text-decoration']).toBe('underline')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-weight']).toBe('400')
     }
     const getMonitoringStationLink = [
@@ -689,8 +689,8 @@ describe('tablet happy Path', () => {
       expect(styles['text-decoration-thickness']).toBe('1px')
       // expect(styles['font-weight']).toBe('700') styling bug
       expect(styles['text-align']).toBe('left')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
     }
     const getMonitoringStationTableHeading = [
       await locationMonitoringStationListPage.getMonitoringStationTableHeading
@@ -719,8 +719,8 @@ describe('tablet happy Path', () => {
       expect(styles['vertical-align']).toBe('top')
       expect(styles['font-weight']).toBe('700')
       expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
 
@@ -751,8 +751,8 @@ describe('tablet happy Path', () => {
       expect(styles['vertical-align']).toBe('top')
       expect(styles['font-weight']).toBe('700')
       expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
 
@@ -780,13 +780,13 @@ describe('tablet happy Path', () => {
       )
       expect(styles['padding-right']).toBe('0px')
       expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
-      expect(styles.padding).toBe('10px 0px')
+      expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('right')
       expect(styles['vertical-align']).toBe('top')
       expect(styles['font-weight']).toBe('700')
       expect(styles.display).toBe('table-cell')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
 
