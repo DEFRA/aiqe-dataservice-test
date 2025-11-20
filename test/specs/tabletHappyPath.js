@@ -1331,7 +1331,7 @@ describe('tablet happy Path', () => {
         element,
         getAllPollutantsSubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('24px')
+      expect(styles['margin-bottom']).toBe('20px')
       expect(styles['font-size']).toBe('30px')
       expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
@@ -1393,8 +1393,8 @@ describe('tablet happy Path', () => {
         element,
         getPM10SubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('18px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('30px')
       expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
@@ -1425,15 +1425,15 @@ describe('tablet happy Path', () => {
         element,
         getDownloadPM10HourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('14px')
-      expect(styles['line-height']).toBe('16px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.margin).toBe('0px 0px 5px')
       expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
@@ -1454,8 +1454,8 @@ describe('tablet happy Path', () => {
         element,
         getPM25SubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('18px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('30px')
       expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
@@ -1486,15 +1486,15 @@ describe('tablet happy Path', () => {
         element,
         getDownloadPM25HourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('14px')
-      expect(styles['line-height']).toBe('16px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.margin).toBe('0px 0px 5px')
       expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
@@ -1515,8 +1515,8 @@ describe('tablet happy Path', () => {
         element,
         getOzoneSubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('18px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('30px')
       expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
@@ -1547,15 +1547,15 @@ describe('tablet happy Path', () => {
         element,
         getDownloadOzoneHourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('14px')
-      expect(styles['line-height']).toBe('16px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.margin).toBe('0px 0px 5px')
       expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
@@ -1578,8 +1578,8 @@ describe('tablet happy Path', () => {
         element,
         getNitrogenDioxideSubHeadingProperties
       )
-      expect(styles['margin-bottom']).toBe('15px')
-      expect(styles['font-size']).toBe('18px')
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('30px')
       expect(styles['line-height']).toBe('20px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
@@ -1610,15 +1610,15 @@ describe('tablet happy Path', () => {
         element,
         DownloadNitrogenDioxideHourlyDataLinkProperties
       )
-      expect(styles['font-size']).toBe('14px')
-      expect(styles['line-height']).toBe('16px')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 0px 15px')
+      expect(styles.margin).toBe('0px 0px 5px')
       expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
