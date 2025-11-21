@@ -67,14 +67,15 @@ export const config = {
   ],
 
   // Tests to run
-  specs: ['./test/specs/**/tabletHappyPath.js'],
+  specs: ['./test/specs/**/*.js'],
   // Tests to exclude
   exclude: [
-    // './test/specs/**/tabletHappyPath.js',
+    './test/specs/**/tabletHappyPath.js',
     './test/specs/**/mobileHappyPath.js',
     './test/specs/**/downloadData.js',
     './test/specs/**/hubPageValidation.js',
-    './test/specs/**/noJavascriptValidation.js'
+    './test/specs/**/noJavascriptValidation.js',
+    './test/specs/**/apiValidation.js'
   ],
   maxInstances: 1,
   // for browserstack
