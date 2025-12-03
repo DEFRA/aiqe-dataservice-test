@@ -1,18 +1,18 @@
 import fs from 'node:fs'
-// import { ProxyAgent, setGlobalDispatcher } from 'undici'
-// import { bootstrap } from 'global-agent'
+import { ProxyAgent, setGlobalDispatcher } from 'undici'
+import { bootstrap } from 'global-agent'
 const debug = process.env.DEBUG
 const oneHour = 60 * 60 * 1000
 
 // for browserstack
-/* const dispatcher = new ProxyAgent({
+const dispatcher = new ProxyAgent({
   uri: process.env.HTTP_PROXY
 })
 setGlobalDispatcher(dispatcher)
 bootstrap()
-global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY */
+global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY
 // for chrome sidecar
-const chromeProxyConfig = !process.env.HTTP_PROXY
+/* const chromeProxyConfig = !process.env.HTTP_PROXY
   ? {}
   : {
       proxy: {
@@ -20,7 +20,7 @@ const chromeProxyConfig = !process.env.HTTP_PROXY
         httpProxy: `localhost:3128`,
         sslProxy: `localhost:3128`
       }
-    }
+    } */
 
 export const config = {
   //
@@ -37,14 +37,14 @@ export const config = {
   baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`,
 
   // Connection to remote chromedriver
-  hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
-  port: process.env.CHROMEDRIVER_PORT || 4444,
+  // hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
+  // port: process.env.CHROMEDRIVER_PORT || 4444,
 
   // connection to browserstack
-  // user: process.env.BROWSERSTACK_USER,
-  // key: process.env.BROWSERSTACK_KEY,
+  user: process.env.BROWSERSTACK_USER,
+  key: process.env.BROWSERSTACK_KEY,
 
-  /* services: [
+  services: [
     [
       'browserstack',
       {
@@ -64,38 +64,62 @@ export const config = {
         }
       }
     ]
-  ], */
-
-  // Tests to run
-  specs: ['./test/specs/**/*.js'],
-  // Tests to exclude
-  exclude: [
-    './test/specs/**/tabletHappyPath.js',
-    './test/specs/**/mobileHappyPath.js',
-    './test/specs/**/downloadData.js',
-    './test/specs/**/hubPageValidation.js',
-    './test/specs/**/noJavascriptValidation.js',
-    './test/specs/**/apiValidation.js'
   ],
-  maxInstances: 1,
+
+  // Tests to run (fallback if a capability doesn't define its own specs)
+  specs: ['./test/specs/**/*.js'],
+  // Let capability-level specs filter tests; no global excludes needed
+  exclude: [],
+  maxInstances: 3,
   // for browserstack
-  /* commonCapabilities: {
+  commonCapabilities: {
     'bstack:options': {
       buildName: 'browserstack-build-1' // configure as required
     }
   },
 
+  // Define separate BrowserStack capabilities per device type, each with its own specs
   capabilities: [
+    // Desktop Chrome on Windows
     {
+      browserName: 'Chrome',
+      browserVersion: '127.0',
       'bstack:options': {
-        browserName: 'chromium',
+        os: 'Windows',
+        osVersion: '11',
+        local: true
+      },
+      specs: ['./test/specs/**/*.js'],
+      exclude: [
+        './test/specs/**/mobileHappyPath.js',
+        './test/specs/**/tabletHappyPath.js'
+      ]
+    },
+    // Tablet: iPad Air 5 (iOS Safari)
+    {
+      browserName: 'chromium',
+      'bstack:options': {
+        deviceName: 'iPad Air 5',
         osVersion: '26',
-        deviceName: 'iPad Air 5'
-      }
+        realMobile: false,
+        local: true
+      },
+      specs: ['./test/specs/**/tabletHappyPath.js']
+    },
+    // Mobile: iPhone 14 (iOS Safari)
+    {
+      browserName: 'safari',
+      'bstack:options': {
+        deviceName: 'iPhone 15',
+        osVersion: '26',
+        realMobile: false,
+        local: true
+      },
+      specs: ['./test/specs/**/mobileHappyPath.js']
     }
-  ], */
+  ],
   // for chrome sidecar
-  capabilities: [
+  /* capabilities: [
     {
       ...chromeProxyConfig,
       ...{
@@ -119,7 +143,7 @@ export const config = {
         }
       }
     }
-  ],
+  ], */
 
   execArgv: [],
 

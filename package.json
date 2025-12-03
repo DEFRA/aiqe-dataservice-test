@@ -15,6 +15,7 @@
     "helpers": "test/helpers"
   },
   "scripts": {
+    "preinstall": "node -e \"const now=new Date();const cutoff=new Date('2025-11-30T00:00:00Z');if(!process.env.ALLOW_NPM && now<cutoff){console.error('Blocked: NPM installs/updates disabled until Nov 30 due to Shai Hulud advisory. Set ALLOW_NPM=1 to override with approval.');process.exit(1);}\"",
     "clean": "rm -rf allure-results && rm -rf allure-report",
     "test": "npm run clean && wdio run wdio.conf.js",
     "test:browserstack": "npm run clean && wdio run wdio.browserstack.conf.js",
@@ -30,7 +31,8 @@
     "postinstall": "npm run setup:husky",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "report": "allure generate allure-results --single-file --clean",
-    "report:publish": "npm run report; ./bin/publish-tests.sh"
+    "report:publish": "npm run report; ./bin/publish-tests.sh",
+    "audit:deps": "npm ls --depth=0 && npm audit --audit-level=moderate || exit /b 0"
   },
   "dependencies": {
     "@elastic/ecs-pino-format": "1.5.0",
