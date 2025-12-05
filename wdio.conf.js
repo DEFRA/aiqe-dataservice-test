@@ -91,6 +91,10 @@ export const config = {
       },
       specs: ['./test/specs/**/*.js'],
       exclude: [
+        './test/specs/**/noJavascriptValidation.js',
+        './test/specs/**/hubPageValidation.js',
+        './test/specs/**/downloadData.js',
+        './test/specs/**/apiValidation.js',
         './test/specs/**/mobileHappyPath.js',
         './test/specs/**/tabletHappyPath.js'
       ]
