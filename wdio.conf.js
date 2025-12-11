@@ -4,7 +4,8 @@ import { bootstrap } from 'global-agent'
 const debug = process.env.DEBUG
 const oneHour = 60 * 60 * 1000
 const ENV = (process.env.ENVIRONMENT || '').toLowerCase()
-const isProd = ENV === 'prod' || ENV === 'production'
+// CDP provides one of: dev, test, or prod. Use prod => sidecar, dev/test => BrowserStack.
+const isProd = ENV === 'prod'
 
 // for browserstack
 const dispatcher = new ProxyAgent({
