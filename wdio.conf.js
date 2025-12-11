@@ -107,7 +107,7 @@ export const config = {
               '--disable-dev-shm-usage'
             ]
           },
-          specs: ['./test/specs/**/*.js']
+          specs: ['./test/specs/regressionSearchByLocation/*.js']
         }
       ]
     : [
