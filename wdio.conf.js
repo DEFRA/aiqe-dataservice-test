@@ -39,9 +39,11 @@ export const config = {
   // gets prepended directly.
   baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`,
 
-  // Connection to remote chromedriver
-  // hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
-  // port: process.env.CHROMEDRIVER_PORT || 4444,
+  // Connection to remote chromedriver (used in prod sidecar)
+  hostname: isProd ? process.env.CHROMEDRIVER_URL || '127.0.0.1' : undefined,
+  port: isProd ? Number(process.env.CHROMEDRIVER_PORT) || 4444 : undefined,
+  path: isProd ? process.env.CHROMEDRIVER_PATH || '/' : undefined,
+  automationProtocol: isProd ? 'webdriver' : undefined,
 
   // connection to browserstack
   user: isProd ? undefined : process.env.BROWSERSTACK_USER,
