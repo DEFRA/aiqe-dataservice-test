@@ -3,11 +3,11 @@
 import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
-import common from '../page-objects/common.js'
+import common from '../../page-objects/common.js'
 // import searchPage from '../page-objects/searchPage.js'
-import headersObject from '../page-objects/header.js'
-import footer from '../page-objects/footer.js'
-import accessibilityPage from '../page-objects/accessibilityPage.js'
+import headersObject from '../../page-objects/header.js'
+import footer from '../../page-objects/footer.js'
+import accessibilityPage from '../../page-objects/accessibilityPage.js'
 
 describe('accessibility page tests', () => {
   it('title and content checks', async () => {

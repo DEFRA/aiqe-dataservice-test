@@ -3,11 +3,11 @@
 import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
-import common from '../page-objects/common.js'
+import common from '../../page-objects/common.js'
 // import searchPage from '../page-objects/searchPage.js'
-import headersObject from '../page-objects/header.js'
-import footer from '../page-objects/footer.js'
-import cookiesPage from '../page-objects/cookiesPage.js'
+import headersObject from '../../page-objects/header.js'
+import footer from '../../page-objects/footer.js'
+import cookiesPage from '../../page-objects/cookiesPage.js'
 
 describe('cookie page tests', () => {
   it('title and content checks', async () => {

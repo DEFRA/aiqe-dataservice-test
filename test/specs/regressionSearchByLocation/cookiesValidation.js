@@ -1,8 +1,8 @@
 import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
-import common from '../page-objects/common.js'
-import cookiesBanner from '../page-objects/cookiesBanner.js'
+import common from '../../page-objects/common.js'
+import cookiesBanner from '../../page-objects/cookiesBanner.js'
 describe('Cookies Tests', () => {
   it('cookiebanner, AQD-651, displayed and styling', async () => {
     await browser.deleteCookies(['airaqie_cookies_analytics'])

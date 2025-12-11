@@ -3,8 +3,8 @@
 import { browser, expect } from '@wdio/globals'
 // import fs from 'node:fs'
 // import createLogger from 'helpers/logger'
-import header from '../page-objects/header.js'
-import common from '../page-objects/common.js'
+import header from '../../page-objects/header.js'
+import common from '../../page-objects/common.js'
 
 describe('header validation', () => {
   it('content checks/functionality checks/styling checks', async () => {

@@ -1,8 +1,8 @@
 // import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
 import { browser, expect } from '@wdio/globals'
 // import createLogger from 'helpers/logger'
-import footer from '../page-objects/footer.js'
-import common from '../page-objects/common.js'
+import footer from '../../page-objects/footer.js'
+import common from '../../page-objects/common.js'
 
 describe('footer content and functionality checks', () => {
   it('titles, links, content, styling', async () => {
