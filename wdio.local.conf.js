@@ -28,16 +28,9 @@ export const config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/**/*.js'],
+  specs: ['./test/specs/regressionCreateACustomDataSet/*.js'],
   // Patterns to exclude.
-  exclude: [
-    './test/specs/**/tabletHappyPath.js',
-    './test/specs/**/mobileHappyPath.js',
-    './test/specs/**/downloadData.js',
-    './test/specs/**/hubPageValidation.js',
-    './test/specs/**/noJavascriptValidation.js',
-    './test/specs/**/apiValidation.js'
-  ],
+  exclude: [],
   // injectGlobals: false,
   //
   // ============
@@ -116,7 +109,7 @@ export const config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrl: 'https://aqie-dataselector-frontend.prod.cdp-int.defra.cloud/',
+  baseUrl: 'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/',
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,
