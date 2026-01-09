@@ -23,7 +23,7 @@ class Common {
   }
 
   get continueButton() {
-    return $("button[type='submit']")
+    return $("button[id='continue-button']")
   }
 
   async getList(pageElement) {
@@ -72,6 +72,49 @@ class Common {
     await element.waitForDisplayed({
       reverse: true
     })
+  }
+
+  async elementRemoved(element) {
+    await element.waitForExist({
+      reverse: true
+    })
+  }
+
+  async clearInput(
+    inputElement,
+    { closeDropdown = true, timeout = 3000 } = {}
+  ) {
+    await inputElement.click()
+    if (closeDropdown) {
+      await browser.keys('Escape')
+    }
+    await inputElement.clearValue()
+    await browser.waitUntil(
+      async () => (await inputElement.getValue()) === '',
+      { timeout, timeoutMsg: 'Input did not clear' }
+    )
+  }
+
+  async legalWait() {
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 4000))
+        return true
+      },
+      { timeout: 4000 }
+    )
+  }
+
+  async getTodayAsDayMonthString() {
+    const today = new Date()
+    const options = { day: 'numeric', month: 'long', year: 'numeric' }
+    return today.toLocaleDateString('en-GB', options)
+  }
+
+  errorSummaryItemByText(message) {
+    return $(
+      `//ul[contains(@class,'govuk-error-summary__list')]//a[normalize-space(.)="${message}"]`
+    )
   }
 }
 

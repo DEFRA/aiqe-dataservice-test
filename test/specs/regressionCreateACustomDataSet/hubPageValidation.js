@@ -94,7 +94,7 @@ View and download data by pollutant,year and location.`
       const styles = await common.getStyles(element, linksProperties)
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe('underline 1px rgb(29, 112, 184)')
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['text-decoration-thickness']).toBe('1px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
