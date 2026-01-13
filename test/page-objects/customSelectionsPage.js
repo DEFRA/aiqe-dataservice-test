@@ -66,7 +66,7 @@ class CustomSelectionsPage {
   }
 
   get getContinueButton() {
-    return $("button[class*='govuk-button']")
+    return $$("button[class*='govuk-button']")[4]
   }
 }
 
