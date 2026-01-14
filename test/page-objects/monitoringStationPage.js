@@ -47,7 +47,7 @@ class MonitoringStationPage {
 
   get getSiteTypeToggleTip() {
     return $$(
-      "button[class*='tooltip defra-toggletip__button defra-toggletip-target']"
+      "button[class*='defra-toggletip__button defra-toggletip-target']"
     )[0]
   }
 
