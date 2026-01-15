@@ -9,7 +9,7 @@ import searchPage from '../../page-objects/searchPage.js'
 import disambigurationPage from '../../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../../page-objects/monitoringStationPage.js'
-// import hubPage from '../page-objects/hubPage.js'
+// import hubPage from '../../page-objects/hubPage.js'
 
 describe('Error scenarios', () => {
   it('search page error message validation', async () => {
@@ -692,5 +692,26 @@ Contact the air quality team if you continue to get this error message`
     const expectedPageHeading =
       "There are no monitoring stations within 5 miles of 'Tower Hamlets'"
     await expect(noTowerHamletStation).toMatch(expectedPageHeading)
+  })
+
+  it('Toggle tip container | Centering/Repositioning needed,AQD-865', async () => {
+    await browser.url('')
+    await startNowPage.startNowBtnClick()
+    // await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('london')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getSiteTypeToggleTip.click()
+
+    const tipInfo = await monitoringStationPage.getSiteTypeToggleTipInfoText
+    const tipButton = await monitoringStationPage.getSiteTypeToggleTip
+    const infoX = await tipInfo.getLocation('x')
+    const buttonX = await tipButton.getLocation('x')
+    const positionDiffX = Math.abs(infoX - buttonX)
+    expect(positionDiffX).toBeLessThan(100)
   })
 })
