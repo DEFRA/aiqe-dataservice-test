@@ -111,7 +111,7 @@ class Common {
     return today.toLocaleDateString('en-GB', options)
   }
 
-  async errorSummaryItemByText(message) {
+  errorSummaryItemByText(message) {
     return $(
       `//ul[contains(@class,'govuk-error-summary__list')]//a[normalize-space(.)="${message}"]`
     )
