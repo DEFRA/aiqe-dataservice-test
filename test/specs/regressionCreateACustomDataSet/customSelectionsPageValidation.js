@@ -206,7 +206,7 @@ Continue`
 
     for (const element of continueButton) {
       const styles = await common.getStyles(element, continueButtonProperties)
-      expect(styles['margin-bottom']).toBe('17px')
+      expect(styles['margin-bottom']).toBe('32px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('19px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
@@ -215,7 +215,7 @@ Continue`
       expect(styles['box-shadow']).toBe('rgb(0, 45, 24) 0px 2px 0px 0px')
       expect(styles.color).toBe('rgb(255, 255, 255)')
       expect(styles['font-weight']).toBe('400')
-      expect(styles.margin).toBe('0px 15px 17px 0px')
+      expect(styles.margin).toBe('0px 0px 32px')
       expect(styles.padding).toBe('8px 10px 7px')
       expect(styles['text-align']).toBe('center')
     }

@@ -24,25 +24,6 @@ View and download data by pollutant,year and location.`
     await expect(hubPageContent).toMatch(gethubPagecontent)
   })
 
-  it('link checks', async () => {
-    await hubPage.getFindMonitoringStationsByLocation.click()
-    const getCurrentUrl1 = await browser.getUrl()
-    const expectedCurrentURL = '/search-location'
-    await expect(getCurrentUrl1).toMatch(expectedCurrentURL)
-
-    browser.back()
-    browser.refresh()
-
-    /* await hubPage.getCreateCustomDataSet.click()
-    const getCurrentUrl2 = await browser.getUrl()
-    const expectedCurrentURL2 =
-      '/create-custom-data-set'
-    await expect(getCurrentUrl1).toMatch(
-      expectedCurrentURL
-    )
-    */
-  })
-
   it('styling checks', async () => {
     const hubPageHeading = [await hubPage.getHubPageHeading]
 
@@ -132,5 +113,24 @@ View and download data by pollutant,year and location.`
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 30px 20px 0px')
     }
+  })
+
+  it('link checks', async () => {
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    const getCurrentUrl1 = await browser.getUrl()
+    const expectedCurrentURL = '/search-location'
+    await expect(getCurrentUrl1).toMatch(expectedCurrentURL)
+
+    browser.back()
+    browser.refresh()
+
+    /* await hubPage.getCreateCustomDataSet.click()
+    const getCurrentUrl2 = await browser.getUrl()
+    const expectedCurrentURL2 =
+      '/create-custom-data-set'
+    await expect(getCurrentUrl1).toMatch(
+      expectedCurrentURL
+    )
+    */
   })
 })
