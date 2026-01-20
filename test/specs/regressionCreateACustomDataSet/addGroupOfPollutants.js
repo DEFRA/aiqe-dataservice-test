@@ -36,7 +36,7 @@ describe('add group of pollutants AQD-832', () => {
     const getDAQIOptionDescriptionText =
       await addPollutantPage.getDAQIOptionDescription.getText()
     const DAQIOptionDescriptionText =
-      'fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide, ozone, sulphur dioxide'
+      'fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), ozone (O3), sulphur dioxide (SO2)'
     await expect(getDAQIOptionDescriptionText).toMatch(
       DAQIOptionDescriptionText
     )
@@ -50,7 +50,7 @@ describe('add group of pollutants AQD-832', () => {
     const getAQSROptionDescriptionText =
       await addPollutantPage.getAQSROptionDescription.getText()
     const AQSROptionDescriptionText =
-      'fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide, ozone, sulphur dioxide, nitric oxide, nitrogen oxides as nitrogen dioxide, carbon monoxide'
+      'fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), ozone (O3), sulphur dioxide (SO2), nitric oxide (NO), nitrogen oxides as nitrogen dioxide (NOx as NO2), carbon monoxide (CO)'
     await expect(getAQSROptionDescriptionText).toMatch(
       AQSROptionDescriptionText
     )
@@ -229,6 +229,9 @@ describe('add group of pollutants AQD-832', () => {
 
   it('error - Select a pollutant group', async () => {
     await common.continueButton.click()
+    await common
+      .errorSummaryItemByText('Select a pollutant group')
+      .waitForExist({ timeout: 5000 })
     const selectAPollutantGroupMessage = await common
       .errorSummaryItemByText('Select a pollutant group')
       .getText()
