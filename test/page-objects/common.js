@@ -111,10 +111,16 @@ class Common {
     return today.toLocaleDateString('en-GB', options)
   }
 
-  errorSummaryItemByText(message) {
+  async errorSummaryItemByText(message) {
     return $(
       `//ul[contains(@class,'govuk-error-summary__list')]//a[normalize-space(.)="${message}"]`
     )
+  }
+
+  parseNumber(s) {
+    if (!s) return null
+    const m = String(s).match(/-?\d+(?:\.\d+)?/)
+    return m ? Number(m[0]) : null
   }
 }
 
