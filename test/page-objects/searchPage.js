@@ -47,7 +47,7 @@ class SearchPage {
   }
 
   get defaultOption() {
-    return $("input[value='5']")
+    return $("input[value='50']")
   }
 }
 
