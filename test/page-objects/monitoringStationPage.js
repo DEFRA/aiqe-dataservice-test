@@ -109,6 +109,10 @@ class MonitoringStationPage {
     return $("a[id*='link-2025']")
   }
 
+  get get2026Button() {
+    return $("a[id*='link-2026']")
+  }
+
   get getVerifiedTag() {
     return $$("p[class*='govuk-heading-s']")[0]
   }

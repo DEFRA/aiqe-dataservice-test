@@ -509,6 +509,40 @@ View on Google Maps (opens in new tab)`
   })
 
   it('Yearly Tab AQD-586,AQD-641 Display Data Capture % ', async () => {
+    const get2026Button = await monitoringStationPage.get2026Button
+    await get2026Button.isDisplayed()
+    await monitoringStationPage.get2026Button.click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        return true
+      },
+      { timeout: 2000 }
+    )
+    const yearlyTab2026Title =
+      await monitoringStationPage.getSumarryTableHeading.getText()
+    const expectedyearlyTab2026Title = 'Air pollution levels in 2026'
+    await expect(yearlyTab2026Title).toMatch(expectedyearlyTab2026Title)
+    const durationTag2026 = await monitoringStationPage.getDurationTag.getText()
+    const todaysDate = await monitoringStationPage.getTodayAsDayMonthString()
+    const expectedDurationTag2026 = `1 January to ${todaysDate}`
+    await expect(durationTag2026).toMatch(expectedDurationTag2026)
+    const getVerifiedTag2026 =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expectedVerifiedTag2026 = 'Data has been verified until 30 June'
+    await expect(getVerifiedTag2026).toMatch(expectedVerifiedTag2026)
+    const getdownloadDataHeading2026 =
+      await monitoringStationPage.getdownloadDataHeading.getText()
+    const expectedgetdownloadDataHeading2026 = 'Download data for 2026'
+    await expect(getdownloadDataHeading2026).toMatch(
+      expectedgetdownloadDataHeading2026
+    )
+    await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    await monitoringStationPage.getNODataCapture.isDisplayed()
+    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    await monitoringStationPage.getSDDataCapture.isDisplayed()
+
     const get2025Button = await monitoringStationPage.get2025Button
     await get2025Button.isDisplayed()
     await monitoringStationPage.get2025Button.click()
@@ -524,8 +558,7 @@ View on Google Maps (opens in new tab)`
     const expectedyearlyTab2025Title = 'Air pollution levels in 2025'
     await expect(yearlyTab2025Title).toMatch(expectedyearlyTab2025Title)
     const durationTag2025 = await monitoringStationPage.getDurationTag.getText()
-    const todaysDate = await monitoringStationPage.getTodayAsDayMonthString()
-    const expectedDurationTag2025 = `1 January to ${todaysDate}`
+    const expectedDurationTag2025 = `1 January to 31 December`
     await expect(durationTag2025).toMatch(expectedDurationTag2025)
     const getVerifiedTag2025 =
       await monitoringStationPage.getVerifiedTag.getText()
@@ -1520,7 +1553,7 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(219, 218, 217)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -2060,7 +2093,7 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(219, 218, 217)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -2209,7 +2242,7 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(styles['background-color']).toBe('rgb(219, 218, 217)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')

@@ -79,7 +79,7 @@ describe('mobile happy Path', () => {
       expect(styles['font-size']).toBe('14px')
       expect(styles['font-weight']).toBe('400')
       expect(styles['line-height']).toBe('16px')
-      expect(styles['text-decoration']).toBe('underline')
+      expect(styles['text-decoration']).toBe('underline 1px')
     }
     // checking OGL logo styling
     const oglLogo = [await footer.getOGLLogo]
