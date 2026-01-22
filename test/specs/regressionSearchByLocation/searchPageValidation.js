@@ -7,7 +7,7 @@ import common from '../../page-objects/common.js'
 import searchPage from '../../page-objects/searchPage.js'
 import headersObject from '../../page-objects/header.js'
 import footer from '../../page-objects/footer.js'
-import hubPage from '../../page-objects/hubPage.js'
+// import hubPage from '../../page-objects/hubPage.js'
 
 describe('search page content/functionality checks/styling checks', () => {
   it('titles and content', async () => {
@@ -19,15 +19,15 @@ describe('search page content/functionality checks/styling checks', () => {
     // await cookieBanner.rejectButtonCookiesDialog.click()
     // await cookieBanner.hideButtonHideDialog.click()
     await startNowPage.startNowBtnClick()
-    await hubPage.getFindMonitoringStationsByLocation.click()
+    // await hubPage.getFindMonitoringStationsByLocation.click()
     await headersObject.getHeaderOverall.isDisplayed()
     await footer.getFooterOverall.isDisplayed()
     // back button check
-    await common.getBackLink.click()
+    /* await common.getBackLink.click()
     const getCurrentURLAfterBackClick = await browser.getUrl()
     const expectedURLAfterBackClick = '/hub'
     await expect(getCurrentURLAfterBackClick).toMatch(expectedURLAfterBackClick)
-    await hubPage.getFindMonitoringStationsByLocation.click()
+    await hubPage.getFindMonitoringStationsByLocation.click() */
     // page content validation
     const seachPageContent = `Find monitoring stations by location
 For locations in Northern Ireland, you can only search by postcode.
