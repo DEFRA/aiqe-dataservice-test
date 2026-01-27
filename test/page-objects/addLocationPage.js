@@ -21,16 +21,32 @@ class AddLocationPage {
     return $("label[for*='country-england']")
   }
 
+  get getEnglandCheckbox() {
+    return $("input[id*='country-england']")
+  }
+
   get getScotlandOption() {
     return $("label[for*='country-scotland']")
+  }
+
+  get getScotlandCheckbox() {
+    return $("input[id*='country-scotland']")
   }
 
   get getWalesOption() {
     return $("label[for*='country-wales']")
   }
 
+  get getWalesCheckbox() {
+    return $("input[id*='country-wales']")
+  }
+
   get getNorthernIrelandOption() {
     return $("label[for*='country-ni']")
+  }
+
+  get getNorthernIrelandCheckbox() {
+    return $("input[id*='country-ni']")
   }
 
   get getLocalAuthorityOption() {

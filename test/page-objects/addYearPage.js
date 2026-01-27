@@ -13,8 +13,16 @@ class AddYearPage {
     return $("label[for*='time-ytd']")
   }
 
+  get getYearToDateRadio() {
+    return $("input[id*='time-ytd']")
+  }
+
   get getAnyYearOption() {
     return $("label[for*='time-any']")
+  }
+
+  get getAnyYearRadio() {
+    return $("input[id*='time-any']")
   }
 
   get getAnyYearHintText() {
@@ -35,6 +43,10 @@ class AddYearPage {
 
   get getRangeOfYearsOption() {
     return $("label[for*='time-range']")
+  }
+
+  get getRangeOfYearsRadio() {
+    return $("input[id*='time-range']")
   }
 
   get getRangeOfYearsHintText() {
