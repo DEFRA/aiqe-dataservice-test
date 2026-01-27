@@ -158,7 +158,7 @@ Continue`
     await expect(url).toContain('customdataset')
   })
 
-  it('Add locations(s) - Countries Journey - AQD-868', async () => {
+  it('Add locations(s) - Countries Journey - AQD-868, AQD-961 country choices retained for change functionality', async () => {
     await customselectionPage.getAddChangeLocationLink.click()
     await addLocationPage.getCountriesOption.click()
     // all countries selected
@@ -183,8 +183,11 @@ Northern Ireland`
     const englandSelected = await customselectionPage.getLocationValue.getText()
     const expectedEnglandSelected = `England`
     await expect(englandSelected).toMatch(expectedEnglandSelected)
-
     await customselectionPage.getAddChangeLocationLink.click()
+    const isEnglandSelected =
+      await addLocationPage.getEnglandCheckbox.isSelected()
+    await expect(isEnglandSelected).toBe(true)
+
     await addLocationPage.getEnglandOption.click()
     await addLocationPage.getScotlandOption.click()
     await addLocationPage.getLocationContinueButton.click()
@@ -192,16 +195,21 @@ Northern Ireland`
       await customselectionPage.getLocationValue.getText()
     const expectedScotlandSelected = `Scotland`
     await expect(scotlandSelected).toMatch(expectedScotlandSelected)
-
     await customselectionPage.getAddChangeLocationLink.click()
+    const isScotlandSelected =
+      await addLocationPage.getScotlandCheckbox.isSelected()
+    await expect(isScotlandSelected).toBe(true)
+
     await addLocationPage.getScotlandOption.click()
     await addLocationPage.getWalesOption.click()
     await addLocationPage.getLocationContinueButton.click()
     const walesSelected = await customselectionPage.getLocationValue.getText()
     const expectedWalesSelected = `Wales`
     await expect(walesSelected).toMatch(expectedWalesSelected)
-
     await customselectionPage.getAddChangeLocationLink.click()
+    const isWalesSelected = await addLocationPage.getWalesCheckbox.isSelected()
+    await expect(isWalesSelected).toBe(true)
+
     await addLocationPage.getWalesOption.click()
     await addLocationPage.getNorthernIrelandOption.click()
     await addLocationPage.getLocationContinueButton.click()
@@ -211,6 +219,10 @@ Northern Ireland`
     await expect(northernIrelandSelected).toMatch(
       expectedNorthernIrelandSelected
     )
+    await customselectionPage.getAddChangeLocationLink.click()
+    const isNISelected =
+      await addLocationPage.getNorthernIrelandCheckbox.isSelected()
+    await expect(isNISelected).toBe(true)
   })
 
   it('Add locations(s) - local authority', async () => {
