@@ -318,8 +318,57 @@ describe('add year validation AQD-841', () => {
     }
   })
 
-  it('error scenarios - AQD-841', async () => {
+  it('year choices not being retained for change functionality - AQD-961', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('sulphur dioxide')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+
+    await addYearPage.getYearToDateOption.click()
+    await addYearPage.continueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    const isYearToDateOptionSelected =
+      await addYearPage.getYearToDateRadio.isSelected()
+    await expect(isYearToDateOptionSelected).toBe(true)
+
+    await addYearPage.getAnyYearOption.click()
+    await addYearPage.getAnyYearInput.setValue('2020')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    const isAnyYearOptionSelected =
+      await addYearPage.getAnyYearRadio.isSelected()
+    const anyYearInputValue = await addYearPage.getAnyYearInput.getValue()
+    await expect(isAnyYearOptionSelected).toBe(true)
+    await expect(anyYearInputValue).toBe('2020')
+
+    await addYearPage.getRangeOfYearsOption.click()
+    await addYearPage.getRangeOfYearsStartYearInput.setValue('2015')
+    await addYearPage.getRangeOfYearsEndYearInput.setValue('2019')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    const isRangeOfYearsOptionSelected =
+      await addYearPage.getRangeOfYearsRadio.isSelected()
+    const rangeOfYearsStartYearInputValue =
+      await addYearPage.getRangeOfYearsStartYearInput.getValue()
+    const rangeOfYearsEndYearInputValue =
+      await addYearPage.getRangeOfYearsEndYearInput.getValue()
+    await expect(isRangeOfYearsOptionSelected).toBe(true)
+    await expect(rangeOfYearsStartYearInputValue).toBe('2015')
+    await expect(rangeOfYearsEndYearInputValue).toBe('2019')
     await common.getBackLink.click()
+    await customselectionPage.getClearSelectionsLink.click()
+  })
+
+  it('error scenarios - AQD-841', async () => {
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('sulphur dioxide')
+    await common.continueButton.click()
     await customselectionPage.getAddChangeYearLink.click()
     await addYearPage.continueButton.click()
     const selectAnOptionBeforeContinuingError = await common
@@ -526,49 +575,5 @@ describe('add year validation AQD-841', () => {
     const selectedRangeWithCurrentYearAsStartAndEndValue = await customselectionPage.getYearValue.getText()
     const expectedSelectedRangeWithCurrentYearAsStartAndEndValue = `1 January to ${todaysDate2}`
     await expect(selectedRangeWithCurrentYearAsStartAndEndValue).toMatch(expectedSelectedRangeWithCurrentYearAsStartAndEndValue) */
-  })
-
-  it('year choices not being retained for change functionality - AQD-961', async () => {
-    await browser.url('')
-    await browser.maximizeWindow()
-    await startNowPage.startNowBtnClick()
-    await hubPage.getCreateCustomDataSet.click()
-    await customselectionPage.getAddPollutantLink.click()
-    await addPollutantPage.getAddPollutantOption.click()
-    await addPollutantPage.addPollutant('sulphur dioxide')
-    await common.continueButton.click()
-    await customselectionPage.getAddChangeYearLink.click()
-
-    await addYearPage.getYearToDateOption.click()
-    await addYearPage.continueButton.click()
-    await customselectionPage.getAddChangeYearLink.click()
-    const isYearToDateOptionSelected =
-      await addYearPage.getYearToDateRadio.isSelected()
-    await expect(isYearToDateOptionSelected).toBe(true)
-
-    await addYearPage.getAnyYearOption.click()
-    await addYearPage.getAnyYearInput.setValue('2020')
-    await addYearPage.continueButton.click()
-    await customselectionPage.getAddChangeYearLink.click()
-    const isAnyYearOptionSelected =
-      await addYearPage.getAnyYearRadio.isSelected()
-    const anyYearInputValue = await addYearPage.getAnyYearInput.getValue()
-    await expect(isAnyYearOptionSelected).toBe(true)
-    await expect(anyYearInputValue).toBe('2020')
-
-    await addYearPage.getRangeOfYearsOption.click()
-    await addYearPage.getRangeOfYearsStartYearInput.setValue('2015')
-    await addYearPage.getRangeOfYearsEndYearInput.setValue('2019')
-    await addYearPage.continueButton.click()
-    await customselectionPage.getAddChangeYearLink.click()
-    const isRangeOfYearsOptionSelected =
-      await addYearPage.getRangeOfYearsRadio.isSelected()
-    const rangeOfYearsStartYearInputValue =
-      await addYearPage.getRangeOfYearsStartYearInput.getValue()
-    const rangeOfYearsEndYearInputValue =
-      await addYearPage.getRangeOfYearsEndYearInput.getValue()
-    await expect(isRangeOfYearsOptionSelected).toBe(true)
-    await expect(rangeOfYearsStartYearInputValue).toBe('2015')
-    await expect(rangeOfYearsEndYearInputValue).toBe('2019')
   })
 })

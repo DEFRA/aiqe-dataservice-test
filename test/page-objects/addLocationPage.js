@@ -53,6 +53,10 @@ class AddLocationPage {
     return $("label[for*='location-4']")
   }
 
+  get getLocalAuthorityRadio() {
+    return $("input[id*='location-4']")
+  }
+
   get getLocalAuthorityHintText() {
     return $$("div[class*='govuk-hint govuk-radios__hint']")[1]
   }
@@ -71,6 +75,26 @@ class AddLocationPage {
 
   get getLocationContinueButton() {
     return $("button[id*='add-location-button']")
+  }
+
+  get getLocalAuthorityListOption() {
+    return $("li[id*='my-autocomplete__option--0']")
+  }
+
+  get getAddedLocalAuthoritiesTitle() {
+    return $("caption[id*='location-table-caption']")
+  }
+
+  get getAddedLocalAuthorityOneLabel() {
+    return $$("th[class*='govuk-table__header']")[0]
+  }
+
+  get getAddedLocalAuthorityOneName() {
+    return $$("td[class*='govuk-table__cell']")[0]
+  }
+
+  get getAddedLocalAuthorityOneRemoveLink() {
+    return $$("td[class*='govuk-table__cell']")[1]
   }
 }
 
