@@ -225,7 +225,257 @@ Northern Ireland`
     await expect(isNISelected).toBe(true)
   })
 
-  it('Add locations(s) - local authority', async () => {
-    // content , styling, flows
+  it('Add locations - local authority AQD-869, content and styling', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('sulphur dioxide')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getYearToDateOption.click()
+    await addYearPage.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getLocalAuthorityOption.click()
+    const getLocalAuthorityOptionText =
+      await addLocationPage.getLocalAuthorityOption.getText()
+    const expectedgetLocalAuthorityOptionText = 'Local authority'
+    await expect(getLocalAuthorityOptionText).toMatch(
+      expectedgetLocalAuthorityOptionText
+    )
+
+    const localAuthorityHintText =
+      await addLocationPage.getLocalAuthorityHintText.getText()
+    const expectedLocalAuthorityHintText = 'Add up to 10 local authorities'
+    await expect(localAuthorityHintText).toMatch(expectedLocalAuthorityHintText)
+
+    const getLocalAuthorityOption = [
+      await addLocationPage.getLocalAuthorityOption
+    ]
+    const getLocalAuthorityOptionProperties = [
+      'align-self',
+      'margin-bottom',
+      'padding',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+    for (const element of getLocalAuthorityOption) {
+      const styles = await common.getStyles(
+        element,
+        getLocalAuthorityOptionProperties
+      )
+      expect(styles['align-self']).toBe('center')
+      expect(styles['margin-bottom']).toBe('0px')
+      expect(styles.padding).toBe('7px 15px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+    }
+
+    const getLocalAuthorityHintText = [
+      await addLocationPage.getLocalAuthorityHintText
+    ]
+    const getLocalAuthorityHintTextProperties = [
+      'margin-bottom',
+      'margin-top',
+      'padding-left',
+      'padding-right',
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight'
+    ]
+    for (const element of getLocalAuthorityHintText) {
+      const styles = await common.getStyles(
+        element,
+        getLocalAuthorityHintTextProperties
+      )
+      expect(styles['margin-bottom']).toBe('0px')
+      expect(styles['margin-top']).toBe('-5px')
+      expect(styles['padding-left']).toBe('59px')
+      expect(styles['padding-right']).toBe('15px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(80, 90, 95)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+    }
+  })
+
+  it('AQD-869 - error validation', async () => {
+    // continue without selecting any options
+    // continue after selecting country but not selecting a country
+    // continue after selecting local authority but not selecting any local authority
+    // fake local authority
+    // selecting add local authority button with empty search box
+  })
+
+  it('AQD-869 - checking case sensitivity', async () => {
+    await addLocationPage.getLocalAuthoritySearchBox.setValue(
+      'BARNET - LONDON BOROUGH OF'
+    )
+    const uppercaseCheck =
+      await addLocationPage.getLocalAuthorityListOption.getText()
+    const expectedUppercaseCheck = 'Barnet - London Borough of'
+    await expect(uppercaseCheck).toMatch(expectedUppercaseCheck)
+
+    await addLocationPage.getLocalAuthoritySearchBox.click()
+    await browser.keys('Escape')
+    await addLocationPage.getLocalAuthoritySearchBox.clearValue()
+    await browser.waitUntil(
+      async () =>
+        (await addLocationPage.getLocalAuthoritySearchBox.getValue()) === '',
+      { timeout: 3000, timeoutMsg: 'Search box did not clear' }
+    )
+    await addLocationPage.getLocalAuthoritySearchBox.setValue(
+      'barnet - london borough of'
+    )
+    const lowercaseCheck =
+      await addLocationPage.getLocalAuthorityListOption.getText()
+    const expectedLowercaseCheck = 'Barnet - London Borough of'
+    await expect(lowercaseCheck).toMatch(expectedLowercaseCheck)
+    const addLocalAuthorityButtonText =
+      await addLocationPage.getAddLocalAuthorityButton.getText()
+    const expectedAddLocalAuthorityButtonText = 'Add local authority'
+    await expect(addLocalAuthorityButtonText).toMatch(
+      expectedAddLocalAuthorityButtonText
+    )
+  })
+
+  /* it('AQD-869 - Once a selection of a local authority has been made, this pre-populates the entry text box', async () => {
+    await addLocationPage.getLocalAuthorityListOption.click()
+    await common.legalWait()
+    const prePopulateCheck = await addLocationPage.getLocalAuthoritySearchBox.getValue()
+    const expectedPrePopulateCheck = 'Barnet - London Borough of'
+    await expect(prePopulateCheck).toMatch(expectedPrePopulateCheck)
+    
+    await addLocationPage.getLocalAuthoritySearchBox.click()
+    await browser.keys('Escape')
+    await addLocationPage.getLocalAuthoritySearchBox.clearValue()
+    await browser.waitUntil(
+      async () =>
+        (await addLocationPage.getLocalAuthoritySearchBox.getValue()) === '',
+      { timeout: 3000, timeoutMsg: 'Search box did not clear' }
+    )
+  
+  }) waiting for a fix */
+  it('AQD-869 - add/change local authority ', async () => {
+    await addLocationPage.getLocalAuthorityListOption.click()
+    await addLocationPage.getLocationContinueButton.click()
+    const locationSelected =
+      await customselectionPage.getLocationValue.getText()
+    const expectedLocationSelected = `Barnet - London Borough of`
+    await expect(locationSelected).toMatch(expectedLocationSelected)
+
+    const addLocationLinkChange =
+      await customselectionPage.getAddChangeLocationLink.getText()
+    const expectedAddLocationLinkChange = 'Change'
+    await expect(addLocationLinkChange).toMatch(expectedAddLocationLinkChange)
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getLocalAuthorityRadio.isSelected()
+    const AddedLocalAuthoritiesTitle =
+      await addLocationPage.getAddedLocalAuthoritiesTitle.getText()
+    const expectedAddedLocalAuthoritiesTitle = 'Added local authorities'
+    await expect(AddedLocalAuthoritiesTitle).toMatch(
+      expectedAddedLocalAuthoritiesTitle
+    )
+    const getAddedLocalAuthorityOneLabel =
+      await addLocationPage.getAddedLocalAuthorityOneLabel.getText()
+    const expectedgetAddedLocalAuthorityOneLabel = 'Local authority 1'
+    await expect(getAddedLocalAuthorityOneLabel).toMatch(
+      expectedgetAddedLocalAuthorityOneLabel
+    )
+    const getAddedLocalAuthorityOneName =
+      await addLocationPage.getAddedLocalAuthorityOneName.getText()
+    const expectedgetAddedLocalAuthorityOneName = 'Barnet - London Borough of'
+    await expect(getAddedLocalAuthorityOneName).toMatch(
+      expectedgetAddedLocalAuthorityOneName
+    )
+    const getAddedLocalAuthorityOneRemoveLink =
+      await addLocationPage.getAddedLocalAuthorityOneRemoveLink.getText()
+    const expectedgetAddedLocalAuthorityOneRemoveLink = 'Remove'
+    await expect(getAddedLocalAuthorityOneRemoveLink).toMatch(
+      expectedgetAddedLocalAuthorityOneRemoveLink
+    )
+
+    const addLocalAuthorityButtonText =
+      await addLocationPage.getAddLocalAuthorityButton.getText()
+    const expectedAddLocalAuthorityButtonText = 'Add another local authority'
+    await expect(addLocalAuthorityButtonText).toMatch(
+      expectedAddLocalAuthorityButtonText
+    )
+  })
+  it('AQD-869 - The user is only allowed to add a maximum of 10 local authorities', async () => {
+    const queries = [
+      'barking',
+      'bexley',
+      'brent',
+      'bromley',
+      'camden',
+      'croydon',
+      'ealing',
+      'enfield',
+      'greenwich',
+      'hackney'
+    ]
+
+    for (const q of queries) {
+      await addLocationPage.getLocalAuthoritySearchBox.setValue(q)
+      await addLocationPage.getLocalAuthorityListOption.waitForExist({
+        timeout: 5000
+      })
+      await addLocationPage.getLocalAuthorityListOption.click()
+      await addLocationPage.getAddLocalAuthorityButton.click()
+    }
+    await common.legalWait()
+    const moreThanTenError = await common
+      .errorSummaryItemByText('Add up to 10 local authorities')
+      .getText()
+    const expectedmoreThanTenError = 'Add up to 10 local authorities'
+    await expect(moreThanTenError).toMatch(expectedmoreThanTenError)
+    await addLocationPage.getLocationContinueButton.click()
+
+    const locationSelected =
+      await customselectionPage.getLocationValue.getText()
+    const expectedLocationSelected = `Barnet - London Borough of
+Barking and Dagenham - London Borough of
+Bexley - London Borough of
+Brent - London Borough of
+Bromley Council - London Borough of
+Camden - London Borough of
+Croydon - London Borough of
+Ealing - London Borough of
+Enfield - London Borough of
+Greenwich - Royal Borough of`
+    await expect(locationSelected).toMatch(expectedLocationSelected)
+  })
+  it('AQD-869 - numbering updated', async () => {
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getAddedLocalAuthorityOneRemoveLink.click()
+    const getAddedLocalAuthorityOneLabel =
+      await addLocationPage.getAddedLocalAuthorityOneLabel.getText()
+    const expectedgetAddedLocalAuthorityOneLabel = 'Local authority 1'
+    await expect(getAddedLocalAuthorityOneLabel).toMatch(
+      expectedgetAddedLocalAuthorityOneLabel
+    )
+    await addLocationPage.getAddedLocalAuthorityOneRemoveLink.click()
+    await common.legalWait()
+    const getAddedLocalAuthorityOneLabelAfterRemove =
+      await addLocationPage.getAddedLocalAuthorityOneLabel.getText()
+    const expectedgetAddedLocalAuthorityOneLabelAfterRemove =
+      'Local authority 1'
+    await expect(getAddedLocalAuthorityOneLabelAfterRemove).toMatch(
+      expectedgetAddedLocalAuthorityOneLabelAfterRemove
+    )
   })
 })

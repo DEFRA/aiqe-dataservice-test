@@ -278,4 +278,20 @@ inlet height`
     const currentUrl = await browser.getUrl()
     await expect(currentUrl).toContain('customdataset')
   })
+
+  /* it('AQD-885 No Stations Available - Validation', async () => {
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getNorthernIrelandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearOption.click()
+    await addYearPage.getAnyYearInput.setValue('1975')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await common.legalWait()
+    
+
+  
+  }) */
 })
