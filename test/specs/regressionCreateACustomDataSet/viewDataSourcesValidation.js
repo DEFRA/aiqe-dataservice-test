@@ -61,9 +61,7 @@ describe('view data sources validation', () => {
       'Near real-time data from Defra Automatic Urban and Rural Network (AURN)'
     await expect(DAQIRdataSource).toMatch(expectedDAQIDataSource)
   })
-  // page tests
-
-  it('content- ', async () => {
+  it('content', async () => {
     await customselectionPage.getViewDataSourcesLink.click()
     const pageContent =
       await viewDataSourcesPage.getViewDataSourcesPageContent.getText()
