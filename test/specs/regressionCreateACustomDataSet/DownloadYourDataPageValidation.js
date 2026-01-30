@@ -42,7 +42,7 @@ Near real-time data from Defra
 This data is automatically measured and published every hour.
 Automatic Urban and Rural Network (AURN)
 The most reliable air pollution data in the UK. Provides hourly measurements of fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), nitric oxide (NO), nitrogen oxides as nitrogen dioxide (NOx), ozone (O3), sulphur dioxide (SO2) and carbon monoxide (CO).
-15 stations available
+11 stations available
 Download hourly data
 (Visual only)
 Save your search
@@ -279,7 +279,7 @@ inlet height`
     await expect(currentUrl).toContain('customdataset')
   })
 
-  /* it('AQD-885 No Stations Available - Validation', async () => {
+  it('AQD-885 No Stations Available - Validation', async () => {
     await customselectionPage.getAddChangeLocationLink.click()
     await addLocationPage.getEnglandCheckbox.click()
     await addLocationPage.getNorthernIrelandCheckbox.click()
@@ -290,8 +290,15 @@ inlet height`
     await addYearPage.continueButton.click()
     await customselectionPage.getContinueButton.click()
     await common.legalWait()
-    
 
-  
-  }) */
+    await common.errorSummaryItemByText('Change the year').click()
+    const changeYearUrl = await browser.getUrl()
+    await expect(changeYearUrl).toContain('/year-aurn')
+    await common.getBackLink.click()
+    await customselectionPage.getContinueButton.click()
+    await common.errorSummaryItemByText('Change the location').click()
+    const changeLocationUrl = await browser.getUrl()
+    await expect(changeLocationUrl).toContain('/location-aurn')
+    await common.getBackLink.click()
+  })
 })

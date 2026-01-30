@@ -9,6 +9,7 @@ import customselectionPage from '../../page-objects/customSelectionsPage.js'
 import addPollutantPage from '../../page-objects/addPollutantPage.js'
 import addYearPage from '../../page-objects/addYearPage.js'
 import addLocationPage from '../../page-objects/addLocationPage.js'
+import DownloadYourDataPage from '../../page-objects/DownloadYourDataPage.js'
 
 describe('add location validation', () => {
   it('Add locations(s) - Initial Screen AQD-867', async () => {
@@ -351,13 +352,14 @@ Northern Ireland`
     )
   })
 
-  /* it('AQD-869 - Once a selection of a local authority has been made, this pre-populates the entry text box', async () => {
+  it('AQD-869 - Once a selection of a local authority has been made, this pre-populates the entry text box', async () => {
     await addLocationPage.getLocalAuthorityListOption.click()
     await common.legalWait()
-    const prePopulateCheck = await addLocationPage.getLocalAuthoritySearchBox.getValue()
+    const prePopulateCheck =
+      await addLocationPage.getLocalAuthoritySearchBox.getValue()
     const expectedPrePopulateCheck = 'Barnet - London Borough of'
     await expect(prePopulateCheck).toMatch(expectedPrePopulateCheck)
-    
+
     await addLocationPage.getLocalAuthoritySearchBox.click()
     await browser.keys('Escape')
     await addLocationPage.getLocalAuthoritySearchBox.clearValue()
@@ -366,10 +368,13 @@ Northern Ireland`
         (await addLocationPage.getLocalAuthoritySearchBox.getValue()) === '',
       { timeout: 3000, timeoutMsg: 'Search box did not clear' }
     )
-  
-  }) waiting for a fix */
+  })
   it('AQD-869 - add/change local authority ', async () => {
+    await addLocationPage.getLocalAuthoritySearchBox.setValue(
+      'barnet - london borough of'
+    )
     await addLocationPage.getLocalAuthorityListOption.click()
+    await addLocationPage.getAddLocalAuthorityButton.click()
     await addLocationPage.getLocationContinueButton.click()
     const locationSelected =
       await customselectionPage.getLocationValue.getText()
@@ -476,6 +481,14 @@ Greenwich - Royal Borough of`
       'Local authority 1'
     await expect(getAddedLocalAuthorityOneLabelAfterRemove).toMatch(
       expectedgetAddedLocalAuthorityOneLabelAfterRemove
+    )
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getContinueButton.click()
+    const numberOfStationsAvailable =
+      await DownloadYourDataPage.getNumberOfStationsAvailable.getText()
+    const expectedNumberOfStationsAvailable = '1 stations available'
+    await expect(numberOfStationsAvailable).toMatch(
+      expectedNumberOfStationsAvailable
     )
   })
 })
