@@ -267,4 +267,12 @@ Nitrogen oxides as nitrogen dioxide
 Carbon monoxide`
     await expect(selectedAQSRPollutants).toMatch(expectedSelectedAQSRPollutants)
   })
+
+  it('AQD-1026 session data keeping group of pollutants when individual option is selected', async () => {
+    await customselectionPage.getChangePollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    const previousPollutantSelection =
+      await addPollutantPage.getFirstAddedPollutantLabel
+    await common.notDisplayed(previousPollutantSelection)
+  })
 })

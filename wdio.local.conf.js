@@ -29,7 +29,7 @@ export const config = {
   // will be called from there.
   //
   specs: [
-    './test/specs/regressionCreateACustomDataSet/DownloadYourDataPageValidation.js'
+    './test/specs/regressionCreateACustomDataSet/addGroupOfPollutants.js'
   ],
   // Patterns to exclude.
   exclude: [],
