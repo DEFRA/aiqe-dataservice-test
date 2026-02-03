@@ -381,6 +381,7 @@ Continue`
 
   it('previous selected pollutants are retained when change link is selected - AQD-984,AQD-829', async () => {
     await customselectionPage.getChangePollutantLink.click()
+    await addPollutantPage.getAddPollutantRadio.isSelected()
     const retainedPollutant =
       await addPollutantPage.getFirstAddedPollutantValue.getText()
     const expectedRetainedPollutant = 'Sulphur dioxide (SO2)'
