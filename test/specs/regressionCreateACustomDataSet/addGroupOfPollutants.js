@@ -253,6 +253,8 @@ Ozone
 Sulphur dioxide`
     await expect(selectedDAQIPollutants).toMatch(expectedSelectedDAQIPollutants)
     await customselectionPage.getChangePollutantLink.click()
+    await addPollutantPage.getAddGroupOfPollutantsRadio.isSelected()
+    await addPollutantPage.getDAQIOptionRadio.isSelected()
     await addPollutantPage.getAQSROptionTitle.click()
     await common.continueButton.click()
     const selectedAQSRPollutants =
@@ -266,10 +268,12 @@ Nitric oxide
 Nitrogen oxides as nitrogen dioxide
 Carbon monoxide`
     await expect(selectedAQSRPollutants).toMatch(expectedSelectedAQSRPollutants)
+    await customselectionPage.getChangePollutantLink.click()
+    await addPollutantPage.getAddGroupOfPollutantsRadio.isSelected()
+    await addPollutantPage.getAQSROptionRadio.isSelected()
   })
 
   it('AQD-1026 session data keeping group of pollutants when individual option is selected', async () => {
-    await customselectionPage.getChangePollutantLink.click()
     await addPollutantPage.getAddPollutantOption.click()
     const previousPollutantSelection =
       await addPollutantPage.getFirstAddedPollutantLabel

@@ -17,8 +17,16 @@ class AddPollutantPage {
     return $$("label[class*='govuk-label govuk-radios__label']")[0]
   }
 
+  get getAddPollutantRadio() {
+    return $$("input[type='radio']")[0]
+  }
+
   get getAddGroupOfPollutantsOption() {
     return $$("label[class*='govuk-label govuk-radios__label']")[1]
+  }
+
+  get getAddGroupOfPollutantsRadio() {
+    return $$("input[type='radio']")[1]
   }
 
   get getAddUpToTenPollutantsText() {
@@ -96,12 +104,20 @@ class AddPollutantPage {
     return $$("label[class*='govuk-label govuk-radios__label']")[2]
   }
 
+  get getDAQIOptionRadio() {
+    return $$("input[type='radio']")[2]
+  }
+
   get getDAQIOptionDescription() {
     return $$("div[class*='govuk-hint govuk-radios__hint']")[0]
   }
 
   get getAQSROptionTitle() {
     return $$("label[class*='govuk-label govuk-radios__label']")[3]
+  }
+
+  get getAQSROptionRadio() {
+    return $$("input[type='radio']")[3]
   }
 
   get getAQSROptionDescription() {
