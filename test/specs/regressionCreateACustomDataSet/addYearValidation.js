@@ -515,16 +515,19 @@ describe('add year validation AQD-841', () => {
       expectedGetAddChangeYearLinkText
     )
     // selecting current year as the singular year
-    /* await customselectionPage.getAddChangeYearLink.click()
+    await customselectionPage.getAddChangeYearLink.click()
     await addYearPage.getAnyYearOption.click()
     await common.clearInput(addYearPage.getAnyYearInput)
     const todaysDate = await common.getTodayAsDayMonthString()
     await addYearPage.getAnyYearInput.setValue(todaysDate.slice(-4))
     await common.legalWait()
     await addYearPage.continueButton.click()
-    const selectedCurrentYearValue = await customselectionPage.getYearValue.getText()
+    const selectedCurrentYearValue =
+      await customselectionPage.getYearValue.getText()
     const expectedSelectedCurrentYearValue = `1 January to ${todaysDate}`
-    await expect(selectedCurrentYearValue).toMatch(expectedSelectedCurrentYearValue) */
+    await expect(selectedCurrentYearValue).toMatch(
+      expectedSelectedCurrentYearValue
+    )
   })
   it('Add range year - AQD-841', async () => {
     await browser.url('')
@@ -551,30 +554,40 @@ describe('add year validation AQD-841', () => {
     await expect(getAddChangeYearLinkText).toMatch(
       expectedGetAddChangeYearLinkText
     )
-    /* waiting for fix
+
     // selecting a range of years with current year as end year
     await customselectionPage.getAddChangeYearLink.click()
     await addYearPage.getRangeOfYearsOption.click()
-    await addYearPage.getRangeOfYearsStartYearInput.setValue('2021')
+    await addYearPage.getRangeOfYearsStartYearInput.setValue('2022')
     const todaysDate = await common.getTodayAsDayMonthString()
     await addYearPage.getRangeOfYearsEndYearInput.setValue(todaysDate.slice(-4))
     await addYearPage.continueButton.click()
-    const selectedRangeWithCurrentYearValue = await customselectionPage.getYearValue.getText()
-    const expectedSelectedRangeWithCurrentYearValue = `1 January 2021 to ${todaysDate}`
-    await expect(selectedRangeWithCurrentYearValue).toMatch(expectedSelectedRangeWithCurrentYearValue)
+    const selectedRangeWithCurrentYearValue =
+      await customselectionPage.getYearValue.getText()
+    const expectedSelectedRangeWithCurrentYearValue = `1 January 2022 to ${todaysDate}`
+    await expect(selectedRangeWithCurrentYearValue).toMatch(
+      expectedSelectedRangeWithCurrentYearValue
+    )
 
-    // selecting a range of years with current year as start year and end year 
+    // selecting a range of years with current year as start year and end year
     await customselectionPage.getAddChangeYearLink.click()
     await common.clearInput(addYearPage.getRangeOfYearsStartYearInput)
     await common.clearInput(addYearPage.getRangeOfYearsEndYearInput)
     await addYearPage.getRangeOfYearsOption.click()
     const todaysDate2 = await common.getTodayAsDayMonthString()
-    await addYearPage.getRangeOfYearsStartYearInput.setValue(todaysDate2.slice(-4))
-    await addYearPage.getRangeOfYearsEndYearInput.setValue(todaysDate2.slice(-4))
+    await addYearPage.getRangeOfYearsStartYearInput.setValue(
+      todaysDate2.slice(-4)
+    )
+    await addYearPage.getRangeOfYearsEndYearInput.setValue(
+      todaysDate2.slice(-4)
+    )
     await addYearPage.continueButton.click()
-    const selectedRangeWithCurrentYearAsStartAndEndValue = await customselectionPage.getYearValue.getText()
-    const expectedSelectedRangeWithCurrentYearAsStartAndEndValue = `1 January to ${todaysDate2}`
-    await expect(selectedRangeWithCurrentYearAsStartAndEndValue).toMatch(expectedSelectedRangeWithCurrentYearAsStartAndEndValue) */
+    const selectedRangeWithCurrentYearAsStartAndEndValue =
+      await customselectionPage.getYearValue.getText()
+    const expectedSelectedRangeWithCurrentYearAsStartAndEndValue = `1 January 2026 to ${todaysDate2}`
+    await expect(selectedRangeWithCurrentYearAsStartAndEndValue).toMatch(
+      expectedSelectedRangeWithCurrentYearAsStartAndEndValue
+    )
   })
 
   it('AQD-1041 wrong year option retained after range of years is selected', async () => {
