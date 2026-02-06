@@ -491,4 +491,65 @@ Greenwich - Royal Borough of`
       expectedNumberOfStationsAvailable
     )
   })
+
+  it('AQD-1028 - defect - local authority api not serving stations', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.getAddGroupOfPollutantsOption.click()
+    await addPollutantPage.getDAQIOptionRadio.click()
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getYearToDateOption.click()
+    await addYearPage.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getLocalAuthorityOption.click()
+
+    const localAuthority = [
+      'barking',
+      'Wrexham',
+      'Belfast',
+      'Aberdeen',
+      'Liverpool',
+      'Manchester',
+      'Birmingham',
+      'Scottish',
+      'Swansea',
+      'Cornwall'
+    ]
+
+    for (const a of localAuthority) {
+      await addLocationPage.getLocalAuthoritySearchBox.setValue(a)
+      await addLocationPage.getLocalAuthorityListOption.waitForExist({
+        timeout: 5000
+      })
+      await addLocationPage.getLocalAuthorityListOption.click()
+      await addLocationPage.getAddLocalAuthorityButton.click()
+    }
+    await addLocationPage.getLocationContinueButton.click()
+    const locationSelected =
+      await customselectionPage.getLocationValue.getText()
+    const expectedLocationSelected = `Barking and Dagenham - London Borough of
+Wrexham County Borough Council
+Belfast City Council
+Aberdeen City Council
+Liverpool City Council
+Manchester City Council
+Birmingham City Council
+Scottish Borders Council
+Swansea City and County Council
+Cornwall County Council`
+    await expect(locationSelected).toMatch(expectedLocationSelected)
+    await customselectionPage.getContinueButton.click()
+    const numberOfStationsAvailable =
+      await DownloadYourDataPage.getNumberOfStationsAvailable.getText()
+    const expectedNumberOfStationsAvailable = '39 stations available'
+    await expect(numberOfStationsAvailable).toMatch(
+      expectedNumberOfStationsAvailable
+    )
+  })
 })
