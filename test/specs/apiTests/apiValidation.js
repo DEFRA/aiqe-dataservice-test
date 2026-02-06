@@ -354,7 +354,124 @@ describe('API Testing', () => {
     )
   })
 
-  it('testing atom api for daily exceedances presented on front end', async () => {})
+  it('testing atom api for daily exceedances presented on front end for PM10', async () => {
+    // Backend: compute PM10 daily exceedances (> 50 µg/m³) for 2022 at CLL2
+    const urlAtom2022 =
+      'https://uk-air.defra.gov.uk/data/atom-dls/observations/auto/GB_FixedObservations_2022_CLL2.xml'
+    const response = await axios.get(urlAtom2022)
+    const xml = response.data
+
+    const parser = new xml2js.Parser({ explicitArray: false })
+    const result = await parser.parseStringPromise(xml)
+
+    const featureMembers = result['gml:FeatureCollection']['gml:featureMember']
+    const featureArray = Array.isArray(featureMembers)
+      ? featureMembers
+      : [featureMembers]
+
+    // PM10 pollutant code = 5
+    const matchingObservations = featureArray.filter((member) => {
+      const obs = member['om:OM_Observation']
+      if (!obs) return false
+      const observedProperty = obs['om:observedProperty']
+      return (
+        observedProperty &&
+        observedProperty.$ &&
+        observedProperty.$['xlink:href'] &&
+        observedProperty.$['xlink:href'].endsWith('/pollutant/5')
+      )
+    })
+
+    if (!matchingObservations.length) {
+      throw new Error('No PM10 observations found in 2022 feed for CLL2')
+    }
+
+    const values = matchingObservations.map((obsMember) => {
+      const obs = obsMember['om:OM_Observation']
+      return obs['om:result']['swe:DataArray']['swe:values']
+    })
+
+    const rows = values.flatMap((valStr) =>
+      valStr
+        .split('@@')
+        .map((row) => row.split(','))
+        .map((fields) => ({
+          ts:
+            fields[0] && !isNaN(Date.parse(fields[0]))
+              ? fields[0]
+              : fields[1] && !isNaN(Date.parse(fields[1]))
+                ? fields[1]
+                : fields.find((f) => !isNaN(Date.parse(f))) || '',
+          v: fields[4]
+        }))
+        .filter((r) => r.v !== undefined && r.v !== '-99')
+    )
+
+    const parsed = rows
+      .map((r) => ({ date: new Date(r.ts), value: Number(r.v) }))
+      .filter((r) => !isNaN(r.date.getTime()) && !isNaN(r.value))
+
+    // Group by local day and compute daily means where coverage >= 75% (>= 18 hours)
+    const byDay = new Map()
+    for (const r of parsed) {
+      const yyyy = r.date.getFullYear()
+      const mm = String(r.date.getMonth() + 1).padStart(2, '0')
+      const dd = String(r.date.getDate()).padStart(2, '0')
+      const key = `${yyyy}-${mm}-${dd}`
+      if (!byDay.has(key)) byDay.set(key, [])
+      byDay.get(key).push(r.value)
+    }
+
+    const minHours = 18
+    let exceedanceDays = 0
+    const dailyMeans = []
+    for (const [day, valuesForDay] of byDay) {
+      if (valuesForDay.length >= minHours) {
+        const mean =
+          valuesForDay.reduce((s, v) => s + v, 0) / valuesForDay.length
+        dailyMeans.push({ day, mean, hours: valuesForDay.length })
+        // Scientific threshold: count days strictly above 50.5 µg/m³
+        if (mean > 50.5) exceedanceDays++
+      }
+    }
+
+    try {
+      allure.addAttachment(
+        'PM10 Daily Means (2022 CLL2)',
+        JSON.stringify(dailyMeans.slice(0, 20), null, 2),
+        'application/json'
+      )
+      allure.addAttachment(
+        'PM10 Daily Exceedances Count (2022)',
+        JSON.stringify({ exceedanceDays }, null, 2),
+        'application/json'
+      )
+    } catch {}
+
+    // Front-end: navigate and assert PM10 daily exceedances for 2022
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.get2022Button.click()
+    await common.legalWait()
+
+    await monitoringStationPage.getPM10DailyExceedence.waitForExist({
+      timeout: 5000
+    })
+    const pm10DailyExceedanceFrontEnd = common.parseNumber(
+      await monitoringStationPage.getPM10DailyExceedence.getText()
+    )
+
+    await expect(exceedanceDays).toEqual(pm10DailyExceedanceFrontEnd)
+  })
 
   it('testing atom api for hourly exceedances presented on front end', async () => {})
 })

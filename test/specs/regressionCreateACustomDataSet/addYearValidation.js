@@ -576,4 +576,28 @@ describe('add year validation AQD-841', () => {
     const expectedSelectedRangeWithCurrentYearAsStartAndEndValue = `1 January to ${todaysDate2}`
     await expect(selectedRangeWithCurrentYearAsStartAndEndValue).toMatch(expectedSelectedRangeWithCurrentYearAsStartAndEndValue) */
   })
+
+  it('AQD-1041 wrong year option retained after range of years is selected', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('sulphur dioxide')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+
+    await addYearPage.getRangeOfYearsOption.click()
+    await addYearPage.getRangeOfYearsStartYearInput.setValue('2015')
+    await addYearPage.getRangeOfYearsEndYearInput.setValue('2019')
+    await addYearPage.continueButton.click()
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getYearToDateOption.click()
+    await addYearPage.continueButton.click()
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getYearToDateRadio.isSelected()
+  })
 })
