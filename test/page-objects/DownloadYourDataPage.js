@@ -46,6 +46,10 @@ class DownloadYourDataPage {
   get getSaveYourSearchLink() {
     return $("a[rel*='noopener noreferrer']")
   }
+
+  get getRequestDataLink() {
+    return $("a[href*='/emailrequest']")
+  }
 }
 
 // module.exports=new StartNowPage()
