@@ -598,4 +598,44 @@ Cornwall County Council`
       .isDisplayed()
     await expect(fakeLocalAuthorityError).toBe(true)
   })
+
+  it('AQD-1048, defect - user shouldnt be able to add a local authority without using the add local authority button', async () => {
+    await addLocationPage.getLocalAuthoritySearchBox.click()
+    await browser.keys('Escape')
+    await addLocationPage.getLocalAuthoritySearchBox.clearValue()
+    await browser.waitUntil(
+      async () =>
+        (await addLocationPage.getLocalAuthoritySearchBox.getValue()) === '',
+      { timeout: 3000, timeoutMsg: 'Search box did not clear' }
+    )
+    await addLocationPage.getLocationContinueButton.click()
+    const localAuthorityContinueError = await common
+      .errorSummaryItemByText('Add at least one local authority')
+      .isDisplayed()
+    await expect(localAuthorityContinueError).toBe(true)
+
+    await addLocationPage.getLocalAuthoritySearchBox.setValue(
+      'Barnet - London Borough of'
+    )
+    await addLocationPage.getLocalAuthorityListOption.click()
+    await addLocationPage.getAddLocalAuthorityButton.click()
+    await addLocationPage.getLocationContinueButton.click()
+    const locationSelected =
+      await customselectionPage.getLocationValue.getText()
+    const expectedLocationSelected = `Barnet - London Borough of`
+    await expect(locationSelected).toMatch(expectedLocationSelected)
+    await common.legalWait()
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getLocalAuthoritySearchBox.setValue(
+      'Camden - London Borough of'
+    )
+    await addLocationPage.getLocalAuthorityListOption.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    const locationSelected2 =
+      await customselectionPage.getLocationValue.getText()
+    const expectedLocationSelected2 = `Barnet - London Borough of`
+    await expect(locationSelected2).toMatch(expectedLocationSelected2)
+  })
 })
