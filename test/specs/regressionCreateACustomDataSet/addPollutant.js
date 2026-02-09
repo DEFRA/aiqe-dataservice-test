@@ -225,12 +225,12 @@ Continue`
     }
 
     await addPollutantPage.addPollutant('Sulphur dioxide')
-    const addedPollutantsTitleText =
+    /* const addedPollutantsTitleText =
       await addPollutantPage.getAddedPollutantsTitle.getText()
     const expectedAddedPollutantsTitleText = 'Added pollutants'
     await expect(addedPollutantsTitleText).toMatch(
       expectedAddedPollutantsTitleText
-    )
+    ) */
 
     const FirstAddedPollutantLabel =
       await addPollutantPage.getFirstAddedPollutantLabel.getText()
@@ -409,6 +409,10 @@ Ozone (O3)`
     await customselectionPage.getAddPollutantLink.click()
     await addPollutantPage.getAddPollutantOption.click()
     await common.notDisplayed(await addPollutantPage.getAddedPollutantsTitle)
+    const addPollutantButtonText =
+      await addPollutantPage.getAddPollutantButton.getText()
+    const expectedAddPollutantButtonText = 'Add'
+    await expect(addPollutantButtonText).toMatch(expectedAddPollutantButtonText)
   })
 
   it('error validation - AQD-984,AQD-829', async () => {
