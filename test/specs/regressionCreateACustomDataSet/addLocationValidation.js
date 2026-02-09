@@ -312,14 +312,6 @@ Northern Ireland`
     }
   })
 
-  it('AQD-869 - error validation', async () => {
-    // continue without selecting any options
-    // continue after selecting country but not selecting a country
-    // continue after selecting local authority but not selecting any local authority
-    // fake local authority
-    // selecting add local authority button with empty search box
-  })
-
   it('AQD-869 - checking case sensitivity', async () => {
     await addLocationPage.getLocalAuthoritySearchBox.setValue(
       'BARNET - LONDON BOROUGH OF'
@@ -551,5 +543,59 @@ Cornwall County Council`
     await expect(numberOfStationsAvailable).toMatch(
       expectedNumberOfStationsAvailable
     )
+  })
+
+  it('AQD-869,AQD-1044 - error validation for countries and local authority', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.getAddGroupOfPollutantsOption.click()
+    await addPollutantPage.getDAQIOptionRadio.click()
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getYearToDateOption.click()
+    await addYearPage.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    // continue without selecting any options
+    await addLocationPage.getLocationContinueButton.click()
+    const continueError = await common
+      .errorSummaryItemByText('Select an option before continuing')
+      .isDisplayed()
+    await expect(continueError).toBe(true)
+    // continue after selecting country but not selecting a country
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getLocationContinueButton.click()
+    const countryContinueError = await common
+      .errorSummaryItemByText('Select at least one country')
+      .isDisplayed()
+    await expect(countryContinueError).toBe(true)
+    // continue after selecting local authority but not selecting any local authority
+    await addLocationPage.getLocalAuthorityOption.click()
+    await addLocationPage.getLocationContinueButton.click()
+    const localAuthorityContinueError = await common
+      .errorSummaryItemByText('Add at least one local authority')
+      .isDisplayed()
+    await expect(localAuthorityContinueError).toBe(true)
+    // selecting add local authority button with empty search box
+    await addLocationPage.getAddLocalAuthorityButton.click()
+    const addLocalAuthorityError = await common
+      .errorSummaryItemByText('Enter a local authority')
+      .isDisplayed()
+    await expect(addLocalAuthorityError).toBe(true)
+    // fake local authority
+    await addLocationPage.getLocalAuthoritySearchBox.setValue(
+      'fake local authority'
+    )
+    await addLocationPage.getAddLocalAuthorityButton.click()
+    await addLocationPage.getAddLocalAuthorityButton.click()
+    await common.legalWait()
+    const fakeLocalAuthorityError = await common
+      .errorSummaryItemByText('Select local authorities from the list')
+      .isDisplayed()
+    await expect(fakeLocalAuthorityError).toBe(true)
   })
 })
