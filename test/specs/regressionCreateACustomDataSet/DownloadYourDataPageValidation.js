@@ -24,7 +24,8 @@ describe('Download Your Data page validation AQD-889', () => {
     await common.continueButton.click()
 
     await customselectionPage.getAddChangeYearLink.click()
-    await addYearPage.getYearToDateOption.click()
+    await addYearPage.getAnyYearOption.click()
+    await addYearPage.getAnyYearInput.setValue('2025')
     await addYearPage.continueButton.click()
 
     await customselectionPage.getAddChangeLocationLink.click()
@@ -44,10 +45,7 @@ Automatic Urban and Rural Network (AURN)
 The most reliable air pollution data in the UK. Provides hourly measurements of fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), nitric oxide (NO), nitrogen oxides as nitrogen dioxide (NOx), ozone (O3), sulphur dioxide (SO2) and carbon monoxide (CO).
 11 stations available
 Download hourly data
-(Visual only)
-Save your search
-Bookmark this URL to save your selections for next time.
-https://get-air-pollution-data.defra.gov.uk/data-selector/download-data?saved=url`
+(Visual only)`
     await expect(pageContent).toMatch(expectedContent)
     await DownloadYourDataPage.getFileFormatDropDownLink.click()
     await common.legalWait()
@@ -265,6 +263,12 @@ inlet height`
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
+  })
+
+  it('AQD-1047 defect - back button disappears after user downloads data', async () => {
+    await DownloadYourDataPage.getDownloadHourlyDataButton.click()
+    await common.legalWait()
+    await common.getBackLink.isDisplayed()
   })
 
   it('links', async () => {
