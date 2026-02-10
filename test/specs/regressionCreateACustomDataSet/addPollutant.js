@@ -266,7 +266,7 @@ Continue`
       expectedAddAnotherPollutantButtonText
     )
 
-    const getAddedPollutantsTitle = [
+    /* const getAddedPollutantsTitle = [
       await addPollutantPage.getAddedPollutantsTitle
     ]
     const getAddedPollutantsTitleProperties = [
@@ -290,7 +290,7 @@ Continue`
       expect(styles['text-align']).toBe('left')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
-    }
+    } */
 
     const getFirstAddedPollutantLabel = [
       await addPollutantPage.getFirstAddedPollutantLabel

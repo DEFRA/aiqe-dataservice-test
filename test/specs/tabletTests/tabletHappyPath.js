@@ -320,6 +320,7 @@ describe('tablet happy Path', () => {
     }
 
     await startNowPage.startNowBtnClick()
+    await common.legalWait()
     // await hubPage.getFindMonitoringStationsByLocation.click()
     const searchPageHeading = [await searchPage.getSearchPageHeaderText]
 
