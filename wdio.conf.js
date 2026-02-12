@@ -18,16 +18,17 @@ export const config = {
   baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`,
 
   hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
-  port: Number(process.env.CHROMEDRIVER_PORT) || 4444,
+  port: process.env.CHROMEDRIVER_PORT || 4444,
 
   // Tests to run (fallback if a capability doesn't define its own specs)
   specs: ['./test/specs/regressionSearchByLocation/*.js'],
   // Let capability-level specs filter tests; no global excludes needed
   exclude: [],
-  maxInstances: 3,
+  maxInstances: 1,
 
   capabilities: [
     {
+      maxInstances: 1,
       browserName: 'chrome',
       'goog:chromeOptions': {
         args: [
@@ -45,8 +46,7 @@ export const config = {
           '--ignore-certificate-errors',
           '--disable-dev-shm-usage'
         ]
-      },
-      specs: ['./test/specs/regressionSearchByLocation/*.js']
+      }
     }
   ],
 
