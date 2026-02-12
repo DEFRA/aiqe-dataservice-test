@@ -3,17 +3,6 @@ const debug = process.env.DEBUG
 const oneHour = 60 * 60 * 1000
 // const ENV = (process.env.ENVIRONMENT || '').toLowerCase()
 // Always use Chrome sidecar (remote chromedriver), never BrowserStack
-const hostname = process.env.CHROMEDRIVER_URL || '127.0.0.1'
-const port = Number(process.env.CHROMEDRIVER_PORT) || 4444
-const path = process.env.CHROMEDRIVER_PATH || '/'
-
-// Force direct connections; avoid any corporate proxy interference
-const chromeProxyConfig = {
-  proxy: {
-    proxyType: 'direct'
-  }
-}
-
 export const config = {
   //
   // ====================
@@ -28,14 +17,8 @@ export const config = {
   // gets prepended directly.
   baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`,
 
-  // Connection to remote chromedriver (used in prod sidecar)
-  hostname,
-  port,
-  path,
-  automationProtocol: 'webdriver',
-
-  // No BrowserStack services; always sidecar
-  services: [],
+  hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
+  port: Number(process.env.CHROMEDRIVER_PORT) || 4444,
 
   // Tests to run (fallback if a capability doesn't define its own specs)
   specs: ['./test/specs/regressionSearchByLocation/*.js'],
@@ -43,12 +26,9 @@ export const config = {
   exclude: [],
   maxInstances: 3,
 
-  // Capabilities switch: sidecar Chrome in production, BrowserStack otherwise
   capabilities: [
     {
-      ...chromeProxyConfig,
       browserName: 'chrome',
-      acceptInsecureCerts: true,
       'goog:chromeOptions': {
         args: [
           '--no-sandbox',
@@ -63,16 +43,12 @@ export const config = {
           '--disable-background-networking',
           '--disable-remote-fonts',
           '--ignore-certificate-errors',
-          '--disable-dev-shm-usage',
-          '--no-proxy-server',
-          '--proxy-server=direct://',
-          '--proxy-bypass-list=*'
+          '--disable-dev-shm-usage'
         ]
       },
       specs: ['./test/specs/regressionSearchByLocation/*.js']
     }
   ],
-  // chrome sidecar block now handled via `isProd` switch above
 
   execArgv: [],
 
