@@ -33,11 +33,11 @@ export const config = {
   specs: ['./test/specs/regressionSearchByLocation/*.js'],
   // Let capability-level specs filter tests; no global excludes needed
   exclude: [],
-  maxInstances: 1,
+  maxInstances: 3,
 
   capabilities: [
     {
-      chromeProxyConfig,
+      ...chromeProxyConfig,
       maxInstances: 3,
       browserName: 'chrome',
       'goog:chromeOptions': {
