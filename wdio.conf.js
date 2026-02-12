@@ -3,6 +3,15 @@ const debug = process.env.DEBUG
 const oneHour = 60 * 60 * 1000
 // const ENV = (process.env.ENVIRONMENT || '').toLowerCase()
 // Always use Chrome sidecar (remote chromedriver), never BrowserStack
+const chromeProxyConfig = !process.env.HTTP_PROXY
+  ? {}
+  : {
+      proxy: {
+        proxyType: 'manual',
+        httpProxy: `localhost:3128`,
+        sslProxy: `localhost:3128`
+      }
+    }
 export const config = {
   //
   // ====================
@@ -28,7 +37,8 @@ export const config = {
 
   capabilities: [
     {
-      maxInstances: 1,
+      chromeProxyConfig,
+      maxInstances: 3,
       browserName: 'chrome',
       'goog:chromeOptions': {
         args: [
