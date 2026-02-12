@@ -1,8 +1,20 @@
 import fs from 'node:fs'
+import { ProxyAgent, setGlobalDispatcher } from 'undici'
+import { bootstrap } from 'global-agent'
 const debug = process.env.DEBUG
 const oneHour = 60 * 60 * 1000
-// const ENV = (process.env.ENVIRONMENT || '').toLowerCase()
-// Always use Chrome sidecar (remote chromedriver), never BrowserStack
+const ENV = (process.env.ENVIRONMENT || '').toLowerCase()
+// CDP provides one of: dev, test, or prod. Use prod => sidecar, dev/test => BrowserStack.
+const isProd = ENV === 'prod'
+
+// for browserstack
+const dispatcher = new ProxyAgent({
+  uri: process.env.HTTP_PROXY
+})
+setGlobalDispatcher(dispatcher)
+bootstrap()
+global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY
+// for chrome sidecar
 const chromeProxyConfig = !process.env.HTTP_PROXY
   ? {}
   : {
@@ -12,6 +24,7 @@ const chromeProxyConfig = !process.env.HTTP_PROXY
         sslProxy: `localhost:3128`
       }
     }
+
 export const config = {
   //
   // ====================
@@ -26,39 +39,117 @@ export const config = {
   // gets prepended directly.
   baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`,
 
-  hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
-  port: process.env.CHROMEDRIVER_PORT || 4444,
+  // Connection to remote chromedriver (used in prod sidecar)
+  hostname: isProd ? process.env.CHROMEDRIVER_URL || '127.0.0.1' : undefined,
+  port: isProd ? Number(process.env.CHROMEDRIVER_PORT) || 4444 : undefined,
+  path: isProd ? process.env.CHROMEDRIVER_PATH || '/' : undefined,
+  automationProtocol: isProd ? 'webdriver' : undefined,
+
+  // connection to browserstack
+  user: isProd ? undefined : process.env.BROWSERSTACK_USER,
+  key: isProd ? undefined : process.env.BROWSERSTACK_KEY,
+
+  services: isProd
+    ? [
+        // No BrowserStack in production; using local/sidecar Chrome
+      ]
+    : [
+        [
+          'browserstack',
+          {
+            testObservability: true, // Disable if you do not want to use the browserstack test observer functionality
+            testObservabilityOptions: {
+              user: process.env.BROWSERSTACK_USER,
+              key: process.env.BROWSERSTACK_KEY,
+              projectName: 'aiqe-dataservice-test',
+              buildName: `test-run-${process.env.ENVIRONMENT}`
+            },
+            acceptInsecureCerts: true,
+            forceLocal: false,
+            browserstackLocal: true,
+            opts: {
+              proxyHost: 'localhost',
+              proxyPort: 3128
+            }
+          }
+        ]
+      ],
 
   // Tests to run (fallback if a capability doesn't define its own specs)
-  specs: ['./test/specs/regressionSearchByLocation/*.js'],
+  specs: ['./test/specs/**/*.js'],
   // Let capability-level specs filter tests; no global excludes needed
   exclude: [],
   maxInstances: 3,
-
-  capabilities: [
-    {
-      ...chromeProxyConfig,
-      maxInstances: 3,
-      browserName: 'chrome',
-      'goog:chromeOptions': {
-        args: [
-          '--no-sandbox',
-          '--disable-infobars',
-          '--headless',
-          '--disable-gpu',
-          '--window-size=1920,1080',
-          '--enable-features=NetworkService,NetworkServiceInProcess',
-          '--password-store=basic',
-          '--use-mock-keychain',
-          '--dns-prefetch-disable',
-          '--disable-background-networking',
-          '--disable-remote-fonts',
-          '--ignore-certificate-errors',
-          '--disable-dev-shm-usage'
-        ]
-      }
+  // for browserstack
+  commonCapabilities: {
+    'bstack:options': {
+      buildName: 'browserstack-build-1' // configure as required
     }
-  ],
+  },
+
+  // Capabilities switch: sidecar Chrome in production, BrowserStack otherwise
+  capabilities: isProd
+    ? [
+        {
+          ...chromeProxyConfig,
+          browserName: 'chrome',
+          'goog:chromeOptions': {
+            args: [
+              '--no-sandbox',
+              '--disable-infobars',
+              '--headless',
+              '--disable-gpu',
+              '--window-size=1920,1080',
+              '--enable-features=NetworkService,NetworkServiceInProcess',
+              '--password-store=basic',
+              '--use-mock-keychain',
+              '--dns-prefetch-disable',
+              '--disable-background-networking',
+              '--disable-remote-fonts',
+              '--ignore-certificate-errors',
+              '--disable-dev-shm-usage'
+            ]
+          },
+          specs: ['./test/specs/regressionSearchByLocation/*.js']
+        }
+      ]
+    : [
+        // Desktop Chrome on Windows via BrowserStack
+        {
+          browserName: 'Chrome',
+          browserVersion: '127.0',
+          'bstack:options': {
+            os: 'Windows',
+            osVersion: '11',
+            local: true
+          },
+          specs: ['./test/specs/regressionSearchByLocation/*.js'],
+          exclude: []
+        },
+        // Tablet: iPad Air 5 (iOS Safari)
+        {
+          browserName: 'chromium',
+          'bstack:options': {
+            deviceName: 'iPad Air 5',
+            osVersion: '26',
+            realMobile: false,
+            local: true
+          },
+          specs: ['./test/specs/tabletTests/tabletHappyPath.js']
+        },
+        // Mobile: iPhone 15 (iOS Safari)
+        {
+          browserName: 'safari',
+          'bstack:options': {
+            deviceName: 'iPhone 15',
+            osVersion: '26',
+            realMobile: false,
+            local: true
+          },
+          specs: ['./test/specs/mobileTests/mobileHappyPath.js']
+        }
+      ],
+  // chrome sidecar block now handled via `isProd` switch above
 
   execArgv: [],
 
