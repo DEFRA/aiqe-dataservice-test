@@ -266,12 +266,6 @@ inlet height`
     }
   })
 
-  it('AQD-1047 defect - back button disappears after user downloads data', async () => {
-    await DownloadYourDataPage.getDownloadHourlyDataButton.click()
-    await common.legalWait()
-    await common.getBackLink.isDisplayed()
-  })
-
   it('links', async () => {
     await DownloadYourDataPage.getFileFormatDropDownLink.click()
     await common.legalWait()
@@ -284,33 +278,19 @@ inlet height`
     await expect(currentUrl).toContain('customdataset')
   })
 
-  it('AQD-885 No Stations Available - Validation', async () => {
+  it('download data not working AQD-1070, AQD-1063 defect - download pm2.5 after downloading pm10, AQD-1047 defect - back button disappears after user downloads data', async () => {
+    // download data not working AQD-1070
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('PM10')
+    await common.continueButton.click()
     await customselectionPage.getAddChangeLocationLink.click()
-    await addLocationPage.getEnglandCheckbox.click()
-    await addLocationPage.getNorthernIrelandCheckbox.click()
-    await addLocationPage.getLocationContinueButton.click()
-    await customselectionPage.getAddChangeYearLink.click()
-    await addYearPage.getAnyYearOption.click()
-    await addYearPage.getAnyYearInput.setValue('1975')
-    await addYearPage.continueButton.click()
-    await customselectionPage.getContinueButton.click()
-    await common.legalWait()
-
-    await common.errorSummaryItemByText('Change the year').click()
-    const changeYearUrl = await browser.getUrl()
-    await expect(changeYearUrl).toContain('/year-aurn')
-    await common.getBackLink.click()
-    await customselectionPage.getContinueButton.click()
-    await common.errorSummaryItemByText('Change the location').click()
-    const changeLocationUrl = await browser.getUrl()
-    await expect(changeLocationUrl).toContain('/location-aurn')
-    await common.getBackLink.click()
-  })
-
-  it('download data not working', async () => {
-    await customselectionPage.getAddChangeLocationLink.click()
-    await addLocationPage.getEnglandCheckbox.click()
-    await addLocationPage.getWalesCheckbox.click()
+    await addLocationPage.getCountriesOption.click()
     await addLocationPage.getScotlandCheckbox.click()
     await addLocationPage.getLocationContinueButton.click()
     await customselectionPage.getAddChangeYearLink.click()
@@ -343,9 +323,9 @@ inlet height`
         }
       },
       {
-        timeout: 30000,
+        timeout: 240000,
         interval: 500,
-        timeoutMsg: 'No downloaded file detected in downloads within 30s'
+        timeoutMsg: 'No downloaded file detected in downloads within 240s'
       }
     )
 
@@ -354,5 +334,43 @@ inlet height`
       .readdirSync(DOWNLOAD_DIR)
       .filter((f) => !f.endsWith('.crdownload'))
     expect(finalFiles.length).toBeGreaterThan(0)
+
+    // AQD-1047 defect - back button disappears after user downloads data
+    await common.legalWait()
+    await common.getBackLink.isDisplayed()
+
+    // AQD-1063 defect - automatic download for pm2.5 after downloading pm10
+    await common.getBackLink.click()
+    await customselectionPage.getChangePollutantLink.click()
+    await addPollutantPage.getFirstAddedPollutantRemoveLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Fine particulate matter (PM2.5)')
+    await common.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await common.notDisplayed(await DownloadYourDataPage.getDownloadProgress)
+    await common.getBackLink.click()
+  })
+
+  it('AQD-885 No Stations Available - Validation', async () => {
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getScotlandCheckbox.click()
+    await addLocationPage.getNorthernIrelandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearOption.click()
+    await addYearPage.getAnyYearInput.setValue('1975')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await common.legalWait()
+
+    await common.errorSummaryItemByText('Change the year').click()
+    const changeYearUrl = await browser.getUrl()
+    await expect(changeYearUrl).toContain('/year-aurn')
+    await common.getBackLink.click()
+    await customselectionPage.getContinueButton.click()
+    await common.errorSummaryItemByText('Change the location').click()
+    const changeLocationUrl = await browser.getUrl()
+    await expect(changeLocationUrl).toContain('/location-aurn')
+    await common.getBackLink.click()
   })
 })
