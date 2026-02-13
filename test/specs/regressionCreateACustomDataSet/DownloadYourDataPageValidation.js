@@ -1,7 +1,8 @@
 import startNowPage from '../../page-objects/startnowpage.js'
 // import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
 import { browser, expect } from '@wdio/globals'
-// import fs from 'node:fs'
+import fs from 'node:fs'
+import path from 'node:path'
 // import createLogger from 'helpers/logger'
 import common from '../../page-objects/common.js'
 import hubPage from '../../page-objects/hubPage.js'
@@ -304,5 +305,54 @@ inlet height`
     const changeLocationUrl = await browser.getUrl()
     await expect(changeLocationUrl).toContain('/location-aurn')
     await common.getBackLink.click()
+  })
+
+  it('download data not working', async () => {
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getWalesCheckbox.click()
+    await addLocationPage.getScotlandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getYearToDateOption.click()
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    // Ensure downloads directory is clean before validating download
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    await DownloadYourDataPage.getDownloadHourlyDataButton.click()
+
+    // Wait until a non-empty file (not .crdownload) appears in downloads
+    await browser.waitUntil(
+      () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          if (files.length === 0) return false
+          const fullPath = path.join(DOWNLOAD_DIR, files[0])
+          const size = fs.statSync(fullPath).size
+          return size > 0
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 30000,
+        interval: 500,
+        timeoutMsg: 'No downloaded file detected in downloads within 30s'
+      }
+    )
+
+    // Optional: basic assertion that at least one file exists
+    const finalFiles = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => !f.endsWith('.crdownload'))
+    expect(finalFiles.length).toBeGreaterThan(0)
   })
 })
