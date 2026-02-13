@@ -1,5 +1,6 @@
 // const allure = require('allure-commandline')
 import allure from 'allure-commandline'
+import path from 'node:path'
 
 const debug = process.env.DEBUG
 const oneMinute = 60 * 1000
@@ -28,7 +29,9 @@ export const config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/regressionCreateACUstomDataSet/addPollutant.js'],
+  specs: [
+    './test/specs/regressionCreateACustomDataSet/DownloadYourDataPageValidation.js'
+  ],
   // Patterns to exclude.
   exclude: [],
   // injectGlobals: false,
@@ -71,7 +74,16 @@ export const config = {
               '--disable-gpu',
               '--window-size=2000,1100' /* ,
               '--disable-javascript' */
-            ]
+            ],
+            prefs: {
+              'download.default_directory': path.resolve(
+                process.cwd(),
+                'downloads'
+              ),
+              'download.prompt_for_download': false,
+              'download.directory_upgrade': true,
+              'safebrowsing.enabled': true
+            }
           }
         }
       ],
