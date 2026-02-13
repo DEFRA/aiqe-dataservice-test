@@ -50,6 +50,10 @@ class DownloadYourDataPage {
   get getRequestDataLink() {
     return $("a[href*='/emailrequest']")
   }
+
+  get getDownloadProgress() {
+    return $("div[id*='download-loading-container']")
+  }
 }
 
 // module.exports=new StartNowPage()
