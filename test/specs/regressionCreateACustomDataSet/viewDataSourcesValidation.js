@@ -74,9 +74,14 @@ Pollutants: fine particulate matter (PM2.5), particulate matter (PM10), nitrogen
 Start date: 1972
 Time resolution: Hourly
 Published: Hourly
-Instrument and method: TEOM-FDMS/BAM and gravimetric (PM2.5, PM10), chemiluminescence (NO2, NO, NOx), UV photometry (O3), UV fluorescence (SO2) and NDIR (CO)
-More information about the Automatic Urban and Rural Network (AURN)`
+Instrument and method: TEOM-FDMS/BAM and gravimetric (PM2.5, PM10), chemiluminescence (NO2, NO, NOx), UV photometry (O3), UV fluorescence (SO2) and NDIR (CO)`
     await expect(pageContent).toMatch(expectedPageContent)
+  })
+
+  it('AQD-990 Remove More info... hyperlink in View Data Sources Page', async () => {
+    await common.elementRemoved(
+      await viewDataSourcesPage.getMoreInformationLink
+    )
   })
 
   it('link checks', async () => {
@@ -219,32 +224,6 @@ More information about the Automatic Urban and Rural Network (AURN)`
       expect(styles['line-height']).toBe('25px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-weight']).toBe('400')
-    }
-
-    const getMoreInformationLink = [
-      await viewDataSourcesPage.getMoreInformationLink
-    ]
-
-    const getMoreInformationLinkProperties = [
-      'color',
-      'font-family',
-      'text-decoration',
-      'font-size',
-      'line-height',
-      'font-weight'
-    ]
-
-    for (const element of getMoreInformationLink) {
-      const styles = await common.getStyles(
-        element,
-        getMoreInformationLinkProperties
-      )
-      expect(styles.color).toBe('rgb(29, 112, 184)')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe('underline 1px')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('normal')
       expect(styles['font-weight']).toBe('400')
     }
   })
