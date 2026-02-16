@@ -15,10 +15,18 @@ class StartNowPage {
     )[0]
   }
 
+  get getFindMonitoringStationsByLocationStyling() {
+    return $$("h2[class='gem-c-cards__sub-heading govuk-heading-s']")[0]
+  }
+
   get getCreateCustomDataSet() {
     return $$(
       "a[class='govuk-link gem-c-cards__link gem-c-force-print-link-styles']"
     )[1]
+  }
+
+  get getCreateCustomDataSetStyling() {
+    return $$("h2[class='gem-c-cards__sub-heading govuk-heading-s']")[1]
   }
 
   get getlistItem() {

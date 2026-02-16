@@ -115,6 +115,17 @@ View and download data by pollutant,year and location.`
     }
   })
 
+  it('AQD-988 hub journey links should be h2', async () => {
+    const searchByLocationLink =
+      await hubPage.getFindMonitoringStationsByLocationStyling
+    const createCustomDataSetLink = await hubPage.getCreateCustomDataSetStyling
+
+    const tag1 = await searchByLocationLink.getTagName()
+    const tag2 = await createCustomDataSetLink.getTagName()
+    await expect(tag1).toBe('h2')
+    await expect(tag2).toBe('h2')
+  })
+
   it('link checks', async () => {
     await hubPage.getFindMonitoringStationsByLocation.click()
     const getCurrentUrl1 = await browser.getUrl()
@@ -124,13 +135,9 @@ View and download data by pollutant,year and location.`
     browser.back()
     browser.refresh()
 
-    /* await hubPage.getCreateCustomDataSet.click()
+    await hubPage.getCreateCustomDataSet.click()
     const getCurrentUrl2 = await browser.getUrl()
-    const expectedCurrentURL2 =
-      '/create-custom-data-set'
-    await expect(getCurrentUrl1).toMatch(
-      expectedCurrentURL
-    )
-    */
+    const expectedCurrentURL2 = '/customdataset'
+    await expect(getCurrentUrl2).toMatch(expectedCurrentURL2)
   })
 })
