@@ -2,7 +2,7 @@ import { $ } from '@wdio/globals'
 
 class StartNowPage {
   get getStartNowPageHeading() {
-    return $$("h1[class*='govuk-heading-xl']")[1]
+    return $$("h1[class*='govuk-heading-xl']")[0]
   }
 
   get getStartNowPagecontent() {
