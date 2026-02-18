@@ -17,9 +17,12 @@ describe('header validation', () => {
     // await cookieBanner.hideButtonHideDialog.click()
 
     // checking header is there
-    await header.getHeaderOverall.isDisplayed()
+    const isHeaderOverallDisplayed = await header.getHeaderOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayed).toBe(true)
     // checking crown logo is present
-    await header.getGovUKCrownLogo.isDisplayed()
+    const isGovUKCrownLogoDisplayed =
+      await header.getGovUKCrownLogo.isDisplayed()
+    await expect(isGovUKCrownLogoDisplayed).toBe(true)
 
     // AirPolutionDataHeaderLink text validation
     const AirPolutionDataHeaderLink = 'Get air pollution data'
@@ -30,7 +33,8 @@ describe('header validation', () => {
     )
 
     // checking feedback banner is present
-    await header.getBetaBanner.isDisplayed()
+    const isBetaBannerDisplayed = await header.getBetaBanner.isDisplayed()
+    await expect(isBetaBannerDisplayed).toBe(true)
 
     // checking feedback link text is correct
     const BetaBannerFeedbackLinkText = 'give your feedback (opens in new tab)'
@@ -41,13 +45,16 @@ describe('header validation', () => {
     )
 
     // checking feedback banner logo text
-    await header.getBetalogo.isDisplayed()
+    const isBetaLogoDisplayed = await header.getBetalogo.isDisplayed()
+    await expect(isBetaLogoDisplayed).toBe(true)
     const Betalogo = 'Beta'
     const getBetalogo = await header.getBetalogo.getText()
     await expect(Betalogo).toMatch(getBetalogo)
 
     // checking beta banner whole text
-    await header.getBetaBannerText.isDisplayed()
+    const isBetaBannerTextDisplayed =
+      await header.getBetaBannerText.isDisplayed()
+    await expect(isBetaBannerTextDisplayed).toBe(true)
     const BetaBannerText =
       'This is a new service. Help us improve it and give your feedback.'
     const getBetaBannerText = await header.getBetaBannerText.getText()

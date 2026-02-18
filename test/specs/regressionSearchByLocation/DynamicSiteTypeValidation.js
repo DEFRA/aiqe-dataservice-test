@@ -23,8 +23,11 @@ describe('site type tests', () => {
     // await cookieBanner.hideButtonHideDialog.click()
     await startNowPage.startNowBtnClick()
     // await hubPage.getFindMonitoringStationsByLocation.click()
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayed =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayed).toBe(true)
+    await expect(isFooterOverallDisplayed).toBe(true)
     await searchPage.setsearch('London')
     await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()

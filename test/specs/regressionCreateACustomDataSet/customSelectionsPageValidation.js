@@ -16,8 +16,11 @@ describe('custom selections page', () => {
     await startNowPage.startNowBtnClick()
     await hubPage.getCreateCustomDataSet.click()
     // page content validation
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayed =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayed).toBe(true)
+    await expect(isFooterOverallDisplayed).toBe(true)
 
     const customSelectionPageContent = `Create a custom dataset
 Clear selections
@@ -231,8 +234,14 @@ Continue`
     await addPollutantPage.addPollutant('Nitrogen dioxide')
     await common.continueButton.click()
 
-    await customselectionPage.getViewDataSourcesLink.isDisplayed()
-    await customselectionPage.getAddChangeYearLink.isDisplayed()
-    await customselectionPage.getAddChangeLocationLink.isDisplayed()
+    const isViewDataSourcesLinkDisplayed =
+      await customselectionPage.getViewDataSourcesLink.isDisplayed()
+    const isAddChangeYearLinkDisplayed =
+      await customselectionPage.getAddChangeYearLink.isDisplayed()
+    const isAddChangeLocationLinkDisplayed =
+      await customselectionPage.getAddChangeLocationLink.isDisplayed()
+    await expect(isViewDataSourcesLinkDisplayed).toBe(true)
+    await expect(isAddChangeYearLinkDisplayed).toBe(true)
+    await expect(isAddChangeLocationLinkDisplayed).toBe(true)
   })
 })

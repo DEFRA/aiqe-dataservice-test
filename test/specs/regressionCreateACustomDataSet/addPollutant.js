@@ -381,7 +381,9 @@ Continue`
 
   it('previous selected pollutants are retained when change link is selected - AQD-984,AQD-829', async () => {
     await customselectionPage.getChangePollutantLink.click()
-    await addPollutantPage.getAddPollutantRadio.isSelected()
+    const isAddPollutantRadioSelected =
+      await addPollutantPage.getAddPollutantRadio.isSelected()
+    await expect(isAddPollutantRadioSelected).toBe(true)
     const retainedPollutant =
       await addPollutantPage.getFirstAddedPollutantValue.getText()
     const expectedRetainedPollutant = 'Sulphur dioxide (SO2)'
@@ -405,7 +407,8 @@ Ozone (O3)`
       await customselectionPage.getPollutantValue.getText()
     const expectedClearedPollutantList = 'None selected'
     await expect(clearedPollutantList).toMatch(expectedClearedPollutantList)
-    await common.getBackLink.isDisplayed()
+    const isBackLinkDisplayed = await common.getBackLink.isDisplayed()
+    await expect(isBackLinkDisplayed).toBe(true)
     await customselectionPage.getAddPollutantLink.click()
     await addPollutantPage.getAddPollutantOption.click()
     await common.notDisplayed(await addPollutantPage.getAddedPollutantsTitle)

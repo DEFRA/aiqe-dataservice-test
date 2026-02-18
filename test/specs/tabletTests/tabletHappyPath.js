@@ -28,8 +28,10 @@ describe('tablet happy Path', () => {
     // await cookieBanner.hideButtonHideDialog.click()
 
     // startnow-block
-    await header.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayed = await header.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayed).toBe(true)
+    await expect(isFooterOverallDisplayed).toBe(true)
     const startNowHeading = 'Get air pollution data'
     const getStartNowHeading =
       await startNowPage.getStartNowPageHeading.getText()
@@ -476,8 +478,12 @@ describe('tablet happy Path', () => {
     }
 
     // search block
-    await header.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayedSB =
+      await header.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayedSB =
+      await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayedSB).toBe(true)
+    await expect(isFooterOverallDisplayedSB).toBe(true)
     await searchPage.setsearch('birmingham')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
@@ -600,8 +606,12 @@ describe('tablet happy Path', () => {
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
-    await header.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayedDP =
+      await header.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayedDP =
+      await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayedDP).toBe(true)
+    await expect(isFooterOverallDisplayedDP).toBe(true)
     await disambigurationPage.locationLinkClick('Birmingham')
     await browser.waitUntil(
       async () => {
@@ -803,8 +813,12 @@ describe('tablet happy Path', () => {
     )
 
     // monitoring station page
-    await header.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayedMSP =
+      await header.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayedMSP =
+      await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayedMSP).toBe(true)
+    await expect(isFooterOverallDisplayedMSP).toBe(true)
     const getCurrentURLOfA450Roadside = await browser.getUrl()
     const expectedURLOfA450Roadside = '/stationdetails/BirminghamA4540Roadside'
     await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)

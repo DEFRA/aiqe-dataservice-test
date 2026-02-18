@@ -253,8 +253,12 @@ Ozone
 Sulphur dioxide`
     await expect(selectedDAQIPollutants).toMatch(expectedSelectedDAQIPollutants)
     await customselectionPage.getChangePollutantLink.click()
-    await addPollutantPage.getAddGroupOfPollutantsRadio.isSelected()
-    await addPollutantPage.getDAQIOptionRadio.isSelected()
+    const isAddGroupOfPollutantsRadioSelected =
+      await addPollutantPage.getAddGroupOfPollutantsRadio.isSelected()
+    await expect(isAddGroupOfPollutantsRadioSelected).toBe(true)
+    const isDAQIOptionRadioSelected =
+      await addPollutantPage.getDAQIOptionRadio.isSelected()
+    await expect(isDAQIOptionRadioSelected).toBe(true)
     await addPollutantPage.getAQSROptionTitle.click()
     await common.continueButton.click()
     const selectedAQSRPollutants =
@@ -269,8 +273,12 @@ Nitrogen oxides as nitrogen dioxide
 Carbon monoxide`
     await expect(selectedAQSRPollutants).toMatch(expectedSelectedAQSRPollutants)
     await customselectionPage.getChangePollutantLink.click()
-    await addPollutantPage.getAddGroupOfPollutantsRadio.isSelected()
-    await addPollutantPage.getAQSROptionRadio.isSelected()
+    const isAddGroupOfPollutantsRadioSelected2 =
+      await addPollutantPage.getAddGroupOfPollutantsRadio.isSelected()
+    await expect(isAddGroupOfPollutantsRadioSelected2).toBe(true)
+    const isAQSROptionRadioSelected =
+      await addPollutantPage.getAQSROptionRadio.isSelected()
+    await expect(isAQSROptionRadioSelected).toBe(true)
   })
 
   it('AQD-1026 session data keeping group of pollutants when individual option is selected', async () => {

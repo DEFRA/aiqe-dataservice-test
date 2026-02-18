@@ -337,7 +337,8 @@ inlet height`
 
     // AQD-1047 defect - back button disappears after user downloads data
     await common.legalWait()
-    await common.getBackLink.isDisplayed()
+    const isBackLinkDisplayed = await common.getBackLink.isDisplayed()
+    await expect(isBackLinkDisplayed).toBe(true)
 
     // AQD-1063 defect - automatic download for pm2.5 after downloading pm10
     await common.getBackLink.click()

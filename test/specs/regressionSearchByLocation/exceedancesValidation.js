@@ -6,13 +6,13 @@ import { browser, expect } from '@wdio/globals'
 import searchPage from '../../page-objects/searchPage.js'
 // import resultsPage from '../page-objects/resultsPage.js'
 // import monitoringStationPage from '../page-objects/monitoringStationPage.js'
-import headersObject from '../../page-objects/header.js'
-import footer from '../../page-objects/footer.js'
+// import headersObject from '../../page-objects/header.js'
+// import footer from '../../page-objects/footer.js'
 import disambigurationPage from '../../page-objects/disambigurationPage.js'
 import common from '../../page-objects/common.js'
 import locationMonitoringStationListPage from '../../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../../page-objects/monitoringStationPage.js'
-// import hubPage from '../page-objects/hubPage.js'
+import hubPage from '../page-objects/hubPage.js'
 
 describe('exceedences', () => {
   it('hourly exceedences , AQD-632', async () => {
@@ -20,9 +20,7 @@ describe('exceedences', () => {
     await browser.url('')
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()
-    // await hubPage.getFindMonitoringStationsByLocation.click()
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    await hubPage.getFindMonitoringStationsByLocation.click()
     await searchPage.setsearch('London')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
@@ -183,19 +181,29 @@ i`
   })
 
   it('Toggle Tips for annaul average,display and styling, AQD-686', async () => {
-    await monitoringStationPage.getPM25AnnualAverageToggleTip.isDisplayed()
+    const isPM25AnnualAverageToggleTipDisplayed =
+      await monitoringStationPage.getPM25AnnualAverageToggleTip.isDisplayed()
+    await expect(isPM25AnnualAverageToggleTipDisplayed).toBe(true)
     await monitoringStationPage.getPM25AnnualAverageToggleTip.isClickable()
 
-    await monitoringStationPage.getPM10AnnualAverageToggleTip.isDisplayed()
+    const isPM10AnnualAverageToggleTipDisplayed =
+      await monitoringStationPage.getPM10AnnualAverageToggleTip.isDisplayed()
+    await expect(isPM10AnnualAverageToggleTipDisplayed).toBe(true)
     await monitoringStationPage.getPM10AnnualAverageToggleTip.isClickable()
 
-    await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip.isDisplayed()
+    const isNitrogenDioxideAnnualAverageToggleTipDisplayed =
+      await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip.isDisplayed()
+    await expect(isNitrogenDioxideAnnualAverageToggleTipDisplayed).toBe(true)
     await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip.isClickable()
 
-    await monitoringStationPage.getOzoneAnnualAverageToggleTip.isDisplayed()
+    const isOzoneAnnualAverageToggleTipDisplayed =
+      await monitoringStationPage.getOzoneAnnualAverageToggleTip.isDisplayed()
+    await expect(isOzoneAnnualAverageToggleTipDisplayed).toBe(true)
     await monitoringStationPage.getOzoneAnnualAverageToggleTip.isClickable()
 
-    await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.isDisplayed()
+    const isSulphurDioxideAnnualAverageToggleTipDisplayed =
+      await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.isDisplayed()
+    await expect(isSulphurDioxideAnnualAverageToggleTipDisplayed).toBe(true)
     await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.isClickable()
 
     const getAnnualAverageToggleTipsStyles = [
@@ -422,10 +430,14 @@ i`
   })
 
   it('Toggle Tips for Hourly exceedances, AQD-634', async () => {
-    await monitoringStationPage.getNOHourlyExceedenceToggleTip.isDisplayed()
+    const isNOHourlyExceedenceToggleTipDisplayed =
+      await monitoringStationPage.getNOHourlyExceedenceToggleTip.isDisplayed()
+    await expect(isNOHourlyExceedenceToggleTipDisplayed).toBe(true)
     await monitoringStationPage.getNOHourlyExceedenceToggleTip.isClickable()
 
-    await monitoringStationPage.getSDHourlyExceedenceToggleTip.isDisplayed()
+    const isSDHourlyExceedenceToggleTipDisplayed =
+      await monitoringStationPage.getSDHourlyExceedenceToggleTip.isDisplayed()
+    await expect(isSDHourlyExceedenceToggleTipDisplayed).toBe(true)
     await monitoringStationPage.getSDHourlyExceedenceToggleTip.isClickable()
 
     const getNOHourlyExceedenceToggleTip = [
@@ -545,10 +557,14 @@ i`
   })
 
   it('Toggle Tips for daily exceedances, AQD-652', async () => {
-    await monitoringStationPage.getPM10DailyExceedenceToggleTip.isDisplayed()
+    const isPM10DailyExceedenceToggleTipDisplayed =
+      await monitoringStationPage.getPM10DailyExceedenceToggleTip.isDisplayed()
+    await expect(isPM10DailyExceedenceToggleTipDisplayed).toBe(true)
     await monitoringStationPage.getPM10DailyExceedenceToggleTip.isClickable()
 
-    await monitoringStationPage.getSDDailyExceedenceToggleTip.isDisplayed()
+    const isSDDailyExceedenceToggleTipDisplayed =
+      await monitoringStationPage.getSDDailyExceedenceToggleTip.isDisplayed()
+    await expect(isSDDailyExceedenceToggleTipDisplayed).toBe(true)
     await monitoringStationPage.getSDDailyExceedenceToggleTip.isClickable()
 
     const getPM10DailyExceedenceToggleTip = [
@@ -679,7 +695,9 @@ i`
       },
       { timeout: 9000 }
     )
-    await monitoringStationPage.getAboveLimitFlag.isDisplayed()
+    const isAboveLimitFlagDisplayed =
+      await monitoringStationPage.getAboveLimitFlag.isDisplayed()
+    await expect(isAboveLimitFlagDisplayed).toBe(true)
     const getAboveLimitFlagText =
       await monitoringStationPage.getAboveLimitFlag.getText()
     const expectedAboveLimitFlagText = `Above limit`

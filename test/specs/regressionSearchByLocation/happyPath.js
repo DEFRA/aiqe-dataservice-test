@@ -27,8 +27,12 @@ describe('happyPath', () => {
     // await cookieBanner.hideButtonHideDialog.click()
 
     // startnow-block
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayedSB =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayedSB =
+      await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayedSB).toBe(true)
+    await expect(isFooterOverallDisplayedSB).toBe(true)
     const startNowHeading = 'Get air pollution data'
     const getStartNowHeading =
       await startNowPage.getStartNowPageHeading.getText()
@@ -37,27 +41,43 @@ describe('happyPath', () => {
     // await hubPage.getFindMonitoringStationsByLocation.click()
 
     // search block
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayedSearch =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayedSearch =
+      await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayedSearch).toBe(true)
+    await expect(isFooterOverallDisplayedSearch).toBe(true)
     await searchPage.setsearch('birmingham')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
 
     // results block
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayedResults =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayedResults =
+      await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayedResults).toBe(true)
+    await expect(isFooterOverallDisplayedResults).toBe(true)
     await disambigurationPage.locationLinkClick('Birmingham')
 
     // monitor station list
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayedStationList =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayedStationList =
+      await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayedStationList).toBe(true)
+    await expect(isFooterOverallDisplayedStationList).toBe(true)
     await locationMonitoringStationListPage
       .getMonitoringStationLink('Birmingham A4540 Roadside')
       .click()
 
     // monitoring station page
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayedMonitoringStation =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayedMonitoringStation =
+      await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayedMonitoringStation).toBe(true)
+    await expect(isFooterOverallDisplayedMonitoringStation).toBe(true)
     const getCurrentURLOfA450Roadside = await browser.getUrl()
     const expectedURLOfA450Roadside = '/stationdetails/BirminghamA4540Roadside'
     await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)

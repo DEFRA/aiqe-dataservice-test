@@ -611,6 +611,8 @@ describe('add year validation AQD-841', () => {
     await addYearPage.continueButton.click()
 
     await customselectionPage.getAddChangeYearLink.click()
-    await addYearPage.getYearToDateRadio.isSelected()
+    const isYearToDateRadioSelected =
+      await addYearPage.getYearToDateRadio.isSelected()
+    await expect(isYearToDateRadioSelected).toBe(true)
   })
 })

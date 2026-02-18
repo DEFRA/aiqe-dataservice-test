@@ -8,7 +8,9 @@ describe('Cookies Tests', () => {
     await browser.deleteCookies(['airaqie_cookies_analytics'])
     await browser.url('')
     await browser.maximizeWindow()
-    await cookiesBanner.getCookieBanner.isDisplayed()
+    const isCookieBannerDisplayed =
+      await cookiesBanner.getCookieBanner.isDisplayed()
+    await expect(isCookieBannerDisplayed).toBe(true)
 
     const getCookieBanner = [await cookiesBanner.getCookieBanner]
 
@@ -172,7 +174,9 @@ describe('Cookies Tests', () => {
     const expectedCookiesPageURL = '/cookies'
     await expect(getCookiesPageURL).toMatch(expectedCookiesPageURL)
     browser.back()
-    await cookiesBanner.getHideCookiesButton.isDisplayed()
+    const isHideCookiesButtonDisplayed =
+      await cookiesBanner.getHideCookiesButton.isDisplayed()
+    await expect(isHideCookiesButtonDisplayed).toBe(true)
 
     const getHideCookiesButton = [await cookiesBanner.getHideCookiesButton]
 
@@ -232,7 +236,9 @@ describe('Cookies Tests', () => {
     const expectedCookiesPageURL = '/cookies'
     await expect(getCookiesPageURL).toMatch(expectedCookiesPageURL)
     browser.back()
-    await cookiesBanner.getHideCookiesButtonAfterReject.isDisplayed()
+    const isHideCookiesButtonAfterRejectDisplayed =
+      await cookiesBanner.getHideCookiesButtonAfterReject.isDisplayed()
+    await expect(isHideCookiesButtonAfterRejectDisplayed).toBe(true)
 
     const getHideCookiesButton = [
       await cookiesBanner.getHideCookiesButtonAfterReject

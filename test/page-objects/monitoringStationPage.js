@@ -206,6 +206,11 @@ class MonitoringStationPage {
     return $(`a[onclick*="getAPIstn_details1('AllPollutants','Hourly')"]`)
   }
 
+  // NoJS-friendly selectors (href-based) for download links
+  get getDownloadAllPollutantsHourlyDataNoJs() {
+    return $("a[href*='AllPollutants'][href*='Hourly']")
+  }
+
   get getSulphurDioxideSubHeading() {
     return $$("h3[id*='all-p']")[5]
   }
@@ -250,6 +255,10 @@ class MonitoringStationPage {
     return $(`a[onclick*="getAPIstn_details1('AllPollutants','Daily')"]`)
   }
 
+  get getDownloadAllPollutantsDailyDataLinkNoJs() {
+    return $("a[href*='AllPollutants'][href*='Daily']")
+  }
+
   get getDownloadNitrogenDioxideDailyDataLink() {
     return $(`a[onclick*="getAPIstn_details1('Nitrogen dioxide','Daily')"]`)
   }
@@ -272,6 +281,10 @@ class MonitoringStationPage {
 
   get getDownloadAllPollutantsAnnualDataLink() {
     return $(`a[onclick*="getAPIstn_details1('AllPollutants','Annual')"]`)
+  }
+
+  get getDownloadAllPollutantsAnnualDataLinkNoJs() {
+    return $("a[href*='AllPollutants'][href*='Annual']")
   }
 
   get getDownloadPM25AnnualDataLink() {

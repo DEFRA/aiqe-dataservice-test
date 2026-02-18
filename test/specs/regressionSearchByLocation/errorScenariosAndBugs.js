@@ -25,10 +25,16 @@ describe('Error scenarios', () => {
     await searchPage.setsearch('')
     await searchPage.milesOptionClick('')
     await searchPage.continueBtnClick()
-    await errorPage.getErrorSummary.isDisplayed()
-    await errorPage.getErrorTitle.isDisplayed()
-    await errorPage.getErrorLink.isDisplayed()
-    await errorPage.getErrorMessage.isDisplayed()
+    const isErrorSummaryDisplayed =
+      await errorPage.getErrorSummary.isDisplayed()
+    const isErrorTitleDisplayed = await errorPage.getErrorTitle.isDisplayed()
+    const isErrorLinkDisplayed = await errorPage.getErrorLink.isDisplayed()
+    const isErrorMessageDisplayed =
+      await errorPage.getErrorMessage.isDisplayed()
+    await expect(isErrorSummaryDisplayed).toBe(true)
+    await expect(isErrorTitleDisplayed).toBe(true)
+    await expect(isErrorLinkDisplayed).toBe(true)
+    await expect(isErrorMessageDisplayed).toBe(true)
     await errorPage.getErrorLink.click()
 
     const errorTitle = 'There is a problem'
@@ -47,12 +53,17 @@ Enter a town or postcode`
     await searchPage.setsearch(
       '! " # $ % & ` ( ) * + , - / : ; < = > ? @ [ ] ^ _ { | } ~'
     )
-    await errorPage.getErrorSummary.isDisplayed()
-    await errorPage.getErrorTitle.isDisplayed()
-    await errorPage.getErrorLink.isDisplayed()
-    await errorPage.getErrorMessage.isDisplayed()
+    const isErrorSummaryDisplayed2 =
+      await errorPage.getErrorSummary.isDisplayed()
+    const isErrorTitleDisplayed2 = await errorPage.getErrorTitle.isDisplayed()
+    const isErrorLinkDisplayed2 = await errorPage.getErrorLink.isDisplayed()
+    const isErrorMessageDisplayed2 =
+      await errorPage.getErrorMessage.isDisplayed()
+    await expect(isErrorSummaryDisplayed2).toBe(true)
+    await expect(isErrorTitleDisplayed2).toBe(true)
+    await expect(isErrorLinkDisplayed2).toBe(true)
+    await expect(isErrorMessageDisplayed2).toBe(true)
   })
-
   it('search page error message Styling', async () => {
     // styling validation for error message
 
@@ -492,7 +503,9 @@ choose a different location`
       },
       { timeout: 6000 }
     )
-    await errorPage.noDataForThisYearMessage.isDisplayed()
+    const isNoDataForThisYearMessageDisplayed =
+      await errorPage.noDataForThisYearMessage.isDisplayed()
+    await expect(isNoDataForThisYearMessageDisplayed).toBe(true)
     const getNoDataForThisYearMessage =
       await errorPage.noDataForThisYearMessage.getText()
     const NoDataForThisYearMessage = 'There is no data available for this year.'

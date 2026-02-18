@@ -11,8 +11,11 @@ describe('start now page content/functionality checks/styling checks', () => {
     await browser.url('')
     await browser.maximizeWindow()
     // page content validation
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayed =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayed).toBe(true)
+    await expect(isFooterOverallDisplayed).toBe(true)
     const startnowPageContent = `Get air pollution data
 Use this service to view and download air pollution data from the Automatic Urban and Rural Network (AURN).
 To get air pollution data, you can:

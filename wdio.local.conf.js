@@ -29,7 +29,7 @@ export const config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/regressionSearchByLocation/startnowPageValidation.js'],
+  specs: ['./test/specs/disableJavascriptTests/noJavascriptValidation.js'],
   // Patterns to exclude.
   exclude: [],
   // injectGlobals: false,
@@ -70,8 +70,7 @@ export const config = {
               '--no-sandbox',
               '--disable-infobars',
               '--disable-gpu',
-              '--window-size=2000,1100' /* ,
-              '--disable-javascript' */
+              '--window-size=2000,1100'
             ],
             prefs: {
               'download.default_directory': path.resolve(
@@ -81,6 +80,9 @@ export const config = {
               'download.prompt_for_download': false,
               'download.directory_upgrade': true,
               'safebrowsing.enabled': true
+              // Disable JavaScript via Chrome content settings (reliable vs args)
+              // 'profile.managed_default_content_settings.javascript': 2,
+              // 'profile.default_content_setting_values.javascript': 2
             }
           }
         }

@@ -13,8 +13,11 @@ describe('hub page checks', () => {
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()
     // page content validation
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayed =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayed).toBe(true)
+    await expect(isFooterOverallDisplayed).toBe(true)
     const hubPageContent = `Get air pollution data
 Find monitoring stations by location
 View and download data by town or postcode

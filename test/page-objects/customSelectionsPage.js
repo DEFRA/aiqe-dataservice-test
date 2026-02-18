@@ -65,6 +65,11 @@ class CustomSelectionsPage {
     return $("a[href*='/location-aurn?change=true']")
   }
 
+  // NoJS-friendly change location link (fallback without query param)
+  get getAddChangeLocationLinkNoJs() {
+    return $("a[href*='/location-aurn']")
+  }
+
   get getContinueButton() {
     return $$("button[class*='govuk-button']")[4]
   }
