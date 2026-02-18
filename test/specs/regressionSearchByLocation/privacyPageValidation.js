@@ -20,8 +20,11 @@ describe('privacy page content/functionality checks/styling checks', () => {
     // await cookieBanner.hideButtonHideDialog.click()
     await footer.getPrivacyFooterLink.click()
     // page content validation
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayed =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayed).toBe(true)
+    await expect(isFooterOverallDisplayed).toBe(true)
 
     const privacyPageHeading = `Privacy notice`
     const getPrivacyPageHeading =

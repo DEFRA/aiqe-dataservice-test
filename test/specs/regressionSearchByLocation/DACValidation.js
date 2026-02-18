@@ -21,8 +21,11 @@ describe('DAC tests ', () => {
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()
     // await hubPage.getFindMonitoringStationsByLocation.click()
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayed =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayed).toBe(true)
+    await expect(isFooterOverallDisplayed).toBe(true)
     await searchPage.setsearch('London')
     await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()
@@ -132,23 +135,45 @@ describe('DAC tests ', () => {
   it('Toggletips do not work via keyboard, AQD-640', async () => {
     await monitoringStationPage.get2025Button.click()
     await browser.keys('Tab')
-    await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText.isDisplayed()
+    const isPM25AnnualAverageToggleTipInfoTextDisplayed =
+      await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText.isDisplayed()
+    await expect(isPM25AnnualAverageToggleTipInfoTextDisplayed).toBe(true)
     await browser.keys('Tab')
-    await monitoringStationPage.getPM10AnnualAverageToggleTipInfoText.isDisplayed()
+    const isPM10DailyExceedenceToggleTipInfoTextDisplayed =
+      await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText.isDisplayed()
+    await expect(isPM10DailyExceedenceToggleTipInfoTextDisplayed).toBe(true)
     await browser.keys('Tab')
-    await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText.isDisplayed()
+    const isPM10AnnualAverageToggleTipInfoTextDisplayed =
+      await monitoringStationPage.getPM10AnnualAverageToggleTipInfoText.isDisplayed()
+    await expect(isPM10AnnualAverageToggleTipInfoTextDisplayed).toBe(true)
     await browser.keys('Tab')
-    await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTipInfoText.isDisplayed()
+    const isNitrogenDioxideAnnualAverageToggleTipInfoTextDisplayed =
+      await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTipInfoText.isDisplayed()
+    await expect(isNitrogenDioxideAnnualAverageToggleTipInfoTextDisplayed).toBe(
+      true
+    )
     await browser.keys('Tab')
-    await monitoringStationPage.getNOHourlyExceedenceToggleTipInfoText.isDisplayed()
+    const isNOHourlyExceedenceToggleTipInfoTextDisplayed =
+      await monitoringStationPage.getNOHourlyExceedenceToggleTipInfoText.isDisplayed()
+    await expect(isNOHourlyExceedenceToggleTipInfoTextDisplayed).toBe(true)
     await browser.keys('Tab')
-    await monitoringStationPage.getOzoneAnnualAverageToggleTipInfoText.isDisplayed()
+    const isOzoneAnnualAverageToggleTipInfoTextDisplayed =
+      await monitoringStationPage.getOzoneAnnualAverageToggleTipInfoText.isDisplayed()
+    await expect(isOzoneAnnualAverageToggleTipInfoTextDisplayed).toBe(true)
     await browser.keys('Tab')
-    await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTipInfoText.isDisplayed()
+    const isSulphurDioxideAnnualAverageToggleTipInfoTextDisplayed =
+      await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTipInfoText.isDisplayed()
+    await expect(isSulphurDioxideAnnualAverageToggleTipInfoTextDisplayed).toBe(
+      true
+    )
     await browser.keys('Tab')
-    await monitoringStationPage.getSDDailyExceedenceToggleTipInfoText.isDisplayed()
+    const isSDDailyExceedenceToggleTipInfoTextDisplayed =
+      await monitoringStationPage.getSDDailyExceedenceToggleTipInfoText.isDisplayed()
+    await expect(isSDDailyExceedenceToggleTipInfoTextDisplayed).toBe(true)
     await browser.keys('Tab')
-    await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.isDisplayed()
+    const isSDHourlyExceedenceToggleTipInfoTextDisplayed =
+      await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.isDisplayed()
+    await expect(isSDHourlyExceedenceToggleTipInfoTextDisplayed).toBe(true)
   })
 
   it('Change aria-label for Site type toggletip, AQD-759', async () => {

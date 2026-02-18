@@ -26,15 +26,22 @@ describe('disambiguration page tests', () => {
     // await hubPage.getFindMonitoringStationsByLocation.click()
 
     // search block
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayed =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayed).toBe(true)
+    await expect(isFooterOverallDisplayed).toBe(true)
     await searchPage.setsearch('london')
     await searchPage.milesOptionClick('25 miles')
     await searchPage.continueBtnClick()
     // disambiguration page
     // checking cheader and footer
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayedDP =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayedDP =
+      await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayedDP).toBe(true)
+    await expect(isFooterOverallDisplayedDP).toBe(true)
     // checking title
     const disambugurationPageHeading = `Locations matching 'london'`
     const getDisambugurationPageHeading =

@@ -13,6 +13,10 @@ class AddLocationPage {
     return $("label[for*='location-2']")
   }
 
+  get getCountriesOptionRadio() {
+    return $("input[id*='location-2']")
+  }
+
   get getCountriesHintText() {
     return $$("div[class*='govuk-hint govuk-radios__hint']")[0]
   }

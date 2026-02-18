@@ -379,7 +379,9 @@ Northern Ireland`
     await expect(addLocationLinkChange).toMatch(expectedAddLocationLinkChange)
 
     await customselectionPage.getAddChangeLocationLink.click()
-    await addLocationPage.getLocalAuthorityRadio.isSelected()
+    const isLocalAuthorityRadioSelected =
+      await addLocationPage.getLocalAuthorityRadio.isSelected()
+    await expect(isLocalAuthorityRadioSelected).toBe(true)
     const AddedLocalAuthoritiesTitle =
       await addLocationPage.getAddedLocalAuthoritiesTitle.getText()
     const expectedAddedLocalAuthoritiesTitle = 'Added local authorities'

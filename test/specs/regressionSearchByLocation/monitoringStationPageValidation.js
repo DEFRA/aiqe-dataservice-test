@@ -21,8 +21,11 @@ describe('monitoring station page tests', () => {
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()
     // await hubPage.getFindMonitoringStationsByLocation.click()
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayed =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayed).toBe(true)
+    await expect(isFooterOverallDisplayed).toBe(true)
     await searchPage.setsearch('London')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
@@ -289,7 +292,9 @@ describe('monitoring station page tests', () => {
       expectedMonitoringStationStatusText
     )
 
-    await monitoringStationPage.getMonitoringStationLastReading.isDisplayed()
+    const isMonitoringStationLastReadingDisplayed =
+      await monitoringStationPage.getMonitoringStationLastReading.isDisplayed()
+    await expect(isMonitoringStationLastReadingDisplayed).toBe(true)
 
     const getMonitoringStationStatus = [
       await monitoringStationPage.getMonitoringStationStatus
@@ -420,8 +425,12 @@ View on Google Maps (opens in new tab)`
   })
 
   it('Site type toggle tip and text, AQD-695', async () => {
-    await monitoringStationPage.getSiteTypeToggleTip.isDisplayed()
-    await monitoringStationPage.getSiteTypeToggleTip.isClickable()
+    const isSiteTypeToggleTipDisplayed =
+      await monitoringStationPage.getSiteTypeToggleTip.isDisplayed()
+    const isSiteTypeToggleTipClickable =
+      await monitoringStationPage.getSiteTypeToggleTip.isClickable()
+    await expect(isSiteTypeToggleTipDisplayed).toBe(true)
+    await expect(isSiteTypeToggleTipClickable).toBe(true)
 
     const getToggleTip = [await monitoringStationPage.getSiteTypeToggleTip]
 
@@ -510,7 +519,8 @@ View on Google Maps (opens in new tab)`
 
   it('Yearly Tab AQD-586,AQD-641 Display Data Capture % ', async () => {
     const get2026Button = await monitoringStationPage.get2026Button
-    await get2026Button.isDisplayed()
+    const is2026ButtonDisplayed = await get2026Button.isDisplayed()
+    await expect(is2026ButtonDisplayed).toBe(true)
     await monitoringStationPage.get2026Button.click()
     await browser.waitUntil(
       async () => {
@@ -537,14 +547,24 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2026).toMatch(
       expectedgetdownloadDataHeading2026
     )
-    await monitoringStationPage.getPM25DataCapture.isDisplayed()
-    await monitoringStationPage.getPM10DataCapture.isDisplayed()
-    await monitoringStationPage.getNODataCapture.isDisplayed()
-    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
-    await monitoringStationPage.getSDDataCapture.isDisplayed()
-
+    const isPM25DataCaptureDisplayed2026 =
+      await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    const isPM10DataCaptureDisplayed2026 =
+      await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    const isNODataCaptureDisplayed2026 =
+      await monitoringStationPage.getNODataCapture.isDisplayed()
+    const isOzoneDataCaptureDisplayed2026 =
+      await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    const isSDDataCaptureDisplayed2026 =
+      await monitoringStationPage.getSDDataCapture.isDisplayed()
+    await expect(isPM25DataCaptureDisplayed2026).toBe(true)
+    await expect(isPM10DataCaptureDisplayed2026).toBe(true)
+    await expect(isNODataCaptureDisplayed2026).toBe(true)
+    await expect(isOzoneDataCaptureDisplayed2026).toBe(true)
+    await expect(isSDDataCaptureDisplayed2026).toBe(true)
     const get2025Button = await monitoringStationPage.get2025Button
-    await get2025Button.isDisplayed()
+    const is2025ButtonDisplayed = await get2025Button.isDisplayed()
+    await expect(is2025ButtonDisplayed).toBe(true)
     await monitoringStationPage.get2025Button.click()
     await browser.waitUntil(
       async () => {
@@ -570,14 +590,24 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2025).toMatch(
       expectedgetdownloadDataHeading2025
     )
-    await monitoringStationPage.getPM25DataCapture.isDisplayed()
-    await monitoringStationPage.getPM10DataCapture.isDisplayed()
-    await monitoringStationPage.getNODataCapture.isDisplayed()
-    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
-    await monitoringStationPage.getSDDataCapture.isDisplayed()
-
+    const isPM25DataCaptureDisplayed2025 =
+      await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    const isPM10DataCaptureDisplayed2025 =
+      await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    const isNODataCaptureDisplayed2025 =
+      await monitoringStationPage.getNODataCapture.isDisplayed()
+    const isOzoneDataCaptureDisplayed2025 =
+      await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    const isSDDataCaptureDisplayed2025 =
+      await monitoringStationPage.getSDDataCapture.isDisplayed()
+    await expect(isPM25DataCaptureDisplayed2025).toBe(true)
+    await expect(isPM10DataCaptureDisplayed2025).toBe(true)
+    await expect(isNODataCaptureDisplayed2025).toBe(true)
+    await expect(isOzoneDataCaptureDisplayed2025).toBe(true)
+    await expect(isSDDataCaptureDisplayed2025).toBe(true)
     const get2024Button = await monitoringStationPage.get2024Button
-    await get2024Button.isDisplayed()
+    const is2024ButtonDisplayed = await get2024Button.isDisplayed()
+    await expect(is2024ButtonDisplayed).toBe(true)
     await monitoringStationPage.get2024Button.click()
     await browser.waitUntil(
       async () => {
@@ -603,14 +633,25 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2024).toMatch(
       expectedgetdownloadDataHeading2024
     )
-    await monitoringStationPage.getPM25DataCapture.isDisplayed()
-    await monitoringStationPage.getPM10DataCapture.isDisplayed()
-    await monitoringStationPage.getNODataCapture.isDisplayed()
-    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
-    await monitoringStationPage.getSDDataCapture.isDisplayed()
+    const isPM25DataCaptureDisplayed2024 =
+      await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    const isPM10DataCaptureDisplayed2024 =
+      await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    const isNODataCaptureDisplayed2024 =
+      await monitoringStationPage.getNODataCapture.isDisplayed()
+    const isOzoneDataCaptureDisplayed2024 =
+      await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    const isSDDataCaptureDisplayed2024 =
+      await monitoringStationPage.getSDDataCapture.isDisplayed()
+    await expect(isPM25DataCaptureDisplayed2024).toBe(true)
+    await expect(isPM10DataCaptureDisplayed2024).toBe(true)
+    await expect(isNODataCaptureDisplayed2024).toBe(true)
+    await expect(isOzoneDataCaptureDisplayed2024).toBe(true)
+    await expect(isSDDataCaptureDisplayed2024).toBe(true)
 
     const get2023Button = await monitoringStationPage.get2023Button
-    await get2023Button.isDisplayed()
+    const is2023ButtonDisplayed = await get2023Button.isDisplayed()
+    await expect(is2023ButtonDisplayed).toBe(true)
     await monitoringStationPage.get2023Button.click()
     await browser.waitUntil(
       async () => {
@@ -636,14 +677,24 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2023).toMatch(
       expectedgetdownloadDataHeading2023
     )
-    await monitoringStationPage.getPM25DataCapture.isDisplayed()
-    await monitoringStationPage.getPM10DataCapture.isDisplayed()
-    await monitoringStationPage.getNODataCapture.isDisplayed()
-    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
-    await monitoringStationPage.getSDDataCapture.isDisplayed()
-
+    const isPM25DataCaptureDisplayed2023 =
+      await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    const isPM10DataCaptureDisplayed2023 =
+      await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    const isNODataCaptureDisplayed2023 =
+      await monitoringStationPage.getNODataCapture.isDisplayed()
+    const isOzoneDataCaptureDisplayed2023 =
+      await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    const isSDDataCaptureDisplayed2023 =
+      await monitoringStationPage.getSDDataCapture.isDisplayed()
+    await expect(isPM25DataCaptureDisplayed2023).toBe(true)
+    await expect(isPM10DataCaptureDisplayed2023).toBe(true)
+    await expect(isNODataCaptureDisplayed2023).toBe(true)
+    await expect(isOzoneDataCaptureDisplayed2023).toBe(true)
+    await expect(isSDDataCaptureDisplayed2023).toBe(true)
     const get2022Button = await monitoringStationPage.get2022Button
-    await get2022Button.isDisplayed()
+    const is2022ButtonDisplayed = await get2022Button.isDisplayed()
+    await expect(is2022ButtonDisplayed).toBe(true)
     await monitoringStationPage.get2022Button.click()
     await browser.waitUntil(
       async () => {
@@ -669,14 +720,24 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2022).toMatch(
       expectedgetdownloadDataHeading2022
     )
-    await monitoringStationPage.getPM25DataCapture.isDisplayed()
-    await monitoringStationPage.getPM10DataCapture.isDisplayed()
-    await monitoringStationPage.getNODataCapture.isDisplayed()
-    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
-    await monitoringStationPage.getSDDataCapture.isDisplayed()
-
+    const isPM25DataCaptureDisplayed2022 =
+      await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    const isPM10DataCaptureDisplayed2022 =
+      await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    const isNODataCaptureDisplayed2022 =
+      await monitoringStationPage.getNODataCapture.isDisplayed()
+    const isOzoneDataCaptureDisplayed2022 =
+      await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    const isSDDataCaptureDisplayed2022 =
+      await monitoringStationPage.getSDDataCapture.isDisplayed()
+    await expect(isPM25DataCaptureDisplayed2022).toBe(true)
+    await expect(isPM10DataCaptureDisplayed2022).toBe(true)
+    await expect(isNODataCaptureDisplayed2022).toBe(true)
+    await expect(isOzoneDataCaptureDisplayed2022).toBe(true)
+    await expect(isSDDataCaptureDisplayed2022).toBe(true)
     const get2021Button = await monitoringStationPage.get2021Button
-    await get2021Button.isDisplayed()
+    const is2021ButtonDisplayed = await get2021Button.isDisplayed()
+    await expect(is2021ButtonDisplayed).toBe(true)
     await monitoringStationPage.get2021Button.click()
     await browser.waitUntil(
       async () => {
@@ -702,14 +763,24 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2021).toMatch(
       expectedgetdownloadDataHeading2021
     )
-    await monitoringStationPage.getPM25DataCapture.isDisplayed()
-    await monitoringStationPage.getPM10DataCapture.isDisplayed()
-    await monitoringStationPage.getNODataCapture.isDisplayed()
-    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
-    await monitoringStationPage.getSDDataCapture.isDisplayed()
-
+    const isPM25DataCaptureDisplayed2021 =
+      await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    const isPM10DataCaptureDisplayed2021 =
+      await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    const isNODataCaptureDisplayed2021 =
+      await monitoringStationPage.getNODataCapture.isDisplayed()
+    const isOzoneDataCaptureDisplayed2021 =
+      await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    const isSDDataCaptureDisplayed2021 =
+      await monitoringStationPage.getSDDataCapture.isDisplayed()
+    await expect(isPM25DataCaptureDisplayed2021).toBe(true)
+    await expect(isPM10DataCaptureDisplayed2021).toBe(true)
+    await expect(isNODataCaptureDisplayed2021).toBe(true)
+    await expect(isOzoneDataCaptureDisplayed2021).toBe(true)
+    await expect(isSDDataCaptureDisplayed2021).toBe(true)
     const get2020Button = await monitoringStationPage.get2020Button
-    await get2020Button.isDisplayed()
+    const is2020ButtonDisplayed = await get2020Button.isDisplayed()
+    await expect(is2020ButtonDisplayed).toBe(true)
     await monitoringStationPage.get2020Button.click()
     await browser.waitUntil(
       async () => {
@@ -735,14 +806,24 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2020).toMatch(
       expectedgetdownloadDataHeading2020
     )
-    await monitoringStationPage.getPM25DataCapture.isDisplayed()
-    await monitoringStationPage.getPM10DataCapture.isDisplayed()
-    await monitoringStationPage.getNODataCapture.isDisplayed()
-    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
-    await monitoringStationPage.getSDDataCapture.isDisplayed()
-
+    const isPM25DataCaptureDisplayed2020 =
+      await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    const isPM10DataCaptureDisplayed2020 =
+      await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    const isNODataCaptureDisplayed2020 =
+      await monitoringStationPage.getNODataCapture.isDisplayed()
+    const isOzoneDataCaptureDisplayed2020 =
+      await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    const isSDDataCaptureDisplayed2020 =
+      await monitoringStationPage.getSDDataCapture.isDisplayed()
+    await expect(isPM25DataCaptureDisplayed2020).toBe(true)
+    await expect(isPM10DataCaptureDisplayed2020).toBe(true)
+    await expect(isNODataCaptureDisplayed2020).toBe(true)
+    await expect(isOzoneDataCaptureDisplayed2020).toBe(true)
+    await expect(isSDDataCaptureDisplayed2020).toBe(true)
     const get2019Button = await monitoringStationPage.get2019Button
-    await get2019Button.isDisplayed()
+    const is2019ButtonDisplayed = await get2019Button.isDisplayed()
+    await expect(is2019ButtonDisplayed).toBe(true)
     await monitoringStationPage.get2019Button.click()
     await monitoringStationPage.get2019Button.click()
     await browser.waitUntil(
@@ -769,14 +850,24 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2019).toMatch(
       expectedgetdownloadDataHeading2019
     )
-    await monitoringStationPage.getPM25DataCapture.isDisplayed()
-    await monitoringStationPage.getPM10DataCapture.isDisplayed()
-    await monitoringStationPage.getNODataCapture.isDisplayed()
-    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
-    await monitoringStationPage.getSDDataCapture.isDisplayed()
-
+    const isPM25DataCaptureDisplayed2019 =
+      await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    const isPM10DataCaptureDisplayed2019 =
+      await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    const isNODataCaptureDisplayed2019 =
+      await monitoringStationPage.getNODataCapture.isDisplayed()
+    const isOzoneDataCaptureDisplayed2019 =
+      await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    const isSDDataCaptureDisplayed2019 =
+      await monitoringStationPage.getSDDataCapture.isDisplayed()
+    await expect(isPM25DataCaptureDisplayed2019).toBe(true)
+    await expect(isPM10DataCaptureDisplayed2019).toBe(true)
+    await expect(isNODataCaptureDisplayed2019).toBe(true)
+    await expect(isOzoneDataCaptureDisplayed2019).toBe(true)
+    await expect(isSDDataCaptureDisplayed2019).toBe(true)
     const get2018Button = await monitoringStationPage.get2018Button
-    await get2018Button.isDisplayed()
+    const is2018ButtonDisplayed = await get2018Button.isDisplayed()
+    await expect(is2018ButtonDisplayed).toBe(true)
     await monitoringStationPage.get2018Button.click()
     await monitoringStationPage.get2018Button.click()
     await browser.waitUntil(
@@ -803,12 +894,21 @@ View on Google Maps (opens in new tab)`
     await expect(getdownloadDataHeading2018).toMatch(
       expectedgetdownloadDataHeading2018
     )
-    await monitoringStationPage.getPM25DataCapture.isDisplayed()
-    await monitoringStationPage.getPM10DataCapture.isDisplayed()
-    await monitoringStationPage.getNODataCapture.isDisplayed()
-    await monitoringStationPage.getOzoneDataCapture.isDisplayed()
-    await monitoringStationPage.getSDDataCapture.isDisplayed()
-
+    const isPM25DataCaptureDisplayed2018 =
+      await monitoringStationPage.getPM25DataCapture.isDisplayed()
+    const isPM10DataCaptureDisplayed2018 =
+      await monitoringStationPage.getPM10DataCapture.isDisplayed()
+    const isNODataCaptureDisplayed2018 =
+      await monitoringStationPage.getNODataCapture.isDisplayed()
+    const isOzoneDataCaptureDisplayed2018 =
+      await monitoringStationPage.getOzoneDataCapture.isDisplayed()
+    const isSDDataCaptureDisplayed2018 =
+      await monitoringStationPage.getSDDataCapture.isDisplayed()
+    await expect(isPM25DataCaptureDisplayed2018).toBe(true)
+    await expect(isPM10DataCaptureDisplayed2018).toBe(true)
+    await expect(isNODataCaptureDisplayed2018).toBe(true)
+    await expect(isOzoneDataCaptureDisplayed2018).toBe(true)
+    await expect(isSDDataCaptureDisplayed2018).toBe(true)
     const getSumarryTableHeading = [
       await monitoringStationPage.getSumarryTableHeading
     ]
@@ -970,12 +1070,21 @@ View on Google Maps (opens in new tab)`
   })
 
   it(`Station Summary Data - Annual Average for selected Year', AQD-673`, async () => {
-    await monitoringStationPage.getPM25AnnaulAverageST.isDisplayed()
-    await monitoringStationPage.getPM10AnnaulAverageST.isDisplayed()
-    await monitoringStationPage.getNitrogenDioxideAnnaulAverageST.isDisplayed()
-    await monitoringStationPage.getOzoneAnnaulAverageST.isDisplayed()
-    await monitoringStationPage.getSulphurDioxideAnnaulAverageST.isDisplayed()
-
+    const isPM25AnnaulAverageSTDisplayed =
+      await monitoringStationPage.getPM25AnnaulAverageST.isDisplayed()
+    const isPM10AnnaulAverageSTDisplayed =
+      await monitoringStationPage.getPM10AnnaulAverageST.isDisplayed()
+    const isNitrogenDioxideAnnaulAverageSTDisplayed =
+      await monitoringStationPage.getNitrogenDioxideAnnaulAverageST.isDisplayed()
+    const isOzoneAnnaulAverageSTDisplayed =
+      await monitoringStationPage.getOzoneAnnaulAverageST.isDisplayed()
+    const isSulphurDioxideAnnaulAverageSTDisplayed =
+      await monitoringStationPage.getSulphurDioxideAnnaulAverageST.isDisplayed()
+    await expect(isPM25AnnaulAverageSTDisplayed).toBe(true)
+    await expect(isPM10AnnaulAverageSTDisplayed).toBe(true)
+    await expect(isNitrogenDioxideAnnaulAverageSTDisplayed).toBe(true)
+    await expect(isOzoneAnnaulAverageSTDisplayed).toBe(true)
+    await expect(isSulphurDioxideAnnaulAverageSTDisplayed).toBe(true)
     const getPM25AnnaulAverageST =
       await monitoringStationPage.getPM25AnnaulAverageST.getText()
     const getPM10AnnaulAverageST =
@@ -1050,7 +1159,9 @@ i`
   })
 
   it(`Update 'Approximate file sizes (CSV)' content - missing 'MB', AQD-667`, async () => {
-    await monitoringStationPage.getApproximateFileSizesDropDownLink.isDisplayed()
+    const isApproximateFileSizesDropDownLinkDisplayed =
+      await monitoringStationPage.getApproximateFileSizesDropDownLink.isDisplayed()
+    await expect(isApproximateFileSizesDropDownLinkDisplayed).toBe(true)
     const getApproximateFileSizesDropDownLinkText =
       await monitoringStationPage.getApproximateFileSizesDropDownLink.getText()
     const expectedApproximateFileSizesDropDownLinkText =
@@ -1090,7 +1201,9 @@ i`
       expect(styles['font-weight']).toBe('400')
     }
     await monitoringStationPage.getApproximateFileSizesDropDownLink.click()
-    await monitoringStationPage.getApproximateFileSizesContent.isDisplayed()
+    const isApproximateFileSizesContentDisplayed =
+      await monitoringStationPage.getApproximateFileSizesContent.isDisplayed()
+    await expect(isApproximateFileSizesContentDisplayed).toBe(true)
     await monitoringStationPage.getApproximateFileSizesDropDownLink.click()
     await common.notDisplayed(
       await monitoringStationPage.getApproximateFileSizesContent
@@ -1150,8 +1263,12 @@ annual average data - usually less than 100KB`
 
     const getDownloadAllPollutantsHourlyData =
       await monitoringStationPage.getDownloadAllPollutantsHourlyData.getText()
-    await monitoringStationPage.getDownloadAllPollutantsHourlyData.isDisplayed()
-    await monitoringStationPage.getDownloadAllPollutantsHourlyData.isClickable()
+    const isDownloadAllPollutantsHourlyDataDisplayed =
+      await monitoringStationPage.getDownloadAllPollutantsHourlyData.isDisplayed()
+    await expect(isDownloadAllPollutantsHourlyDataDisplayed).toBe(true)
+    const isDownloadAllPollutantsHourlyDataClickable =
+      await monitoringStationPage.getDownloadAllPollutantsHourlyData.isClickable()
+    await expect(isDownloadAllPollutantsHourlyDataClickable).toBe(true)
     const expectedDownloadAllPollutantsHourlyData = 'Download hourly data'
     await expect(getDownloadAllPollutantsHourlyData).toMatch(
       expectedDownloadAllPollutantsHourlyData
@@ -1260,13 +1377,16 @@ annual average data - usually less than 100KB`
 
     const getDownloadSulphurDioxideHourlyDataLink =
       await monitoringStationPage.getDownloadSulphurDioxideHourlyDataLink.getText()
-    await monitoringStationPage.getDownloadSulphurDioxideHourlyDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadSulphurDioxideHourlyDataLink.isClickable()
+    const isDownloadSulphurDioxideHourlyDataLinkDisplayed =
+      await monitoringStationPage.getDownloadSulphurDioxideHourlyDataLink.isDisplayed()
+    const isDownloadSulphurDioxideHourlyDataLinkClickable =
+      await monitoringStationPage.getDownloadSulphurDioxideHourlyDataLink.isClickable()
     const expectedDownloadSulphurDioxideHourlyDataLink = 'Download hourly data'
     await expect(getDownloadSulphurDioxideHourlyDataLink).toMatch(
       expectedDownloadSulphurDioxideHourlyDataLink
     )
-
+    await expect(isDownloadSulphurDioxideHourlyDataLinkDisplayed).toBe(true)
+    await expect(isDownloadSulphurDioxideHourlyDataLinkClickable).toBe(true)
     const SulphurDioxideSubHeading = [
       await monitoringStationPage.getSulphurDioxideSubHeading
     ]
@@ -1340,12 +1460,16 @@ annual average data - usually less than 100KB`
 
     const getDownloadPM10HourlyDataLink =
       await monitoringStationPage.getDownloadPM10HourlyDataLink.getText()
-    await monitoringStationPage.getDownloadPM10HourlyDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadPM10HourlyDataLink.isClickable()
+    const isDownloadPM10HourlyDataLinkDisplayed =
+      await monitoringStationPage.getDownloadPM10HourlyDataLink.isDisplayed()
+    const isDownloadPM10HourlyDataLinkClickable =
+      await monitoringStationPage.getDownloadPM10HourlyDataLink.isClickable()
     const expectedDownloadPM10HourlyDataLink = 'Download hourly data'
     await expect(getDownloadPM10HourlyDataLink).toMatch(
       expectedDownloadPM10HourlyDataLink
     )
+    await expect(isDownloadPM10HourlyDataLinkDisplayed).toBe(true)
+    await expect(isDownloadPM10HourlyDataLinkClickable).toBe(true)
 
     const PM10SubHeading = [await monitoringStationPage.getPM10SubHeading]
 
@@ -1418,12 +1542,16 @@ annual average data - usually less than 100KB`
 
     const getDownloadPM25HourlyDataLink =
       await monitoringStationPage.getDownloadPM25HourlyDataLink.getText()
-    await monitoringStationPage.getDownloadPM25HourlyDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadPM25HourlyDataLink.isClickable()
+    const isDownloadPM25HourlyDataLinkDisplayed =
+      await monitoringStationPage.getDownloadPM25HourlyDataLink.isDisplayed()
+    const isDownloadPM25HourlyDataLinkClickable =
+      await monitoringStationPage.getDownloadPM25HourlyDataLink.isClickable()
     const expectedDownloadPM25HourlyDataLink = 'Download hourly data'
     await expect(getDownloadPM25HourlyDataLink).toMatch(
       expectedDownloadPM25HourlyDataLink
     )
+    await expect(isDownloadPM25HourlyDataLinkDisplayed).toBe(true)
+    await expect(isDownloadPM25HourlyDataLinkClickable).toBe(true)
 
     const PM25SubHeading = [await monitoringStationPage.getPM25SubHeading]
 
@@ -1496,12 +1624,16 @@ annual average data - usually less than 100KB`
 
     const getDownloadOzoneHourlyDataLink =
       await monitoringStationPage.getDownloadOzoneHourlyDataLink.getText()
-    await monitoringStationPage.getDownloadOzoneHourlyDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadOzoneHourlyDataLink.isClickable()
+    const isDownloadOzoneHourlyDataLinkDisplayed =
+      await monitoringStationPage.getDownloadOzoneHourlyDataLink.isDisplayed()
+    const isDownloadOzoneHourlyDataLinkClickable =
+      await monitoringStationPage.getDownloadOzoneHourlyDataLink.isClickable()
     const expectedDownloadOzoneHourlyDataLink = 'Download hourly data'
     await expect(getDownloadOzoneHourlyDataLink).toMatch(
       expectedDownloadOzoneHourlyDataLink
     )
+    await expect(isDownloadOzoneHourlyDataLinkDisplayed).toBe(true)
+    await expect(isDownloadOzoneHourlyDataLinkClickable).toBe(true)
 
     const OzoneSubHeading = [await monitoringStationPage.getOzoneSubHeading]
 
@@ -1576,13 +1708,16 @@ annual average data - usually less than 100KB`
 
     const getDownloadNitrogenDioxideHourlyDataLink =
       await monitoringStationPage.getDownloadNitrogenDioxideHourlyDataLink.getText()
-    await monitoringStationPage.getDownloadNitrogenDioxideHourlyDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadNitrogenDioxideHourlyDataLink.isClickable()
+    const isDownloadNitrogenDioxideHourlyDataLinkDisplayed =
+      await monitoringStationPage.getDownloadNitrogenDioxideHourlyDataLink.isDisplayed()
+    const isDownloadNitrogenDioxideHourlyDataLinkClickable =
+      await monitoringStationPage.getDownloadNitrogenDioxideHourlyDataLink.isClickable()
     const expectedDownloadNitrogenDioxideHourlyDataLink = 'Download hourly data'
     await expect(getDownloadNitrogenDioxideHourlyDataLink).toMatch(
       expectedDownloadNitrogenDioxideHourlyDataLink
     )
-
+    await expect(isDownloadNitrogenDioxideHourlyDataLinkDisplayed).toBe(true)
+    await expect(isDownloadNitrogenDioxideHourlyDataLinkClickable).toBe(true)
     const NitrogenDioxideSubHeading = [
       await monitoringStationPage.getNitrogenDioxideSubHeading
     ]
@@ -1664,13 +1799,17 @@ annual average data - usually less than 100KB`
   it('Download Daily Data for All Pollutants, AQD-621', async () => {
     const getDownloadAllPollutantsDailyDataLink =
       await monitoringStationPage.getDownloadAllPollutantsDailyDataLink.getText()
-    await monitoringStationPage.getDownloadAllPollutantsDailyDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadAllPollutantsDailyDataLink.isClickable()
+    const isDownloadAllPollutantsDailyDataLinkDisplayed =
+      await monitoringStationPage.getDownloadAllPollutantsDailyDataLink.isDisplayed()
+    const isDownloadAllPollutantsDailyDataLinkClickable =
+      await monitoringStationPage.getDownloadAllPollutantsDailyDataLink.isClickable()
     const expectedDownloadAllPollutantsDailyDataLink =
       'Download daily average data'
     await expect(getDownloadAllPollutantsDailyDataLink).toMatch(
       expectedDownloadAllPollutantsDailyDataLink
     )
+    await expect(isDownloadAllPollutantsDailyDataLinkDisplayed).toBe(true)
+    await expect(isDownloadAllPollutantsDailyDataLinkClickable).toBe(true)
 
     const DownloadAllPollutantsDailyDataLink = [
       await monitoringStationPage.getDownloadAllPollutantsDailyDataLink
@@ -1714,13 +1853,17 @@ annual average data - usually less than 100KB`
   it('Download Daily Data for Nitrogen Dioxide, AQD-624', async () => {
     const getDownloadNitrogenDioxideDailyDataLink =
       await monitoringStationPage.getDownloadNitrogenDioxideDailyDataLink.getText()
-    await monitoringStationPage.getDownloadNitrogenDioxideDailyDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadNitrogenDioxideDailyDataLink.isClickable()
+    const isDownloadNitrogenDioxideDailyDataLinkDisplayed =
+      await monitoringStationPage.getDownloadNitrogenDioxideDailyDataLink.isDisplayed()
+    const isDownloadNitrogenDioxideDailyDataLinkClickable =
+      await monitoringStationPage.getDownloadNitrogenDioxideDailyDataLink.isClickable()
     const expectedgetDownloadNitrogenDioxideDailyDataLink =
       'Download daily average data'
     await expect(getDownloadNitrogenDioxideDailyDataLink).toMatch(
       expectedgetDownloadNitrogenDioxideDailyDataLink
     )
+    await expect(isDownloadNitrogenDioxideDailyDataLinkDisplayed).toBe(true)
+    await expect(isDownloadNitrogenDioxideDailyDataLinkClickable).toBe(true)
 
     const DownloadNitrogenDioxideDailyDataLink = [
       await monitoringStationPage.getDownloadNitrogenDioxideDailyDataLink
@@ -1764,12 +1907,16 @@ annual average data - usually less than 100KB`
   it('Download Daily Data for PM2.5, AQD-628', async () => {
     const getDownloadPM25DailyDataLink =
       await monitoringStationPage.getDownloadPM25DailyDataLink.getText()
-    await monitoringStationPage.getDownloadPM25DailyDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadPM25DailyDataLink.isClickable()
+    const isDownloadPM25DailyDataLinkDisplayed =
+      await monitoringStationPage.getDownloadPM25DailyDataLink.isDisplayed()
+    const isDownloadPM25DailyDataLinkClickable =
+      await monitoringStationPage.getDownloadPM25DailyDataLink.isClickable()
     const expectedgetDownloadPM25DailyDataLink = 'Download daily average data'
     await expect(getDownloadPM25DailyDataLink).toMatch(
       expectedgetDownloadPM25DailyDataLink
     )
+    await expect(isDownloadPM25DailyDataLinkDisplayed).toBe(true)
+    await expect(isDownloadPM25DailyDataLinkClickable).toBe(true)
 
     const DownloadPM25DailyDataLink = [
       await monitoringStationPage.getDownloadPM25DailyDataLink
@@ -1813,12 +1960,16 @@ annual average data - usually less than 100KB`
   it('Download Daily Data for PM10, AQD-629', async () => {
     const getDownloadPM10DailyDataLink =
       await monitoringStationPage.getDownloadPM10DailyDataLink.getText()
-    await monitoringStationPage.getDownloadPM10DailyDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadPM10DailyDataLink.isClickable()
+    const isDownloadPM10DailyDataLinkDisplayed =
+      await monitoringStationPage.getDownloadPM10DailyDataLink.isDisplayed()
+    const isDownloadPM10DailyDataLinkClickable =
+      await monitoringStationPage.getDownloadPM10DailyDataLink.isClickable()
     const expectedgetDownloadPM10DailyDataLink = 'Download daily average data'
     await expect(getDownloadPM10DailyDataLink).toMatch(
       expectedgetDownloadPM10DailyDataLink
     )
+    await expect(isDownloadPM10DailyDataLinkDisplayed).toBe(true)
+    await expect(isDownloadPM10DailyDataLinkClickable).toBe(true)
 
     const DownloadPM10DailyDataLink = [
       await monitoringStationPage.getDownloadPM10DailyDataLink
@@ -1862,12 +2013,16 @@ annual average data - usually less than 100KB`
   it('Download Daily Data for Ozone, AQD-630', async () => {
     const getDownloadOzoneDailyDataLink =
       await monitoringStationPage.getDownloadOzoneDailyDataLink.getText()
-    await monitoringStationPage.getDownloadOzoneDailyDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadOzoneDailyDataLink.isClickable()
+    const isDownloadOzoneDailyDataLinkDisplayed =
+      await monitoringStationPage.getDownloadOzoneDailyDataLink.isDisplayed()
+    const isDownloadOzoneDailyDataLinkClickable =
+      await monitoringStationPage.getDownloadOzoneDailyDataLink.isClickable()
     const expectedgetDownloadOzoneDailyDataLink = 'Download daily average data'
     await expect(getDownloadOzoneDailyDataLink).toMatch(
       expectedgetDownloadOzoneDailyDataLink
     )
+    await expect(isDownloadOzoneDailyDataLinkDisplayed).toBe(true)
+    await expect(isDownloadOzoneDailyDataLinkClickable).toBe(true)
 
     const DownloadOzoneDailyDataLink = [
       await monitoringStationPage.getDownloadOzoneDailyDataLink
@@ -1911,13 +2066,17 @@ annual average data - usually less than 100KB`
   it('Download Daily Data for Sulphur Dioxide, AQD-631', async () => {
     const getDownloadSulphurDioxideDailyDataLink =
       await monitoringStationPage.getDownloadSulphurDioxideDailyDataLink.getText()
-    await monitoringStationPage.getDownloadSulphurDioxideDailyDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadSulphurDioxideDailyDataLink.isClickable()
+    const isDownloadSulphurDioxideDailyDataLinkDisplayed =
+      await monitoringStationPage.getDownloadSulphurDioxideDailyDataLink.isDisplayed()
+    const isDownloadSulphurDioxideDailyDataLinkClickable =
+      await monitoringStationPage.getDownloadSulphurDioxideDailyDataLink.isClickable()
     const expectedgetDownloadSulphurDioxideDailyDataLink =
       'Download daily average data'
     await expect(getDownloadSulphurDioxideDailyDataLink).toMatch(
       expectedgetDownloadSulphurDioxideDailyDataLink
     )
+    await expect(isDownloadSulphurDioxideDailyDataLinkDisplayed).toBe(true)
+    await expect(isDownloadSulphurDioxideDailyDataLinkClickable).toBe(true)
 
     const DownloadSulphurDioxideDailyDataLink = [
       await monitoringStationPage.getDownloadSulphurDioxideDailyDataLink
@@ -1961,13 +2120,17 @@ annual average data - usually less than 100KB`
   it('Download Annual Data for All Pollutants, AQD-670', async () => {
     const getDownloadAllPollutantsAnnualDataLink =
       await monitoringStationPage.getDownloadAllPollutantsAnnualDataLink.getText()
-    await monitoringStationPage.getDownloadAllPollutantsAnnualDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadAllPollutantsAnnualDataLink.isClickable()
+    const isDownloadAllPollutantsAnnualDataLinkDisplayed =
+      await monitoringStationPage.getDownloadAllPollutantsAnnualDataLink.isDisplayed()
+    const isDownloadAllPollutantsAnnualDataLinkClickable =
+      await monitoringStationPage.getDownloadAllPollutantsAnnualDataLink.isClickable()
     const expectedDownloadAllPollutantsAnnualDataLink =
       'Download annual average data'
     await expect(getDownloadAllPollutantsAnnualDataLink).toMatch(
       expectedDownloadAllPollutantsAnnualDataLink
     )
+    await expect(isDownloadAllPollutantsAnnualDataLinkDisplayed).toBe(true)
+    await expect(isDownloadAllPollutantsAnnualDataLinkClickable).toBe(true)
 
     const DownloadAllPollutantsAnnualDataLinkStyling = [
       await monitoringStationPage.getDownloadAllPollutantsAnnualDataLink
@@ -2011,12 +2174,16 @@ annual average data - usually less than 100KB`
   it('Download Annual Data for PM2.5, AQD-674', async () => {
     const getDownloadPM25AnnualDataLink =
       await monitoringStationPage.getDownloadPM25AnnualDataLink.getText()
-    await monitoringStationPage.getDownloadPM25AnnualDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadPM25AnnualDataLink.isClickable()
+    const isDownloadPM25AnnualDataLinkDisplayed =
+      await monitoringStationPage.getDownloadPM25AnnualDataLink.isDisplayed()
+    const isDownloadPM25AnnualDataLinkClickable =
+      await monitoringStationPage.getDownloadPM25AnnualDataLink.isClickable()
     const expectedDownloadPM25AnnualDataLink = 'Download annual average data'
     await expect(getDownloadPM25AnnualDataLink).toMatch(
       expectedDownloadPM25AnnualDataLink
     )
+    await expect(isDownloadPM25AnnualDataLinkDisplayed).toBe(true)
+    await expect(isDownloadPM25AnnualDataLinkClickable).toBe(true)
 
     const DownloadPM25AnnualDataLinkStyling = [
       await monitoringStationPage.getDownloadPM25AnnualDataLink
@@ -2060,12 +2227,16 @@ annual average data - usually less than 100KB`
   it('Download Annual Data for PM10, AQD-675', async () => {
     const getDownloadPM10AnnualDataLink =
       await monitoringStationPage.getDownloadPM10AnnualDataLink.getText()
-    await monitoringStationPage.getDownloadPM10AnnualDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadPM10AnnualDataLink.isClickable()
+    const isDownloadPM10AnnualDataLinkDisplayed =
+      await monitoringStationPage.getDownloadPM10AnnualDataLink.isDisplayed()
+    const isDownloadPM10AnnualDataLinkClickable =
+      await monitoringStationPage.getDownloadPM10AnnualDataLink.isClickable()
     const expectedDownloadPM10AnnualDataLink = 'Download annual average data'
     await expect(getDownloadPM10AnnualDataLink).toMatch(
       expectedDownloadPM10AnnualDataLink
     )
+    await expect(isDownloadPM10AnnualDataLinkDisplayed).toBe(true)
+    await expect(isDownloadPM10AnnualDataLinkClickable).toBe(true)
 
     const DownloadPM10AnnualDataLinkStyling = [
       await monitoringStationPage.getDownloadPM10AnnualDataLink
@@ -2109,13 +2280,17 @@ annual average data - usually less than 100KB`
   it('Download Annual Data for Nitrogen Dioxide, AQD-676', async () => {
     const getDownloadNitrogenDioxideAnnualDataLink =
       await monitoringStationPage.getDownloadNitrogenDioxideAnnualDataLink.getText()
-    await monitoringStationPage.getDownloadNitrogenDioxideAnnualDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadNitrogenDioxideAnnualDataLink.isClickable()
+    const isDownloadNitrogenDioxideAnnualDataLinkDisplayed =
+      await monitoringStationPage.getDownloadNitrogenDioxideAnnualDataLink.isDisplayed()
+    const isDownloadNitrogenDioxideAnnualDataLinkClickable =
+      await monitoringStationPage.getDownloadNitrogenDioxideAnnualDataLink.isClickable()
     const expectedDownloadNitrogenDioxideAnnualDataLink =
       'Download annual average data'
     await expect(getDownloadNitrogenDioxideAnnualDataLink).toMatch(
       expectedDownloadNitrogenDioxideAnnualDataLink
     )
+    await expect(isDownloadNitrogenDioxideAnnualDataLinkDisplayed).toBe(true)
+    await expect(isDownloadNitrogenDioxideAnnualDataLinkClickable).toBe(true)
 
     const DownloadNitrogenDioxideAnnualDataLinkkStyling = [
       await monitoringStationPage.getDownloadNitrogenDioxideAnnualDataLink
@@ -2159,12 +2334,16 @@ annual average data - usually less than 100KB`
   it('Download Annual Data for Ozone, AQD-677', async () => {
     const getDownloadOzoneAnnualDataLink =
       await monitoringStationPage.getDownloadOzoneAnnualDataLink.getText()
-    await monitoringStationPage.getDownloadOzoneAnnualDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadOzoneAnnualDataLink.isClickable()
+    const isDownloadOzoneAnnualDataLinkDisplayed =
+      await monitoringStationPage.getDownloadOzoneAnnualDataLink.isDisplayed()
+    const isDownloadOzoneAnnualDataLinkClickable =
+      await monitoringStationPage.getDownloadOzoneAnnualDataLink.isClickable()
     const expectedDownloadOzoneAnnualDataLink = 'Download annual average data'
     await expect(getDownloadOzoneAnnualDataLink).toMatch(
       expectedDownloadOzoneAnnualDataLink
     )
+    await expect(isDownloadOzoneAnnualDataLinkDisplayed).toBe(true)
+    await expect(isDownloadOzoneAnnualDataLinkClickable).toBe(true)
 
     const DownloadDownloadOzoneAnnualDataLinkStyling = [
       await monitoringStationPage.getDownloadOzoneAnnualDataLink
@@ -2208,13 +2387,17 @@ annual average data - usually less than 100KB`
   it('Download Annual Data for Sulphur Dioxide, AQD-678', async () => {
     const getDownloadSulphurDioxideAnnualDataLink =
       await monitoringStationPage.getDownloadSulphurDioxideAnnualDataLink.getText()
-    await monitoringStationPage.getDownloadSulphurDioxideAnnualDataLink.isDisplayed()
-    await monitoringStationPage.getDownloadSulphurDioxideAnnualDataLink.isClickable()
+    const isDownloadSulphurDioxideAnnualDataLinkDisplayed =
+      await monitoringStationPage.getDownloadSulphurDioxideAnnualDataLink.isDisplayed()
+    const isDownloadSulphurDioxideAnnualDataLinkClickable =
+      await monitoringStationPage.getDownloadSulphurDioxideAnnualDataLink.isClickable()
     const expectedDownloadSulphurDioxideAnnualDataLink =
       'Download annual average data'
     await expect(getDownloadSulphurDioxideAnnualDataLink).toMatch(
       expectedDownloadSulphurDioxideAnnualDataLink
     )
+    await expect(isDownloadSulphurDioxideAnnualDataLinkDisplayed).toBe(true)
+    await expect(isDownloadSulphurDioxideAnnualDataLinkClickable).toBe(true)
 
     const DownloadSulphurDioxideAnnualDataLinkStyling = [
       await monitoringStationPage.getDownloadSulphurDioxideAnnualDataLink
@@ -2286,7 +2469,9 @@ annual average data - usually less than 100KB`
       await monitoringStationPage.getSulphurDioxideAnnaulAverageST.getText()
     const expectedAnnualAverage = `-`
     await expect(getAnnualAverage).toMatch(expectedAnnualAverage)
-    await monitoringStationPage.getDataCaptureToggleTip.isDisplayed()
+    const isDataCaptureToggleTipDisplayed =
+      await monitoringStationPage.getDataCaptureToggleTip.isDisplayed()
+    await expect(isDataCaptureToggleTipDisplayed).toBe(true)
     await monitoringStationPage.getDataCaptureToggleTip.click()
     await browser.waitUntil(
       async () => {
@@ -2318,7 +2503,9 @@ annual average data - usually less than 100KB`
       expect(styles['background-color']).toBe('rgb(0, 0, 0)')
     }
 
-    await monitoringStationPage.getLowDataCaptureFlag.isDisplayed()
+    const isLowDataCaptureFlagDisplayed =
+      await monitoringStationPage.getLowDataCaptureFlag.isDisplayed()
+    await expect(isLowDataCaptureFlagDisplayed).toBe(true)
     const getLowDataCaptureFlagText =
       await monitoringStationPage.getLowDataCaptureFlag.getText()
     const expectedLowDataCaptureFlagText = `Low data capture`

@@ -123,6 +123,15 @@ class AddPollutantPage {
   get getAQSROptionDescription() {
     return $$("div[class*='govuk-hint govuk-radios__hint']")[1]
   }
+
+  // no js components
+  get getNoJsPollutantDropdown() {
+    return $("select[id*='selected-pollutants']")
+  }
+
+  get getNoJsPM25OptionValue() {
+    return $("option[value*='Fine particulate matter (PM2.5)']")
+  }
 }
 
 // module.exports=new StartNowPage()

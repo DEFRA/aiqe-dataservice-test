@@ -25,8 +25,11 @@ describe('monitoring station list page tests', () => {
     // await cookieBanner.hideButtonHideDialog.click()
     await startNowPage.startNowBtnClick()
     // await hubPage.getFindMonitoringStationsByLocation.click()
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayed =
+      await headersObject.getHeaderOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayed).toBe(true)
+    const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()
+    await expect(isFooterOverallDisplayed).toBe(true)
     await searchPage.setsearch('B2 4QA')
     await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()

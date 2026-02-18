@@ -13,8 +13,11 @@ describe('footer content and functionality checks', () => {
     // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
     // await cookieBanner.rejectButtonCookiesDialog.click()
     // await cookieBanner.hideButtonHideDialog.click()
-    await footer.getFooterOverall.isDisplayed()
-    await footer.getFooterCrownLogo.isDisplayed()
+    const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()
+    await expect(isFooterOverallDisplayed).toBe(true)
+    const isFooterCrownLogoDisplayed =
+      await footer.getFooterCrownLogo.isDisplayed()
+    await expect(isFooterCrownLogoDisplayed).toBe(true)
 
     // checking privacy link text
     const privacyLinkText = 'Privacy'
@@ -36,10 +39,13 @@ describe('footer content and functionality checks', () => {
     const getOglFooterLinkText = await footer.getOglFooterLink.getText()
     await expect(OglFooterLinkText).toMatch(getOglFooterLinkText)
     // checking OGL logo
-    await footer.getOGLLogo.isDisplayed()
+    const isOGLLogoDisplayed = await footer.getOGLLogo.isDisplayed()
+    await expect(isOGLLogoDisplayed).toBe(true)
 
     // checking crown logo is present
-    await footer.getCrownCoprightLogo.isDisplayed()
+    const isCrownCopyrightLogoDisplayed =
+      await footer.getCrownCoprightLogo.isDisplayed()
+    await expect(isCrownCopyrightLogoDisplayed).toBe(true)
 
     // footer links validation
 

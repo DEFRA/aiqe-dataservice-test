@@ -20,8 +20,11 @@ describe('accessibility page tests', () => {
     // await cookieBanner.hideButtonHideDialog.click()
     await footer.getAccessibilityStatementFooterLink.click()
     // page content validation
-    await headersObject.getHeaderOverall.isDisplayed()
-    await footer.getFooterOverall.isDisplayed()
+    const isHeaderOverallDisplayed =
+      await headersObject.getHeaderOverall.isDisplayed()
+    const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()
+    await expect(isHeaderOverallDisplayed).toBe(true)
+    await expect(isFooterOverallDisplayed).toBe(true)
 
     const accessibilityStatementPageHeading = `Accessibility statement`
     const getAccessibilityPageHeading =
