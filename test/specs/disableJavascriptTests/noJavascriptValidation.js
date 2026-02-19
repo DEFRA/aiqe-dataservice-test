@@ -10,6 +10,8 @@ import monitoringStationPage from '../../page-objects/monitoringStationPage.js'
 // import axios from 'axios'
 import common from '../../page-objects/common.js'
 import addLocationPage from '../../page-objects/addLocationPage.js'
+import addYearPage from '../../page-objects/addYearPage.js'
+import DownloadYourDataPage from '../../page-objects/DownloadYourDataPage.js'
 
 /* run these locally in dev every release, uncomment disable javascript capability in local.conf */
 describe('No Javascript Happy Path', () => {
@@ -256,5 +258,27 @@ Sulphur dioxide (SO2)`
     const isEnglandCheckboxSelected =
       await addLocationPage.getEnglandCheckbox.isSelected()
     await expect(isEnglandCheckboxSelected).toBe(true)
+  })
+
+  it('AQD-1034 Remove Save your search on the Download your data page | DS (JS + No JS)', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.getNoJsPollutantDropdown.click()
+    await addPollutantPage.getNoJsPM25OptionValue.click()
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLinkNoJs.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandOption.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getYearToDateRadio.click()
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await common.legalWait()
+    await common.notDisplayed(await DownloadYourDataPage.getSaveYourSearchTitle)
   })
 })
