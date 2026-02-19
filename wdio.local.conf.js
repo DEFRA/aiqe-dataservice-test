@@ -79,10 +79,10 @@ export const config = {
               ),
               'download.prompt_for_download': false,
               'download.directory_upgrade': true,
-              'safebrowsing.enabled': true
+              'safebrowsing.enabled': true,
               // Disable JavaScript via Chrome content settings (reliable vs args)
-              // 'profile.managed_default_content_settings.javascript': 2,
-              // 'profile.default_content_setting_values.javascript': 2
+              'profile.managed_default_content_settings.javascript': 2,
+              'profile.default_content_setting_values.javascript': 2
             }
           }
         }

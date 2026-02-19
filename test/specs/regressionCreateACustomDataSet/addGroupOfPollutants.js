@@ -248,9 +248,9 @@ describe('add group of pollutants AQD-832', () => {
       await customselectionPage.getPollutantValue.getText()
     const expectedSelectedDAQIPollutants = `Particulate matter (PM2.5)
 Particulate matter (PM10)
-Nitrogen dioxide
-Ozone
-Sulphur dioxide`
+Nitrogen dioxide (NO2)
+Ozone (O3)
+Sulphur dioxide (SO2)`
     await expect(selectedDAQIPollutants).toMatch(expectedSelectedDAQIPollutants)
     await customselectionPage.getChangePollutantLink.click()
     const isAddGroupOfPollutantsRadioSelected =
@@ -265,12 +265,12 @@ Sulphur dioxide`
       await customselectionPage.getPollutantValue.getText()
     const expectedSelectedAQSRPollutants = `Particulate matter (PM2.5)
 Particulate matter (PM10)
-Nitrogen dioxide
-Ozone
-Sulphur dioxide
-Nitric oxide
-Nitrogen oxides as nitrogen dioxide
-Carbon monoxide`
+Nitrogen dioxide (NO2)
+Ozone (O3)
+Sulphur dioxide (SO2)
+Nitric oxide (NO)
+Nitrogen oxides as nitrogen dioxide (NOx as NO2)
+Carbon monoxide (CO)`
     await expect(selectedAQSRPollutants).toMatch(expectedSelectedAQSRPollutants)
     await customselectionPage.getChangePollutantLink.click()
     const isAddGroupOfPollutantsRadioSelected2 =
