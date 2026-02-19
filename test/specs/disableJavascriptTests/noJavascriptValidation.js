@@ -130,6 +130,72 @@ describe('No Javascript Happy Path', () => {
     await expect(isPM25OptionValueSelected).toBe(true)
   })
 
+  it('AQD-1036 Add a group of pollutants option | No JS Version', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await common.continueButton.click()
+    await common
+      .errorSummaryItemByText('Select an option before continuing')
+      .isDisplayed()
+    await addPollutantPage.getAddGroupOfPollutantsOption.click()
+    await common.continueButton.click()
+    await common
+      .errorSummaryItemByText('Please add at least one pollutant')
+      .isDisplayed()
+    await addPollutantPage.getAQSROptionRadio.click()
+    await common.continueButton.click()
+    const pollutantSelected =
+      await customselectionPage.getPollutantValue.getText()
+    const expectedPollutantSelected = `Particulate matter (PM2.5)
+Particulate matter (PM10)
+Nitrogen dioxide (NO2)
+Ozone (O3)
+Sulphur dioxide (SO2)
+Nitric oxide (NO)
+Nitrogen oxides as nitrogen dioxide (NOx as NO2)
+Carbon monoxide (CO)`
+    await expect(pollutantSelected).toMatch(expectedPollutantSelected)
+    const changeLink =
+      await customselectionPage.getChangePollutantLink.getText()
+    const expectedChangeLink = `Change`
+    await expect(changeLink).toMatch(expectedChangeLink)
+    await customselectionPage.getChangePollutantLink.click()
+
+    const isAddGroupOfPollutantsOptionSelected =
+      await addPollutantPage.getAddGroupOfPollutantsRadio.isSelected()
+    await expect(isAddGroupOfPollutantsOptionSelected).toBe(true)
+    const isAQSROptionSelected =
+      await addPollutantPage.getAQSROptionRadio.isSelected()
+    await expect(isAQSROptionSelected).toBe(true)
+
+    await addPollutantPage.getDAQIOptionRadio.click()
+    await common.continueButton.click()
+
+    const DAQIpollutantSelected =
+      await customselectionPage.getPollutantValue.getText()
+    const expectedDAQIPollutantSelected = `Particulate matter (PM2.5)
+Particulate matter (PM10)
+Nitrogen dioxide (NO2)
+Ozone (O3)
+Sulphur dioxide (SO2)`
+    await expect(DAQIpollutantSelected).toMatch(expectedDAQIPollutantSelected)
+    const changeLink2 =
+      await customselectionPage.getChangePollutantLink.getText()
+    const expectedChangeLink2 = `Change`
+    await expect(changeLink2).toMatch(expectedChangeLink2)
+    await customselectionPage.getChangePollutantLink.click()
+
+    const isAddGroupOfPollutantsOptionSelected2 =
+      await addPollutantPage.getAddGroupOfPollutantsRadio.isSelected()
+    await expect(isAddGroupOfPollutantsOptionSelected2).toBe(true)
+    const isDAQIOptionSelected =
+      await addPollutantPage.getDAQIOptionRadio.isSelected()
+    await expect(isDAQIOptionSelected).toBe(true)
+  })
+
   it('AQD-1037 Add locations(s) - Countries Journey | NoJS Version', async () => {
     await browser.url('')
     await browser.maximizeWindow()
