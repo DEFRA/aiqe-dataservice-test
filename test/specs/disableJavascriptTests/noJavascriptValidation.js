@@ -95,6 +95,41 @@ describe('No Javascript Happy Path', () => {
     await expect(isSDHourlyExceedenceToggleTipInfoTextDisplayed).toBe(true)
   })
 
+  it('AQD-1051 Add pollutant(s) - Add a pollutant option | No JS Version', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await common.continueButton.click()
+    await common
+      .errorSummaryItemByText('Select an option before continuing')
+      .isDisplayed()
+    await addPollutantPage.getAddPollutantOption.click()
+    await common.continueButton.click()
+    await common
+      .errorSummaryItemByText('Please add at least one pollutant')
+      .isDisplayed()
+    await addPollutantPage.getNoJsPollutantDropdown.click()
+    await addPollutantPage.getNoJsPM25OptionValue.click()
+    await common.continueButton.click()
+    const pollutantSelected =
+      await customselectionPage.getPollutantValue.getText()
+    const expectedPollutantSelected = `Fine particulate matter (PM2.5)`
+    await expect(pollutantSelected).toMatch(expectedPollutantSelected)
+    const changeLink =
+      await customselectionPage.getChangePollutantLink.getText()
+    const expectedChangeLink = `Change`
+    await expect(changeLink).toMatch(expectedChangeLink)
+    await customselectionPage.getChangePollutantLink.click()
+    const isAddPollutantOptionSelected =
+      await addPollutantPage.getAddPollutantRadio.isSelected()
+    await expect(isAddPollutantOptionSelected).toBe(true)
+    const isPM25OptionValueSelected =
+      await addPollutantPage.getNoJsPM25OptionValue.isSelected()
+    await expect(isPM25OptionValueSelected).toBe(true)
+  })
+
   it('AQD-1037 Add locations(s) - Countries Journey | NoJS Version', async () => {
     await browser.url('')
     await browser.maximizeWindow()
