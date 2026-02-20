@@ -239,6 +239,13 @@ describe('add group of pollutants AQD-832', () => {
     await expect(selectAPollutantGroupMessage).toMatch(
       expectedSelectAPollutantGroupMessage
     )
+    const selectAPollutantGroupLink = await common.errorSummaryItemByText(
+      'Select a pollutant group'
+    )
+    await selectAPollutantGroupLink.click()
+    const isDAQIPollutantsOptionFocused =
+      await addPollutantPage.getDAQIOptionRadio.isFocused()
+    await expect(isDAQIPollutantsOptionFocused).toBe(true)
   })
 
   it('adding a pollutant group', async () => {

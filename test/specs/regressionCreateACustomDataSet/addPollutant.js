@@ -429,8 +429,13 @@ Ozone (O3)`
     const continueErrorMessage = await common
       .errorSummaryItemByText('Select an option before continuing')
       .getText()
+    const continueErrorLink = await common.errorSummaryItemByText(
+      'Select an option before continuing'
+    )
     const expectedErrorMessage = 'Select an option before continuing'
     await expect(continueErrorMessage).toMatch(expectedErrorMessage)
+    await continueErrorLink.click()
+    await expect(await addPollutantPage.getAddPollutantRadio).toBeFocused()
 
     await addPollutantPage.getAddPollutantOption.click()
     await common.continueButton.click()
@@ -442,6 +447,11 @@ Ozone (O3)`
     await expect(addOnePollutantErrorMessage).toMatch(
       expectedaddOnePollutantErrorMessage
     )
+    const addOnePollutantErrorLink = await common.errorSummaryItemByText(
+      'Please add at least one pollutant'
+    )
+    await addOnePollutantErrorLink.click()
+    await expect(await addPollutantPage.getAddPollutantSearchBox).toBeFocused()
 
     await addPollutantPage.getAddPollutantButton.click()
     const getAddAPollutantErrorMessage = await common
@@ -451,6 +461,11 @@ Ozone (O3)`
     await expect(getAddAPollutantErrorMessage).toMatch(
       expectedgetAddAPollutantErrorMessage
     )
+    const getAddAPollutantErrorLink = await common.errorSummaryItemByText(
+      'Please add a pollutant'
+    )
+    await getAddAPollutantErrorLink.click()
+    await expect(await addPollutantPage.getAddPollutantSearchBox).toBeFocused()
   })
 
   it('search is not case sensitive - AQD-984,AQD-829', async () => {

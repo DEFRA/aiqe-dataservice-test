@@ -568,6 +568,11 @@ Cornwall County Council`
       .errorSummaryItemByText('Select an option before continuing')
       .isDisplayed()
     await expect(continueError).toBe(true)
+    const continueErrorLink = await common.errorSummaryItemByText(
+      'Select an option before continuing'
+    )
+    await continueErrorLink.click()
+    await expect(await addLocationPage.getCountriesOptionRadio).toBeFocused()
     // continue after selecting country but not selecting a country
     await addLocationPage.getCountriesOption.click()
     await addLocationPage.getLocationContinueButton.click()
@@ -575,6 +580,11 @@ Cornwall County Council`
       .errorSummaryItemByText('Select at least one country')
       .isDisplayed()
     await expect(countryContinueError).toBe(true)
+    const countryContinueErrorLink = await common.errorSummaryItemByText(
+      'Select at least one country'
+    )
+    await countryContinueErrorLink.click()
+    await expect(await addLocationPage.getEnglandCheckbox).toBeFocused()
     // continue after selecting local authority but not selecting any local authority
     await addLocationPage.getLocalAuthorityOption.click()
     await addLocationPage.getLocationContinueButton.click()
@@ -582,12 +592,22 @@ Cornwall County Council`
       .errorSummaryItemByText('Add at least one local authority')
       .isDisplayed()
     await expect(localAuthorityContinueError).toBe(true)
+    const localAuthorityContinueErrorLink = await common.errorSummaryItemByText(
+      'Add at least one local authority'
+    )
+    await localAuthorityContinueErrorLink.click()
+    await expect(await addLocationPage.getLocalAuthoritySearchBox).toBeFocused()
     // selecting add local authority button with empty search box
     await addLocationPage.getAddLocalAuthorityButton.click()
     const addLocalAuthorityError = await common
       .errorSummaryItemByText('Enter a local authority')
       .isDisplayed()
     await expect(addLocalAuthorityError).toBe(true)
+    const addLocalAuthorityErrorLink = await common.errorSummaryItemByText(
+      'Enter a local authority'
+    )
+    await addLocalAuthorityErrorLink.click()
+    await expect(await addLocationPage.getLocalAuthoritySearchBox).toBeFocused()
     // fake local authority
     await addLocationPage.getLocalAuthoritySearchBox.setValue(
       'fake local authority'
@@ -599,6 +619,11 @@ Cornwall County Council`
       .errorSummaryItemByText('Select local authorities from the list')
       .isDisplayed()
     await expect(fakeLocalAuthorityError).toBe(true)
+    const fakeLocalAuthorityErrorLink = await common.errorSummaryItemByText(
+      'Select local authorities from the list'
+    )
+    await fakeLocalAuthorityErrorLink.click()
+    await expect(await addLocationPage.getLocalAuthoritySearchBox).toBeFocused()
   })
 
   it('AQD-1048, defect - user shouldnt be able to add a local authority without using the add local authority button', async () => {
