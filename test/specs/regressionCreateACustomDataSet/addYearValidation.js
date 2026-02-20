@@ -379,6 +379,10 @@ describe('add year validation AQD-841', () => {
     await expect(selectAnOptionBeforeContinuingError).toMatch(
       expectedSelectAnOptionBeforeContinuing
     )
+    const selectAnOptionBeforeContinuingErrorLink =
+      await common.errorSummaryItemByText('Select an option before continuing')
+    await selectAnOptionBeforeContinuingErrorLink.click()
+    await expect(await addYearPage.getYearToDateRadio).toBeFocused()
 
     await addYearPage.getAnyYearOption.click()
     await addYearPage.continueButton.click()
@@ -387,6 +391,10 @@ describe('add year validation AQD-841', () => {
       .getText()
     const expectedEnterAYearError = 'Enter a year.'
     await expect(enterAYearError).toMatch(expectedEnterAYearError)
+    const enterAYearErrorLink =
+      await common.errorSummaryItemByText('Enter a year.')
+    await enterAYearErrorLink.click()
+    await expect(await addYearPage.getAnyYearInput).toBeFocused()
 
     await addYearPage.getAnyYearInput.setValue('5')
     await addYearPage.continueButton.click()
@@ -396,6 +404,11 @@ describe('add year validation AQD-841', () => {
     const expectedEnterAValidYearError =
       'Enter a 4-digit year, for example 2009.'
     await expect(enterAValidYearError).toMatch(expectedEnterAValidYearError)
+    const enterAValidYearErrorLink = await common.errorSummaryItemByText(
+      'Enter a 4-digit year, for example 2009.'
+    )
+    await enterAValidYearErrorLink.click()
+    await expect(await addYearPage.getAnyYearInput).toBeFocused()
 
     await addYearPage.getRangeOfYearsOption.click()
     await addYearPage.continueButton.click()
@@ -409,6 +422,15 @@ describe('add year validation AQD-841', () => {
       .getText()
     const expectedEnterEndYearError = 'Enter an end year.'
     await expect(enterEndYearError).toMatch(expectedEnterEndYearError)
+    const enterStartYearErrorLink = await common.errorSummaryItemByText(
+      'Enter a start year.'
+    )
+    await enterStartYearErrorLink.click()
+    await expect(await addYearPage.getRangeOfYearsStartYearInput).toBeFocused()
+    const enterEndYearErrorLink =
+      await common.errorSummaryItemByText('Enter an end year.')
+    await enterEndYearErrorLink.click()
+    await expect(await addYearPage.getRangeOfYearsEndYearInput).toBeFocused()
 
     await addYearPage.getRangeOfYearsStartYearInput.setValue('2009')
     await addYearPage.continueButton.click()
@@ -450,6 +472,17 @@ describe('add year validation AQD-841', () => {
       expectedEndYearAfterStartYearError
     )
 
+    const startYearBeforeEndYearErrorLink = await common.errorSummaryItemByText(
+      'Start year must be the same as or before the end year.'
+    )
+    await startYearBeforeEndYearErrorLink.click()
+    await expect(await addYearPage.getRangeOfYearsStartYearInput).toBeFocused()
+    const endYearAfterStartYearErrorLink = await common.errorSummaryItemByText(
+      'End year must be the same as or after the start year.'
+    )
+    await endYearAfterStartYearErrorLink.click()
+    await expect(await addYearPage.getRangeOfYearsEndYearInput).toBeFocused()
+
     await common.clearInput(addYearPage.getRangeOfYearsStartYearInput)
     await common.clearInput(addYearPage.getRangeOfYearsEndYearInput)
     await addYearPage.getRangeOfYearsStartYearInput.setValue('2010')
@@ -463,6 +496,13 @@ describe('add year validation AQD-841', () => {
     await expect(rangeOfYearsExceedLimitError).toMatch(
       expectedRangeOfYearsExceedLimitError
     )
+
+    const rangeOfYearsExceedLimitErrorLink =
+      await common.errorSummaryItemByText(
+        'Choose up to 5 whole years at a time'
+      )
+    await rangeOfYearsExceedLimitErrorLink.click()
+    await expect(await addYearPage.getRangeOfYearsStartYearInput).toBeFocused()
   })
 
   it('Add year to date - AQD-841', async () => {

@@ -104,14 +104,31 @@ describe('No Javascript Happy Path', () => {
     await hubPage.getCreateCustomDataSet.click()
     await customselectionPage.getAddPollutantLink.click()
     await common.continueButton.click()
-    await common
+    const isSelectOptionErrorDisplayed = await common
       .errorSummaryItemByText('Select an option before continuing')
       .isDisplayed()
+    await expect(isSelectOptionErrorDisplayed).toBe(true)
+    const isSelectOptionErrorDisplayedLink =
+      await common.errorSummaryItemByText('Select an option before continuing')
+    await isSelectOptionErrorDisplayedLink.click()
+    const isAddPollutantOptionFocused =
+      await addPollutantPage.getAddPollutantRadio.isFocused()
+    await expect(isAddPollutantOptionFocused).toBe(true)
+
     await addPollutantPage.getAddPollutantOption.click()
     await common.continueButton.click()
-    await common
+    await common.legalWait()
+    const isPleaseAddAtLeastOnePollutantErrorDisplayed = await common
       .errorSummaryItemByText('Please add at least one pollutant')
       .isDisplayed()
+    await expect(isPleaseAddAtLeastOnePollutantErrorDisplayed).toBe(true)
+    const isPleaseAddAtLeastOnePollutantErrorDisplayedLink =
+      await common.errorSummaryItemByText('Please add at least one pollutant')
+    await isPleaseAddAtLeastOnePollutantErrorDisplayedLink.click()
+    const isAddPollutantSearchBoxFocused =
+      await addPollutantPage.getNoJsPollutantDropdown.isFocused()
+    await expect(isAddPollutantSearchBoxFocused).toBe(true)
+
     await addPollutantPage.getNoJsPollutantDropdown.click()
     await addPollutantPage.getNoJsPM25OptionValue.click()
     await common.continueButton.click()
@@ -139,14 +156,31 @@ describe('No Javascript Happy Path', () => {
     await hubPage.getCreateCustomDataSet.click()
     await customselectionPage.getAddPollutantLink.click()
     await common.continueButton.click()
-    await common
+    const isSelectOptionErrorDisplayed = await common
       .errorSummaryItemByText('Select an option before continuing')
       .isDisplayed()
+    await expect(isSelectOptionErrorDisplayed).toBe(true)
+    const isSelectOptionErrorDisplayedLink =
+      await common.errorSummaryItemByText('Select an option before continuing')
+    await isSelectOptionErrorDisplayedLink.click()
+    const isAddGroupOfPollutantsOptionFocused =
+      await addPollutantPage.getAddPollutantRadio.isFocused()
+    await expect(isAddGroupOfPollutantsOptionFocused).toBe(true)
+
     await addPollutantPage.getAddGroupOfPollutantsOption.click()
     await common.continueButton.click()
-    await common
-      .errorSummaryItemByText('Please add at least one pollutant')
+    await common.legalWait()
+    const isSelectAPollutantGroupErrorDisplayed = await common
+      .errorSummaryItemByText('Select a pollutant group')
       .isDisplayed()
+    await expect(isSelectAPollutantGroupErrorDisplayed).toBe(true)
+    const isSelectAPollutantGroupErrorDisplayedLink =
+      await common.errorSummaryItemByText('Select a pollutant group')
+    await isSelectAPollutantGroupErrorDisplayedLink.click()
+    const isDAQIOptionFocused2 =
+      await addPollutantPage.getDAQIOptionRadio.isFocused()
+    await expect(isDAQIOptionFocused2).toBe(true)
+
     await addPollutantPage.getAQSROptionRadio.click()
     await common.continueButton.click()
     const pollutantSelected =
@@ -165,6 +199,7 @@ Carbon monoxide (CO)`
     const expectedChangeLink = `Change`
     await expect(changeLink).toMatch(expectedChangeLink)
     await customselectionPage.getChangePollutantLink.click()
+    await common.legalWait()
 
     const isAddGroupOfPollutantsOptionSelected =
       await addPollutantPage.getAddGroupOfPollutantsRadio.isSelected()
@@ -231,14 +266,33 @@ Sulphur dioxide (SO2)`
     await expect(isNorthernIrelandOptionDisplayed).toBe(true)
 
     await addLocationPage.getLocationContinueButton.click()
-    await common
+    await common.legalWait()
+    const isSelectAnOptionErrorDisplayed = await common
       .errorSummaryItemByText('Select an option before continuing')
       .isDisplayed()
-    await addLocationPage.getCountriesOption.click()
+    await expect(isSelectAnOptionErrorDisplayed).toBe(true)
+    const isSelectAnOptionErrorLink = await common.errorSummaryItemByText(
+      'Select an option before continuing'
+    )
+    await isSelectAnOptionErrorLink.click()
+    const isCountriesOptionFocused =
+      await addLocationPage.getCountriesOptionRadio.isFocused()
+    await expect(isCountriesOptionFocused).toBe(true)
+
+    await addLocationPage.getCountriesOptionRadio.click()
     await addLocationPage.getLocationContinueButton.click()
-    await common
+    await common.legalWait()
+    const isSelectAtLeastOneCountryErrorDisplayed = await common
       .errorSummaryItemByText('Select at least one country')
       .isDisplayed()
+    await expect(isSelectAtLeastOneCountryErrorDisplayed).toBe(true)
+    const isSelectAtLeastOneCountryErrorLink =
+      await common.errorSummaryItemByText('Select at least one country')
+    await isSelectAtLeastOneCountryErrorLink.click()
+    const isEnglandOptionFocused =
+      await addLocationPage.getEnglandCheckbox.isFocused()
+    await expect(isEnglandOptionFocused).toBe(true)
+
     await addLocationPage.getEnglandOption.click()
     await addLocationPage.getLocationContinueButton.click()
 
