@@ -29,7 +29,7 @@ export const config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/disableJavascriptTests/noJavascriptValidation.js'],
+  specs: ['./test/specs/regressionSearchByLocation/errorScenariosAndBugs.js'],
   // Patterns to exclude.
   exclude: [],
   // injectGlobals: false,
