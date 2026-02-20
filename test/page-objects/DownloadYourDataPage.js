@@ -52,7 +52,7 @@ class DownloadYourDataPage {
   }
 
   get getDownloadProgress() {
-    return $("div[id*='download-loading-container']")
+    return $("div[class*='govuk-notification-banner__header']")
   }
 }
 
