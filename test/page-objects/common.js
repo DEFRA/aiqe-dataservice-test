@@ -68,9 +68,10 @@ class Common {
     return anyOverAmount
   }
 
-  async notDisplayed(element) {
+  async notDisplayed(element, timeout = 30000) {
     await element.waitForDisplayed({
-      reverse: true
+      reverse: true,
+      timeout
     })
   }
 

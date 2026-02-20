@@ -348,7 +348,12 @@ inlet height`
     await addPollutantPage.addPollutant('Fine particulate matter (PM2.5)')
     await common.continueButton.click()
     await customselectionPage.getContinueButton.click()
-    await common.notDisplayed(await DownloadYourDataPage.getDownloadProgress)
+    await common.legalWait()
+    // AQD-1063: Verify download loading container is NOT displayed (no auto-download)
+
+    const loadingContainer = await DownloadYourDataPage.getDownloadProgress
+    const isDisplayed = await loadingContainer.isDisplayed()
+    await expect(isDisplayed).toBe(false)
     await common.getBackLink.click()
   })
 
