@@ -100,6 +100,14 @@ class AddLocationPage {
   get getAddedLocalAuthorityOneRemoveLink() {
     return $$("td[class*='govuk-table__cell']")[1]
   }
+
+  get getSelectALocalAuthorityDropdown() {
+    return $("select[id*='selected-locations']")
+  }
+
+  get getOptionAberdeenCityCouncil() {
+    return $("option[value='Aberdeen City Council']")
+  }
 }
 
 // module.exports=new StartNowPage()
