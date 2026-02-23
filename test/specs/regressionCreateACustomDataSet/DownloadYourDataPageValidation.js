@@ -278,7 +278,10 @@ inlet height`
     await expect(currentUrl).toContain('customdataset')
   })
 
-  it('download data not working AQD-1070, AQD-1063 defect - download pm2.5 after downloading pm10, AQD-1047 defect - back button disappears after user downloads data', async () => {
+  it(`download data not working AQD-1070, 
+    AQD-1063 defect - download pm2.5 after downloading pm10, 
+    AQD-1047 defect - back button disappears after user downloads data
+    AQD-1103 -  Display a download notification`, async () => {
     // download data not working AQD-1070
     await browser.url('')
     await browser.maximizeWindow()
@@ -306,6 +309,10 @@ inlet height`
     fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
 
     await DownloadYourDataPage.getDownloadHourlyDataButton.click()
+    const downloadNotification = await DownloadYourDataPage.getDownloadProgress
+    const downloadNotificationisDisplayed =
+      await downloadNotification.isDisplayed()
+    await expect(downloadNotificationisDisplayed).toBe(true)
 
     // Wait until a non-empty file (not .crdownload) appears in downloads
     await browser.waitUntil(
@@ -350,7 +357,6 @@ inlet height`
     await customselectionPage.getContinueButton.click()
     await common.legalWait()
     // AQD-1063: Verify download loading container is NOT displayed (no auto-download)
-
     const loadingContainer = await DownloadYourDataPage.getDownloadProgress
     const isDisplayed = await loadingContainer.isDisplayed()
     await expect(isDisplayed).toBe(false)
