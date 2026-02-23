@@ -9,6 +9,8 @@ import footer from '../../page-objects/footer.js'
 import hubPage from '../../page-objects/hubPage.js'
 import customselectionPage from '../../page-objects/customSelectionsPage.js'
 import addPollutantPage from '../../page-objects/addPollutantPage.js'
+import addYearPage from '../../page-objects/addYearPage.js'
+import addLocationPage from '../../page-objects/addLocationPage.js'
 describe('custom selections page', () => {
   it('content and titles AQD-803', async () => {
     await browser.url('')
@@ -243,5 +245,77 @@ Continue`
     await expect(isViewDataSourcesLinkDisplayed).toBe(true)
     await expect(isAddChangeYearLinkDisplayed).toBe(true)
     await expect(isAddChangeLocationLinkDisplayed).toBe(true)
+  })
+
+  it('AQD-1141 incorrect error message for custom selections page', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getContinueButton.click()
+    await common.legalWait()
+
+    const isAddPollutantErrorLinkDisplayed = await common
+      .errorSummaryItemByText('Add pollutant')
+      .isDisplayed()
+    await expect(isAddPollutantErrorLinkDisplayed).toBe(true)
+    const addPollutantErrorLinkText = await common
+      .errorSummaryItemByText('Add pollutant')
+      .getText()
+    const expectedAddPollutantErrorLinkText = 'Add pollutant'
+    await expect(addPollutantErrorLinkText).toBe(
+      expectedAddPollutantErrorLinkText
+    )
+    await common.errorSummaryItemByText('Add pollutant').click()
+    const getAddPollutantCurrentUrl = await browser.getUrl()
+    const expectedAddPollutantCurrentURL = 'airpollutant'
+    await expect(getAddPollutantCurrentUrl).toMatch(
+      expectedAddPollutantCurrentURL
+    )
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Nitrogen dioxide')
+    await common.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await common.legalWait()
+
+    const isAddYearErrorLinkDisplayed = await common
+      .errorSummaryItemByText('Add year')
+      .isDisplayed()
+    await expect(isAddYearErrorLinkDisplayed).toBe(true)
+    const addYearErrorLinkText = await common
+      .errorSummaryItemByText('Add year')
+      .getText()
+    const expectedAddYearErrorLinkText = 'Add year'
+    await expect(addYearErrorLinkText).toBe(expectedAddYearErrorLinkText)
+    await common.errorSummaryItemByText('Add year').click()
+    const getAddYearCurrentUrl = await browser.getUrl()
+    const expectedAddYearCurrentURL = 'year-aurn'
+    await expect(getAddYearCurrentUrl).toMatch(expectedAddYearCurrentURL)
+    await addYearPage.getYearToDateRadio.click()
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await common.legalWait()
+
+    const isAddLocationErrorLinkDisplayed = await common
+      .errorSummaryItemByText('Add location')
+      .isDisplayed()
+    await expect(isAddLocationErrorLinkDisplayed).toBe(true)
+    const addLocationErrorLinkText = await common
+      .errorSummaryItemByText('Add location')
+      .getText()
+    const expectedAddLocationErrorLinkText = 'Add location'
+    await expect(addLocationErrorLinkText).toBe(
+      expectedAddLocationErrorLinkText
+    )
+    await common.errorSummaryItemByText('Add location').click()
+    const getAddLocationCurrentUrl = await browser.getUrl()
+    const expectedAddLocationCurrentURL = 'location-aurn?change=true'
+    await expect(getAddLocationCurrentUrl).toMatch(
+      expectedAddLocationCurrentURL
+    )
+    await addLocationPage.getCountriesOptionRadio.click()
+    await addLocationPage.getEnglandOption.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getContinueButton.click()
   })
 })
