@@ -104,6 +104,7 @@ describe('No Javascript Happy Path', () => {
     await hubPage.getCreateCustomDataSet.click()
     await customselectionPage.getAddPollutantLink.click()
     await common.continueButton.click()
+    await common.legalWait()
     const isSelectOptionErrorDisplayed = await common
       .errorSummaryItemByText('Select an option before continuing')
       .isDisplayed()
@@ -334,5 +335,70 @@ Sulphur dioxide (SO2)`
     await customselectionPage.getContinueButton.click()
     await common.legalWait()
     await common.notDisplayed(await DownloadYourDataPage.getSaveYourSearchTitle)
+  })
+
+  it('AQD-1052 Add locations(s) - Local authority | NoJS Version', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.getNoJsPollutantDropdown.click()
+    await addPollutantPage.getNoJsPM25OptionValue.click()
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getYearToDateRadio.click()
+    await addYearPage.continueButton.click()
+
+    await customselectionPage.getAddChangeLocationLinkNoJs.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await common.legalWait()
+    const isSelectAnOptionErrorDisplayed = await common
+      .errorSummaryItemByText('Select an option before continuing')
+      .isDisplayed()
+    await expect(isSelectAnOptionErrorDisplayed).toBe(true)
+    const isSelectAnOptionErrorLink = await common.errorSummaryItemByText(
+      'Select an option before continuing'
+    )
+    await isSelectAnOptionErrorLink.click()
+    const isCountriesOptionFocused =
+      await addLocationPage.getCountriesOptionRadio.isFocused()
+    await expect(isCountriesOptionFocused).toBe(true)
+    await addLocationPage.getLocalAuthorityRadio.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await common.legalWait()
+    const isAddAtLeastOneLocalAuthorityErrorDisplayed = await common
+      .errorSummaryItemByText('Add at least one local authority')
+      .isDisplayed()
+    await expect(isAddAtLeastOneLocalAuthorityErrorDisplayed).toBe(true)
+    const isAddAtLeastOneLocalAuthorityErrorLink =
+      await common.errorSummaryItemByText('Add at least one local authority')
+    await isAddAtLeastOneLocalAuthorityErrorLink.click()
+    const isLocalAuthorityDropdownFocused =
+      await addLocationPage.getSelectALocalAuthorityDropdown.isFocused()
+    await expect(isLocalAuthorityDropdownFocused).toBe(true)
+
+    await addLocationPage.getSelectALocalAuthorityDropdown.click()
+    await addLocationPage.getOptionAberdeenCityCouncil.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    const localAuthoritySelected =
+      await customselectionPage.getLocationValue.getText()
+    const expectedLocalAuthoritySelected = `Aberdeen City Council`
+    await expect(localAuthoritySelected).toMatch(expectedLocalAuthoritySelected)
+
+    const changeLink =
+      await customselectionPage.getAddChangeLocationLinkNoJs.getText()
+    const expectedChangeLink = `Change`
+    await expect(changeLink).toMatch(expectedChangeLink)
+
+    await customselectionPage.getAddChangeLocationLinkNoJs.click()
+    const isLocalAuthorityOptionRadioSelected =
+      await addLocationPage.getLocalAuthorityRadio.isSelected()
+    await expect(isLocalAuthorityOptionRadioSelected).toBe(true)
+    const isAberdeenCityCouncilOptionSelected =
+      await addLocationPage.getOptionAberdeenCityCouncil.isSelected()
+    await expect(isAberdeenCityCouncilOptionSelected).toBe(true)
   })
 })
