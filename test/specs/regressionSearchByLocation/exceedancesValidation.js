@@ -12,7 +12,7 @@ import disambigurationPage from '../../page-objects/disambigurationPage.js'
 import common from '../../page-objects/common.js'
 import locationMonitoringStationListPage from '../../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../../page-objects/monitoringStationPage.js'
-import hubPage from '../page-objects/hubPage.js'
+import hubPage from '../../page-objects/hubPage.js'
 
 describe('exceedences', () => {
   it('hourly exceedences , AQD-632', async () => {
