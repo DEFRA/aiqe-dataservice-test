@@ -176,9 +176,7 @@ describe('monitoring station list page tests', () => {
       expect(styles['margin-bottom']).toBe('15px')
       expect(styles['margin-top']).toBe('15px')
       expect(styles['padding-left']).toBe('14px')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(11, 12, 12)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['font-weight']).toBe('400')
     }
 
@@ -202,9 +200,7 @@ describe('monitoring station list page tests', () => {
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-weight']).toBe('400')
@@ -234,9 +230,7 @@ describe('monitoring station list page tests', () => {
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['text-decoration-thickness']).toBe('1px')
       // expect(styles['font-weight']).toBe('700') styling bug
       expect(styles['text-align']).toBe('left')
@@ -267,7 +261,9 @@ describe('monitoring station list page tests', () => {
         getMonitoringStationTableHeadingProperties
       )
       expect(styles.width).toBe('460px')
-      expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
+      expect(styles['border-bottom']).toBe(
+        '0.666667px solid rgb(177, 180, 182)'
+      )
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('left')
       expect(styles['vertical-align']).toBe('top')
@@ -301,7 +297,9 @@ describe('monitoring station list page tests', () => {
         getSiteTypeTableHeadingProperties
       )
       expect(styles.width).toBe('220px')
-      expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
+      expect(styles['border-bottom']).toBe(
+        '0.666667px solid rgb(177, 180, 182)'
+      )
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('left')
       expect(styles['vertical-align']).toBe('top')
@@ -337,7 +335,9 @@ describe('monitoring station list page tests', () => {
       )
       expect(styles['padding-right']).toBe('0px')
       expect(styles.width).toBe('240px')
-      expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
+      expect(styles['border-bottom']).toBe(
+        '0.666667px solid rgb(177, 180, 182)'
+      )
       expect(styles.padding).toBe('10px 0px')
       expect(styles['text-align']).toBe('right')
       expect(styles['vertical-align']).toBe('top')

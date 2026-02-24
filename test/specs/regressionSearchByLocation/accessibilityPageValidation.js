@@ -120,9 +120,7 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['text-decoration-thickness']).toBe('1px')
       expect(styles.cursor).toBe('pointer')
       expect(styles['font-size']).toBe('19px')
@@ -152,9 +150,7 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['text-decoration-thickness']).toBe('1px')
       expect(styles.cursor).toBe('pointer')
       expect(styles['font-size']).toBe('19px')

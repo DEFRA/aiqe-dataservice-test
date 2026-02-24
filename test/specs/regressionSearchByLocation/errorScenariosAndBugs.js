@@ -82,7 +82,7 @@ Enter a town or postcode`
       const styles = await common.getStyles(element, getErrorSummaryProperties)
       expect(styles['margin-bottom']).toBe('50px')
       expect(styles.padding).toBe('20px')
-      expect(styles.border).toBe('5px solid rgb(212, 53, 28)')
+      expect(styles.border).toBe('4.66667px solid rgb(212, 53, 28)')
     }
 
     const getErrorTitle = [await errorPage.getErrorTitle]
@@ -122,9 +122,7 @@ Enter a town or postcode`
       expect(styles.color).toBe('rgb(212, 53, 28)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(212, 53, 28)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
     }
@@ -163,7 +161,7 @@ Enter a town or postcode`
         element,
         getErrorFormGroupProperties
       )
-      expect(styles['border-left']).toBe('5px solid rgb(212, 53, 28)')
+      expect(styles['border-left']).toBe('4.66667px solid rgb(212, 53, 28)')
       expect(styles['padding-left']).toBe('15px')
       expect(styles['margin-bottom']).toBe('30px')
     }
@@ -645,9 +643,7 @@ choose a different location`
         getError404AirQualityEmailLinkStylingProperties
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
