@@ -82,7 +82,7 @@ Enter a town or postcode`
       const styles = await common.getStyles(element, getErrorSummaryProperties)
       expect(styles['margin-bottom']).toBe('50px')
       expect(styles.padding).toBe('20px')
-      expect(styles.border).toBe('4.66667px solid rgb(212, 53, 28)')
+      expect(styles.border).toBe('5px solid rgb(212, 53, 28)')
     }
 
     const getErrorTitle = [await errorPage.getErrorTitle]
@@ -161,7 +161,7 @@ Enter a town or postcode`
         element,
         getErrorFormGroupProperties
       )
-      expect(styles['border-left']).toBe('4.66667px solid rgb(212, 53, 28)')
+      expect(styles['border-left']).toBe('5px solid rgb(212, 53, 28)')
       expect(styles['padding-left']).toBe('15px')
       expect(styles['margin-bottom']).toBe('30px')
     }

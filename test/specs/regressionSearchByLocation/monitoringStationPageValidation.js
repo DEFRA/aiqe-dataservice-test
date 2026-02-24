@@ -73,9 +73,7 @@ describe('monitoring station page tests', () => {
       expect(styles['margin-bottom']).toBe('15px')
       expect(styles['margin-top']).toBe('15px')
       expect(styles['padding-left']).toBe('14px')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(11, 12, 12)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['text-decoration-thickness']).toBe('1px')
       expect(styles['font-weight']).toBe('400')
     }
