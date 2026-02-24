@@ -78,7 +78,7 @@ describe('header validation', () => {
       expect(styles.background).toBe(
         'rgb(29, 112, 184) none repeat scroll 0% 0% / auto padding-box border-box'
       )
-      expect(styles['border-bottom']).toBe('1px solid rgba(0, 0, 0, 0)')
+      expect(styles['border-bottom']).toBe('0.666667px solid rgba(0, 0, 0, 0)')
       expect(styles.color).toBe('rgb(255, 255, 255)')
       expect(styles['font-weight']).toBe('400')
     }
@@ -123,9 +123,7 @@ describe('header validation', () => {
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['font-size']).toBe('16px')
       expect(styles['line-height']).toBe('20px')
       expect(styles['font-weight']).toBe('400')

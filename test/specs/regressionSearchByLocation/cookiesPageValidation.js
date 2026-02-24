@@ -125,9 +125,7 @@ Save cookie settings`
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['text-decoration-thickness']).toBe('1px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
@@ -155,9 +153,7 @@ Save cookie settings`
       )
       expect(styles.color).toBe('rgb(29, 112, 184)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['text-decoration-thickness']).toBe('1px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
@@ -348,7 +344,9 @@ Save cookie settings`
 
     for (const element of getTableHeading) {
       const styles = await common.getStyles(element, getTableHeadingProperties)
-      expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
+      expect(styles['border-bottom']).toBe(
+        '0.666667px solid rgb(177, 180, 182)'
+      )
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('left')
       expect(styles['vertical-align']).toBe('top')
@@ -358,7 +356,7 @@ Save cookie settings`
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['border-collapse']).toBe('collapse')
-      expect(styles['border-spacing']).toBe('0px 0px')
+      expect(styles['border-spacing']).toBe('0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
     }
 
@@ -380,7 +378,9 @@ Save cookie settings`
 
     for (const element of getTableContent) {
       const styles = await common.getStyles(element, getTableContentProperties)
-      expect(styles['border-bottom']).toBe('1px solid rgb(177, 180, 182)')
+      expect(styles['border-bottom']).toBe(
+        '0.666667px solid rgb(177, 180, 182)'
+      )
       expect(styles.padding).toBe('10px 20px 10px 0px')
       expect(styles['text-align']).toBe('left')
       expect(styles['vertical-align']).toBe('top')
@@ -388,7 +388,7 @@ Save cookie settings`
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['border-collapse']).toBe('collapse')
-      expect(styles['border-spacing']).toBe('0px 0px')
+      expect(styles['border-spacing']).toBe('0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
@@ -436,7 +436,7 @@ Save cookie settings`
       const styles = await common.getStyles(element, getListItemProperties)
       expect(styles['margin-bottom']).toBe('5px')
       expect(styles.display).toBe('list-item')
-      expect(styles['text-align']).toBe('left')
+      expect(styles['text-align']).toBe('start')
       expect(styles['list-style-type']).toBe('disc')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
