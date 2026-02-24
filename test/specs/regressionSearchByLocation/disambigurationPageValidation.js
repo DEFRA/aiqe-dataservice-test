@@ -5,12 +5,12 @@ import { browser, expect } from '@wdio/globals'
 // import createLogger from 'helpers/logger'
 import searchPage from '../../page-objects/searchPage.js'
 // import resultsPage from '../page-objects/resultsPage.js'
-// import monitoringStationPage from '../page-objects/monitoringStationPage.js'
+// import monitoringStationPage from '../../page-objects/monitoringStationPage.js'
 import headersObject from '../../page-objects/header.js'
 import footer from '../../page-objects/footer.js'
 import disambigurationPage from '../../page-objects/disambigurationPage.js'
 import common from '../../page-objects/common.js'
-// import hubPage from '../page-objects/hubPage.js'
+import hubPage from '../../page-objects/hubPage.js'
 
 describe('disambiguration page tests', () => {
   it('checking titles and content', async () => {
@@ -23,7 +23,7 @@ describe('disambiguration page tests', () => {
     // await cookieBanner.hideButtonHideDialog.click()
     // startnow-block
     await startNowPage.startNowBtnClick()
-    // await hubPage.getFindMonitoringStationsByLocation.click()
+    await hubPage.getFindMonitoringStationsByLocation.click()
 
     // search block
     const isHeaderOverallDisplayed =

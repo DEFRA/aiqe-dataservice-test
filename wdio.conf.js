@@ -123,7 +123,10 @@ export const config = {
             osVersion: '11',
             local: true
           },
-          specs: ['./test/specs/regressionSearchByLocation/*.js'],
+          specs: [
+            './test/specs/regressionSearchByLocation/*.js',
+            './test/specs/regressionCreateACustomDataSet/*.js'
+          ],
           exclude: []
         },
         // Tablet: iPad Air 5 (iOS Safari)
