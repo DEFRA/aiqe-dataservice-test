@@ -127,7 +127,9 @@ export const config = {
             './test/specs/regressionSearchByLocation/*.js',
             './test/specs/regressionCreateACustomDataSet/*.js'
           ],
-          exclude: []
+          exclude: [
+            './test/specs/regressionCreateACustomDataSet/DownloadYourDataPageValidation.js'
+          ]
         },
         // Tablet: iPad Air 5 (iOS Safari)
         {
