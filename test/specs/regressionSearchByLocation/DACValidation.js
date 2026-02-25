@@ -42,6 +42,7 @@ describe('DAC tests ', () => {
     )
 
     await monitoringStationPage.getPM25AnnualAverageToggleTip.click()
+    await common.legalWait()
     const getPM25AnnualAverageToggleTipInfoTextAfterClick = [
       await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText
     ]
@@ -133,43 +134,54 @@ describe('DAC tests ', () => {
   })
   it('Toggletips do not work via keyboard, AQD-640', async () => {
     await monitoringStationPage.get2025Button.click()
+    await common.legalWait()
     await browser.keys('Tab')
+    await browser.keys('Tab')
+    await common.legalWait()
     const isPM25AnnualAverageToggleTipInfoTextDisplayed =
       await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText.isDisplayed()
     await expect(isPM25AnnualAverageToggleTipInfoTextDisplayed).toBe(true)
     await browser.keys('Tab')
-    const isPM10DailyExceedenceToggleTipInfoTextDisplayed =
-      await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText.isDisplayed()
-    await expect(isPM10DailyExceedenceToggleTipInfoTextDisplayed).toBe(true)
-    await browser.keys('Tab')
+    await common.legalWait()
     const isPM10AnnualAverageToggleTipInfoTextDisplayed =
       await monitoringStationPage.getPM10AnnualAverageToggleTipInfoText.isDisplayed()
     await expect(isPM10AnnualAverageToggleTipInfoTextDisplayed).toBe(true)
     await browser.keys('Tab')
+    await common.legalWait()
+    const isPM10DailyExceedenceToggleTipInfoTextDisplayed =
+      await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText.isDisplayed()
+    await expect(isPM10DailyExceedenceToggleTipInfoTextDisplayed).toBe(true)
+    await browser.keys('Tab')
+    await common.legalWait()
     const isNitrogenDioxideAnnualAverageToggleTipInfoTextDisplayed =
       await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTipInfoText.isDisplayed()
     await expect(isNitrogenDioxideAnnualAverageToggleTipInfoTextDisplayed).toBe(
       true
     )
     await browser.keys('Tab')
+    await common.legalWait()
     const isNOHourlyExceedenceToggleTipInfoTextDisplayed =
       await monitoringStationPage.getNOHourlyExceedenceToggleTipInfoText.isDisplayed()
     await expect(isNOHourlyExceedenceToggleTipInfoTextDisplayed).toBe(true)
     await browser.keys('Tab')
+    await common.legalWait()
     const isOzoneAnnualAverageToggleTipInfoTextDisplayed =
       await monitoringStationPage.getOzoneAnnualAverageToggleTipInfoText.isDisplayed()
     await expect(isOzoneAnnualAverageToggleTipInfoTextDisplayed).toBe(true)
     await browser.keys('Tab')
+    await common.legalWait()
     const isSulphurDioxideAnnualAverageToggleTipInfoTextDisplayed =
       await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTipInfoText.isDisplayed()
     await expect(isSulphurDioxideAnnualAverageToggleTipInfoTextDisplayed).toBe(
       true
     )
     await browser.keys('Tab')
+    await common.legalWait()
     const isSDDailyExceedenceToggleTipInfoTextDisplayed =
       await monitoringStationPage.getSDDailyExceedenceToggleTipInfoText.isDisplayed()
     await expect(isSDDailyExceedenceToggleTipInfoTextDisplayed).toBe(true)
     await browser.keys('Tab')
+    await common.legalWait()
     const isSDHourlyExceedenceToggleTipInfoTextDisplayed =
       await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.isDisplayed()
     await expect(isSDHourlyExceedenceToggleTipInfoTextDisplayed).toBe(true)

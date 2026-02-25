@@ -18,7 +18,7 @@ class MonitoringStationPage {
   }
 
   get getMonitoringNetworkTitle() {
-    return $$("dt[class*='defra-aq-features__key govuk-caption-m']")[0]
+    return $$("dt[class*='defra-aq-features__key']")[0]
   }
 
   get getMonitoringNetworkData() {
@@ -26,7 +26,7 @@ class MonitoringStationPage {
   }
 
   get getRegionTitle() {
-    return $$("dt[class*='defra-aq-features__key govuk-caption-m']")[1]
+    return $$("dt[class*='defra-aq-features__key']")[1]
   }
 
   get getRegionData() {
@@ -34,7 +34,7 @@ class MonitoringStationPage {
   }
 
   get getSiteTypeTitle() {
-    return $$("dt[class*='defra-aq-features__key govuk-caption-m']")[2]
+    return $$("dt[class*='defra-aq-features__key']")[2]
   }
 
   get getSiteTypeData() {
