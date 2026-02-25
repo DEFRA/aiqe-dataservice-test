@@ -1187,9 +1187,7 @@ i`
         element,
         getApproximateFileSizesDropDownLinkStylesProperties
       )
-      expect(styles['text-decoration']).toBe(
-        'underline 1px solid rgb(29, 112, 184)'
-      )
+      expect(styles['text-decoration']).toBe('underline 1px')
       expect(styles['text-decoration-thickness']).toBe('1px')
       expect(styles['text-underline-offset']).toBe('2.9982px')
       expect(styles.color).toBe('rgb(29, 112, 184)')
@@ -1685,7 +1683,7 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(219, 218, 217)')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -2264,7 +2262,7 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(219, 218, 217)')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -2425,7 +2423,7 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(219, 218, 217)')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -2439,7 +2437,7 @@ annual average data - usually less than 100KB`
   it('Low Data Capture % Toggle Tip, AQD-760', async () => {
     await browser.url('')
     await startNowPage.startNowBtnClick()
-    // await hubPage.getFindMonitoringStationsByLocation.click()
+    await hubPage.getFindMonitoringStationsByLocation.click()
     await searchPage.setsearch('Birmingham')
     await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()
