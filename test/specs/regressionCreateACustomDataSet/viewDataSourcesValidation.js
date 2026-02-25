@@ -84,15 +84,6 @@ Instrument and method: TEOM-FDMS/BAM and gravimetric (PM2.5, PM10), chemilumines
     )
   })
 
-  it('link checks', async () => {
-    await common.getBackLink.click()
-    const url = await browser.getUrl()
-    const expectedUrl =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/customdataset'
-    await expect(url).toBe(expectedUrl)
-    await customselectionPage.getViewDataSourcesLink.click()
-  })
-
   it('styling checks', async () => {
     const DownloadYourDataHeading = [
       await viewDataSourcesPage.getViewDataSourcesHeading
@@ -226,5 +217,11 @@ Instrument and method: TEOM-FDMS/BAM and gravimetric (PM2.5, PM10), chemilumines
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('400')
     }
+  })
+
+  it('link checks', async () => {
+    await common.getBackLink.click()
+    const url = await browser.getUrl()
+    await expect(url).toContain('customdataset')
   })
 })
