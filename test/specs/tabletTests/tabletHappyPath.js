@@ -13,7 +13,7 @@ import createLogger from '../../helpers/logger.js'
 import disambigurationPage from '../../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../../page-objects/monitoringStationPage.js'
-// import hubPage from '../page-objects/hubPage.js'
+import hubPage from '../page-objects/hubPage.js'
 
 const logger = createLogger()
 describe('tablet happy Path', () => {
@@ -323,7 +323,7 @@ describe('tablet happy Path', () => {
 
     await startNowPage.startNowBtnClick()
     await common.legalWait()
-    // await hubPage.getFindMonitoringStationsByLocation.click()
+    await hubPage.getFindMonitoringStationsByLocation.click()
     const searchPageHeading = [await searchPage.getSearchPageHeaderText]
 
     const searchPageHeadingProperties = [
