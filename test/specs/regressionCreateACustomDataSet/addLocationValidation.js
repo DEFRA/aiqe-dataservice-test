@@ -541,7 +541,7 @@ Cornwall County Council`
     await customselectionPage.getContinueButton.click()
     const numberOfStationsAvailable =
       await DownloadYourDataPage.getNumberOfStationsAvailable.getText()
-    const expectedNumberOfStationsAvailable = '63 stations available'
+    const expectedNumberOfStationsAvailable = '18 stations available'
     await expect(numberOfStationsAvailable).toMatch(
       expectedNumberOfStationsAvailable
     )

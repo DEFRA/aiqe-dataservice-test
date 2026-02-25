@@ -1150,7 +1150,7 @@ i`
       expect(styles['line-height']).toBe('25px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['border-collapse']).toBe('collapse')
-      expect(styles['border-spacing']).toBe('0px 0px')
+      expect(styles['border-spacing']).toBe('0px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
     }
