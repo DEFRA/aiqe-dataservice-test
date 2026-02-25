@@ -149,7 +149,7 @@ class MonitoringStationPage {
   }
 
   get getFeatureCaption() {
-    return $("dt[class*='defra-aq-features__key govuk-caption-m']")
+    return $("dt[class*='defra-aq-features__key']")
   }
 
   get getFeatureBody() {
