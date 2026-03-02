@@ -16,7 +16,7 @@ let perPollutantCoverage = null
 
 describe('API Testing', () => {
   it('monitoring station api availability and getting site id for one station', async () => {
-    const apiKey = 'nhV83hwrE6LOZo54euNBNPIahS12K0Jj'
+    const apiKey = 'gYb6VtPt71nLrWPDEbcpJ8XmyVkcDlsy'
     const url =
       'https://ephemeral-protected.api.dev.cdp-int.defra.cloud/aqie-back-end/measurements?localSiteID=DESA'
 
@@ -473,5 +473,102 @@ describe('API Testing', () => {
     await expect(exceedanceDays).toEqual(pm10DailyExceedanceFrontEnd)
   })
 
-  it('testing atom api for hourly exceedances presented on front end', async () => {})
+  it('testing atom api for hourly exceedances presented on front end', async () => {
+    // API endpoint for London Marylebone Road 2018 data
+    const urlAtom =
+      'https://uk-air.defra.gov.uk/data/atom-dls/observations/auto/GB_FixedObservations_2018_MY1.xml'
+
+    // Nitrogen dioxide pollutant code
+    const nitrogenDioxideCode = 8
+    const exceedanceThreshold = 200.4
+
+    // Fetch the XML data
+    const response = await axios.get(urlAtom)
+    const xml = response.data
+
+    // Parse XML
+    const parser = new xml2js.Parser({ explicitArray: false })
+    const result = await parser.parseStringPromise(xml)
+
+    // Get all feature members
+    const featureMembers = result['gml:FeatureCollection']['gml:featureMember']
+    const featureArray = Array.isArray(featureMembers)
+      ? featureMembers
+      : [featureMembers]
+
+    // Filter observations for nitrogen dioxide (pollutant code 8)
+    const nitrogenDioxideObservations = featureArray.filter((member) => {
+      const obs = member['om:OM_Observation']
+      if (!obs) return false
+      const observedProperty = obs['om:observedProperty']
+      return (
+        observedProperty &&
+        observedProperty.$ &&
+        observedProperty.$['xlink:href'] &&
+        observedProperty.$['xlink:href'].endsWith(
+          `/pollutant/${nitrogenDioxideCode}`
+        )
+      )
+    })
+
+    // Extract values from matching observations
+    const values = nitrogenDioxideObservations.map((obsMember) => {
+      const obs = obsMember['om:OM_Observation']
+      return obs['om:result']['swe:DataArray']['swe:values']
+    })
+
+    // Parse the data rows
+    const rows = values.flatMap((valStr) =>
+      valStr
+        .split('@@')
+        .map((row) => row.split(','))
+        .map((fields) => ({
+          value: fields[4]
+        }))
+        .filter((r) => r.value !== undefined && r.value !== '-99')
+    )
+
+    // Count exceedances (values over 200)
+    let exceedanceCount = 0
+    for (const row of rows) {
+      const value = Number(row.value)
+      if (!isNaN(value) && value > exceedanceThreshold) {
+        exceedanceCount++
+      }
+    }
+
+    // eslint-disable-next-line no-console
+    console.log(
+      `Total nitrogen dioxide exceedances (>${exceedanceThreshold}): ${exceedanceCount}`
+    )
+
+    // Verify there are 29 exceedances
+    await expect(exceedanceCount).toBe(29)
+
+    // Front-end: navigate and assert Nitrogen dioxide hourly exceedances for 2018
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Marylebone Road')
+      .click()
+    await monitoringStationPage.get2018Button.click()
+    await common.legalWait()
+
+    await monitoringStationPage.getNOHourlyExceedence.waitForExist({
+      timeout: 5000
+    })
+    const nitrogenDioxideHourlyExceedanceFrontEnd = common.parseNumber(
+      await monitoringStationPage.getNOHourlyExceedence.getText()
+    )
+
+    await expect(exceedanceCount).toEqual(
+      nitrogenDioxideHourlyExceedanceFrontEnd
+    )
+  })
 })
