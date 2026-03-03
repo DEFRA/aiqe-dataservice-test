@@ -473,7 +473,128 @@ describe('API Testing', () => {
     await expect(exceedanceDays).toEqual(pm10DailyExceedanceFrontEnd)
   })
 
-  it('testing atom api for hourly exceedances presented on front end', async () => {
+  it('testing atom api for daily exceedances presented on front end for sulphur dioxide', async () => {
+    // Backend: compute sulphur dioxide daily exceedances (> 125.4 µg/m³) for 2022 at CLL2
+    const urlAtom2022 =
+      'https://uk-air.defra.gov.uk/data/atom-dls/observations/auto/GB_FixedObservations_2022_CLL2.xml'
+    const response = await axios.get(urlAtom2022)
+    const xml = response.data
+
+    const parser = new xml2js.Parser({ explicitArray: false })
+    const result = await parser.parseStringPromise(xml)
+
+    const featureMembers = result['gml:FeatureCollection']['gml:featureMember']
+    const featureArray = Array.isArray(featureMembers)
+      ? featureMembers
+      : [featureMembers]
+
+    // Sulphur dioxide pollutant code = 1
+    const matchingObservations = featureArray.filter((member) => {
+      const obs = member['om:OM_Observation']
+      if (!obs) return false
+      const observedProperty = obs['om:observedProperty']
+      return (
+        observedProperty &&
+        observedProperty.$ &&
+        observedProperty.$['xlink:href'] &&
+        observedProperty.$['xlink:href'].endsWith('/pollutant/1')
+      )
+    })
+
+    if (!matchingObservations.length) {
+      throw new Error(
+        'No sulphur dioxide observations found in 2022 feed for CLL2'
+      )
+    }
+
+    const values = matchingObservations.map((obsMember) => {
+      const obs = obsMember['om:OM_Observation']
+      return obs['om:result']['swe:DataArray']['swe:values']
+    })
+
+    const rows = values.flatMap((valStr) =>
+      valStr
+        .split('@@')
+        .map((row) => row.split(','))
+        .map((fields) => ({
+          ts:
+            fields[0] && !isNaN(Date.parse(fields[0]))
+              ? fields[0]
+              : fields[1] && !isNaN(Date.parse(fields[1]))
+                ? fields[1]
+                : fields.find((f) => !isNaN(Date.parse(f))) || '',
+          v: fields[4]
+        }))
+        .filter((r) => r.v !== undefined && r.v !== '-99')
+    )
+
+    const parsed = rows
+      .map((r) => ({ date: new Date(r.ts), value: Number(r.v) }))
+      .filter((r) => !isNaN(r.date.getTime()) && !isNaN(r.value))
+
+    // Group by local day and compute daily means where coverage >= 75% (>= 18 hours)
+    const byDay = new Map()
+    for (const r of parsed) {
+      const yyyy = r.date.getFullYear()
+      const mm = String(r.date.getMonth() + 1).padStart(2, '0')
+      const dd = String(r.date.getDate()).padStart(2, '0')
+      const key = `${yyyy}-${mm}-${dd}`
+      if (!byDay.has(key)) byDay.set(key, [])
+      byDay.get(key).push(r.value)
+    }
+
+    const minHours = 18
+    let exceedanceDays = 0
+    const dailyMeans = []
+    for (const [day, valuesForDay] of byDay) {
+      if (valuesForDay.length >= minHours) {
+        const mean =
+          valuesForDay.reduce((s, v) => s + v, 0) / valuesForDay.length
+        dailyMeans.push({ day, mean, hours: valuesForDay.length })
+        // Scientific threshold: count days strictly above 125.4 µg/m³
+        if (mean > 125.4) exceedanceDays++
+      }
+    }
+
+    try {
+      allure.addAttachment(
+        'Sulphur dioxide Daily Means (2022 CLL2)',
+        JSON.stringify(dailyMeans.slice(0, 20), null, 2),
+        'application/json'
+      )
+      allure.addAttachment(
+        'Sulphur dioxide Daily Exceedances Count (2022)',
+        JSON.stringify({ exceedanceDays }, null, 2),
+        'application/json'
+      )
+    } catch {}
+
+    // Front-end: navigate and assert sulphur dioxide daily exceedances for 2022
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.get2022Button.click()
+    await common.legalWait()
+
+    await monitoringStationPage.getSDDailyExceedence.waitForExist({
+      timeout: 5000
+    })
+    const sulphurDioxideDailyExceedanceFrontEnd = common.parseNumber(
+      await monitoringStationPage.getSDDailyExceedence.getText()
+    )
+
+    await expect(exceedanceDays).toEqual(sulphurDioxideDailyExceedanceFrontEnd)
+  })
+
+  it('testing atom api for hourly exceedances for nitrogen dioxide presented on front end', async () => {
     // API endpoint for London Marylebone Road 2018 data
     const urlAtom =
       'https://uk-air.defra.gov.uk/data/atom-dls/observations/auto/GB_FixedObservations_2018_MY1.xml'
@@ -569,6 +690,102 @@ describe('API Testing', () => {
 
     await expect(exceedanceCount).toEqual(
       nitrogenDioxideHourlyExceedanceFrontEnd
+    )
+  })
+
+  it('testing atom api for hourly exceedances presented on front end for sulphur dioxide', async () => {
+    // API endpoint for London Marylebone Road 2018 data
+    const urlAtom =
+      'https://uk-air.defra.gov.uk/data/atom-dls/observations/auto/GB_FixedObservations_2018_MY1.xml'
+
+    // Sulphur dioxide pollutant code
+    const sulphurDioxideCode = 1
+    const exceedanceThreshold = 300.4
+
+    // Fetch the XML data
+    const response = await axios.get(urlAtom)
+    const xml = response.data
+
+    // Parse XML
+    const parser = new xml2js.Parser({ explicitArray: false })
+    const result = await parser.parseStringPromise(xml)
+
+    // Get all feature members
+    const featureMembers = result['gml:FeatureCollection']['gml:featureMember']
+    const featureArray = Array.isArray(featureMembers)
+      ? featureMembers
+      : [featureMembers]
+
+    // Filter observations for sulphur dioxide (pollutant code 1)
+    const sulphurDioxideObservations = featureArray.filter((member) => {
+      const obs = member['om:OM_Observation']
+      if (!obs) return false
+      const observedProperty = obs['om:observedProperty']
+      return (
+        observedProperty &&
+        observedProperty.$ &&
+        observedProperty.$['xlink:href'] &&
+        observedProperty.$['xlink:href'].endsWith(
+          `/pollutant/${sulphurDioxideCode}`
+        )
+      )
+    })
+
+    // Extract values from matching observations
+    const values = sulphurDioxideObservations.map((obsMember) => {
+      const obs = obsMember['om:OM_Observation']
+      return obs['om:result']['swe:DataArray']['swe:values']
+    })
+
+    // Parse the data rows
+    const rows = values.flatMap((valStr) =>
+      valStr
+        .split('@@')
+        .map((row) => row.split(','))
+        .map((fields) => ({
+          value: fields[4]
+        }))
+        .filter((r) => r.value !== undefined && r.value !== '-99')
+    )
+
+    // Count exceedances (values over 300.4)
+    let exceedanceCount = 0
+    for (const row of rows) {
+      const value = Number(row.value)
+      if (!isNaN(value) && value > exceedanceThreshold) {
+        exceedanceCount++
+      }
+    }
+
+    // eslint-disable-next-line no-console
+    console.log(
+      `Total sulphur dioxide exceedances (>${exceedanceThreshold}): ${exceedanceCount}`
+    )
+
+    // Front-end: navigate and assert Sulphur dioxide hourly exceedances for 2018
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Marylebone Road')
+      .click()
+    await monitoringStationPage.get2018Button.click()
+    await common.legalWait()
+
+    await monitoringStationPage.getSDHourlyExceedence.waitForExist({
+      timeout: 5000
+    })
+    const sulphurDioxideHourlyExceedanceFrontEnd = common.parseNumber(
+      await monitoringStationPage.getSDHourlyExceedence.getText()
+    )
+
+    await expect(exceedanceCount).toEqual(
+      sulphurDioxideHourlyExceedanceFrontEnd
     )
   })
 })
