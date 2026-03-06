@@ -22,9 +22,9 @@ describe('hub page checks', () => {
 Find monitoring stations by location
 View and download data by town or postcode
 Create a custom dataset
-View and download data by pollutant,year and location.`
-    const gethubPagecontent = await hubPage.getHubPagecontent.getText()
-    await expect(hubPageContent).toMatch(gethubPagecontent)
+View and download data by pollutant, year and location`
+    const getHubPageContent = await hubPage.getHubPagecontent.getText()
+    await expect(getHubPageContent).toMatch(hubPageContent)
   })
 
   it('styling checks', async () => {
