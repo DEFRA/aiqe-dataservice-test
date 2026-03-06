@@ -123,6 +123,12 @@ class Common {
     const m = String(s).match(/-?\d+(?:\.\d+)?/)
     return m ? Number(m[0]) : null
   }
+
+  getHintTextByText(message) {
+    return $(
+      `//div[contains(@class,'govuk-hint')][normalize-space(.)="${message}"]`
+    )
+  }
 }
 
 export default new Common()
