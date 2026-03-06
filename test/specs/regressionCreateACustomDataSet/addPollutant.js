@@ -635,4 +635,48 @@ Ozone (O3)`
       'Please select a pollutant from the allowed list'
     await expect(fakePollutantError).toMatch(expectedfakePollutantError)
   })
+
+  it('AQD-1163 - Retain Pollutant selection when seeing validation | Add pollutants(s) (individual pollutants)', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.getAddPollutantSearchBox.setValue(
+      'sulphurrr dioxideee'
+    )
+    await addPollutantPage.getAddPollutantButton.click()
+    await addPollutantPage.getAddPollutantButton.click()
+    const wrongSpellingErrorAfterAddPollutantButtonClick = await common
+      .errorSummaryItemByText('Select a pollutant from the list')
+      .getText()
+    const expectedWrongSpellingError = 'Select a pollutant from the list'
+    await expect(wrongSpellingErrorAfterAddPollutantButtonClick).toMatch(
+      expectedWrongSpellingError
+    )
+    const searchBoxValueAfterAddPollutantButtonClick =
+      await addPollutantPage.getAddPollutantSearchBox.getValue()
+    const expectedSearchBoxValue = 'sulphurrr dioxideee'
+    await expect(searchBoxValueAfterAddPollutantButtonClick).toMatch(
+      expectedSearchBoxValue
+    )
+
+    await common.continueButton.click()
+    await common.continueButton.click()
+    const wrongSpellingErrorAfterContinueButtonClick = await common
+      .errorSummaryItemByText('Enter a pollutant')
+      .getText()
+    const expectedwrongSpellingErrorAfterContinueButtonClick =
+      'Enter a pollutant'
+    await expect(wrongSpellingErrorAfterContinueButtonClick).toMatch(
+      expectedwrongSpellingErrorAfterContinueButtonClick
+    )
+    const searchBoxValueAfterContinueButtonClick =
+      await addPollutantPage.getAddPollutantSearchBox.getValue()
+    const expectedSearchBoxValueAfterContinueButtonClick = 'sulphurrr dioxideee'
+    await expect(searchBoxValueAfterContinueButtonClick).toMatch(
+      expectedSearchBoxValueAfterContinueButtonClick
+    )
+  })
 })
