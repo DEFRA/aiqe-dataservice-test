@@ -401,4 +401,17 @@ Sulphur dioxide (SO2)`
       await addLocationPage.getOptionAberdeenCityCouncil.isSelected()
     await expect(isAberdeenCityCouncilOptionSelected).toBe(true)
   })
+
+  it('AQD-1145 - NoJS - Remove Add up to 10 pollutants text | Add Pollutant(s) journey', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    const missingText = await common.getHintTextByText(
+      'Add up to 10 pollutants'
+    )
+    await common.notDisplayed(missingText)
+  })
 })
