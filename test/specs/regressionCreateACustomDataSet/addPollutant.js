@@ -427,12 +427,12 @@ Ozone (O3)`
     await common.continueButton.click()
 
     const continueErrorMessage = await common
-      .errorSummaryItemByText('Select an option before continuing')
+      .errorSummaryItemByText('Please select how you want to add pollutants')
       .getText()
     const continueErrorLink = await common.errorSummaryItemByText(
-      'Select an option before continuing'
+      'Please select how you want to add pollutants'
     )
-    const expectedErrorMessage = 'Select an option before continuing'
+    const expectedErrorMessage = 'Please select how you want to add pollutants'
     await expect(continueErrorMessage).toMatch(expectedErrorMessage)
     await continueErrorLink.click()
     await expect(await addPollutantPage.getAddPollutantRadio).toBeFocused()
@@ -440,16 +440,14 @@ Ozone (O3)`
     await addPollutantPage.getAddPollutantOption.click()
     await common.continueButton.click()
     const addOnePollutantErrorMessage = await common
-      .errorSummaryItemByText('Please add at least one pollutant')
+      .errorSummaryItemByText('Enter a pollutant')
       .getText()
-    const expectedaddOnePollutantErrorMessage =
-      'Please add at least one pollutant'
+    const expectedaddOnePollutantErrorMessage = 'Enter a pollutant'
     await expect(addOnePollutantErrorMessage).toMatch(
       expectedaddOnePollutantErrorMessage
     )
-    const addOnePollutantErrorLink = await common.errorSummaryItemByText(
-      'Please add at least one pollutant'
-    )
+    const addOnePollutantErrorLink =
+      await common.errorSummaryItemByText('Enter a pollutant')
     await addOnePollutantErrorLink.click()
     await expect(await addPollutantPage.getAddPollutantSearchBox).toBeFocused()
 
@@ -629,10 +627,9 @@ Ozone (O3)`
     await addPollutantPage.getAddPollutantButton.click()
     await addPollutantPage.getAddPollutantButton.click()
     const fakePollutantError = await common
-      .errorSummaryItemByText('Please select a pollutant from the allowed list')
+      .errorSummaryItemByText('Select a pollutant from the list')
       .getText()
-    const expectedfakePollutantError =
-      'Please select a pollutant from the allowed list'
+    const expectedfakePollutantError = 'Select a pollutant from the list'
     await expect(fakePollutantError).toMatch(expectedfakePollutantError)
   })
 

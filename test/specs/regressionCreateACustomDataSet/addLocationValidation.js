@@ -665,4 +665,38 @@ Cornwall County Council`
     const expectedLocationSelected2 = `Barnet - London Borough of`
     await expect(locationSelected2).toMatch(expectedLocationSelected2)
   })
+
+  it('Retain LA selection when seeing validation | Add locations(s) Local Authority, AQD-1162', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('sulphur dioxide')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getYearToDateOption.click()
+    await addYearPage.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getLocalAuthorityOption.click()
+
+    await addLocationPage.getLocalAuthoritySearchBox.setValue('Barneet')
+    await addLocationPage.getLocationContinueButton.click()
+    const searchBoxValueAfterContinueButtonClick =
+      await addLocationPage.getLocalAuthoritySearchBox.getValue()
+    const expectedsearchBoxValueAfterContinueButtonClick = 'Barneet'
+    await expect(searchBoxValueAfterContinueButtonClick).toMatch(
+      expectedsearchBoxValueAfterContinueButtonClick
+    )
+
+    await addLocationPage.getAddLocalAuthorityButton.click()
+    const searchBoxValueAfterAddLocalAuthorityButtonClick =
+      await addLocationPage.getLocalAuthoritySearchBox.getValue()
+    const expectedsearchBoxValueAfterAddLocalAuthorityButtonClick = 'Barneet'
+    await expect(searchBoxValueAfterAddLocalAuthorityButtonClick).toMatch(
+      expectedsearchBoxValueAfterAddLocalAuthorityButtonClick
+    )
+  })
 })
