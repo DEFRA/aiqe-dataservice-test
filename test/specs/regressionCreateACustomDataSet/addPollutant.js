@@ -610,6 +610,7 @@ Ozone (O3)`
     await customselectionPage.getChangePollutantLink.click()
     await addPollutantPage.getAddPollutantOption.click()
     await addPollutantPage.getAddPollutantSearchBox.setValue('Sulphur dioxide')
+    await common.legalWait()
     const sulphurDioxideAutomcompleteList =
       await addPollutantPage.getAllSearchAutocompleteResults.getText()
     const expectedSulphurDioxideAutomcompleteList = 'Sulphur dioxide (SO2)'
