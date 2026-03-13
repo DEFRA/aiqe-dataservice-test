@@ -541,7 +541,7 @@ Cornwall County Council`
     await customselectionPage.getContinueButton.click()
     const numberOfStationsAvailable =
       await DownloadYourDataPage.getNumberOfStationsAvailable.getText()
-    const expectedNumberOfStationsAvailable = '18 stations available'
+    const expectedNumberOfStationsAvailable = '19 stations available'
     await expect(numberOfStationsAvailable).toMatch(
       expectedNumberOfStationsAvailable
     )
@@ -565,11 +565,11 @@ Cornwall County Council`
     // continue without selecting any options
     await addLocationPage.getLocationContinueButton.click()
     const continueError = await common
-      .errorSummaryItemByText('Select an option before continuing')
+      .errorSummaryItemByText('Select how you want to add locations')
       .isDisplayed()
     await expect(continueError).toBe(true)
     const continueErrorLink = await common.errorSummaryItemByText(
-      'Select an option before continuing'
+      'Select how you want to add locations'
     )
     await continueErrorLink.click()
     await expect(await addLocationPage.getCountriesOptionRadio).toBeFocused()
@@ -616,11 +616,11 @@ Cornwall County Council`
     await addLocationPage.getAddLocalAuthorityButton.click()
     await common.legalWait()
     const fakeLocalAuthorityError = await common
-      .errorSummaryItemByText('Select local authorities from the list')
+      .errorSummaryItemByText('Please select a local authority from the list')
       .isDisplayed()
     await expect(fakeLocalAuthorityError).toBe(true)
     const fakeLocalAuthorityErrorLink = await common.errorSummaryItemByText(
-      'Select local authorities from the list'
+      'Please select a local authority from the list'
     )
     await fakeLocalAuthorityErrorLink.click()
     await expect(await addLocationPage.getLocalAuthoritySearchBox).toBeFocused()
@@ -635,12 +635,6 @@ Cornwall County Council`
         (await addLocationPage.getLocalAuthoritySearchBox.getValue()) === '',
       { timeout: 3000, timeoutMsg: 'Search box did not clear' }
     )
-    await addLocationPage.getLocationContinueButton.click()
-    const localAuthorityContinueError = await common
-      .errorSummaryItemByText('Add at least one local authority')
-      .isDisplayed()
-    await expect(localAuthorityContinueError).toBe(true)
-
     await addLocationPage.getLocalAuthoritySearchBox.setValue(
       'Barnet - London Borough of'
     )
@@ -698,5 +692,25 @@ Cornwall County Council`
     await expect(searchBoxValueAfterAddLocalAuthorityButtonClick).toMatch(
       expectedsearchBoxValueAfterAddLocalAuthorityButtonClick
     )
+  })
+
+  it('AQD-1177, add local authority button error does not appear when you input a wrong spelling , unless you trigger one of the other errors first', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('sulphur dioxide')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getLocalAuthorityOption.click()
+    await addLocationPage.getLocalAuthoritySearchBox.setValue('Barneet')
+    await addLocationPage.getAddLocalAuthorityButton.click()
+    const addLocalAuthorityError = await common
+      .errorSummaryItemByText('Please select a local authority from the list')
+      .isDisplayed()
+    await expect(addLocalAuthorityError).toBe(true)
   })
 })
