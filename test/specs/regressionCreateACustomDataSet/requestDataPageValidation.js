@@ -11,9 +11,10 @@ import addLocationPage from '../../page-objects/addLocationPage.js'
 import addYearPage from '../../page-objects/addYearPage.js'
 import DownloadYourDataPage from '../../page-objects/DownloadYourDataPage.js'
 import requestDataPage from '../../page-objects/requestDataPage.js'
+import downloadRequestedDataPage from '../../page-objects/downloadRequestedDataPage.js'
 
-describe('request data page validation', () => {
-  it('AQD-982 defect - request data flow', async () => {
+describe('request data flow', () => {
+  it('AQD-982 defect - request data flow and page', async () => {
     await browser.url('')
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()
@@ -118,5 +119,16 @@ Continue`)
     await common.getBackLink.click()
     const DownloadYourDataPageUrl = await browser.getUrl()
     expect(DownloadYourDataPageUrl).toContain('download_dataselector')
+  })
+
+  it('AQD-1173 - Content Change | Your link has expired (Data Selector)', async () => {
+    await browser.url(
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/download_emailreq/2453edb3556c472a97fcdd0d01713e19/925224.5492'
+    )
+    const ExpiredRequestDataPageContent =
+      await downloadRequestedDataPage.getLinkExpiredPageContent.getText()
+    expect(ExpiredRequestDataPageContent).toContain(`Your link has expired
+This download link has expired. Download links expire after 48 hours.
+To request another download, go to Get air pollution data.`)
   })
 })
