@@ -453,17 +453,70 @@ Ozone (O3)`
 
     await addPollutantPage.getAddPollutantButton.click()
     const getAddAPollutantErrorMessage = await common
-      .errorSummaryItemByText('Please add a pollutant')
+      .errorSummaryItemByText('Enter a pollutant')
       .getText()
-    const expectedgetAddAPollutantErrorMessage = 'Please add a pollutant'
+    const expectedgetAddAPollutantErrorMessage = 'Enter a pollutant'
     await expect(getAddAPollutantErrorMessage).toMatch(
       expectedgetAddAPollutantErrorMessage
     )
-    const getAddAPollutantErrorLink = await common.errorSummaryItemByText(
-      'Please add a pollutant'
-    )
+    const getAddAPollutantErrorLink =
+      await common.errorSummaryItemByText('Enter a pollutant')
     await getAddAPollutantErrorLink.click()
     await expect(await addPollutantPage.getAddPollutantSearchBox).toBeFocused()
+  })
+  it('AQD-1011 Update Error Content | Add Pollutant(s)', async () => {
+    await addPollutantPage.getAddPollutantSearchBox.setValue('test')
+    await addPollutantPage.getAddPollutantButton.click()
+    await addPollutantPage.getAddPollutantButton.click()
+
+    const addpollutantButtonErrorMessage = await common
+      .errorSummaryItemByText('Select a pollutant from the list')
+      .getText()
+    const addpollutantButtonErrorLink = await common.errorSummaryItemByText(
+      'Select a pollutant from the list'
+    )
+    const expectedErrorMessage = 'Select a pollutant from the list'
+    await expect(addpollutantButtonErrorMessage).toMatch(expectedErrorMessage)
+    await addpollutantButtonErrorLink.click()
+
+    await addPollutantPage.clearPollutantInput()
+
+    await addPollutantPage.getAddPollutantSearchBox.setValue('PM10')
+    await addPollutantPage.getSearchFirstAutocomplete.click()
+    await addPollutantPage.getAddPollutantButton.click()
+    await common.continueButton.click()
+
+    await customselectionPage.getChangePollutantLink.click()
+    await addPollutantPage.getAddPollutantButton.click()
+    const addAnotherPollutantButtonErrorMessage = await common
+      .errorSummaryItemByText('Enter a pollutant')
+      .getText()
+    const addAnotherPollutantButtonErrorLink =
+      await common.errorSummaryItemByText('Enter a pollutant')
+    const expectedAddAnotherPollutantButtonErrorMessage = 'Enter a pollutant'
+    await expect(addAnotherPollutantButtonErrorMessage).toMatch(
+      expectedAddAnotherPollutantButtonErrorMessage
+    )
+    await addAnotherPollutantButtonErrorLink.click()
+
+    await addPollutantPage.getAddPollutantSearchBox.setValue('test')
+    await addPollutantPage.getAddPollutantButton.click()
+    await addPollutantPage.getAddPollutantButton.click()
+    const addAnotherPollutantButtonfakepollutantErrorMessage = await common
+      .errorSummaryItemByText('Select a pollutant from the list')
+      .getText()
+    const addAnotherPollutantButtonfakepollutantErrorLink =
+      await common.errorSummaryItemByText('Select a pollutant from the list')
+    const expectedaddAnotherPollutantButtonfakepollutantErrorMessage =
+      'Select a pollutant from the list'
+    await expect(addAnotherPollutantButtonfakepollutantErrorMessage).toMatch(
+      expectedaddAnotherPollutantButtonfakepollutantErrorMessage
+    )
+    await addAnotherPollutantButtonfakepollutantErrorLink.click()
+
+    await addPollutantPage.clearPollutantInput()
+
+    await addPollutantPage.getFirstAddedPollutantRemoveLink.click()
   })
 
   it('search is not case sensitive - AQD-984,AQD-829', async () => {
@@ -472,13 +525,16 @@ Ozone (O3)`
       await addPollutantPage.getSearchFirstAutocomplete.getText()
     const expectedlowerCaseSearchMatch = 'Sulphur dioxide (SO2)'
     await expect(lowerCaseSearchMatch).toMatch(expectedlowerCaseSearchMatch)
-    await common.clearInput(addPollutantPage.getAddPollutantSearchBox)
+
+    await addPollutantPage.clearPollutantInput()
+
     await addPollutantPage.getAddPollutantSearchBox.setValue('SULPHUR DIOXIDE')
     const upperCaseSearchMatch =
       await addPollutantPage.getSearchFirstAutocomplete.getText()
     const expectedupperCaseSearchMatch = 'Sulphur dioxide (SO2)'
     await expect(upperCaseSearchMatch).toMatch(expectedupperCaseSearchMatch)
-    await common.clearInput(addPollutantPage.getAddPollutantSearchBox)
+
+    await addPollutantPage.clearPollutantInput()
   })
 
   it('only relevant pollutants that match the search criteria is displayed - AQD-984,AQD-829', async () => {
@@ -487,7 +543,8 @@ Ozone (O3)`
       await addPollutantPage.getAddPollutantSearchBox.getText()
     const expectedMisMatch = 'Fine particulate matter (PM2.5)'
     await expect(searchMissMatch).not.toMatch(expectedMisMatch)
-    await common.clearInput(addPollutantPage.getAddPollutantSearchBox)
+
+    await addPollutantPage.clearPollutantInput()
   })
 
   it('all pollutants on the AURN are available - AQD-984,AQD-829', async () => {
@@ -500,7 +557,8 @@ Ozone (O3)`
     await expect(ParticulateMatterSearchMatch).toMatch(
       expectedParticulateMatterSearchMatch
     )
-    await common.clearInput(addPollutantPage.getAddPollutantSearchBox)
+
+    await addPollutantPage.clearPollutantInput()
 
     await addPollutantPage.getAddPollutantSearchBox.setValue(
       'Fine particulate matter'
@@ -512,7 +570,8 @@ Ozone (O3)`
     await expect(fineParticulateMatterSearchMatch).toMatch(
       expectedFineParticulateMatterSearchMatch
     )
-    await common.clearInput(addPollutantPage.getAddPollutantSearchBox)
+
+    await addPollutantPage.clearPollutantInput()
 
     await addPollutantPage.getAddPollutantSearchBox.setValue('Nitrogen dioxide')
     const nitrogenDioxideSearchMatch =
@@ -521,7 +580,8 @@ Ozone (O3)`
     await expect(nitrogenDioxideSearchMatch).toMatch(
       expectedNitrogenDioxideSearchMatch
     )
-    await common.clearInput(addPollutantPage.getAddPollutantSearchBox)
+
+    await addPollutantPage.clearPollutantInput()
 
     await addPollutantPage.getAddPollutantSearchBox.setValue('Nitrogen oxides')
     const nitrogenOxidesSearchMatch =
@@ -531,14 +591,16 @@ Ozone (O3)`
     await expect(nitrogenOxidesSearchMatch).toMatch(
       expectedNitrogenOxidesSearchMatch
     )
-    await common.clearInput(addPollutantPage.getAddPollutantSearchBox)
+
+    await addPollutantPage.clearPollutantInput()
 
     await addPollutantPage.getAddPollutantSearchBox.setValue('Ozone')
     const ozoneSearchMatch =
       await addPollutantPage.getSearchFirstAutocomplete.getText()
     const expectedOzoneSearchMatch = 'Ozone (O3)'
     await expect(ozoneSearchMatch).toMatch(expectedOzoneSearchMatch)
-    await common.clearInput(addPollutantPage.getAddPollutantSearchBox)
+
+    await addPollutantPage.clearPollutantInput()
 
     await addPollutantPage.getAddPollutantSearchBox.setValue('Carbon monoxide')
     const carbonMonoxideSearchMatch =
@@ -547,21 +609,16 @@ Ozone (O3)`
     await expect(carbonMonoxideSearchMatch).toMatch(
       expectedCarbonMonoxideSearchMatch
     )
-    await addPollutantPage.getAddPollutantSearchBox.click()
-    await browser.keys('Escape')
-    await addPollutantPage.getAddPollutantSearchBox.clearValue()
-    await browser.waitUntil(
-      async () =>
-        (await addPollutantPage.getAddPollutantSearchBox.getValue()) === '',
-      { timeout: 3000, timeoutMsg: 'Search box did not clear' }
-    )
+
+    await addPollutantPage.clearPollutantInput()
 
     await addPollutantPage.getAddPollutantSearchBox.setValue('Nitric oxide')
     const nitricOxideSearchMatch =
       await addPollutantPage.getSearchFirstAutocomplete.getText()
     const expectedNitricOxideSearchMatch = 'Nitric oxide (NO)'
     await expect(nitricOxideSearchMatch).toMatch(expectedNitricOxideSearchMatch)
-    await common.clearInput(addPollutantPage.getAddPollutantSearchBox)
+
+    await addPollutantPage.clearPollutantInput()
   })
 
   it('pollutant numbering is updated When a pollutant is added or removed- AQD-984,AQD-829', async () => {

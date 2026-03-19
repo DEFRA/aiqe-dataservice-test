@@ -83,7 +83,7 @@ class Common {
 
   async clearInput(
     inputElement,
-    { closeDropdown = true, timeout = 3000 } = {}
+    { closeDropdown = true, timeout = 4000 } = {}
   ) {
     await inputElement.click()
     if (closeDropdown) {

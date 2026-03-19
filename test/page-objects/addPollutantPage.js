@@ -132,6 +132,16 @@ class AddPollutantPage {
   get getNoJsPM25OptionValue() {
     return $("option[value*='Fine particulate matter (PM2.5)']")
   }
+
+  async clearPollutantInput() {
+    await this.getAddPollutantSearchBox.click()
+    await browser.keys('Escape')
+    await this.getAddPollutantSearchBox.clearValue()
+    await browser.waitUntil(
+      async () => (await this.getAddPollutantSearchBox.getValue()) === '',
+      { timeout: 5000, timeoutMsg: 'Search box did not clear' }
+    )
+  }
 }
 
 // module.exports=new StartNowPage()
