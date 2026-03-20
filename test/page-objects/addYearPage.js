@@ -34,7 +34,7 @@ class AddYearPage {
   }
 
   get getAnyYearForExample() {
-    return $("div[id*='any-year-hint']")
+    return $("div[id*='any-year-input-hint']")
   }
 
   get getAnyYearInput() {
