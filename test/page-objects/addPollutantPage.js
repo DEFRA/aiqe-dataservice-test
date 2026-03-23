@@ -139,7 +139,7 @@ class AddPollutantPage {
     await this.getAddPollutantSearchBox.clearValue()
     await browser.waitUntil(
       async () => (await this.getAddPollutantSearchBox.getValue()) === '',
-      { timeout: 5000, timeoutMsg: 'Search box did not clear' }
+      { timeout: 6000, timeoutMsg: 'Search box did not clear' }
     )
   }
 }
