@@ -128,7 +128,7 @@ Continue`)
     const ExpiredRequestDataPageContent =
       await downloadRequestedDataPage.getLinkExpiredPageContent.getText()
     expect(ExpiredRequestDataPageContent).toContain(`Your link has expired
-This download link has expired. Download links expire after 48 hours.
+The download link had expired. Download links expire after 48 hours.
 To request another download, go to Get air pollution data.`)
   })
 })
