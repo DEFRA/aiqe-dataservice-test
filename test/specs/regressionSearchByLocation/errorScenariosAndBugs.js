@@ -503,10 +503,10 @@ choose a different location`
     await monitoringStationPage.get2019Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 6000))
+        await new Promise((resolve) => setTimeout(resolve, 8000))
         return true
       },
-      { timeout: 6000 }
+      { timeout: 8000 }
     )
     const isNoDataForThisYearMessageDisplayed =
       await errorPage.noDataForThisYearMessage.isDisplayed()

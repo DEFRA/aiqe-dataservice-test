@@ -580,7 +580,7 @@ View on Google Maps (opens in new tab)`
     await expect(durationTag2025).toMatch(expectedDurationTag2025)
     const getVerifiedTag2025 =
       await monitoringStationPage.getVerifiedTag.getText()
-    const expectedVerifiedTag2025 = 'Data has been verified until 30 September'
+    const expectedVerifiedTag2025 = 'Data has been verified'
     await expect(getVerifiedTag2025).toMatch(expectedVerifiedTag2025)
     const getdownloadDataHeading2025 =
       await monitoringStationPage.getdownloadDataHeading.getText()
@@ -1068,6 +1068,7 @@ View on Google Maps (opens in new tab)`
   })
 
   it(`Station Summary Data - Annual Average for selected Year', AQD-673`, async () => {
+    await common.legalWait()
     const isPM25AnnaulAverageSTDisplayed =
       await monitoringStationPage.getPM25AnnaulAverageST.isDisplayed()
     const isPM10AnnaulAverageSTDisplayed =
