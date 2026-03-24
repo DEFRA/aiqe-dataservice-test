@@ -205,7 +205,7 @@ describe('add year validation AQD-841', () => {
     const getRangeOfYearsEndYearHint =
       await addYearPage.getRangeOfYearsEndYearHint.getText()
     const expectedRangeOfYearsEndYearSubTitle = 'Enter end year'
-    const expectedRangeOfYearsEndYearHint = 'For example: 2024'
+    const expectedRangeOfYearsEndYearHint = 'For example: 2025'
     await expect(getRangeOfYearsEndYearSubTitle).toMatch(
       expectedRangeOfYearsEndYearSubTitle
     )
