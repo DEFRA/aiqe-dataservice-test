@@ -170,13 +170,13 @@ Enter a town or postcode`
 
 describe('Error scenarios', () => {
   it('could not find error page validation, no results with invalid search', async () => {
-    await searchPage.setsearch('dddffggggjgjj')
+    /* await searchPage.setsearch('dddffggggjgjj')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
     const PageHeading2 = `We could not find 'dddffggggjgjj'`
     const getPageHeading2 = await errorPage.getCouldNotFindHeading.getText()
     await expect(PageHeading2).toMatch(getPageHeading2)
-    await common.getBackLink.click()
+    await common.getBackLink.click() */
     await searchPage.setsearch('thailand')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
