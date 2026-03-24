@@ -250,6 +250,7 @@ Continue`
     await searchPage.setsearch('london')
     await searchPage.milesOptionClick('5 miles')
     await searchPage.continueBtnClick()
+    await common.legalWait()
     const getCurrentURLAfterSearch1 = await browser.getUrl()
     const expectedURL1 = '/multiplelocations'
     await expect(getCurrentURLAfterSearch1).toMatch(expectedURL1)
