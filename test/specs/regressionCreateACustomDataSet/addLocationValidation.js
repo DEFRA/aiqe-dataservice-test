@@ -480,7 +480,7 @@ Greenwich - Royal Borough of`
     await customselectionPage.getContinueButton.click()
     const numberOfStationsAvailable =
       await DownloadYourDataPage.getNumberOfStationsAvailable.getText()
-    const expectedNumberOfStationsAvailable = '1 stations available'
+    const expectedNumberOfStationsAvailable = '3 stations available'
     await expect(numberOfStationsAvailable).toMatch(
       expectedNumberOfStationsAvailable
     )
@@ -541,7 +541,7 @@ Cornwall County Council`
     await customselectionPage.getContinueButton.click()
     const numberOfStationsAvailable =
       await DownloadYourDataPage.getNumberOfStationsAvailable.getText()
-    const expectedNumberOfStationsAvailable = '19 stations available'
+    const expectedNumberOfStationsAvailable = '22 stations available'
     await expect(numberOfStationsAvailable).toMatch(
       expectedNumberOfStationsAvailable
     )
