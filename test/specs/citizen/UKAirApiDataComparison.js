@@ -15,9 +15,7 @@ const stations = [
 
 describe('comparing nitrogen data between API, uk-air and citizen front end', () => {
   it('extracting the nitrogen dioxide data for today from ricardo api', async () => {
-    const accessToken =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3NzYxNTk3MTMsImV4cCI6MTc3NjU5MTcxMywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoibWFydXRoaS5jaG9ra2FuYXRoYW5AY29nbml6YW50LmNvbSJ9.R_UntdnvZOv7vxTmrVhUQ554G-eKS26c2QieFiZOuwiDggJg8U6WciJT6oPJ4a668NHUJafr_g1GzS0dwc1fnGXOJWPmFbnf6vzLKA_3PbvM6voY-s34xHAbUGwddV8K-IVCrqUctsnfuWA80D7KxOLsf0G1_I43xsspsKeig2AnkVyJkR5SQ8rg8x3CNuK_NzttE8SebdlUGdCeKnM6f_z8Hhtx7pIX8VnUwbxs84dqjx2HQTUlT9tmQ0Ihy3VMBddChJxHHgwrLV4zt8H5ZgOizJnpGX4FxlZRcrzHf9HpIF9J0Tq8hHG3JjMdweNe2lI1oltQ4fNSoYik5n3EhQ'
-
+    const accessToken = ' '
     // Build today's date in YYYY-MM-DD format
     const today = new Date()
     const todayStr = today.toISOString().split('T')[0]
