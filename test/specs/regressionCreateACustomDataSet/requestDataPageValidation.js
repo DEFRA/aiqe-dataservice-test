@@ -121,6 +121,23 @@ Continue`)
     expect(DownloadYourDataPageUrl).toContain('download_dataselector')
   })
 
+  it('AQD-1230 - Request Data - Entering an invalid Email Address', async () => {
+    await DownloadYourDataPage.getRequestDataLink.click()
+    await requestDataPage.getEmailInput.setValue('invalid-email')
+    await requestDataPage.getRequestDataContinueButton.click()
+    await common.legalWait()
+
+    const isInvalidEmailErrorDisplayed = await common
+      .errorSummaryItemByText('Enter a valid email address')
+      .isDisplayed()
+    await expect(isInvalidEmailErrorDisplayed).toBe(true)
+    const isInvalidEmailErrorDisplayedLink =
+      await common.errorSummaryItemByText('Enter a valid email address')
+    await isInvalidEmailErrorDisplayedLink.click()
+    const isEmailInputFocused = await requestDataPage.getEmailInput.isFocused()
+    await expect(isEmailInputFocused).toBe(true)
+  })
+
   it('AQD-1173 - Content Change | Your link has expired (Data Selector)', async () => {
     await browser.url(
       'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/download_emailreq/2453edb3556c472a97fcdd0d01713e19/925224.5492'

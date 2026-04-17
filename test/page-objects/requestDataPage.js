@@ -13,12 +13,18 @@ class RequestDataPage {
     return $("label[for*='email']")
   }
 
+  get getEmailInput() {
+    return $("input[id*='email']")
+  }
+
   get getHintText() {
     return $("div[id*='email-hint']")
   }
 
   get getRequestDataContinueButton() {
-    return $("button[data-module*='govuk-button']")
+    return $(
+      "//button[contains(@data-module,'govuk-button') and normalize-space(.)='Continue']"
+    )
   }
 }
 
