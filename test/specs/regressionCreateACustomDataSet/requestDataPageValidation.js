@@ -120,9 +120,23 @@ Continue`)
     const DownloadYourDataPageUrl = await browser.getUrl()
     expect(DownloadYourDataPageUrl).toContain('download_dataselector')
   })
+  it('AQD-1229 - Update Error Content | Request Data - Continuing without entering an Email Address', async () => {
+    await DownloadYourDataPage.getRequestDataLink.click()
+    await requestDataPage.getRequestDataContinueButton.click()
+    await common.legalWait()
+
+    const noInvalidEmailErrorDisplayed = await common
+      .errorSummaryItemByText('Enter an email address')
+      .isDisplayed()
+    await expect(noInvalidEmailErrorDisplayed).toBe(true)
+    const noInvalidEmailErrorDisplayedLink =
+      await common.errorSummaryItemByText('Enter an email address')
+    await noInvalidEmailErrorDisplayedLink.click()
+    const isEmailInputFocused = await requestDataPage.getEmailInput.isFocused()
+    await expect(isEmailInputFocused).toBe(true)
+  })
 
   it('AQD-1230 - Request Data - Entering an invalid Email Address', async () => {
-    await DownloadYourDataPage.getRequestDataLink.click()
     await requestDataPage.getEmailInput.setValue('invalid-email')
     await requestDataPage.getRequestDataContinueButton.click()
     await common.legalWait()
