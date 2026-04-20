@@ -427,12 +427,12 @@ Ozone (O3)`
     await common.continueButton.click()
 
     const continueErrorMessage = await common
-      .errorSummaryItemByText('Please select how you want to add pollutants')
+      .errorSummaryItemByText('Select an option before continuing')
       .getText()
     const continueErrorLink = await common.errorSummaryItemByText(
-      'Please select how you want to add pollutants'
+      'Select an option before continuing'
     )
-    const expectedErrorMessage = 'Please select how you want to add pollutants'
+    const expectedErrorMessage = 'Select an option before continuing'
     await expect(continueErrorMessage).toMatch(expectedErrorMessage)
     await continueErrorLink.click()
     await expect(await addPollutantPage.getAddPollutantRadio).toBeFocused()
