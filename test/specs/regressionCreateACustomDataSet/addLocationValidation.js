@@ -541,7 +541,7 @@ Cornwall County Council`
     await customselectionPage.getContinueButton.click()
     const numberOfStationsAvailable =
       await DownloadYourDataPage.getNumberOfStationsAvailable.getText()
-    const expectedNumberOfStationsAvailable = '22 stations available'
+    const expectedNumberOfStationsAvailable = '19 stations available'
     await expect(numberOfStationsAvailable).toMatch(
       expectedNumberOfStationsAvailable
     )
@@ -565,11 +565,11 @@ Cornwall County Council`
     // continue without selecting any options
     await addLocationPage.getLocationContinueButton.click()
     const continueError = await common
-      .errorSummaryItemByText('Select how you want to add locations')
+      .errorSummaryItemByText('Select an option before continuing')
       .isDisplayed()
     await expect(continueError).toBe(true)
     const continueErrorLink = await common.errorSummaryItemByText(
-      'Select how you want to add locations'
+      'Select an option before continuing'
     )
     await continueErrorLink.click()
     await expect(await addLocationPage.getCountriesOptionRadio).toBeFocused()
