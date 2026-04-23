@@ -253,7 +253,7 @@ describe('add group of pollutants AQD-832', () => {
     await common.continueButton.click()
     const selectedDAQIPollutants =
       await customselectionPage.getPollutantValue.getText()
-    const expectedSelectedDAQIPollutants = `Particulate matter (PM2.5)
+    const expectedSelectedDAQIPollutants = `Fine particulate matter (PM2.5)
 Particulate matter (PM10)
 Nitrogen dioxide (NO2)
 Ozone (O3)
@@ -270,7 +270,7 @@ Sulphur dioxide (SO2)`
     await common.continueButton.click()
     const selectedAQSRPollutants =
       await customselectionPage.getPollutantValue.getText()
-    const expectedSelectedAQSRPollutants = `Particulate matter (PM2.5)
+    const expectedSelectedAQSRPollutants = `Fine particulate matter (PM2.5)
 Particulate matter (PM10)
 Nitrogen dioxide (NO2)
 Ozone (O3)

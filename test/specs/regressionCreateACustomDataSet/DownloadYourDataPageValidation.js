@@ -41,6 +41,7 @@ describe('Download Your Data page validation AQD-889', () => {
     const expectedContent = `Download your data
 File format and metadata
 Near real-time data from Defra
+Near real-time data from Defra
 This data is automatically measured and published every hour.
 Automatic Urban and Rural Network (AURN)
 The most reliable air pollution data in the UK. Provides hourly measurements of fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), nitric oxide (NO), nitrogen oxides as nitrogen dioxide (NOx), ozone (O3), sulphur dioxide (SO2) and carbon monoxide (CO).

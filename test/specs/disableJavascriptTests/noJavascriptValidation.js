@@ -186,7 +186,7 @@ describe('No Javascript Happy Path', () => {
     await common.continueButton.click()
     const pollutantSelected =
       await customselectionPage.getPollutantValue.getText()
-    const expectedPollutantSelected = `Particulate matter (PM2.5)
+    const expectedPollutantSelected = `Fine particulate matter (PM2.5)
 Particulate matter (PM10)
 Nitrogen dioxide (NO2)
 Ozone (O3)
@@ -214,7 +214,7 @@ Carbon monoxide (CO)`
 
     const DAQIpollutantSelected =
       await customselectionPage.getPollutantValue.getText()
-    const expectedDAQIPollutantSelected = `Particulate matter (PM2.5)
+    const expectedDAQIPollutantSelected = `Fine particulate matter (PM2.5)
 Particulate matter (PM10)
 Nitrogen dioxide (NO2)
 Ozone (O3)
