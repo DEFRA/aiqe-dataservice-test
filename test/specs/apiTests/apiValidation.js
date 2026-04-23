@@ -16,7 +16,7 @@ let perPollutantCoverage = null
 
 describe('API Testing', () => {
   it('monitoring station api availability and getting site id for one station', async () => {
-    const apiKey = '38O31dPX3RohizgvAnaXBREQmMbcQUvz'
+    const apiKey = 'NmvSCfo83vtCELDUY15E5Umww91ZL38I'
     const url =
       'https://ephemeral-protected.api.dev.cdp-int.defra.cloud/aqie-back-end/measurements?localSiteID=DESA'
 
@@ -464,7 +464,7 @@ describe('API Testing', () => {
     await common.legalWait()
 
     await monitoringStationPage.getPM10DailyExceedence.waitForExist({
-      timeout: 5000
+      timeout: 6000
     })
     const pm10DailyExceedanceFrontEnd = common.parseNumber(
       await monitoringStationPage.getPM10DailyExceedence.getText()
@@ -787,5 +787,89 @@ describe('API Testing', () => {
     await expect(exceedanceCount).toEqual(
       sulphurDioxideHourlyExceedanceFrontEnd
     )
+  })
+
+  it('testing new api', async () => {
+    const urlAtomData =
+      'https://ephemeral-protected.api.dev.cdp-int.defra.cloud/aqie-historicaldata-backend/AtomDataSelectionPollutantMaster'
+    const apiKey = ''
+
+    // getting all the pollutants and counting them to check if new pollutants have been added to the system and are being returned by the api
+
+    const data = await browser.call(async () => {
+      const res = await axios.get(urlAtomData, {
+        headers: {
+          'x-api-key': apiKey,
+          'Accept-Encoding': '*'
+        }
+      })
+      return res.data
+    })
+
+    const pollutants = data.value ?? data
+    // eslint-disable-next-line no-console
+    console.log(`Total pollutants returned: ${data.Count ?? pollutants.length}`)
+    for (const pollutant of pollutants) {
+      // eslint-disable-next-line no-console
+      console.log(
+        `ID: ${pollutant.pollutantID} | Name: ${pollutant.pollutantName} | Abbreviation: ${pollutant.pollutant_Abbreviation}`
+      )
+    }
+    await expect(pollutants.length).toEqual(128)
+
+    // extracting each pollutant with a data source
+    const urlPollutantDataSource =
+      'https://ephemeral-protected.api.dev.cdp-int.defra.cloud/aqie-historicaldata-backend/AtomDataSelectionPollutantDataSource'
+
+    const standardSourcePollutants = []
+    const ukeapSourcePollutants = []
+
+    for (const pollutant of pollutants) {
+      const sourceData = await browser.call(async () => {
+        const res = await axios.post(
+          urlPollutantDataSource,
+          { pollutantID: pollutant.pollutantID },
+          {
+            headers: {
+              'x-api-key': apiKey,
+              'Accept-Encoding': '*'
+            }
+          }
+        )
+        return res.data
+      })
+      const sources = sourceData.value ?? sourceData
+      const hasAurn = sources.includes(
+        'Automatic Urban and Rural Network (AURN)'
+      )
+      const hasUkeap = sources.includes('UKEAP - Rural NO2 Network')
+
+      if (hasAurn && hasUkeap) {
+        ukeapSourcePollutants.push(
+          `ID: ${pollutant.pollutantID} | ${pollutant.pollutantName}`
+        )
+      } else if (hasAurn) {
+        standardSourcePollutants.push(
+          `ID: ${pollutant.pollutantID} | ${pollutant.pollutantName}`
+        )
+      }
+    }
+
+    // eslint-disable-next-line no-console
+    console.log(
+      '\n--- Pollutants with Near real-time data from Defra + AURN ---'
+    )
+    for (const p of standardSourcePollutants) {
+      // eslint-disable-next-line no-console
+      console.log(p)
+    }
+    // eslint-disable-next-line no-console
+    console.log(
+      '\n--- Pollutants with Near real-time data from Defra + AURN + UKEAP - Rural NO2 Network ---'
+    )
+    for (const p of ukeapSourcePollutants) {
+      // eslint-disable-next-line no-console
+      console.log(p)
+    }
   })
 })

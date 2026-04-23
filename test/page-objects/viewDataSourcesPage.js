@@ -34,6 +34,10 @@ class ViewDataSourcesPage {
       "a[href*='https://uk-air.defra.gov.uk/networks/network-info?view=aurn']"
     )
   }
+
+  get getDataSourcesFromOtherPollutants() {
+    return $("a[href*='#tab-other']")
+  }
 }
 
 // module.exports=new StartNowPage()
