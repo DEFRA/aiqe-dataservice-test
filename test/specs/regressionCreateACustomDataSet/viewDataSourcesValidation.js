@@ -64,12 +64,18 @@ Other data from Defra
 UKEAP - Rural NO2 Network`
     await expect(DAQIRdataSource).toEqual(expectedDAQIDataSource)
   })
-  it('content for view data sources page when AURN Only Network is selected ', async () => {
+  it('content for view data sources page when AURN Only Network is selected, AQD-1193 - Update hyperlink ', async () => {
     await customselectionPage.getClearSelectionsLink.click()
     await customselectionPage.getAddPollutantLink.click()
     await addPollutantPage.getAddPollutantOption.click()
     await addPollutantPage.addPollutant('Ozone')
     await common.continueButton.click()
+    const viewDataSourcesLinkText =
+      await customselectionPage.getViewDataSourcesLink.getText()
+    const expectedViewDataSourcesLinkText = 'View network information'
+    await expect(viewDataSourcesLinkText).toMatch(
+      expectedViewDataSourcesLinkText
+    )
 
     await customselectionPage.getViewDataSourcesLink.click()
     const pageContent =
