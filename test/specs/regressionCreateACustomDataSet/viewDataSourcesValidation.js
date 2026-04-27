@@ -10,7 +10,7 @@ import addPollutantPage from '../../page-objects/addPollutantPage.js'
 import viewDataSourcesPage from '../../page-objects/viewDataSourcesPage.js'
 
 describe('view data sources validation', () => {
-  it('Display applicable Data Sources for AURN Network on create a custom dataset page - AQD-833', async () => {
+  it('Display applicable Data Sources for AURN Network pollutants and other networks on create a custom dataset page - AQD-833,AQD-1194', async () => {
     await browser.url('')
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()
@@ -46,8 +46,10 @@ Automatic Urban and Rural Network (AURN)`
     const AQSRdataSource =
       await customselectionPage.getDataSourcesValue.getText()
     const expectedAQSRDataSource = `Near real-time data from Defra
-Automatic Urban and Rural Network (AURN)`
-    await expect(AQSRdataSource).toMatch(expectedAQSRDataSource)
+Automatic Urban and Rural Network (AURN)
+Other data from Defra
+UKEAP - Rural NO2 Network`
+    await expect(AQSRdataSource).toEqual(expectedAQSRDataSource)
 
     await customselectionPage.getClearSelectionsLink.click()
     await customselectionPage.getAddPollutantLink.click()
@@ -57,10 +59,18 @@ Automatic Urban and Rural Network (AURN)`
     const DAQIRdataSource =
       await customselectionPage.getDataSourcesValue.getText()
     const expectedDAQIDataSource = `Near real-time data from Defra
-Automatic Urban and Rural Network (AURN)`
-    await expect(DAQIRdataSource).toMatch(expectedDAQIDataSource)
+Automatic Urban and Rural Network (AURN)
+Other data from Defra
+UKEAP - Rural NO2 Network`
+    await expect(DAQIRdataSource).toEqual(expectedDAQIDataSource)
   })
   it('content for view data sources page when AURN Only Network is selected ', async () => {
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Ozone')
+    await common.continueButton.click()
+
     await customselectionPage.getViewDataSourcesLink.click()
     const pageContent =
       await viewDataSourcesPage.getViewDataSourcesPageContent.getText()
@@ -342,7 +352,7 @@ Instrument: Continuous analysers; BAM/FDMS for PM`
     await expect(url).toContain('customdataset')
   })
 
-  it('Display applicable Data Sources for AURN and UKEAP: Rural NO2 Network (Rural NO2) Network on create a custom dataset page', async () => {
+  it('AQD-1194, Display applicable Data Sources for AURN and UKEAP: Rural NO2 Network (Rural NO2) Network on create a custom dataset page', async () => {
     const pollutantsToCheck = ['Nitrogen dioxide']
     for (const pollutant of pollutantsToCheck) {
       await customselectionPage.getClearSelectionsLink.click()
