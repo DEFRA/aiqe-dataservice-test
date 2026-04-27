@@ -80,6 +80,10 @@ class AddYearPage {
   get continueButton() {
     return $("button[id='continuebutton']")
   }
+
+  get errorBox() {
+    return $("div[class='govuk-error-summary']")
+  }
 }
 
 // module.exports=new StartNowPage()
