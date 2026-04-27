@@ -54,6 +54,33 @@ class DownloadYourDataPage {
   get getDownloadProgress() {
     return $("div[class*='govuk-notification-banner__header']")
   }
+
+  // other data from defra tab elements
+  get getOtherDataFromDefraTab() {
+    return $("a[href*='#tab-other']")
+  }
+
+  get getDownloadDataButton() {
+    return $("a[aria-label*='Download data for UKEAP - Rural NO2 Network']")
+  }
+
+  get getAURNAvailableStationsTag() {
+    return $(
+      "div[class*='govuk-inset-text govuk-!-margin-top-1 govuk-!-margin-bottom-3 insettextgreen']"
+    )
+  }
+
+  get getNoNAURNAvailableStationsTag() {
+    return $$(
+      "div[class*='govuk-inset-text govuk-!-margin-top-1 govuk-!-margin-bottom-3 insettextgreen']"
+    )[1]
+  }
+
+  get get0StationsAvailableTag() {
+    return $(
+      "div[class*='govuk-inset-text govuk-!-margin-top-1 govuk-!-margin-bottom-3 insettextorange']"
+    )
+  }
 }
 
 // module.exports=new StartNowPage()

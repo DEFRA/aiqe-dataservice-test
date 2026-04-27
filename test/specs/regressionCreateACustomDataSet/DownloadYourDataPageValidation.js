@@ -375,15 +375,97 @@ inlet height`
     await addYearPage.continueButton.click()
     await customselectionPage.getContinueButton.click()
     await common.legalWait()
+    const noStationsAvailabletag =
+      await DownloadYourDataPage.get0StationsAvailableTag.getText()
+    const expectedNoStationsAvailableContent = `0 stations available`
+    await expect(noStationsAvailabletag).toBe(
+      expectedNoStationsAvailableContent
+    )
+  })
 
-    await common.errorSummaryItemByText('Change the year').click()
-    const changeYearUrl = await browser.getUrl()
-    await expect(changeYearUrl).toContain('/year-aurn')
-    await common.getBackLink.click()
+  it('AQD-1195 - Rural NO₂ Network Download your data', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('nitrogen dioxide')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getNorthernIrelandCheckbox.click()
+    await addLocationPage.getScotlandCheckbox.click()
+    await addLocationPage.getWalesCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getYearToDateOption.click()
+    await addYearPage.continueButton.click()
     await customselectionPage.getContinueButton.click()
-    await common.errorSummaryItemByText('Change the location').click()
-    const changeLocationUrl = await browser.getUrl()
-    await expect(changeLocationUrl).toContain('/location-aurn')
-    await common.getBackLink.click()
+
+    await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+    const pageContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const expectedContent = `Download your data
+File format and metadata
+Near real-time data from Defra
+Other data from Defra
+Other data from Defra
+Data is measured hourly, weekly or monthly depending on the network.
+UKEAP - Rural NO2 Network
+Monthly diffusion tube measurements of nitrogen dioxide at rural background locations.
+25 stations available
+Download data
+(Visual only)`
+    await expect(pageContent).toMatch(expectedContent)
+
+    const isDownloadDataButtonDisplayed =
+      await DownloadYourDataPage.getDownloadDataButton.isDisplayed()
+    await expect(isDownloadDataButtonDisplayed).toBe(true)
+
+    const isAvailableStationsTagDisplayed =
+      await DownloadYourDataPage.getNoNAURNAvailableStationsTag.isDisplayed()
+    await expect(isAvailableStationsTagDisplayed).toBe(true)
+
+    await DownloadYourDataPage.getDownloadDataButton.click()
+    const downloadNotification = await DownloadYourDataPage.getDownloadProgress
+    const downloadNotificationisDisplayed =
+      await downloadNotification.isDisplayed()
+    await expect(downloadNotificationisDisplayed).toBe(true)
+
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    await browser.waitUntil(
+      () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          if (files.length === 0) return false
+          const fullPath = path.join(DOWNLOAD_DIR, files[0])
+          const size = fs.statSync(fullPath).size
+          return size > 0
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 240000,
+        interval: 500,
+        timeoutMsg: 'No downloaded file detected in downloads within 240s'
+      }
+    )
+
+    // Optional: basic assertion that at least one file exists
+    const finalFiles = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => !f.endsWith('.crdownload'))
+    expect(finalFiles.length).toBeGreaterThan(0)
   })
 })
