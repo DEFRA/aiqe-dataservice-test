@@ -655,4 +655,37 @@ describe('add year validation AQD-841', () => {
       await addYearPage.getYearToDateRadio.isSelected()
     await expect(isYearToDateRadioSelected).toBe(true)
   })
+
+  it('AQD-1220, defect - error message box has spread across the page on add year flow', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('sulphur dioxide')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.continueButton.click()
+
+    const selectAnOptionBeforeContinuingErrorBox = await addYearPage.errorBox
+    const actualWidth = await common.getRenderedWidth(
+      selectAnOptionBeforeContinuingErrorBox
+    )
+    expect(actualWidth).toBe(630)
+
+    await addYearPage.getAnyYearOption.click()
+    await addYearPage.continueButton.click()
+    const selectAYearErrorBox = await addYearPage.errorBox
+    const selectAYearErrorBoxActualWidth =
+      await common.getRenderedWidth(selectAYearErrorBox)
+    expect(selectAYearErrorBoxActualWidth).toBe(630)
+
+    await addYearPage.getRangeOfYearsOption.click()
+    await addYearPage.continueButton.click()
+    const selectARangeOfYearsErrorBox = await addYearPage.errorBox
+    const selectARangeOfYearsErrorBoxActualWidth =
+      await common.getRenderedWidth(selectARangeOfYearsErrorBox)
+    expect(selectARangeOfYearsErrorBoxActualWidth).toBe(630)
+  })
 })

@@ -18,6 +18,10 @@ class Common {
     return styles
   }
 
+  async getRenderedWidth(element) {
+    return browser.execute((el) => el.getBoundingClientRect().width, element)
+  }
+
   get getBackLink() {
     return $("a[class='govuk-back-link']")
   }
