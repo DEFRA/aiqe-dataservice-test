@@ -45,6 +45,12 @@ class AddPollutantPage {
     return $("li[id*='my-autocomplete__option--0']")
   }
 
+  get getSearchNoResults() {
+    return $(
+      "li[class*='autocomplete__option autocomplete__option--no-results']"
+    )
+  }
+
   get getAllSearchAutocompleteResults() {
     return $("ul[id*='my-autocomplete__listbox']")
   }

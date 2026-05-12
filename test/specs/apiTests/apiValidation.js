@@ -794,8 +794,6 @@ describe('API Testing', () => {
       'https://ephemeral-protected.api.dev.cdp-int.defra.cloud/aqie-historicaldata-backend/AtomDataSelectionPollutantMaster'
     const apiKey = ''
 
-    // getting all the pollutants and counting them to check if new pollutants have been added to the system and are being returned by the api
-
     const data = await browser.call(async () => {
       const res = await axios.get(urlAtomData, {
         headers: {
@@ -815,7 +813,7 @@ describe('API Testing', () => {
         `ID: ${pollutant.pollutantID} | Name: ${pollutant.pollutantName} | Abbreviation: ${pollutant.pollutant_Abbreviation}`
       )
     }
-    await expect(pollutants.length).toEqual(128)
+    await expect(pollutants.length).toEqual(8)
 
     // extracting each pollutant with a data source
     const urlPollutantDataSource =

@@ -734,4 +734,38 @@ Ozone (O3)`
       expectedSearchBoxValueAfterContinueButtonClick
     )
   })
+
+  it('AQD-1273 - Ensure only 8 Pollutants are available to select', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.clearPollutantInput()
+    await addPollutantPage.addPollutant('Sulphur dioxide')
+    await addPollutantPage.addPollutant('Nitrogen dioxide')
+    await addPollutantPage.addPollutant('Ozone')
+    await addPollutantPage.addPollutant('Particulate matter (PM10)')
+    await addPollutantPage.addPollutant('Fine particulate matter (PM2.5)')
+    await addPollutantPage.addPollutant(
+      'Nitrogen oxides as nitrogen dioxide (NOx as NO2)'
+    )
+    await addPollutantPage.addPollutant('Carbon monoxide (CO)')
+    await addPollutantPage.addPollutant('Nitric oxide (NO)')
+    await addPollutantPage.getAddPollutantSearchBox.setValue('black carbon')
+    await common.legalWait()
+    const blackCarbonSearchMatch =
+      await addPollutantPage.getSearchNoResults.getText()
+    const expectedBlackCarbonSearchMatch = 'No results found'
+    await expect(blackCarbonSearchMatch).toMatch(expectedBlackCarbonSearchMatch)
+
+    await addPollutantPage.clearPollutantInput()
+    await addPollutantPage.getAddPollutantSearchBox.setValue('benzene')
+    await common.legalWait()
+    const benzeneSearchMatch =
+      await addPollutantPage.getSearchNoResults.getText()
+    const expectedBenzeneSearchMatch = 'No results found'
+    await expect(benzeneSearchMatch).toMatch(expectedBenzeneSearchMatch)
+  })
 })
