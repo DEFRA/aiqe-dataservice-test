@@ -2,7 +2,7 @@ import { $ } from '@wdio/globals'
 
 class DownloadYourDataPage {
   get getDownloadYourDataHeading() {
-    return $("h2[class*='govuk-heading-l']")
+    return $("h1[class*='govuk-heading-l']")
   }
 
   get getDownloadYourDataPageContent() {
