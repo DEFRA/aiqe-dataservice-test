@@ -35,6 +35,12 @@ class DownloadYourDataPage {
     )
   }
 
+  get getNoStationsAvailable() {
+    return $(
+      "div[class*='govuk-inset-text govuk-!-margin-top-1 govuk-!-margin-bottom-3 insettextorange"
+    )
+  }
+
   get getDownloadHourlyDataButton() {
     return $("a[id*='download-link']")
   }

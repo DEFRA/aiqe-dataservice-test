@@ -468,4 +468,84 @@ Download data
       .filter((f) => !f.endsWith('.crdownload'))
     expect(finalFiles.length).toBeGreaterThan(0)
   })
+
+  it('Display 0 stations available for networks with 0 stations, when data is available for other networks', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('nitrogen dioxide')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('1986')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    const AurnAvailableStationsTag =
+      await DownloadYourDataPage.getNumberOfStationsAvailable
+    const AurnAvailableStationsTagText =
+      await AurnAvailableStationsTag.getText()
+    const expectedAurnAvailableStationsTagText = `2 stations available`
+    await expect(AurnAvailableStationsTagText).toBe(
+      expectedAurnAvailableStationsTagText
+    )
+
+    const AurnAvailableStationsTagcolour = [
+      await DownloadYourDataPage.getNumberOfStationsAvailable
+    ]
+
+    const AurnAvailableStationsTagcolourProperties = [
+      'background-color',
+      'border-left',
+      'color'
+    ]
+
+    for (const element of AurnAvailableStationsTagcolour) {
+      const styles = await common.getStyles(
+        element,
+        AurnAvailableStationsTagcolourProperties
+      )
+      expect(styles['background-color']).toBe('rgb(212, 250, 226)')
+      expect(styles['border-left']).toBe('10px solid rgb(0, 112, 61)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+    }
+
+    await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+    const UKEAPRuralNO2NetworkAvailableStationsTag =
+      await DownloadYourDataPage.getNoStationsAvailable
+    const UKEAPRuralNO2NetworkAvailableStationsTagText =
+      await UKEAPRuralNO2NetworkAvailableStationsTag.getText()
+    const expectedUKEAPRuralNO2NetworkAvailableStationsTagText = `0 stations available`
+    await expect(UKEAPRuralNO2NetworkAvailableStationsTagText).toBe(
+      expectedUKEAPRuralNO2NetworkAvailableStationsTagText
+    )
+
+    const UKEAPRuralNO2NetworkNoAvailableStationsTagcolour = [
+      await DownloadYourDataPage.getNoStationsAvailable
+    ]
+
+    const UKEAPRuralNO2NetworkNoAvailableStationsTagcolourProperties = [
+      'background-color',
+      'border-left',
+      'color'
+    ]
+
+    for (const element of UKEAPRuralNO2NetworkNoAvailableStationsTagcolour) {
+      const styles = await common.getStyles(
+        element,
+        UKEAPRuralNO2NetworkNoAvailableStationsTagcolourProperties
+      )
+      expect(styles['background-color']).toBe('rgb(249, 226, 215)')
+      expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+    }
+  })
 })
