@@ -364,7 +364,8 @@ inlet height`
     await common.getBackLink.click()
   })
 
-  it('AQD-885 No Stations Available - Validation', async () => {
+  it(`AQD-885 No Stations Available - Validation
+      AQD-1292 change year error link not working`, async () => {
     await customselectionPage.getAddChangeLocationLink.click()
     await addLocationPage.getScotlandCheckbox.click()
     await addLocationPage.getNorthernIrelandCheckbox.click()
@@ -373,6 +374,33 @@ inlet height`
     await addYearPage.getAnyYearOption.click()
     await addYearPage.getAnyYearInput.setValue('1975')
     await addYearPage.continueButton.click()
+
+    const changeYearErrorMessage = await common
+      .errorSummaryItemByText('Change year')
+      .getText()
+    const changeYearErrorLink =
+      await common.errorSummaryItemByText('Change year')
+    const expectedChangeYearErrorMessage = 'Change year'
+    await expect(changeYearErrorMessage).toMatch(expectedChangeYearErrorMessage)
+    await changeYearErrorLink.click()
+    const changeYearUrl = await browser.getUrl()
+    await expect(changeYearUrl).toContain('year-aurn?change=true')
+    await common.getBackLink.click()
+
+    const changeLocationErrorMessage = await common
+      .errorSummaryItemByText('Change location')
+      .getText()
+    const changeLocationErrorLink =
+      await common.errorSummaryItemByText('Change location')
+    const expectedChangeLocationErrorMessage = 'Change location'
+    await expect(changeLocationErrorMessage).toMatch(
+      expectedChangeLocationErrorMessage
+    )
+    await changeLocationErrorLink.click()
+    const changeLocationUrl = await browser.getUrl()
+    await expect(changeLocationUrl).toContain('location-aurn?change=true')
+    await common.getBackLink.click()
+
     await customselectionPage.getContinueButton.click()
     await common.legalWait()
     const noStationsAvailabletag =
