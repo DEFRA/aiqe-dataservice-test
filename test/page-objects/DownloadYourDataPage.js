@@ -54,7 +54,11 @@ class DownloadYourDataPage {
   }
 
   get getRequestDataLink() {
-    return $("a[href*='/emailrequest']")
+    return $$("a[href*='/emailrequest']")[0]
+  }
+
+  get getOtherDataRequestDataLink() {
+    return $$("a[href*='/emailrequest']")[6]
   }
 
   get getDownloadProgress() {

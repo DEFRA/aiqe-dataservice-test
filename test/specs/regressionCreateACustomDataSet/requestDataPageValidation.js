@@ -162,4 +162,144 @@ Continue`)
 The download link had expired. Download links expire after 48 hours.
 To request another download, go to Get air pollution data.`)
   })
+
+  it('AQD-1233 - Rural NO₂ Network | Download your data Page - Request Data via Email (one file for multiple years)', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('nitrogen dioxide')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getRangeOfYearsRadio.click()
+    await addYearPage.getRangeOfYearsStartYearInput.setValue('2021')
+    await addYearPage.getRangeOfYearsEndYearInput.setValue('2025')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getScotlandOption.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+    await DownloadYourDataPage.getOtherDataRequestDataLink.click()
+    const url = await browser.getUrl()
+    expect(url).toContain('emailrequest')
+
+    const requestDataContent =
+      await requestDataPage.getDownloadYourDataPageContent.getText()
+    expect(requestDataContent).toContain(`Request data
+Enter your email address
+We’ll only send you the air pollution data you requested
+Continue`)
+
+    const getDownloadYourDataHeading = [
+      await requestDataPage.getDownloadYourDataHeading
+    ]
+
+    const getDownloadYourDataHeadingProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight'
+    ]
+
+    for (const element of getDownloadYourDataHeading) {
+      const styles = await common.getStyles(
+        element,
+        getDownloadYourDataHeadingProperties
+      )
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles['font-size']).toBe('36px')
+      expect(styles['line-height']).toBe('40px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
+    }
+
+    const getEnterEmailAddressText = [
+      await requestDataPage.getEnterEmailAddressText
+    ]
+
+    const getEnterEmailAddressTextProperties = [
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight',
+      'margin-bottom'
+    ]
+
+    for (const element of getEnterEmailAddressText) {
+      const styles = await common.getStyles(
+        element,
+        getEnterEmailAddressTextProperties
+      )
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['margin-bottom']).toBe('5px')
+    }
+
+    const getHintText = [await requestDataPage.getHintText]
+
+    const getHintTextProperties = [
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight',
+      'margin-bottom'
+    ]
+
+    for (const element of getHintText) {
+      const styles = await common.getStyles(element, getHintTextProperties)
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(80, 90, 95)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['margin-bottom']).toBe('15px')
+    }
+    await common.getBackLink.click()
+    const DownloadYourDataPageUrl = await browser.getUrl()
+    expect(DownloadYourDataPageUrl).toContain('download_dataselector')
+
+    await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+    await common.legalWait()
+    await DownloadYourDataPage.getOtherDataRequestDataLink.scrollIntoView()
+    await DownloadYourDataPage.getOtherDataRequestDataLink.click()
+    await requestDataPage.getRequestDataContinueButton.click()
+    await common.legalWait()
+
+    const noEmailErrorDisplayed = await common
+      .errorSummaryItemByText('Enter an email address')
+      .isDisplayed()
+    await expect(noEmailErrorDisplayed).toBe(true)
+    const noEmailErrorDisplayedLink = await common.errorSummaryItemByText(
+      'Enter an email address'
+    )
+    await noEmailErrorDisplayedLink.click()
+    const isEmailInputFocused = await requestDataPage.getEmailInput.isFocused()
+    await expect(isEmailInputFocused).toBe(true)
+
+    await requestDataPage.getEmailInput.setValue('invalid-email')
+    await requestDataPage.getRequestDataContinueButton.click()
+    await common.legalWait()
+
+    const isInvalidEmailErrorDisplayed = await common
+      .errorSummaryItemByText('Enter a valid email address')
+      .isDisplayed()
+    await expect(isInvalidEmailErrorDisplayed).toBe(true)
+    const isInvalidEmailErrorDisplayedLink =
+      await common.errorSummaryItemByText('Enter a valid email address')
+    await isInvalidEmailErrorDisplayedLink.click()
+    const isEmailInputFocused2 = await requestDataPage.getEmailInput.isFocused()
+    await expect(isEmailInputFocused2).toBe(true)
+  })
 })
