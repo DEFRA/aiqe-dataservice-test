@@ -12,6 +12,7 @@ import addYearPage from '../../page-objects/addYearPage.js'
 import DownloadYourDataPage from '../../page-objects/DownloadYourDataPage.js'
 import requestDataPage from '../../page-objects/requestDataPage.js'
 import downloadRequestedDataPage from '../../page-objects/downloadRequestedDataPage.js'
+import errorPage from '../../page-objects/errorPage.js'
 
 describe('request data flow', () => {
   it('AQD-982 defect - request data flow and page', async () => {
@@ -301,5 +302,21 @@ Continue`)
     await isInvalidEmailErrorDisplayedLink.click()
     const isEmailInputFocused2 = await requestDataPage.getEmailInput.isFocused()
     await expect(isEmailInputFocused2).toBe(true)
+  })
+
+  it('AQD-1288 - wrong error page showing when download errors', async () => {
+    await browser.url(
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/download_emailreq/00459af0fc574d9da6fjfjf8f8fcc649502d34b21/1778767984297'
+    )
+    const url = await browser.getUrl()
+    expect(url).toContain(
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/problem-with-service?statusCode=500'
+    )
+    const dowonloadErrorPageContent =
+      await errorPage.getCouldNotFindContent.getText()
+    const expectedContent = `Sorry, there is a problem with the service
+Try again later.
+You can go to UK AIR to get air pollution data.`
+    expect(dowonloadErrorPageContent).toContain(expectedContent)
   })
 })
