@@ -235,6 +235,9 @@ Continue`
     await addPollutantPage.getAddPollutantOption.click()
     await addPollutantPage.addPollutant('Nitrogen dioxide')
     await common.continueButton.click()
+    await customselectionPage.getViewDataSourcesLink.waitForDisplayed({
+      timeout: 10000
+    })
 
     const isViewDataSourcesLinkDisplayed =
       await customselectionPage.getViewDataSourcesLink.isDisplayed()

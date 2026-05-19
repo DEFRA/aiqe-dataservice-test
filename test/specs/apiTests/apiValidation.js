@@ -225,6 +225,8 @@ describe('API Testing', () => {
       .click()
     await monitoringStationPage.get2024Button.click()
     await common.legalWait()
+    await monitoringStationPage.get2024Button.click()
+    await common.legalWait()
 
     await monitoringStationPage.getPM25AnnaulAverageST.waitForExist({
       timeout: 5000
@@ -462,6 +464,8 @@ describe('API Testing', () => {
       .click()
     await monitoringStationPage.get2022Button.click()
     await common.legalWait()
+    await monitoringStationPage.get2022Button.click()
+    await common.legalWait()
 
     await monitoringStationPage.getPM10DailyExceedence.waitForExist({
       timeout: 6000
@@ -583,6 +587,8 @@ describe('API Testing', () => {
       .click()
     await monitoringStationPage.get2022Button.click()
     await common.legalWait()
+    await monitoringStationPage.get2022Button.click()
+    await common.legalWait()
 
     await monitoringStationPage.getSDDailyExceedence.waitForExist({
       timeout: 5000
@@ -680,6 +686,8 @@ describe('API Testing', () => {
       .click()
     await monitoringStationPage.get2018Button.click()
     await common.legalWait()
+    await monitoringStationPage.get2018Button.click()
+    await common.legalWait()
 
     await monitoringStationPage.getNOHourlyExceedence.waitForExist({
       timeout: 5000
@@ -774,6 +782,8 @@ describe('API Testing', () => {
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Marylebone Road')
       .click()
+    await monitoringStationPage.get2018Button.click()
+    await common.legalWait()
     await monitoringStationPage.get2018Button.click()
     await common.legalWait()
 
