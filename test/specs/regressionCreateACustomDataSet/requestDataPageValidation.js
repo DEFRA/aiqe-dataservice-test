@@ -310,13 +310,13 @@ Continue`)
     )
     const url = await browser.getUrl()
     expect(url).toContain(
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/problem-with-service?statusCode=500'
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/download_emailreq/00459af0fc574d9da6fjfjf8f8fcc649502d34b21/1778767984297'
     )
     const dowonloadErrorPageContent =
       await errorPage.getCouldNotFindContent.getText()
-    const expectedContent = `Sorry, there is a problem with the service
-Try again later.
-You can go to UK AIR to get air pollution data.`
+    const expectedContent = `Your link has expired
+The download link had expired. Download links expire after 48 hours.
+To request another download, go to Get air pollution data.`
     expect(dowonloadErrorPageContent).toContain(expectedContent)
   })
 })

@@ -38,7 +38,9 @@ class CustomSelectionsPage {
   }
 
   get getViewDataSourcesLink() {
-    return $("a[href*='/datasource']")
+    return $(
+      "a[href*='https://www.gov.uk/government/collections/air-pollution-in-the-uk-sources-of-monitoring-data']"
+    )
   }
 
   get getYearLabel() {
@@ -72,6 +74,10 @@ class CustomSelectionsPage {
 
   get getContinueButton() {
     return $$("button[class*='govuk-button']")[4]
+  }
+
+  get getNoDataAvailableErrorSummaryMessage() {
+    return $("div[data-module*='govuk-error-summary']")
   }
 }
 

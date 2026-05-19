@@ -375,6 +375,14 @@ inlet height`
     await addYearPage.getAnyYearInput.setValue('1975')
     await addYearPage.continueButton.click()
 
+    const errorSummaryMessage =
+      await customselectionPage.getNoDataAvailableErrorSummaryMessage.getText()
+    const expectedErrorSummaryMessage = `There is a problem
+No monitoring stations are available for your selection. Please try:
+Change year
+Change location`
+    await expect(errorSummaryMessage).toMatch(expectedErrorSummaryMessage)
+
     const changeYearErrorMessage = await common
       .errorSummaryItemByText('Change year')
       .getText()
