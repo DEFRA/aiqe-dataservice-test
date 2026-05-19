@@ -379,16 +379,16 @@ inlet height`
       await customselectionPage.getNoDataAvailableErrorSummaryMessage.getText()
     const expectedErrorSummaryMessage = `There is a problem
 No monitoring stations are available for your selection. Please try:
-Change year
-Change location`
+Change the year
+Change the location`
     await expect(errorSummaryMessage).toMatch(expectedErrorSummaryMessage)
 
     const changeYearErrorMessage = await common
-      .errorSummaryItemByText('Change year')
+      .errorSummaryItemByText('Change the year')
       .getText()
     const changeYearErrorLink =
-      await common.errorSummaryItemByText('Change year')
-    const expectedChangeYearErrorMessage = 'Change year'
+      await common.errorSummaryItemByText('Change the year')
+    const expectedChangeYearErrorMessage = 'Change the year'
     await expect(changeYearErrorMessage).toMatch(expectedChangeYearErrorMessage)
     await changeYearErrorLink.click()
     const changeYearUrl = await browser.getUrl()
@@ -396,11 +396,12 @@ Change location`
     await common.getBackLink.click()
 
     const changeLocationErrorMessage = await common
-      .errorSummaryItemByText('Change location')
+      .errorSummaryItemByText('Change the location')
       .getText()
-    const changeLocationErrorLink =
-      await common.errorSummaryItemByText('Change location')
-    const expectedChangeLocationErrorMessage = 'Change location'
+    const changeLocationErrorLink = await common.errorSummaryItemByText(
+      'Change the location'
+    )
+    const expectedChangeLocationErrorMessage = 'Change the location'
     await expect(changeLocationErrorMessage).toMatch(
       expectedChangeLocationErrorMessage
     )

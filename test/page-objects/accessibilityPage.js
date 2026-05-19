@@ -10,7 +10,7 @@ class AccessibilityPage {
   }
 
   get getGetAirPollutionDataLink() {
-    return $$("a[href='/']")[1]
+    return $("a[href='/hubpage']")
   }
 
   get getAccessibilityEmailLink() {
