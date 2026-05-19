@@ -206,8 +206,7 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
   it('links validation', async () => {
     await accessibilityPage.getGetAirPollutionDataLink.click()
     const getAirPolutionDataLinkURL = await browser.getUrl()
-    const expectedgetAirPolutionDataLinkURL =
-      'https://aqie-dataselector-frontend'
+    const expectedgetAirPolutionDataLinkURL = '/hubpage'
     await expect(getAirPolutionDataLinkURL).toMatch(
       expectedgetAirPolutionDataLinkURL
     )
