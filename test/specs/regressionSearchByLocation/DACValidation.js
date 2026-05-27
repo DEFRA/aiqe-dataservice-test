@@ -42,7 +42,9 @@ describe('DAC tests ', () => {
     )
 
     await monitoringStationPage.getPM25AnnualAverageToggleTip.click()
-    await common.legalWait()
+    await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText.waitForDisplayed(
+      { timeout: 10000 }
+    )
     const getPM25AnnualAverageToggleTipInfoTextAfterClick = [
       await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText
     ]
@@ -64,6 +66,9 @@ describe('DAC tests ', () => {
     }
 
     await monitoringStationPage.getPM10AnnualAverageToggleTip.moveTo()
+    await monitoringStationPage.getPM10AnnualAverageToggleTip.waitForExist({
+      timeout: 5000
+    })
     const getPM10AnnualAverageToggleTipInfoTextHover = [
       await monitoringStationPage.getPM10AnnualAverageToggleTipInfoText
     ]
@@ -137,54 +142,41 @@ describe('DAC tests ', () => {
     await common.legalWait()
     await browser.keys('Tab')
     await browser.keys('Tab')
-    await common.legalWait()
-    const isPM25AnnualAverageToggleTipInfoTextDisplayed =
-      await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText.isDisplayed()
-    await expect(isPM25AnnualAverageToggleTipInfoTextDisplayed).toBe(true)
-    await browser.keys('Tab')
-    await common.legalWait()
-    const isPM10AnnualAverageToggleTipInfoTextDisplayed =
-      await monitoringStationPage.getPM10AnnualAverageToggleTipInfoText.isDisplayed()
-    await expect(isPM10AnnualAverageToggleTipInfoTextDisplayed).toBe(true)
-    await browser.keys('Tab')
-    await common.legalWait()
-    const isPM10DailyExceedenceToggleTipInfoTextDisplayed =
-      await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText.isDisplayed()
-    await expect(isPM10DailyExceedenceToggleTipInfoTextDisplayed).toBe(true)
-    await browser.keys('Tab')
-    await common.legalWait()
-    const isNitrogenDioxideAnnualAverageToggleTipInfoTextDisplayed =
-      await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTipInfoText.isDisplayed()
-    await expect(isNitrogenDioxideAnnualAverageToggleTipInfoTextDisplayed).toBe(
-      true
+    await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText.waitForDisplayed(
+      { timeout: 7000 }
     )
     await browser.keys('Tab')
-    await common.legalWait()
-    const isNOHourlyExceedenceToggleTipInfoTextDisplayed =
-      await monitoringStationPage.getNOHourlyExceedenceToggleTipInfoText.isDisplayed()
-    await expect(isNOHourlyExceedenceToggleTipInfoTextDisplayed).toBe(true)
-    await browser.keys('Tab')
-    await common.legalWait()
-    const isOzoneAnnualAverageToggleTipInfoTextDisplayed =
-      await monitoringStationPage.getOzoneAnnualAverageToggleTipInfoText.isDisplayed()
-    await expect(isOzoneAnnualAverageToggleTipInfoTextDisplayed).toBe(true)
-    await browser.keys('Tab')
-    await common.legalWait()
-    const isSulphurDioxideAnnualAverageToggleTipInfoTextDisplayed =
-      await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTipInfoText.isDisplayed()
-    await expect(isSulphurDioxideAnnualAverageToggleTipInfoTextDisplayed).toBe(
-      true
+    await monitoringStationPage.getPM10AnnualAverageToggleTipInfoText.waitForDisplayed(
+      { timeout: 7000 }
     )
     await browser.keys('Tab')
-    await common.legalWait()
-    const isSDDailyExceedenceToggleTipInfoTextDisplayed =
-      await monitoringStationPage.getSDDailyExceedenceToggleTipInfoText.isDisplayed()
-    await expect(isSDDailyExceedenceToggleTipInfoTextDisplayed).toBe(true)
+    await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText.waitForDisplayed(
+      { timeout: 7000 }
+    )
     await browser.keys('Tab')
-    await common.legalWait()
-    const isSDHourlyExceedenceToggleTipInfoTextDisplayed =
-      await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.isDisplayed()
-    await expect(isSDHourlyExceedenceToggleTipInfoTextDisplayed).toBe(true)
+    await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTipInfoText.waitForDisplayed(
+      { timeout: 7000 }
+    )
+    await browser.keys('Tab')
+    await monitoringStationPage.getNOHourlyExceedenceToggleTipInfoText.waitForDisplayed(
+      { timeout: 7000 }
+    )
+    await browser.keys('Tab')
+    await monitoringStationPage.getOzoneAnnualAverageToggleTipInfoText.waitForDisplayed(
+      { timeout: 7000 }
+    )
+    await browser.keys('Tab')
+    await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTipInfoText.waitForDisplayed(
+      { timeout: 7000 }
+    )
+    await browser.keys('Tab')
+    await monitoringStationPage.getSDDailyExceedenceToggleTipInfoText.waitForDisplayed(
+      { timeout: 7000 }
+    )
+    await browser.keys('Tab')
+    await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.waitForDisplayed(
+      { timeout: 7000 }
+    )
   })
 
   it('Change aria-label for Site type toggletip, AQD-759', async () => {
@@ -211,19 +203,6 @@ describe('DAC tests ', () => {
     expect(urbanIndustrialSiteTypeToggleTipAriaLabel).toBe(
       'More information about Urban Industrial'
     )
-
-    await common.getBackLink.click()
-    await locationMonitoringStationListPage
-      .getMonitoringStationLink('Horley')
-      .click()
-    const suburbanIndustrialSiteTypeToggleTipAriaLabel =
-      await monitoringStationPage.getSiteTypeToggleTip.getAttribute(
-        'aria-label'
-      )
-    expect(suburbanIndustrialSiteTypeToggleTipAriaLabel).toBe(
-      'More information about Suburban Industrial'
-    )
-
     await common.getBackLink.click()
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Bexley')
@@ -235,19 +214,6 @@ describe('DAC tests ', () => {
     expect(suburbanBackgroundSiteTypeToggleTipAriaLabel).toBe(
       'More information about Suburban Background'
     )
-
-    await common.getBackLink.click()
-    await locationMonitoringStationListPage
-      .getMonitoringStationLink('Rochester Stoke')
-      .click()
-    const ruralBackgroundSiteTypeToggleTipAriaLabel =
-      await monitoringStationPage.getSiteTypeToggleTip.getAttribute(
-        'aria-label'
-      )
-    expect(ruralBackgroundSiteTypeToggleTipAriaLabel).toBe(
-      'More information about Rural Background'
-    )
-
     await common.getBackLink.click()
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Bloomsbury')

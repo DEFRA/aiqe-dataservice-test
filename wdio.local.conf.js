@@ -30,7 +30,7 @@ export const config = {
   // will be called from there.
   //
   specs: [
-    './test/specs/regressionCreateACustomDataSet/DownloadYourDataPageValidation.js'
+    './test/specs/regressionSearchByLocation/locationMonitoringStationListPageValidation.js'
   ],
   // Patterns to exclude.
   exclude: [],
@@ -72,7 +72,8 @@ export const config = {
               '--no-sandbox',
               '--disable-infobars',
               '--disable-gpu',
-              '--window-size=2000,1100'
+              '--window-size=1920,1080',
+              '--force-device-scale-factor=1'
             ],
             prefs: {
               'download.default_directory': path.resolve(
