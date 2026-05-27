@@ -117,7 +117,7 @@ export const config = {
         // Desktop Chrome on Windows via BrowserStack
         {
           browserName: 'Chrome',
-          browserVersion: '142.0.7444.176',
+          browserVersion: '146.0.7680.178',
           'bstack:options': {
             os: 'Windows',
             osVersion: '11',

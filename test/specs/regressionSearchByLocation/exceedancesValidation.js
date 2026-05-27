@@ -688,13 +688,9 @@ i`
       .getMonitoringStationLink('London Marylebone Road')
       .click()
     await monitoringStationPage.get2018Button.click()
-    await browser.waitUntil(
-      async () => {
-        await new Promise((resolve) => setTimeout(resolve, 9000))
-        return true
-      },
-      { timeout: 9000 }
-    )
+    await monitoringStationPage.getAboveLimitFlag.waitForDisplayed({
+      timeout: 15000
+    })
     const isAboveLimitFlagDisplayed =
       await monitoringStationPage.getAboveLimitFlag.isDisplayed()
     await expect(isAboveLimitFlagDisplayed).toBe(true)
