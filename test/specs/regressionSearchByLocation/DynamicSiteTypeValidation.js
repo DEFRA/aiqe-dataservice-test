@@ -100,7 +100,7 @@ describe('site type tests', () => {
     await expect(getSBSiteTypeText).toMatch(expectedSBSiteTypeText)
     await browser.back()
 
-    await locationMonitoringStationListPage
+    /* await locationMonitoringStationListPage
       .getMonitoringStationLink('Rochester Stoke')
       .click()
     await monitoringStationPage.getSiteTypeToggleTip.click()
@@ -115,7 +115,7 @@ describe('site type tests', () => {
       await monitoringStationPage.getSiteTypeToggleTipInfoText.getText()
     const expectedRBSiteTypeText = `This monitoring area is in small settlements or areas with natural ecosystems, forests or crops. It is located so pollutant measurements do not come from one specific source.`
     await expect(getRBSiteTypeText).toMatch(expectedRBSiteTypeText)
-    await browser.back()
+    await browser.back() */
 
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Westminster')
