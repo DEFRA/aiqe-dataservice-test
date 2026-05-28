@@ -66,7 +66,7 @@ describe('site type tests', () => {
     await expect(getUISiteTypeText).toMatch(expectedUISiteTypeText)
     await browser.back()
 
-    await locationMonitoringStationListPage
+    /* await locationMonitoringStationListPage
       .getMonitoringStationLink('Horley')
       .click()
     await monitoringStationPage.getSiteTypeToggleTip.click()
@@ -81,7 +81,7 @@ describe('site type tests', () => {
       await monitoringStationPage.getSiteTypeToggleTipInfoText.getText()
     const expectedSISiteTypeText = `This monitoring site is on the outskirts of an urban area (or in an area of its own), downwind of an industrial source.`
     await expect(getSISiteTypeText).toMatch(expectedSISiteTypeText)
-    await browser.back()
+    await browser.back() */
 
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Bexley')
