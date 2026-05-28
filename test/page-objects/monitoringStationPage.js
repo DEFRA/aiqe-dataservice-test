@@ -384,7 +384,7 @@ class MonitoringStationPage {
   }
 
   get getSDHourlyExceedenceToggleTipInfoText() {
-    return $$("span[class*='defra-toggletip__text']")[8]
+    return $$("span[class*='defra-toggletip__text']")[9]
   }
 
   get getPM10DailyExceedenceToggleTip() {
@@ -404,7 +404,7 @@ class MonitoringStationPage {
   }
 
   get getSDDailyExceedenceToggleTipInfoText() {
-    return $$("span[class*='defra-toggletip__text']")[9]
+    return $$("span[class*='defra-toggletip__text']")[8]
   }
 
   get getPM25AnnualAverageToggleTip() {
