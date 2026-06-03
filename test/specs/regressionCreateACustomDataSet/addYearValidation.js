@@ -676,6 +676,7 @@ describe('add year validation AQD-841', () => {
 
     await addYearPage.getAnyYearOption.click()
     await addYearPage.continueButton.click()
+    await common.legalWait()
     const selectAYearErrorBox = await addYearPage.errorBox
     const selectAYearErrorBoxActualWidth =
       await common.getRenderedWidth(selectAYearErrorBox)
@@ -683,6 +684,7 @@ describe('add year validation AQD-841', () => {
 
     await addYearPage.getRangeOfYearsOption.click()
     await addYearPage.continueButton.click()
+    await common.legalWait()
     const selectARangeOfYearsErrorBox = await addYearPage.errorBox
     const selectARangeOfYearsErrorBoxActualWidth =
       await common.getRenderedWidth(selectARangeOfYearsErrorBox)

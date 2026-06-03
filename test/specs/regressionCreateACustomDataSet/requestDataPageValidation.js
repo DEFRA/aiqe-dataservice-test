@@ -36,7 +36,7 @@ describe('request data flow', () => {
     await customselectionPage.getContinueButton.click()
     await DownloadYourDataPage.getRequestDataLink.click()
     const url = await browser.getUrl()
-    expect(url).toContain('emailrequest')
+    expect(url).toContain('emailrequest/AURN')
 
     const requestDataContent =
       await requestDataPage.getDownloadYourDataPageContent.getText()
