@@ -312,7 +312,7 @@ Continue`
     )
     await common.errorSummaryItemByText('Add location').click()
     const getAddLocationCurrentUrl = await browser.getUrl()
-    const expectedAddLocationCurrentURL = 'location-aurn?change=true'
+    const expectedAddLocationCurrentURL = 'location-aurn/change'
     await expect(getAddLocationCurrentUrl).toMatch(
       expectedAddLocationCurrentURL
     )

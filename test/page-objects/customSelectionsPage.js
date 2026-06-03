@@ -64,7 +64,7 @@ class CustomSelectionsPage {
   }
 
   get getAddChangeLocationLink() {
-    return $("a[href*='/location-aurn?change=true']")
+    return $("a[href*='/location-aurn/change']")
   }
 
   // NoJS-friendly change location link (fallback without query param)

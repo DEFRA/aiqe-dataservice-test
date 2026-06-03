@@ -257,11 +257,11 @@ inlet height`
       expect(styles['line-height']).toBe('20px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles.border).toBe('0.666667px solid rgb(177, 180, 182)')
+      expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
       expect(styles.margin).toBe('0px 0px 15px')
-      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 2.66667px')
+      expect(styles.outline).toBe('rgba(0, 0, 0, 0) solid 3px')
       expect(styles.padding).toBe('9px 10px 10px')
       expect(styles['margin-bottom']).toBe('15px')
     }
@@ -392,7 +392,7 @@ Change the location`
     await expect(changeYearErrorMessage).toMatch(expectedChangeYearErrorMessage)
     await changeYearErrorLink.click()
     const changeYearUrl = await browser.getUrl()
-    await expect(changeYearUrl).toContain('year-aurn?change=true')
+    await expect(changeYearUrl).toContain('year-aurn/change')
     await common.getBackLink.click()
 
     const changeLocationErrorMessage = await common
@@ -407,7 +407,7 @@ Change the location`
     )
     await changeLocationErrorLink.click()
     const changeLocationUrl = await browser.getUrl()
-    await expect(changeLocationUrl).toContain('location-aurn?change=true')
+    await expect(changeLocationUrl).toContain('location-aurn/change')
     await common.getBackLink.click()
 
     await customselectionPage.getContinueButton.click()
