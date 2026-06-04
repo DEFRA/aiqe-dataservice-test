@@ -15,4 +15,13 @@ describe('error scenarios', () => {
     const pageNotFoundLocation = await errorPage.getError404Heading.getText()
     await expect(pageNotFoundLocation).toEqual('Page not found')
   })
+
+  it('AQD-1314 result not found should show the user a page not found page', async () => {
+    await browser.url(
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails/LondonBex'
+    )
+    const pageNotFoundEmailRequest =
+      await errorPage.getError404Heading.getText()
+    await expect(pageNotFoundEmailRequest).toEqual('Page not found')
+  })
 })
