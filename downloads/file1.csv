@@ -1,0 +1,14 @@
+StartTime,EndTime,Status,Unit,Value,PollutantName,SiteName,SiteType,Region,Country
+2003-12-31T12:00:00Z,2004-01-28T12:00:00Z,V,ugm-3,9.115,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England
+2003-12-03T12:00:00Z,2003-12-31T12:00:00Z,V,ugm-3,17.115,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England
+2003-11-05T12:00:00Z,2003-12-03T12:00:00Z,V,ugm-3,17.481,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England
+2003-10-08T12:00:00Z,2003-11-05T12:00:00Z,V,ugm-3,15.212,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England
+2003-08-14T12:00:00Z,2003-10-08T12:00:00Z,V,ugm-3,10.462,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England
+2003-07-16T12:00:00Z,2003-08-14T12:00:00Z,V,ugm-3,10.788,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England
+2003-06-15T12:00:00Z,2003-07-16T12:00:00Z,V,ugm-3,16.692,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England
+2003-05-29T12:00:00Z,2003-06-15T12:00:00Z,V,ugm-3,7.212,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England
+2003-05-02T12:00:00Z,2003-05-29T12:00:00Z,V,ugm-3,3.615,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England
+2003-03-23T12:00:00Z,2003-05-02T12:00:00Z,V,ugm-3,14.385,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England
+2003-02-23T12:00:00Z,2003-03-23T12:00:00Z,V,ugm-3,22.231,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England
+2003-01-28T12:00:00Z,2003-02-23T12:00:00Z,V,ugm-3,25.904,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England
+2002-12-29T12:00:00Z,2003-01-28T12:00:00Z,V,ugm-3,13.801,Nitrogen dioxide,Preston Montford,RuralBackground,West Midlands,England

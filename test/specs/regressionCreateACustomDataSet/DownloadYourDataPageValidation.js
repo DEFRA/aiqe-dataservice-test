@@ -4,6 +4,7 @@ import { browser, expect } from '@wdio/globals'
 import fs from 'node:fs'
 import path from 'node:path'
 // import createLogger from 'helpers/logger'
+import { execSync } from 'node:child_process'
 import common from '../../page-objects/common.js'
 import hubPage from '../../page-objects/hubPage.js'
 import customselectionPage from '../../page-objects/customSelectionsPage.js'
@@ -41,6 +42,7 @@ describe('Download Your Data page validation AQD-889', () => {
     const expectedContent = `Download your data
 File format and metadata
 Near real-time data from Defra
+Other data from Defra
 Near real-time data from Defra
 This data is automatically measured and published every hour.
 Automatic Urban and Rural Network (AURN)
@@ -584,5 +586,108 @@ Download data
       expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
     }
+  })
+
+  it('AQD-1328 - Region column is blank in downloaded Local Authority dataset', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('nitrogen dioxide')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getLocalAuthorityOption.click()
+    await addLocationPage.getLocalAuthoritySearchBox.setValue('Shropshire')
+    await addLocationPage.getLocalAuthorityListOption.click()
+    await addLocationPage.getAddLocalAuthorityButton.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getRangeOfYearsRadio.click()
+    await addYearPage.getRangeOfYearsStartYearInput.setValue('2003')
+    await addYearPage.getRangeOfYearsEndYearInput.setValue('2005')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+
+    // Ensure downloads directory is clean before downloading
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    const download2003NONAURN = await $(
+      "a[href*='/download_aurn_nojs/2003/NON-AURN']"
+    )
+    await download2003NONAURN.click()
+
+    // Wait until a non-empty CSV file appears in downloads
+    await browser.waitUntil(
+      () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          if (files.length === 0) return false
+          const fullPath = path.join(DOWNLOAD_DIR, files[0])
+          const size = fs.statSync(fullPath).size
+          return size > 0
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 240000,
+        interval: 500,
+        timeoutMsg: 'No downloaded file detected in downloads within 240s'
+      }
+    )
+
+    // Extract zip files and read the downloaded CSV to verify Region column is not blank
+    const allFiles = fs.readdirSync(DOWNLOAD_DIR)
+    const zipFiles = allFiles.filter((f) => f.endsWith('.zip'))
+    for (const zipFile of zipFiles) {
+      const zipPath = path.join(DOWNLOAD_DIR, zipFile)
+      execSync(
+        `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${DOWNLOAD_DIR}' -Force"`
+      )
+    }
+
+    const csvFiles = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => f.endsWith('.csv'))
+    expect(csvFiles.length).toBeGreaterThan(0)
+
+    const csvContent = fs.readFileSync(
+      path.join(DOWNLOAD_DIR, csvFiles[0]),
+      'utf-8'
+    )
+    const rows = csvContent.split('\n').filter((row) => row.trim() !== '')
+    const headers = rows[0].split(',').map((h) => h.trim().replace(/"/g, ''))
+    const regionIndex = headers.findIndex((h) => h.toLowerCase() === 'region')
+    expect(regionIndex).toBeGreaterThanOrEqual(0)
+
+    // Check every data row has a non-blank Region value
+    const dataRows = rows.slice(1)
+    expect(dataRows.length).toBeGreaterThan(0)
+
+    const blankRegionRows = dataRows.filter((row) => {
+      const columns = row.split(',').map((c) => c.trim().replace(/"/g, ''))
+      return !columns[regionIndex] || columns[regionIndex] === ''
+    })
+
+    expect(blankRegionRows.length).toBe(0)
+  })
+
+  // eslint-disable-next-line no-undef
+  after(async () => {
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
   })
 })
