@@ -682,4 +682,12 @@ Download data
 
     expect(blankRegionRows.length).toBe(0)
   })
+
+  // eslint-disable-next-line no-undef
+  after(async () => {
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+  })
 })
