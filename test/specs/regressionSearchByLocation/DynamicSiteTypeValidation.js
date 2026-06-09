@@ -16,10 +16,6 @@ describe('site type tests', () => {
   it('dynamic site type, AQD-735', async () => {
     await browser.url('')
     await browser.maximizeWindow()
-    // Handle the cookie banner
-    // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-    // await cookieBanner.rejectButtonCookiesDialog.click()
-    // await cookieBanner.hideButtonHideDialog.click()
     await startNowPage.startNowBtnClick()
     await hubPage.getFindMonitoringStationsByLocation.click()
     const isHeaderOverallDisplayed =

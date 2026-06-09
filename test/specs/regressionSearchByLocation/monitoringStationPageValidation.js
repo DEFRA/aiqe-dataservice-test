@@ -16,7 +16,6 @@ import hubPage from '../../page-objects/hubPage.js'
 
 describe('monitoring station page tests', () => {
   it('url, titles ', async () => {
-    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()

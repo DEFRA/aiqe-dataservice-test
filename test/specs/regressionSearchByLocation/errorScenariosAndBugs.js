@@ -13,14 +13,8 @@ import hubPage from '../../page-objects/hubPage.js'
 
 describe('Error scenarios', () => {
   it('search page error message validation', async () => {
-    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.maximizeWindow()
     await browser.url('')
-    // Handle the cookie banner
-    // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-    // await cookieBanner.rejectButtonCookiesDialog.click()
-    // await cookieBanner.hideButtonHideDialog.click()
-    await startNowPage.startNowBtnClick()
     await hubPage.getFindMonitoringStationsByLocation.click()
     await searchPage.setsearch('')
     await searchPage.milesOptionClick('')

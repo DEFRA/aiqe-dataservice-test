@@ -19,14 +19,8 @@ const logger = createLogger()
 describe('tablet happy Path', () => {
   it('tablet tests', async () => {
     logger.info('---happyPath StartScenario--------')
-    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
-    // Handle the cookie banner
-    // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-    // await cookieBanner.rejectButtonCookiesDialog.click()
-    // await cookieBanner.hideButtonHideDialog.click()
-
     // startnow-block
     const isHeaderOverallDisplayed = await header.getHeaderOverall.isDisplayed()
     const isFooterOverallDisplayed = await footer.getFooterOverall.isDisplayed()

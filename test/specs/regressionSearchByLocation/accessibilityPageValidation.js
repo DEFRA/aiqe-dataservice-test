@@ -11,13 +11,8 @@ import accessibilityPage from '../../page-objects/accessibilityPage.js'
 
 describe('accessibility page tests', () => {
   it('title and content checks', async () => {
-    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
-    // Handle the cookie banner
-    // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-    // await cookieBanner.rejectButtonCookiesDialog.click()
-    // await cookieBanner.hideButtonHideDialog.click()
     await footer.getAccessibilityStatementFooterLink.click()
     // page content validation
     const isHeaderOverallDisplayed =

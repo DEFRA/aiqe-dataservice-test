@@ -14,7 +14,6 @@ import hubPage from '../../page-objects/hubPage.js'
 
 describe('disambiguration page tests', () => {
   it('checking titles and content', async () => {
-    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
     // Handle the cookie banner

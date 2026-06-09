@@ -11,7 +11,6 @@ import cookiesPage from '../../page-objects/cookiesPage.js'
 
 describe('cookie page tests', () => {
   it('title and content checks', async () => {
-    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
     // Handle the cookie banner

@@ -5,7 +5,6 @@ import common from '../../page-objects/common.js'
 import cookiesBanner from '../../page-objects/cookiesBanner.js'
 describe('Cookies Tests', () => {
   it('cookiebanner, AQD-651, displayed and styling', async () => {
-    await browser.deleteCookies(['airaqie_cookies_analytics'])
     await browser.url('')
     await browser.maximizeWindow()
     const isCookieBannerDisplayed =
