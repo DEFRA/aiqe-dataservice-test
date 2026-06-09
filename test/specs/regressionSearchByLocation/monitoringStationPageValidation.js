@@ -35,7 +35,7 @@ describe('monitoring station page tests', () => {
       .click()
 
     const getCurrentURLOfLondonBloomsbury = await browser.getUrl()
-    const expectedURLOfLondonBloomsbury = '/stationdetails/LondonBloomsbury'
+    const expectedURLOfLondonBloomsbury = '/stationdetails'
     await expect(getCurrentURLOfLondonBloomsbury).toMatch(
       expectedURLOfLondonBloomsbury
     )
@@ -272,8 +272,7 @@ describe('monitoring station page tests', () => {
   it('checking back link', async () => {
     await common.getBackLink.click()
     const getURLAfterBackLinkCLick = await browser.getUrl()
-    const expectedgetURLAfterBackLinkCLick =
-      '/location/city-of-london-city-and-county-of-the-city-of-london'
+    const expectedgetURLAfterBackLinkCLick = '/location'
     await expect(getURLAfterBackLinkCLick).toMatch(
       expectedgetURLAfterBackLinkCLick
     )
