@@ -16,7 +16,6 @@ import hubPage from '../../page-objects/hubPage.js'
 
 describe('exceedences', () => {
   it('hourly exceedences , AQD-632', async () => {
-    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()

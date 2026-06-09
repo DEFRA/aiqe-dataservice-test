@@ -11,13 +11,8 @@ import privacyPage from '../../page-objects/privacyPage.js'
 
 describe('privacy page content/functionality checks/styling checks', () => {
   it('content checks and titles', async () => {
-    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
-    // Handle the cookie banner
-    // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-    // await cookieBanner.rejectButtonCookiesDialog.click()
-    // await cookieBanner.hideButtonHideDialog.click()
     await footer.getPrivacyFooterLink.click()
     // page content validation
     const isHeaderOverallDisplayed =

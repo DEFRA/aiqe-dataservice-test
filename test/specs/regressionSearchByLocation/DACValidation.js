@@ -15,7 +15,6 @@ import hubPage from '../../page-objects/hubPage.js'
 
 describe('DAC tests ', () => {
   it('Tooltip content on hover not accessible or dismissible , AQD-662', async () => {
-    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.url('')
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()

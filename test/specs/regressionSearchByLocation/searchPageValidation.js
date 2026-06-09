@@ -11,13 +11,8 @@ import hubPage from '../../page-objects/hubPage.js'
 
 describe('search page content/functionality checks/styling checks', () => {
   it('titles and content', async () => {
-    // await browser.deleteCookies(['airaqie_cookie'])
     await browser.maximizeWindow()
     await browser.url('')
-    // Handle the cookie banner
-    // if (await cookieBanner.cookieBannerDialog.isDisplayed()) {
-    // await cookieBanner.rejectButtonCookiesDialog.click()
-    // await cookieBanner.hideButtonHideDialog.click()
     await startNowPage.startNowBtnClick()
     await hubPage.getFindMonitoringStationsByLocation.click()
     const isHeaderOverallDisplayed =
