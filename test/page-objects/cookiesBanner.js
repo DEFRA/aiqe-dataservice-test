@@ -17,7 +17,7 @@ class CookiesBanner {
   }
 
   get getViewCookiesLink() {
-    return $$("a[href*='/cookies/']")[0]
+    return $("a[href*='/cookies/']")
   }
 
   get getAcceptCookiesButton() {
