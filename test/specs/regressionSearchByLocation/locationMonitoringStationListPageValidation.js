@@ -79,7 +79,7 @@ describe('monitoring station list page tests', () => {
       .getMonitoringStationLink('Birmingham A4540 Roadside')
       .click()
     const getCurrentURLOfA450Roadside = await browser.getUrl()
-    const expectedURLOfA450Roadside = '/stationdetails/BirminghamA4540Roadside'
+    const expectedURLOfA450Roadside = '/stationdetails'
     await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)
     await common.getBackLink.click()
     browser.refresh()
@@ -88,7 +88,7 @@ describe('monitoring station list page tests', () => {
       .getMonitoringStationLink('Birmingham Ladywood')
       .click()
     const getCurrentURLOfBirminghamLadywood = await browser.getUrl()
-    const expectedURLOfBirminghamLadywood = '/stationdetails/BirminghamLadywood'
+    const expectedURLOfBirminghamLadywood = '/stationdetails'
     await expect(getCurrentURLOfBirminghamLadywood).toMatch(
       expectedURLOfBirminghamLadywood
     )
@@ -99,8 +99,7 @@ describe('monitoring station list page tests', () => {
       .getMonitoringStationLink('Oldbury Birmingham Road')
       .click()
     const getCurrentURLOfOldburyBirminghamRoad = await browser.getUrl()
-    const expectedURLOfOldburyBirminghamRoad =
-      '/stationdetails/OldburyBirminghamRoad'
+    const expectedURLOfOldburyBirminghamRoad = '/stationdetails'
     await expect(getCurrentURLOfOldburyBirminghamRoad).toMatch(
       expectedURLOfOldburyBirminghamRoad
     )

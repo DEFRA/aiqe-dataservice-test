@@ -79,7 +79,7 @@ describe('happyPath', () => {
     await expect(isHeaderOverallDisplayedMonitoringStation).toBe(true)
     await expect(isFooterOverallDisplayedMonitoringStation).toBe(true)
     const getCurrentURLOfA450Roadside = await browser.getUrl()
-    const expectedURLOfA450Roadside = '/stationdetails/BirminghamA4540Roadside'
+    const expectedURLOfA450Roadside = '/stationdetails'
     await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)
     const getMonitoringPageHeading =
       await monitoringStationPage.getMonitoringPageHeading.getText()

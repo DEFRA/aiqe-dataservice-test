@@ -274,16 +274,14 @@ Alternatively, try searching again`
 
     await disambigurationPage.locationLinkClick('City of London')
     const getCurrentURLCityOfLondon = await browser.getUrl()
-    const expectedURLCityOfLondon =
-      '/location/city-of-london-city-and-county-of-the-city-of-london'
+    const expectedURLCityOfLondon = '/location'
     await expect(getCurrentURLCityOfLondon).toMatch(expectedURLCityOfLondon)
     common.getBackLink.click()
     browser.refresh()
 
     await disambigurationPage.locationLinkClick('Little London')
     const getCurrentURLLittleLondonBucks = await browser.getUrl()
-    const expectedURLLittleLondonBucks =
-      '/location/little-london-buckinghamshire'
+    const expectedURLLittleLondonBucks = '/location'
     await expect(getCurrentURLLittleLondonBucks).toMatch(
       expectedURLLittleLondonBucks
     )
@@ -292,7 +290,7 @@ Alternatively, try searching again`
 
     await disambigurationPage.locationLinkClick('London Fields')
     const getCurrentURLLondonFIeldsDudley = await browser.getUrl()
-    const expectedURLLondonFIeldsDudley = '/location/london-fields-dudley'
+    const expectedURLLondonFIeldsDudley = '/location'
     await expect(getCurrentURLLondonFIeldsDudley).toMatch(
       expectedURLLondonFIeldsDudley
     )

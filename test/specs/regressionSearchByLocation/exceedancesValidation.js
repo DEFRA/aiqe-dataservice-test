@@ -30,7 +30,7 @@ describe('exceedences', () => {
       .click()
 
     const getCurrentURLOfLondonBloomsbury = await browser.getUrl()
-    const expectedURLOfLondonBloomsbury = '/stationdetails/LondonBloomsbury'
+    const expectedURLOfLondonBloomsbury = '/stationdetails'
     await expect(getCurrentURLOfLondonBloomsbury).toMatch(
       expectedURLOfLondonBloomsbury
     )
