@@ -19,7 +19,6 @@ describe('view data sources validation', () => {
       'Nitric oxide',
       'Nitrogen oxides as nitrogen dioxide',
       'Ozone',
-      'Sulphur dioxide',
       'Carbon monoxide',
       'Particulate matter (PM10)',
       'Fine particulate matter (PM2.5)'
@@ -36,32 +35,6 @@ describe('view data sources validation', () => {
 Automatic Urban and Rural Network (AURN)`
       await expect(dataSource1).toMatch(expectedDataSource1)
     }
-
-    await customselectionPage.getClearSelectionsLink.click()
-    await customselectionPage.getAddPollutantLink.click()
-    await addPollutantPage.getAddGroupOfPollutantsOption.click()
-    await addPollutantPage.getAQSROptionTitle.click()
-    await common.continueButton.click()
-    const AQSRdataSource =
-      await customselectionPage.getDataSourcesValue.getText()
-    const expectedAQSRDataSource = `Near real-time data from Defra
-Automatic Urban and Rural Network (AURN)
-Other data from Defra
-UKEAP - Rural NO2 Network`
-    await expect(AQSRdataSource).toEqual(expectedAQSRDataSource)
-
-    await customselectionPage.getClearSelectionsLink.click()
-    await customselectionPage.getAddPollutantLink.click()
-    await addPollutantPage.getAddGroupOfPollutantsOption.click()
-    await addPollutantPage.getDAQIOptionTitle.click()
-    await common.continueButton.click()
-    const DAQIRdataSource =
-      await customselectionPage.getDataSourcesValue.getText()
-    const expectedDAQIDataSource = `Near real-time data from Defra
-Automatic Urban and Rural Network (AURN)
-Other data from Defra
-UKEAP - Rural NO2 Network`
-    await expect(DAQIRdataSource).toEqual(expectedDAQIDataSource)
   })
 
   it('AQD-1194, Display applicable Data Sources for AURN and UKEAP: Rural NO2 Network (Rural NO2) Network on create a custom dataset page', async () => {
@@ -80,6 +53,54 @@ Other data from Defra
 UKEAP - Rural NO2 Network`
       await expect(dataSource1).toMatch(expectedDataSource1)
     }
+  })
+
+  it('data source for Automatic Urban and Rural Network (AURN) and UKEAP - Acid Gas & Aerosol Network on create a custom dataset page', async () => {
+    const pollutantsToCheck = ['sulphur dioxide']
+    for (const pollutant of pollutantsToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource1 =
+        await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource1 = `Near real-time data from Defra
+Automatic Urban and Rural Network (AURN)
+Other data from Defra
+UKEAP - Acid Gas & Aerosol Network`
+      await expect(dataSource1).toMatch(expectedDataSource1)
+    }
+  })
+
+  it('Display applicable Data Sources for AURN Network, UKEAP - Rural NO2 Network and UKEAP - Acid Gas & Aerosol Network', async () => {
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddGroupOfPollutantsOption.click()
+    await addPollutantPage.getAQSROptionTitle.click()
+    await common.continueButton.click()
+    const AQSRdataSource =
+      await customselectionPage.getDataSourcesValue.getText()
+    const expectedAQSRDataSource = `Near real-time data from Defra
+Automatic Urban and Rural Network (AURN)
+Other data from Defra
+UKEAP - Rural NO2 Network
+UKEAP - Acid Gas & Aerosol Network`
+    await expect(AQSRdataSource).toEqual(expectedAQSRDataSource)
+
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddGroupOfPollutantsOption.click()
+    await addPollutantPage.getDAQIOptionTitle.click()
+    await common.continueButton.click()
+    const DAQIRdataSource =
+      await customselectionPage.getDataSourcesValue.getText()
+    const expectedDAQIDataSource = `Near real-time data from Defra
+Automatic Urban and Rural Network (AURN)
+Other data from Defra
+UKEAP - Rural NO2 Network
+UKEAP - Acid Gas & Aerosol Network`
+    await expect(DAQIRdataSource).toEqual(expectedDAQIDataSource)
   })
 
   it('link checks', async () => {
