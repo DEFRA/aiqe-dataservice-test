@@ -74,6 +74,10 @@ class DownloadYourDataPage {
     return $("a[aria-label*='Download data for UKEAP - Rural NO2 Network']")
   }
 
+  get getDownloadUKEAPRuralNO2NetworkButton() {
+    return $("a[aria-label*='Download data for UKEAP - Rural NO2 Network']")
+  }
+
   get getAURNAvailableStationsTag() {
     return $(
       "div[class*='govuk-inset-text govuk-!-margin-top-1 govuk-!-margin-bottom-3 insettextgreen']"
@@ -89,6 +93,12 @@ class DownloadYourDataPage {
   get get0StationsAvailableTag() {
     return $(
       "div[class*='govuk-inset-text govuk-!-margin-top-1 govuk-!-margin-bottom-3 insettextorange']"
+    )
+  }
+
+  get getDownloadUKEAPAcidGasAerosolNetworkButton() {
+    return $(
+      "a[aria-label*='Download data for UKEAP - Acid Gas & Aerosol Network']"
     )
   }
 }

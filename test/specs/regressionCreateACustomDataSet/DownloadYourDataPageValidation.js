@@ -22,7 +22,7 @@ describe('Download Your Data page validation AQD-889', () => {
 
     await customselectionPage.getAddPollutantLink.click()
     await addPollutantPage.getAddPollutantOption.click()
-    await addPollutantPage.addPollutant('sulphur dioxide (so2)')
+    await addPollutantPage.addPollutant('Particulate matter (PM10)')
     await common.continueButton.click()
 
     await customselectionPage.getAddChangeYearLink.click()
@@ -42,12 +42,11 @@ describe('Download Your Data page validation AQD-889', () => {
     const expectedContent = `Download your data
 File format and metadata
 Near real-time data from Defra
-Other data from Defra
 Near real-time data from Defra
 This data is automatically measured and published every hour.
 Automatic Urban and Rural Network (AURN)
 The most reliable air pollution data in the UK. Provides hourly measurements of fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), nitric oxide (NO), nitrogen oxides as nitrogen dioxide (NOx), ozone (O3), sulphur dioxide (SO2) and carbon monoxide (CO).
-19 stations available
+127 stations available
 Download hourly data
 (Visual only)`
     await expect(pageContent).toMatch(expectedContent)
@@ -689,5 +688,312 @@ Download data
     try {
       fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
     } catch {}
+  })
+
+  it('AQD-1239 - tab content for AURN', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('PM10')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2003')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    const pageContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const expectedContent = `Download your data
+File format and metadata
+Near real-time data from Defra
+Near real-time data from Defra
+This data is automatically measured and published every hour.
+Automatic Urban and Rural Network (AURN)
+The most reliable air pollution data in the UK. Provides hourly measurements of fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), nitric oxide (NO), nitrogen oxides as nitrogen dioxide (NOx), ozone (O3), sulphur dioxide (SO2) and carbon monoxide (CO).
+50 stations available
+Download hourly data
+(Visual only)`
+    await expect(pageContent).toMatch(expectedContent)
+  })
+
+  it('AQD-1239 - tab content for AURN and UKEAP - Rural NO2 Network', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('nitrogen dioxide')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2003')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    const pageContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const expectedContent = `Download your data
+File format and metadata
+Near real-time data from Defra
+Other data from Defra
+Near real-time data from Defra
+This data is automatically measured and published every hour.
+Automatic Urban and Rural Network (AURN)
+The most reliable air pollution data in the UK. Provides hourly measurements of fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), nitric oxide (NO), nitrogen oxides as nitrogen dioxide (NOx), ozone (O3), sulphur dioxide (SO2) and carbon monoxide (CO).
+87 stations available
+Download hourly data
+(Visual only)`
+    await expect(pageContent).toMatch(expectedContent)
+    await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+    const otherTabContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const expectedOtherTabContent = `Download your data
+File format and metadata
+Near real-time data from Defra
+Other data from Defra
+Other data from Defra
+Data is measured hourly, weekly or monthly depending on the network.
+UKEAP - Rural NO2 Network
+Monthly diffusion tube measurements of nitrogen dioxide at rural background locations.
+16 stations available
+Download data
+(Visual only)`
+    await expect(otherTabContent).toMatch(expectedOtherTabContent)
+  })
+
+  it('AQD-1239 - tab content for just UKEAP - Acid Gas & Aerosol Network', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Particulate nitrite (NO2-)')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2003')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    const pageContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const expectedContent = `Download your data
+File format and metadata
+Other data from Defra
+Other data from Defra
+Data is measured hourly, weekly or monthly depending on the network.
+UKEAP - Acid Gas & Aerosol Network
+Measurements of acid gases and aerosol components at rural background locations.
+6 stations available
+Download data
+(Visual only)`
+    await expect(pageContent).toMatch(expectedContent)
+    const otherTabContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const expectedOtherTabContent = `Download your data
+File format and metadata
+Other data from Defra
+Other data from Defra
+Data is measured hourly, weekly or monthly depending on the network.
+UKEAP - Acid Gas & Aerosol Network
+Measurements of acid gases and aerosol components at rural background locations.
+6 stations available
+Download data
+(Visual only)`
+    await expect(otherTabContent).toMatch(expectedOtherTabContent)
+  })
+
+  it('AQD-1239 - tab content for AURN ,UKEAP - Rural NO2 Network and UKEAP - Acid Gas & Aerosol Network', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddGroupOfPollutantsOption.click()
+    await addPollutantPage.getDAQIOptionRadio.click()
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2003')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    const firstTabContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const firstTabExpectedContent = `Download your data
+File format and metadata
+Near real-time data from Defra
+Other data from Defra
+Near real-time data from Defra
+This data is automatically measured and published every hour.
+Automatic Urban and Rural Network (AURN)
+The most reliable air pollution data in the UK. Provides hourly measurements of fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), nitric oxide (NO), nitrogen oxides as nitrogen dioxide (NOx), ozone (O3), sulphur dioxide (SO2) and carbon monoxide (CO).
+96 stations available
+Download hourly data
+(Visual only)`
+    await expect(firstTabContent).toMatch(firstTabExpectedContent)
+    await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+    const otherTabContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const otherTabExpectedContent = `Download your data
+File format and metadata
+Near real-time data from Defra
+Other data from Defra
+Other data from Defra
+Data is measured hourly, weekly or monthly depending on the network.
+UKEAP - Rural NO2 Network
+Monthly diffusion tube measurements of nitrogen dioxide at rural background locations.
+16 stations available
+Download data
+(Visual only)
+UKEAP - Acid Gas & Aerosol Network
+Measurements of acid gases and aerosol components at rural background locations.
+2 stations available
+Download data
+(Visual only)`
+    await expect(otherTabContent).toMatch(otherTabExpectedContent)
+  })
+
+  it('AQD-1239 - download checks for AURN ,UKEAP - Rural NO2 Network and UKEAP - Acid Gas & Aerosol Network', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddGroupOfPollutantsOption.click()
+    await addPollutantPage.getDAQIOptionRadio.click()
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getWalesCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2003')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    // Ensure downloads directory is clean before downloading
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    // Download 1: AURN hourly data
+    await DownloadYourDataPage.getDownloadHourlyDataButton.click()
+
+    await browser.waitUntil(
+      () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          if (files.length === 0) return false
+          const fullPath = path.join(DOWNLOAD_DIR, files[0])
+          return fs.statSync(fullPath).size > 0
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 240000,
+        interval: 500,
+        timeoutMsg: 'AURN download not detected within 240s'
+      }
+    )
+
+    const aurnFiles = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => !f.endsWith('.crdownload'))
+    expect(aurnFiles.length).toBe(1)
+
+    // Download 2: UKEAP - Rural NO2 Network data
+    await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+    await common.legalWait()
+    await DownloadYourDataPage.getDownloadUKEAPRuralNO2NetworkButton.click()
+
+    await browser.waitUntil(
+      () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          return files.length >= 2
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 240000,
+        interval: 500,
+        timeoutMsg: 'UKEAP Rural NO2 Network download not detected within 240s'
+      }
+    )
+
+    const afterNO2Files = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => !f.endsWith('.crdownload'))
+    expect(afterNO2Files.length).toBe(2)
+
+    // Download 3: UKEAP - Acid Gas & Aerosol Network data
+    await DownloadYourDataPage.getDownloadUKEAPAcidGasAerosolNetworkButton.click()
+
+    await browser.waitUntil(
+      () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          return files.length >= 3
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 240000,
+        interval: 500,
+        timeoutMsg:
+          'UKEAP Acid Gas & Aerosol Network download not detected within 240s'
+      }
+    )
+
+    const finalFiles = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => !f.endsWith('.crdownload'))
+    expect(finalFiles.length).toBe(3)
+
+    // Verify all 3 downloaded files are non-empty
+    for (const file of finalFiles) {
+      const size = fs.statSync(path.join(DOWNLOAD_DIR, file)).size
+      expect(size).toBeGreaterThan(0)
+    }
   })
 })
