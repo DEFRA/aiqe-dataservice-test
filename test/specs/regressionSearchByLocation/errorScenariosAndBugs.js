@@ -15,6 +15,7 @@ describe('Error scenarios', () => {
   it('search page error message validation', async () => {
     await browser.maximizeWindow()
     await browser.url('')
+    await startNowPage.startNowBtnClick()
     await hubPage.getFindMonitoringStationsByLocation.click()
     await searchPage.setsearch('')
     await searchPage.milesOptionClick('')
