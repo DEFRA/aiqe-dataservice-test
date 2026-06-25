@@ -140,13 +140,17 @@ class AddPollutantPage {
   }
 
   async clearPollutantInput() {
-    await this.getAddPollutantSearchBox.click()
-    await browser.keys('Escape')
-    await this.getAddPollutantSearchBox.clearValue()
-    await browser.waitUntil(
-      async () => (await this.getAddPollutantSearchBox.getValue()) === '',
-      { timeout: 6000, timeoutMsg: 'Search box did not clear' }
-    )
+    const searchBox = await this.getAddPollutantSearchBox
+    await searchBox.waitForDisplayed({ timeout: 5000 })
+    await browser.execute((el) => {
+      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+        window.HTMLInputElement.prototype,
+        'value'
+      ).set
+      nativeInputValueSetter.call(el, '')
+      el.dispatchEvent(new Event('input', { bubbles: true }))
+    }, searchBox)
+    await this.getAddPollutantHeading.click()
   }
 }
 
