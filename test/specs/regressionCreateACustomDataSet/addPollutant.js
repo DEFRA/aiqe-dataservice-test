@@ -551,6 +551,7 @@ Ozone (O3)`
     await addPollutantPage.getAddPollutantSearchBox.setValue(
       'Particulate matter (PM10)'
     )
+    await common.legalWait()
     const ParticulateMatterSearchMatch =
       await addPollutantPage.getSearchFirstAutocomplete.getText()
     const expectedParticulateMatterSearchMatch = 'Particulate matter (PM10)'
@@ -563,6 +564,7 @@ Ozone (O3)`
     await addPollutantPage.getAddPollutantSearchBox.setValue(
       'Fine particulate matter'
     )
+    await common.legalWait()
     const fineParticulateMatterSearchMatch =
       await addPollutantPage.getSearchFirstAutocomplete.getText()
     const expectedFineParticulateMatterSearchMatch =
@@ -574,6 +576,7 @@ Ozone (O3)`
     await addPollutantPage.clearPollutantInput()
 
     await addPollutantPage.getAddPollutantSearchBox.setValue('Nitrogen dioxide')
+    await common.legalWait()
     const nitrogenDioxideSearchMatch =
       await addPollutantPage.getSearchFirstAutocomplete.getText()
     const expectedNitrogenDioxideSearchMatch = 'Nitrogen dioxide (NO2)'
@@ -584,6 +587,7 @@ Ozone (O3)`
     await addPollutantPage.clearPollutantInput()
 
     await addPollutantPage.getAddPollutantSearchBox.setValue('Nitrogen oxides')
+    await common.legalWait()
     const nitrogenOxidesSearchMatch =
       await addPollutantPage.getSearchFirstAutocomplete.getText()
     const expectedNitrogenOxidesSearchMatch =
@@ -595,6 +599,7 @@ Ozone (O3)`
     await addPollutantPage.clearPollutantInput()
 
     await addPollutantPage.getAddPollutantSearchBox.setValue('Ozone')
+    await common.legalWait()
     const ozoneSearchMatch =
       await addPollutantPage.getSearchFirstAutocomplete.getText()
     const expectedOzoneSearchMatch = 'Ozone (O3)'
@@ -603,6 +608,7 @@ Ozone (O3)`
     await addPollutantPage.clearPollutantInput()
 
     await addPollutantPage.getAddPollutantSearchBox.setValue('Carbon monoxide')
+    await common.legalWait()
     const carbonMonoxideSearchMatch =
       await addPollutantPage.getSearchFirstAutocomplete.getText()
     const expectedCarbonMonoxideSearchMatch = 'Carbon monoxide (CO)'
@@ -613,6 +619,7 @@ Ozone (O3)`
     await addPollutantPage.clearPollutantInput()
 
     await addPollutantPage.getAddPollutantSearchBox.setValue('Nitric oxide')
+    await common.legalWait()
     const nitricOxideSearchMatch =
       await addPollutantPage.getSearchFirstAutocomplete.getText()
     const expectedNitricOxideSearchMatch = 'Nitric oxide (NO)'
