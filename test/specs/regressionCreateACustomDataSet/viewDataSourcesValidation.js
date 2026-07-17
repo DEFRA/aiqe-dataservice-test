@@ -164,4 +164,42 @@ UKEAP - Acid Gas & Aerosol Network`
     const url8 = await browser.getUrl()
     await expect(url8).toContain('customdataset')
   })
+
+  it('add polltants for UKEAP - Precip-Net and Display applicable Data Sources AQD-1373', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+
+    const PrecipNetpollutantsToCheck = [
+      'Calcium in precipitation',
+      'Chloride in precipitation',
+      'Potassium in precipitation',
+      'Magnesium in precipitation',
+      'Sodium in precipitation',
+      'Phosphate as P in precipitation',
+      'Nitrate as N in precipitation',
+      'Ammonium as N in precipitation',
+      'Sulphate as S in precipitation',
+      'Non-marine sulphate as S in precipitation',
+      'Acidity in precipitation',
+      'Conductivity',
+      'pH in precipitation',
+      'Rainfall'
+      // 'Sulphur dioxide as S',
+      // 'Strong acid in precipitation'
+    ]
+    for (const pollutant of PrecipNetpollutantsToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource1 =
+        await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource1 = `Other data from Defra
+UKEAP - Precip-Net`
+      await expect(dataSource1).toMatch(expectedDataSource1)
+    }
+  })
 })
