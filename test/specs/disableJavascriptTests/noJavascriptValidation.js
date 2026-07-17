@@ -60,13 +60,15 @@ describe('No Javascript Happy Path', () => {
     await expect(annualHref).toContain('Annual')
   })
   it('no javascript toggle tips', async () => {
+    await monitoringStationPage.get2025Button.click()
+    await common.legalWait()
     await monitoringStationPage.getPM25AnnualAverageToggleTip.click()
     await browser.waitUntil(
       async () => {
         await new Promise((resolve) => setTimeout(resolve, 5000))
         return true
       },
-      { timeout: 5000 }
+      { timeout: 6000 }
     )
     const isPM25AnnualAverageToggleTipInfoTextDisplayed =
       await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText.isDisplayed()
@@ -78,7 +80,7 @@ describe('No Javascript Happy Path', () => {
         await new Promise((resolve) => setTimeout(resolve, 5000))
         return true
       },
-      { timeout: 5000 }
+      { timeout: 6000 }
     )
     const isPM10DailyExceedenceToggleTipInfoTextDisplayed =
       await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText.isDisplayed()
@@ -90,7 +92,7 @@ describe('No Javascript Happy Path', () => {
         await new Promise((resolve) => setTimeout(resolve, 5000))
         return true
       },
-      { timeout: 5000 }
+      { timeout: 6000 }
     )
     const isSDHourlyExceedenceToggleTipInfoTextDisplayed =
       await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.isDisplayed()
