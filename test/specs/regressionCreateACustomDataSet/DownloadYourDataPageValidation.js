@@ -996,4 +996,98 @@ Download data
       expect(size).toBeGreaterThan(0)
     }
   })
+
+  it('AQD-1239 - tab content for UKEAP: Precip-Net Network', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Calcium in precipitation')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2026')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    const otherTabContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const expectedOtherTabContent = `Download your data
+File format and metadata
+Other data from Defra
+Other data from Defra
+Data is measured hourly, weekly or monthly depending on the network.
+UKEAP - Precip-Net
+28 stations available
+Download data
+(Visual only)`
+    await expect(otherTabContent).toMatch(expectedOtherTabContent)
+  })
+
+  it('AQD-1239 - download checks for UKEAP: Precip-Net Network', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Calcium in precipitation')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2026')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    // Ensure downloads directory is clean before downloading
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    // Download : UKEAP - Precip-Net
+    await DownloadYourDataPage.getDownloadUKEAPPrecipNetworkButton.click()
+
+    await browser.waitUntil(
+      () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          return files.length >= 1
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 240000,
+        interval: 500,
+        timeoutMsg: 'UKEAP Precip-Net download not detected within 240s'
+      }
+    )
+
+    const finalFiles = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => !f.endsWith('.crdownload'))
+    expect(finalFiles.length).toBe(1)
+
+    // Verify all 3 downloaded files are non-empty
+    for (const file of finalFiles) {
+      const size = fs.statSync(path.join(DOWNLOAD_DIR, file)).size
+      expect(size).toBeGreaterThan(0)
+    }
+  })
 })

@@ -101,6 +101,10 @@ class DownloadYourDataPage {
       "a[aria-label*='Download data for UKEAP - Acid Gas & Aerosol Network']"
     )
   }
+
+  get getDownloadUKEAPPrecipNetworkButton() {
+    return $("a[aria-label*='Download data for UKEAP - Precip-Net']")
+  }
 }
 
 // module.exports=new StartNowPage()
