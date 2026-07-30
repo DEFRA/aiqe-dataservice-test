@@ -1091,4 +1091,208 @@ Download data
       expect(size).toBeGreaterThan(0)
     }
   })
+  it('AQD-1392 - multiple network selection downloads', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+
+    const pollutants = [
+      'Calcium in precipitation',
+      'Particulate calcium',
+      'Nitrogen dioxide'
+    ]
+
+    for (const pollutant of pollutants) {
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+    }
+
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getYearToDateRadio.click()
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    const parseCsvLine = (line) => {
+      const cells = []
+      let current = ''
+      let inQuotes = false
+
+      for (let i = 0; i < line.length; i += 1) {
+        const character = line[i]
+        if (character === '"') {
+          const nextCharacter = line[i + 1]
+          if (inQuotes && nextCharacter === '"') {
+            current += '"'
+            i += 1
+          } else {
+            inQuotes = !inQuotes
+          }
+        } else if (character === ',' && !inQuotes) {
+          cells.push(current)
+          current = ''
+        } else {
+          current += character
+        }
+      }
+
+      cells.push(current)
+      return cells.map((cell) => cell.trim())
+    }
+
+    const validateDownloadByPollutant = async (
+      downloadAction,
+      expectedPollutant
+    ) => {
+      const filesBefore = new Set(
+        fs
+          .readdirSync(DOWNLOAD_DIR)
+          .filter((file) => !file.endsWith('.crdownload'))
+      )
+
+      await downloadAction()
+
+      await browser.waitUntil(
+        () => {
+          try {
+            const filesAfter = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((file) => !file.endsWith('.crdownload'))
+
+            const newFiles = filesAfter.filter((file) => !filesBefore.has(file))
+            if (newFiles.length === 0) return false
+
+            return newFiles.every((file) => {
+              const fullPath = path.join(DOWNLOAD_DIR, file)
+              return fs.statSync(fullPath).size > 0
+            })
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg: `Download not detected for ${expectedPollutant} within 240s`
+        }
+      )
+
+      const filesAfter = fs
+        .readdirSync(DOWNLOAD_DIR)
+        .filter((file) => !file.endsWith('.crdownload'))
+      const newFiles = filesAfter.filter((file) => !filesBefore.has(file))
+
+      expect(newFiles.length).toBeGreaterThan(0)
+
+      const csvPaths = []
+      for (const fileName of newFiles) {
+        const fullPath = path.join(DOWNLOAD_DIR, fileName)
+        if (fileName.toLowerCase().endsWith('.zip')) {
+          const extractDir = path.join(
+            DOWNLOAD_DIR,
+            `${path.parse(fileName).name}-extracted`
+          )
+          fs.mkdirSync(extractDir, { recursive: true })
+          execSync(
+            `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+          )
+
+          const extractedCsvFiles = fs
+            .readdirSync(extractDir)
+            .filter((name) => name.toLowerCase().endsWith('.csv'))
+          for (const csvFile of extractedCsvFiles) {
+            csvPaths.push(path.join(extractDir, csvFile))
+          }
+        } else if (fileName.toLowerCase().endsWith('.csv')) {
+          csvPaths.push(fullPath)
+        }
+      }
+
+      expect(csvPaths.length).toBeGreaterThan(0)
+
+      for (const csvPath of csvPaths) {
+        const csvContent = fs.readFileSync(csvPath, 'utf-8')
+        const rows = csvContent
+          .split(/\r?\n/)
+          .map((row) => row.trim())
+          .filter((row) => row !== '')
+
+        expect(rows.length).toBeGreaterThan(1)
+
+        const normalizeHeader = (header) =>
+          header
+            .replace(/^"|"$/g, '')
+            .replace(/^\ufeff/, '')
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, '')
+
+        const headerRowIndex = rows.findIndex((row) => {
+          const normalizedColumns = parseCsvLine(row).map(normalizeHeader)
+          return normalizedColumns.some((column) =>
+            column.includes('pollutant')
+          )
+        })
+
+        expect(headerRowIndex).toBeGreaterThanOrEqual(0)
+
+        const headerColumns = parseCsvLine(rows[headerRowIndex]).map(
+          normalizeHeader
+        )
+        const pollutantColumnIndex = headerColumns.findIndex((header) =>
+          header.includes('pollutant')
+        )
+
+        expect(pollutantColumnIndex).toBeGreaterThanOrEqual(0)
+
+        const dataRows = rows.slice(headerRowIndex + 1)
+        expect(dataRows.length).toBeGreaterThan(0)
+
+        const pollutantValues = dataRows
+          .map((row) => {
+            const rowColumns = parseCsvLine(row).map((value) =>
+              value.replace(/^"|"$/g, '').trim()
+            )
+            return rowColumns[pollutantColumnIndex] || ''
+          })
+          .filter((value) => value !== '')
+
+        expect(pollutantValues.length).toBeGreaterThan(0)
+        for (const pollutantValue of pollutantValues) {
+          expect(pollutantValue.toLowerCase()).toBe(
+            expectedPollutant.toLowerCase()
+          )
+        }
+      }
+    }
+
+    await validateDownloadByPollutant(
+      async () =>
+        DownloadYourDataPage.getDownloadUKEAPAcidGasAerosolNetworkButton.click(),
+      'Particulate calcium'
+    )
+    await validateDownloadByPollutant(
+      async () =>
+        DownloadYourDataPage.getDownloadUKEAPRuralNO2NetworkButton.click(),
+      'nitrogen dioxide'
+    )
+    await validateDownloadByPollutant(
+      async () =>
+        DownloadYourDataPage.getDownloadUKEAPPrecipNetworkButton.click(),
+      'Calcium in precipitation'
+    )
+  })
 })
