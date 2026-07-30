@@ -1025,6 +1025,7 @@ Other data from Defra
 Other data from Defra
 Data is measured hourly, weekly or monthly depending on the network.
 UKEAP - Precip-Net
+Measures pollution in rain, snow, fog and hail.
 28 stations available
 Download data
 (Visual only)`
@@ -1084,7 +1085,7 @@ Download data
       .filter((f) => !f.endsWith('.crdownload'))
     expect(finalFiles.length).toBe(1)
 
-    // Verify all 3 downloaded files are non-empty
+    // Verify downloaded file is non-empty
     for (const file of finalFiles) {
       const size = fs.statSync(path.join(DOWNLOAD_DIR, file)).size
       expect(size).toBeGreaterThan(0)
