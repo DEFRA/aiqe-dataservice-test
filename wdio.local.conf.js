@@ -326,20 +326,16 @@ export const config = {
    * @param {<Object>} results object containing test results
    */
   onComplete: function (exitCode, config, capabilities, results) {
-    const reportError = new Error('Could not generate Allure report')
     const generation = allure(['generate', 'allure-results', '--clean'])
 
-    return new Promise((resolve, reject) => {
-      const generationTimeout = setTimeout(() => reject(reportError), oneMinute)
+    return new Promise((resolve) => {
+      const generationTimeout = setTimeout(() => {
+        resolve()
+      }, oneMinute)
 
-      generation.on('exit', function (exitCode) {
+      generation.on('exit', function () {
         clearTimeout(generationTimeout)
 
-        if (exitCode !== 0) {
-          return reject(reportError)
-        }
-
-        allure(['open'])
         resolve()
       })
     })
