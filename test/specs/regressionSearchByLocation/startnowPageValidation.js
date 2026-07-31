@@ -17,16 +17,19 @@ describe('start now page content/functionality checks/styling checks', () => {
     await expect(isHeaderOverallDisplayed).toBe(true)
     await expect(isFooterOverallDisplayed).toBe(true)
     const startnowPageContent = `Get air pollution data
-Use this service to view and download air pollution data from the Automatic Urban and Rural Network (AURN).
+Use this service to view and download air pollution data from monitoring networks across the UK.
 To get air pollution data, you can:
-find monitoring stations by location
+search by town or postcode
 create a custom dataset
 Start now
 Other ways to get this information
-Email: getairpollutiondata@defra.gov.uk`
+Email: getairpollutiondata@defra.gov.uk
+Related content
+Check air quality
+Sources of air pollution data`
     const getStartNowPagecontent =
       await startNowPage.getStartNowPagecontent.getText()
-    await expect(startnowPageContent).toMatch(getStartNowPagecontent)
+    await expect(startnowPageContent).toBe(getStartNowPagecontent)
   })
 
   it('link checks', async () => {
@@ -40,6 +43,20 @@ Email: getairpollutiondata@defra.gov.uk`
     const expectedStartNowPageURL = 'https://aqie-dataselector-frontend'
     await expect(startNowPageURL).toMatch(expectedStartNowPageURL)
     await browser.refresh()
+
+    // checking external links
+    const expectedCheckAirQualityLink =
+      'https://check-air-quality.service.gov.uk/'
+    const expectedSourcesOfAirPollutionDataLink =
+      'https://www.gov.uk/government/collections/air-pollution-in-the-uk-sources-of-monitoring-data'
+    const getCheckAirQualityLink =
+      await startNowPage.getCheckAirQualityLink.getAttribute('href')
+    const getSourcesOfAirPollutionDataLink =
+      await startNowPage.getSourcesOfAirPollutionDataLink.getAttribute('href')
+    await expect(getCheckAirQualityLink).toBe(expectedCheckAirQualityLink)
+    await expect(getSourcesOfAirPollutionDataLink).toBe(
+      expectedSourcesOfAirPollutionDataLink
+    )
     // checking email link
     const mailtoLinks = await $$('a[href^="mailto:"]')
     const currentURL = await browser.getUrl()

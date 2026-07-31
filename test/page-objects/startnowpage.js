@@ -6,7 +6,7 @@ class StartNowPage {
   }
 
   get getStartNowPagecontent() {
-    return $("div[class*='govuk-grid-column-two-thirds-from-desktop']")
+    return $("main[id*='main-content']")
   }
 
   get getStartNowBtn() {
@@ -35,6 +35,16 @@ class StartNowPage {
 
   get getOtherWaysToGetThisInfoTitle() {
     return $("p[class*='govuk-heading-m']")
+  }
+
+  get getCheckAirQualityLink() {
+    return $("a[href*='https://check-air-quality.service.gov.uk/']")
+  }
+
+  get getSourcesOfAirPollutionDataLink() {
+    return $(
+      "a[href*='https://www.gov.uk/government/collections/air-pollution-in-the-uk-sources-of-monitoring-data']"
+    )
   }
 }
 
