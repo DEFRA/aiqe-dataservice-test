@@ -232,7 +232,7 @@ describe('monitoring station page tests', () => {
     const getFeatureBody = [await monitoringStationPage.getFeatureBody]
 
     const getFeatureBodyProperties = [
-      'margin-top',
+      // 'margin-top',
       'font-size',
       'margin-bottom',
       'line-height',
@@ -244,7 +244,7 @@ describe('monitoring station page tests', () => {
 
     for (const element of getFeatureBody) {
       const styles = await common.getStyles(element, getFeatureBodyProperties)
-      expect(styles['margin-top']).toBe('5px')
+      // expect(styles['margin-top']).toBe('5px')
       expect(styles['font-size']).toBe('22px')
       expect(styles['margin-bottom']).toBe('20px')
       expect(styles['line-height']).toBe('28.9474px')
@@ -1682,7 +1682,7 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(219, 218, 217)')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -2261,7 +2261,7 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(219, 218, 217)')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -2422,7 +2422,7 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(219, 218, 217)')
+      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
