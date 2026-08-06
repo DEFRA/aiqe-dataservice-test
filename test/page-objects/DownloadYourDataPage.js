@@ -105,6 +105,12 @@ class DownloadYourDataPage {
   get getDownloadUKEAPPrecipNetworkButton() {
     return $("a[aria-label*='Download data for UKEAP - Precip-Net']")
   }
+
+  get getDownloadUKEAPNationalAmmoniaMonitoringNetworkButton() {
+    return $(
+      "a[aria-label*='Download data for UKEAP - National Ammonia Monitoring Network']"
+    )
+  }
 }
 
 // module.exports=new StartNowPage()
