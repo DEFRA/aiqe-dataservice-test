@@ -1391,4 +1391,293 @@ Download data
       expect(size).toBeGreaterThan(0)
     }
   })
+
+  it('AQD-1405 When multiple network data sources are mapped, the station count displayed on the Download page is incorrect when using the Pollutant Filter search.', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    const PollutantsToAdd = [
+      'Nitrogen dioxide (NO2)',
+      'Calcium in precipitation (Ca)',
+      'Sulphur dioxide (SO2)'
+    ]
+    for (const pollutant of PollutantsToAdd) {
+      await addPollutantPage.addPollutant(pollutant)
+    }
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getWalesCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getYearToDateRadio.click()
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    const parseCsvLine = (line) => {
+      const cells = []
+      let current = ''
+      let inQuotes = false
+
+      for (let i = 0; i < line.length; i += 1) {
+        const character = line[i]
+        if (character === '"') {
+          const nextCharacter = line[i + 1]
+          if (inQuotes && nextCharacter === '"') {
+            current += '"'
+            i += 1
+          } else {
+            inQuotes = !inQuotes
+          }
+        } else if (character === ',' && !inQuotes) {
+          cells.push(current)
+          current = ''
+        } else {
+          current += character
+        }
+      }
+
+      cells.push(current)
+      return cells.map((cell) => cell.trim())
+    }
+
+    const normalizeHeader = (header) =>
+      header
+        .replace(/^"|"$/g, '')
+        .replace(/^\ufeff/, '')
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9_]/g, '')
+
+    const findCsvFilesRecursively = (directory) => {
+      const csvFiles = []
+      const entries = fs.readdirSync(directory, { withFileTypes: true })
+      for (const entry of entries) {
+        const fullPath = path.join(directory, entry.name)
+        if (entry.isDirectory()) {
+          csvFiles.push(...findCsvFilesRecursively(fullPath))
+        } else if (entry.name.toLowerCase().endsWith('.csv')) {
+          csvFiles.push(fullPath)
+        }
+      }
+      return csvFiles
+    }
+
+    const getStationValuesFromCsv = (csvPath) => {
+      const csvContent = fs.readFileSync(csvPath, 'utf-8')
+      const rows = csvContent
+        .split(/\r?\n/)
+        .map((row) => row.trim())
+        .filter((row) => row !== '')
+
+      if (rows.length < 2) return new Set()
+
+      const stationColumnCandidates = [
+        'siteid',
+        'site_id',
+        'sitecode',
+        'sitename',
+        'stationid',
+        'station_id',
+        'stationcode',
+        'stationname',
+        'station',
+        'nameofmonitoringstation',
+        'monitoringstation',
+        'ukairid',
+        'ukairsiteid'
+      ]
+
+      const firstRowsToScan = rows.slice(0, Math.min(20, rows.length))
+      let headerRowIndex = -1
+      let headerColumns = []
+
+      for (let index = 0; index < firstRowsToScan.length; index += 1) {
+        const normalizedColumns = parseCsvLine(firstRowsToScan[index]).map(
+          normalizeHeader
+        )
+
+        const hasStationLikeHeader = normalizedColumns.some((column) =>
+          stationColumnCandidates.some((candidate) =>
+            column.includes(candidate)
+          )
+        )
+        const hasPollutantHeader = normalizedColumns.some((column) =>
+          column.includes('pollutant')
+        )
+
+        if (hasStationLikeHeader || hasPollutantHeader) {
+          headerRowIndex = index
+          headerColumns = normalizedColumns
+          break
+        }
+      }
+
+      if (headerRowIndex < 0) {
+        throw new Error(
+          `No CSV header row detected in ${path.basename(csvPath)}`
+        )
+      }
+
+      const stationColumnIndex = headerColumns.findIndex(
+        (header) =>
+          stationColumnCandidates.some((candidate) =>
+            header.includes(candidate)
+          ) ||
+          (header.includes('site') && !header.includes('type')) ||
+          (header.includes('station') && !header.includes('type'))
+      )
+
+      if (stationColumnIndex < 0) {
+        throw new Error(
+          `No station identifier column found in ${path.basename(csvPath)}. Headers: ${headerColumns.join(', ')}`
+        )
+      }
+
+      const stationValues = new Set()
+      for (const row of rows.slice(headerRowIndex + 1)) {
+        const columns = parseCsvLine(row).map((value) =>
+          value.replace(/^"|"$/g, '').trim()
+        )
+        const stationValue = columns[stationColumnIndex]
+        if (stationValue) {
+          stationValues.add(stationValue)
+        }
+      }
+
+      return stationValues
+    }
+
+    const getDisplayedStationCountForButton = async (downloadButton) => {
+      await downloadButton.scrollIntoView()
+      const buttonLocation = await downloadButton.getLocation()
+
+      const stationTagCandidates = await browser.$$(
+        `div[class*='govuk-inset-text']`
+      )
+      let nearestStationCount = null
+      let nearestDistance = Number.POSITIVE_INFINITY
+
+      for (const stationTag of stationTagCandidates) {
+        const isDisplayed = await stationTag.isDisplayed().catch(() => false)
+        if (!isDisplayed) continue
+
+        const stationTagText = await stationTag.getText()
+        const countMatch = stationTagText.match(/(\d+)\s+stations\s+available/i)
+        if (!countMatch) continue
+
+        const stationTagLocation = await stationTag.getLocation()
+        const distanceAboveButton = buttonLocation.y - stationTagLocation.y
+
+        if (distanceAboveButton >= 0 && distanceAboveButton < nearestDistance) {
+          nearestDistance = distanceAboveButton
+          nearestStationCount = Number(countMatch[1])
+        }
+      }
+
+      if (nearestStationCount === null) {
+        throw new Error(
+          'Could not find a visible stations-available tag for this download button'
+        )
+      }
+
+      return nearestStationCount
+    }
+
+    const downloadAndAssertUniqueStationCount = async (downloadButton) => {
+      const displayedCount =
+        await getDisplayedStationCountForButton(downloadButton)
+
+      const filesBefore = fs
+        .readdirSync(DOWNLOAD_DIR)
+        .filter((file) => !file.endsWith('.crdownload'))
+
+      await downloadButton.click()
+
+      await browser.waitUntil(
+        () => {
+          try {
+            const filesAfter = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((file) => !file.endsWith('.crdownload'))
+
+            const newFiles = filesAfter.filter(
+              (file) => !filesBefore.includes(file)
+            )
+            if (newFiles.length === 0) return false
+
+            return newFiles.every((file) => {
+              const fullPath = path.join(DOWNLOAD_DIR, file)
+              return fs.statSync(fullPath).size > 0
+            })
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg: 'Downloaded file not detected within 240s'
+        }
+      )
+
+      const filesAfter = fs
+        .readdirSync(DOWNLOAD_DIR)
+        .filter((file) => !file.endsWith('.crdownload'))
+      const newFiles = filesAfter.filter((file) => !filesBefore.includes(file))
+
+      expect(newFiles.length).toBeGreaterThan(0)
+
+      const allStationValues = new Set()
+
+      for (const fileName of newFiles) {
+        const fullPath = path.join(DOWNLOAD_DIR, fileName)
+        let csvPaths = []
+
+        if (fileName.toLowerCase().endsWith('.csv')) {
+          csvPaths = [fullPath]
+        } else if (fileName.toLowerCase().endsWith('.zip')) {
+          const extractDir = path.join(
+            DOWNLOAD_DIR,
+            `${path.parse(fileName).name}-extracted`
+          )
+          fs.mkdirSync(extractDir, { recursive: true })
+          execSync(
+            `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+          )
+          csvPaths = findCsvFilesRecursively(extractDir)
+        }
+
+        for (const csvPath of csvPaths) {
+          const stationValues = getStationValuesFromCsv(csvPath)
+          for (const station of stationValues) {
+            allStationValues.add(station)
+          }
+        }
+      }
+
+      expect(allStationValues.size).toBe(displayedCount)
+    }
+
+    await downloadAndAssertUniqueStationCount(
+      await DownloadYourDataPage.getDownloadUKEAPRuralNO2NetworkButton
+    )
+    await downloadAndAssertUniqueStationCount(
+      await DownloadYourDataPage.getDownloadUKEAPAcidGasAerosolNetworkButton
+    )
+    await downloadAndAssertUniqueStationCount(
+      await DownloadYourDataPage.getDownloadUKEAPPrecipNetworkButton
+    )
+  })
 })
