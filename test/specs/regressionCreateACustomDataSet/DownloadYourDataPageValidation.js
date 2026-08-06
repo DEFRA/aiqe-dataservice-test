@@ -874,7 +874,7 @@ Download data
 (Visual only)
 UKEAP - Acid Gas & Aerosol Network
 Measurements of acid gases and aerosol components at rural background locations.
-2 stations available
+6 stations available
 Download data
 (Visual only)`
     await expect(otherTabContent).toMatch(otherTabExpectedContent)
@@ -1294,5 +1294,101 @@ Download data
         DownloadYourDataPage.getDownloadUKEAPPrecipNetworkButton.click(),
       'Calcium in precipitation'
     )
+  })
+
+  it('AQD-1383 - tab content for UKEAP: National Ammonia Monitoring Network', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('particulate ammonium')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2026')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    const otherTabContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const expectedOtherTabContent = `Download your data
+File format and metadata
+Other data from Defra
+Other data from Defra
+Data is measured hourly, weekly or monthly depending on the network.
+UKEAP - National Ammonia Monitoring Network
+Monitors air pollution from gaseous ammonia and ammonium. Part of the UK Eutrophying and Acidifying Atmospheric Pollutants (UKEAP) Network that monitors long-term pollutant trends in rural and remote locations.
+13 stations available
+Download data
+(Visual only)`
+    await expect(otherTabContent).toMatch(expectedOtherTabContent)
+  })
+
+  it('AQD-1383 - download checks for UKEAP: National Ammonia Monitoring Network', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('particulate ammonium')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2026')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    // Ensure downloads directory is clean before downloading
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    // Download : particulate ammonium
+    await DownloadYourDataPage.getDownloadUKEAPNationalAmmoniaMonitoringNetworkButton.click()
+
+    await browser.waitUntil(
+      () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          return files.length >= 1
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 240000,
+        interval: 500,
+        timeoutMsg:
+          'UKEAP: National Ammonia Monitoring Network download not detected within 240s'
+      }
+    )
+
+    const finalFiles = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => !f.endsWith('.crdownload'))
+    expect(finalFiles.length).toBe(1)
+
+    // Verify downloaded file is non-empty
+    for (const file of finalFiles) {
+      const size = fs.statSync(path.join(DOWNLOAD_DIR, file)).size
+      expect(size).toBeGreaterThan(0)
+    }
   })
 })
