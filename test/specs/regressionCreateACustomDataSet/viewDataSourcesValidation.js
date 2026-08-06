@@ -202,4 +202,29 @@ UKEAP - Precip-Net`
       await expect(dataSource1).toMatch(expectedDataSource1)
     }
   })
+
+  it('add UKEAP: National Ammonia Monitoring Network and Display applicable Data Sources AQD-1382', async () => {
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+
+    const NationalAmmoniaPollutantsToCheck = [
+      'Particulate ammonium (NH4)',
+      'gaseous ammonia (active)',
+      'gaseous ammonia (passive)',
+      'gaseous ammonia (diffusion tube)'
+    ]
+    for (const pollutant of NationalAmmoniaPollutantsToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource = await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource = `UKEAP - National Ammonia Monitoring Network`
+      await expect(dataSource).toMatch(expectedDataSource)
+    }
+  })
 })
