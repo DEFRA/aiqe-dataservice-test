@@ -111,6 +111,12 @@ class DownloadYourDataPage {
       "a[aria-label*='Download data for UKEAP - National Ammonia Monitoring Network']"
     )
   }
+
+  get getDownloadUKEAPNonAutomaticHydrocarbonNetworkMonitoringNetworkButton() {
+    return $(
+      "a[aria-label*='Download data for Non-Automatic Hydrocarbon Network']"
+    )
+  }
 }
 
 // module.exports=new StartNowPage()
