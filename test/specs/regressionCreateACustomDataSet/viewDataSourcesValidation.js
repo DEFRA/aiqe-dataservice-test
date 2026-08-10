@@ -227,4 +227,24 @@ UKEAP - Precip-Net`
       await expect(dataSource).toMatch(expectedDataSource)
     }
   })
+
+  it('add polltants for Non-Automatic Hydrocarbon Network and Display applicable Data Sources AQD-1385', async () => {
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+
+    const NonAutomaticHydrocarbonNetworkPollutantsToCheck = ['Benzene (C6H6)']
+    for (const pollutant of NonAutomaticHydrocarbonNetworkPollutantsToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource = await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource = `Non-Automatic Hydrocarbon Network`
+      await expect(dataSource).toMatch(expectedDataSource)
+    }
+  })
 })
