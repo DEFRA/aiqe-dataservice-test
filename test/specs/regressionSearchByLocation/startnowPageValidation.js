@@ -222,4 +222,28 @@ Sources of air pollution data`
       expect(styles['font-weight']).toBe('700')
     }
   })
+
+  it('AQD-1395 - start now page side navigation positioning', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.getStartNowPagecontent.waitForDisplayed({
+      timeout: 15000
+    })
+
+    const sidePanel = await startNowPage.getSideNavigationPanel
+    await sidePanel.waitForDisplayed({ timeout: 10000 })
+
+    const sidePanelText = (await sidePanel.getText())
+      .replace(/\s+/g, ' ')
+      .trim()
+    await expect(sidePanelText).toContain('Related content')
+
+    const sidePanelLocation = await sidePanel.getLocation()
+    const sidePanelSize = await sidePanel.getSize()
+
+    await expect(Math.round(sidePanelLocation.x)).toBe(1121)
+    await expect(Math.round(sidePanelLocation.y)).toBe(497)
+    await expect(Math.round(sidePanelSize.width)).toBe(330)
+    await expect(Math.round(sidePanelSize.height)).toBe(147)
+  })
 })

@@ -46,6 +46,10 @@ class StartNowPage {
       "a[href*='https://www.gov.uk/government/collections/air-pollution-in-the-uk-sources-of-monitoring-data']"
     )
   }
+
+  get getSideNavigationPanel() {
+    return $("div[class*='govuk-grid-column-one-third-from-desktop']")
+  }
 }
 
 // module.exports=new StartNowPage()
