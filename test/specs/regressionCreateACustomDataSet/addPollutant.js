@@ -225,12 +225,12 @@ Continue`
     }
 
     await addPollutantPage.addPollutant('Sulphur dioxide')
-    /* const addedPollutantsTitleText =
+    const addedPollutantsTitleText =
       await addPollutantPage.getAddedPollutantsTitle.getText()
     const expectedAddedPollutantsTitleText = 'Added pollutants'
     await expect(addedPollutantsTitleText).toMatch(
       expectedAddedPollutantsTitleText
-    ) */
+    )
 
     const FirstAddedPollutantLabel =
       await addPollutantPage.getFirstAddedPollutantLabel.getText()
@@ -266,7 +266,7 @@ Continue`
       expectedAddAnotherPollutantButtonText
     )
 
-    /* const getAddedPollutantsTitle = [
+    const getAddedPollutantsTitle = [
       await addPollutantPage.getAddedPollutantsTitle
     ]
     const getAddedPollutantsTitleProperties = [
@@ -290,7 +290,7 @@ Continue`
       expect(styles['text-align']).toBe('left')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
-    } */
+    }
 
     const getFirstAddedPollutantLabel = [
       await addPollutantPage.getFirstAddedPollutantLabel
