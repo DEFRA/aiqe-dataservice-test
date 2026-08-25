@@ -247,4 +247,70 @@ UKEAP - Precip-Net`
       await expect(dataSource).toMatch(expectedDataSource)
     }
   })
+
+  it('add polltants for PAH Andersen Network and Display applicable Data Sources AQD-1426', async function () {
+    this.timeout(300000) // 5 minutes - large pollutant list (42 items)
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+
+    const PAHAndersenToCheck = [
+      'Dibenzo(ah)anthracene (DBAhA)',
+      'Dibenzo(ac)anthracene (DBAcA)',
+      'Benzo(k)fluoranthene (BkF)',
+      'Benzo(j)fluoranthene (BjF)',
+      'Benzo(b)fluoranthene (BbF)',
+      'Benzo(a)pyrene (BaP)',
+      'Benzo(a)anthracene (BaA)',
+      'Benzo(b+j)fluoranthene (B(b+j)F)',
+      'Benzo(k)fluoranthene (BkF)',
+      'Indeno(1,2,3-cd)pyrene (IP)',
+      'Dibenzo(ah+ac)anthracene (DBA(ah+ac)A)',
+      '1-Methyl anthracene (1-MeA)',
+      '1-Methyl Naphthalene (1-MeNAPH)',
+      '1-Methyl phenanthrene (1-MePHE)',
+      '2-Methyl anthracene (2-MeA)',
+      '2-Methyl Naphthalene (2-MeNAPH)',
+      '2-Methyl phenanthrene (2-MePHE)',
+      '4.5-Methylene phenanthrene (METH-PHE)',
+      '5-Methyl Chrysene (5-MeCHR)',
+      '9-Methyl anthracene (9-MeA)',
+      'Acenaphthene (ACE)',
+      'Acenaphthylene (ACY)',
+      'Anthanthrene (ANTHT)',
+      'Anthracene (ANT)',
+      'Benzo(b)naphtho (2,1-d)thiophene(BNT)',
+      'Benzo(c)phenanthrene (BCP)',
+      'Benzo(e)pyrene (BeP)',
+      'Benzo(ghi)perylene (BghiP)',
+      'Biphenyl (BP)',
+      'Cholanthrene (CHOL)',
+      'Chrysene (CHR)',
+      'Coronene (COR)',
+      'Cyclopenta(c,d)pyrene (CPP)',
+      'Dibenzo(al)pyrene (DBalP)',
+      'Dibenzo(ae)pyrene (DBaeP)',
+      'Dibenzo(ai)pyrene (DBaiP)',
+      'Dibenzo(ah)pyrene (DBAhP)',
+      'Fluoranthene (FLA)',
+      'Fluorene (FLU)',
+      'Perylene (PER)',
+      'Phenanthrene (PHE)',
+      'Pyrene (PYR)',
+      'Retene (RET)'
+    ]
+    for (const pollutant of PAHAndersenToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource = await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource = `PAH Andersen
+PAH Deposition`
+      await expect(dataSource).toMatch(expectedDataSource)
+    }
+  })
 })

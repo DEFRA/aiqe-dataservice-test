@@ -823,7 +823,7 @@ describe('API Testing', () => {
         `ID: ${pollutant.pollutantID} | Name: ${pollutant.pollutantName} | Abbreviation: ${pollutant.pollutant_Abbreviation}`
       )
     }
-    await expect(pollutants.length).toEqual(39)
+    await expect(pollutants.length).toEqual(82)
 
     // extracting each pollutant with a data source
     const urlPollutantDataSource =

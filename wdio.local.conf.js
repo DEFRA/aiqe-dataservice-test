@@ -29,7 +29,9 @@ export const config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/regressionCreateACustomDataSet/addPollutant.js'],
+  specs: [
+    './test/specs/regressionCreateACustomDataSet/viewDataSourcesValidation.js'
+  ],
   // Patterns to exclude.
   exclude: [],
   // injectGlobals: false,
@@ -125,7 +127,7 @@ export const config = {
   baseUrl: 'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/',
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 10000,
+  waitforTimeout: 30000,
   waitforInterval: 200,
   //
   // Default timeout in milliseconds for request
@@ -183,7 +185,7 @@ export const config = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: 'bdd',
-    timeout: debug ? oneHour : 60000
+    timeout: debug ? oneHour : 300000
   },
   //
   // =====
