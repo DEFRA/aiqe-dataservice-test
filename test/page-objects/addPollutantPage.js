@@ -96,7 +96,21 @@ class AddPollutantPage {
   }
 
   async addPollutant(pollutant) {
-    await this.getAddPollutantSearchBox.setValue(pollutant)
+    const searchBox = await this.getAddPollutantSearchBox
+    await searchBox.waitForDisplayed({ timeout: 10000 })
+    await browser.execute(
+      (el, value) => {
+        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+          window.HTMLInputElement.prototype,
+          'value'
+        ).set
+        nativeInputValueSetter.call(el, value)
+        el.dispatchEvent(new Event('input', { bubbles: true }))
+      },
+      searchBox,
+      pollutant
+    )
+    await this.getSearchFirstAutocomplete.waitForExist({ timeout: 30000 })
     await this.getSearchFirstAutocomplete.click()
     await this.getAddPollutantButton.click()
     await this.getAddPollutantButton.click()
