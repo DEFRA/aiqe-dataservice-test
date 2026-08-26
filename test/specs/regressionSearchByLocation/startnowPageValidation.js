@@ -246,4 +246,23 @@ Sources of air pollution data`
     await expect(Math.round(sidePanelSize.width)).toBe(330)
     await expect(Math.round(sidePanelSize.height)).toBe(147)
   })
+
+  it('AQD-1412 - Start Page - Related Content links should open in the same tab', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.getStartNowPagecontent.waitForDisplayed({
+      timeout: 15000
+    })
+
+    const relatedContentLinks = [
+      await startNowPage.getCheckAirQualityLink,
+      await startNowPage.getSourcesOfAirPollutionDataLink
+    ]
+
+    for (const link of relatedContentLinks) {
+      await link.waitForDisplayed({ timeout: 10000 })
+      const linkTarget = await link.getAttribute('target')
+      await expect(linkTarget).not.toBe('_blank')
+    }
+  })
 })
