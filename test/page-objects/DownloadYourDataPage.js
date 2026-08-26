@@ -117,6 +117,10 @@ class DownloadYourDataPage {
       "a[aria-label*='Download data for Non-Automatic Hydrocarbon Network']"
     )
   }
+
+  get getDownloadPAHAndersenNetworkMonitoringNetworkButton() {
+    return $("a[aria-label*='Download data for PAH Andersen']")
+  }
 }
 
 // module.exports=new StartNowPage()
