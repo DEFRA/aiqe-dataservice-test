@@ -741,4 +741,76 @@ Ozone (O3)`
       expectedSearchBoxValueAfterContinueButtonClick
     )
   })
+
+  it('AQD-1532 - user cannot add more than 10 pollutants - validation error is displayed', async function () {
+    this.timeout(300000) // 5 minutes - adds 11 pollutants
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+
+    const elevenPollutants = [
+      'Dibenzo(ah)anthracene (DBAhA)',
+      'Dibenzo(ac)anthracene (DBAcA)',
+      'Benzo(k)fluoranthene (BkF)',
+      'Benzo(j)fluoranthene (BjF)',
+      'Benzo(b)fluoranthene (BbF)',
+      'Benzo(a)pyrene (BaP)',
+      'Benzo(a)anthracene (BaA)',
+      'Benzo(b+j)fluoranthene (B(b+j)F)',
+      'Indeno(1,2,3-cd)pyrene (IP)',
+      'Dibenzo(ah+ac)anthracene (DBA(ah+ac)A)',
+      '2-Methyl anthracene (2-MeA)'
+    ]
+
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+
+    for (const pollutant of elevenPollutants) {
+      await addPollutantPage.addPollutant(pollutant)
+    }
+
+    const moreThanTenError = await common
+      .errorSummaryItemByText('You can add up to 10 pollutants')
+      .getText()
+    const expectedMoreThanTenError = 'You can add up to 10 pollutants'
+    await expect(moreThanTenError).toMatch(expectedMoreThanTenError)
+
+    const moreThanTenErrorLink = await common.errorSummaryItemByText(
+      'You can add up to 10 pollutants'
+    )
+    await moreThanTenErrorLink.click()
+    await expect(await addPollutantPage.getAddPollutantSearchBox).toBeFocused()
+  })
+
+  it('AQD-1533 - user cannot add duplicate pollutants - validation error is displayed', async function () {
+    this.timeout(120000)
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+
+    await addPollutantPage.addPollutant('Nitrogen dioxide')
+    await addPollutantPage.addPollutant('Nitrogen dioxide')
+
+    const duplicatePollutantError = await common
+      .errorSummaryItemByText('This pollutant has already been added')
+      .getText()
+    const expectedDuplicatePollutantError =
+      'This pollutant has already been added'
+    await expect(duplicatePollutantError).toMatch(
+      expectedDuplicatePollutantError
+    )
+
+    const duplicatePollutantErrorLink = await common.errorSummaryItemByText(
+      'This pollutant has already been added'
+    )
+    await duplicatePollutantErrorLink.click()
+    await expect(await addPollutantPage.getAddPollutantSearchBox).toBeFocused()
+  })
 })
