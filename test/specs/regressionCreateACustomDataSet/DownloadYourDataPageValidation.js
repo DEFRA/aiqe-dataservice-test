@@ -1834,7 +1834,7 @@ Monitors the chemical composition of pollution in rainwater. Part of the UK Eutr
 Download data
 (Visual only)
 PAH Andersen
-Data from PAH Anderson analysers (1991 to 2007).
+Data from PAH Anderson analysers.
 5 stations available
 Download data
 (Visual only)
@@ -2014,5 +2014,168 @@ No data available for the selected range.`
     }
 
     expect(hasExpectedPollutant).toBe(true)
+  })
+
+  it('AQD-1393 - Rename PM10 and PM2.5 in Excel Data Downloads', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+
+    const Pollutants = [
+      'Particulate matter (PM10)',
+      'Fine particulate matter (PM2.5)'
+    ]
+
+    for (const pollutant of Pollutants) {
+      await addPollutantPage.addPollutant(pollutant)
+    }
+
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getWalesCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2013')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    // Ensure downloads directory is clean before downloading
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    await DownloadYourDataPage.getDownloadAURNDataButton.click()
+
+    await browser.waitUntil(
+      () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          if (files.length === 0) return false
+          const fullPath = path.join(DOWNLOAD_DIR, files[0])
+          return fs.statSync(fullPath).size > 0
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 240000,
+        interval: 500,
+        timeoutMsg: 'No downloaded file detected in downloads within 240s'
+      }
+    )
+
+    const finalFiles = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => !f.endsWith('.crdownload'))
+    expect(finalFiles.length).toBeGreaterThan(0)
+
+    const parseCsvLine = (line) => {
+      const cells = []
+      let current = ''
+      let inQuotes = false
+
+      for (let i = 0; i < line.length; i += 1) {
+        const char = line[i]
+        if (char === '"') {
+          const next = line[i + 1]
+          if (inQuotes && next === '"') {
+            current += '"'
+            i += 1
+          } else {
+            inQuotes = !inQuotes
+          }
+        } else if (char === ',' && !inQuotes) {
+          cells.push(current)
+          current = ''
+        } else {
+          current += char
+        }
+      }
+
+      cells.push(current)
+      return cells.map((c) => c.trim())
+    }
+
+    const csvPaths = []
+    for (const fileName of finalFiles) {
+      const fullPath = path.join(DOWNLOAD_DIR, fileName)
+      if (fileName.toLowerCase().endsWith('.zip')) {
+        const extractDir = path.join(
+          DOWNLOAD_DIR,
+          `${path.parse(fileName).name}-extracted`
+        )
+        fs.mkdirSync(extractDir, { recursive: true })
+        execSync(
+          `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+        )
+        const extractedCsvFiles = fs
+          .readdirSync(extractDir)
+          .filter((name) => name.toLowerCase().endsWith('.csv'))
+          .map((name) => path.join(extractDir, name))
+        csvPaths.push(...extractedCsvFiles)
+      } else if (fileName.toLowerCase().endsWith('.csv')) {
+        csvPaths.push(fullPath)
+      }
+    }
+
+    expect(csvPaths.length).toBeGreaterThan(0)
+
+    const expectedPollutants = new Set([
+      'Particulate matter (PM10)',
+      'Fine particulate matter (PM2.5)'
+    ])
+
+    for (const csvPath of csvPaths) {
+      const csvContent = fs.readFileSync(csvPath, 'utf-8')
+      const rows = csvContent
+        .split(/\r?\n/)
+        .map((row) => row.trim())
+        .filter((row) => row !== '')
+
+      expect(rows.length).toBeGreaterThan(1)
+
+      const headerRowIndex = rows.findIndex((row) =>
+        parseCsvLine(row)
+          .map((h) => h.replace(/^"|"$/g, '').toLowerCase())
+          .some((h) => h.includes('pollutant'))
+      )
+      expect(headerRowIndex).toBeGreaterThanOrEqual(0)
+
+      const headerColumns = parseCsvLine(rows[headerRowIndex]).map((h) =>
+        h.replace(/^"|"$/g, '').toLowerCase()
+      )
+      const pollutantColumnIndex = headerColumns.findIndex((h) =>
+        h.includes('pollutant')
+      )
+      expect(pollutantColumnIndex).toBeGreaterThanOrEqual(0)
+
+      const actualPollutants = new Set(
+        rows
+          .slice(headerRowIndex + 1)
+          .map((row) => parseCsvLine(row)[pollutantColumnIndex] || '')
+          .map((v) => v.replace(/^"|"$/g, '').trim())
+          .filter((v) => v !== '')
+      )
+
+      // Verify only the expected pollutants are present - exact match
+      for (const pollutant of actualPollutants) {
+        expect(expectedPollutants.has(pollutant)).toBe(true)
+      }
+
+      // Verify both expected pollutants are present in the data
+      for (const expected of expectedPollutants) {
+        expect(actualPollutants.has(expected)).toBe(true)
+      }
+    }
   })
 })

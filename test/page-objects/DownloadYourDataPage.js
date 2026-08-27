@@ -45,6 +45,10 @@ class DownloadYourDataPage {
     return $("a[id*='download-link']")
   }
 
+  get getDownloadAURNDataButton() {
+    return $("a[aria-label*='Download daily average data for']")
+  }
+
   get getSaveYourSearchTitle() {
     return $("h3[class*='govuk-heading-s']")
   }
