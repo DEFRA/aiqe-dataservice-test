@@ -248,7 +248,7 @@ UKEAP - Precip-Net`
     }
   })
 
-  it('add polltants for PAH Andersen Network and Display applicable Data Sources AQD-1426', async function () {
+  it('add polltants for PAH Andersen Network and PAH Deposition and Display applicable Data Sources AQD-1426,AQD-1430', async function () {
     this.timeout(300000) // 5 minutes - large pollutant list (42 items)
     await browser.url('')
     await browser.deleteCookies()
