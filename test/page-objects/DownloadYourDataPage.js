@@ -125,6 +125,10 @@ class DownloadYourDataPage {
   get getDownloadPAHAndersenNetworkMonitoringNetworkButton() {
     return $("a[aria-label*='Download data for PAH Andersen']")
   }
+
+  get getDownloadPAHDepositionNetworkMonitoringNetworkButton() {
+    return $("a[aria-label*='Download data for PAH Deposition']")
+  }
 }
 
 // module.exports=new StartNowPage()
