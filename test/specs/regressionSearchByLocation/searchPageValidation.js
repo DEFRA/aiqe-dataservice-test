@@ -255,6 +255,7 @@ Continue`
     await searchPage.setsearch('birmingham')
     await searchPage.milesOptionClick('25 miles')
     await searchPage.continueBtnClick()
+    await common.legalWait()
     const getCurrentURLAfterSearch2 = await browser.getUrl()
     const expectedURL2 = '/multiplelocations'
     await expect(getCurrentURLAfterSearch2).toMatch(expectedURL2)
@@ -264,6 +265,7 @@ Continue`
     await searchPage.setsearch('B2 4QA')
     await searchPage.milesOptionClick('50 miles')
     await searchPage.continueBtnClick()
+    await common.legalWait()
     const getCurrentURLAfterSearch3 = await browser.getUrl()
     const expectedURL3 = '/multiplelocations'
     await expect(getCurrentURLAfterSearch3).toMatch(expectedURL3)
