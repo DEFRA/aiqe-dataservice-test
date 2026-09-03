@@ -477,7 +477,7 @@ choose a different location`
       expect(styles.display).toBe('block')
       expect(styles['font-size']).toBe('16px')
       expect(styles['font-weight']).toBe('400')
-      expect(styles['margin-top']).toBe('5px')
+      expect(styles['margin-top']).toBe('4px')
       expect(styles['line-height']).toBe('21.0526px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['text-align']).toBe('left')

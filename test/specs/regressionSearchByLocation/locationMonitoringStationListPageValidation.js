@@ -97,6 +97,7 @@ describe('monitoring station list page tests', () => {
     await locationMonitoringStationListPage
       .getMonitoringStationLink('Oldbury Birmingham Road')
       .click()
+    await common.legalWait()
     const getCurrentURLOfOldburyBirminghamRoad = await browser.getUrl()
     const expectedURLOfOldburyBirminghamRoad = '/stationdetails'
     await expect(getCurrentURLOfOldburyBirminghamRoad).toMatch(
