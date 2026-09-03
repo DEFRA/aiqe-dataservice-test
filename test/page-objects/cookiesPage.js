@@ -18,11 +18,11 @@ class CookiesPage {
   }
 
   get getYesCookieOption() {
-    return $("input[value='Yes']")
+    return $("input[value='yes']")
   }
 
   get getNoCookieOption() {
-    return $("input[value='No']")
+    return $("input[value='no']")
   }
 
   get getSaveCookieSettingButton() {
