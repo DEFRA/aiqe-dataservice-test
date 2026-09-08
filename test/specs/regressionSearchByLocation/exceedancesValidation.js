@@ -27,7 +27,7 @@ describe('exceedences', () => {
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Bloomsbury')
       .click()
-
+    await common.legalWait()
     const getCurrentURLOfLondonBloomsbury = await browser.getUrl()
     const expectedURLOfLondonBloomsbury = '/stationdetails'
     await expect(getCurrentURLOfLondonBloomsbury).toMatch(
