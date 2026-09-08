@@ -39,7 +39,7 @@ Essential cookies (strictly necessary)
 We use an essential cookie to remember when you accept or reject cookies on our website.
 Essential cookies we use
 Name Purpose Expires
-airaqie_cookies_analytics Saves your cookie consent settings 1 year
+cookies_policy Saves your cookie consent settings 1 year
 _ga Helps us count how many people visit 'get air pollution data' by telling us if you’ve visited before 2 years
 _gat_UA-[G-V4MBMR0QPC] Used to reduce the number of requests 1 minute
 session Application related data is managed in this cookie. It's required for the application to work 30 minutes
@@ -202,13 +202,13 @@ Save cookie settings`
         element,
         getNoCookieOptionProperties
       )
-      expect(styles.cursor).toBe('pointer')
-      expect(styles.height).toBe('44px')
+      expect(styles.cursor).toBe('default')
+      expect(styles.height).toBe('auto')
       expect(styles.margin).toBe('0px')
-      expect(styles.opacity).toBe('0')
-      expect(styles.width).toBe('44px')
-      expect(styles['z-index']).toBe('1')
-      expect(styles['box-sizing']).toBe('border-box')
+      expect(styles.opacity).toBe('1')
+      expect(styles.width).toBe('auto')
+      expect(styles['z-index']).toBe('auto')
+      expect(styles['box-sizing']).toBe('content-box')
     }
 
     const getSaveCookieSettingButton = [
@@ -568,11 +568,21 @@ Save cookie settings`
     )
     await browser.back()
     await browser.refresh()
-
-    await cookiesPage.getYesCookieOption.click()
-    await cookiesPage.getSaveCookieSettingButton.click()
-    await cookiesPage.getNoCookieOption.click()
     await browser.refresh()
+
+    await cookiesPage.getYesLabel.waitForDisplayed()
+    await cookiesPage.getYesLabel.scrollIntoView()
+    await cookiesPage.getYesLabel.waitForClickable()
+    await cookiesPage.getYesLabel.click()
+    await cookiesPage.getSaveCookieSettingButton.waitForClickable()
+    await cookiesPage.getSaveCookieSettingButton.click()
+    await browser.refresh()
+    await cookiesPage.getNoLabel.waitForDisplayed()
+    await cookiesPage.getNoLabel.scrollIntoView()
+    await cookiesPage.getNoLabel.waitForClickable()
+    await cookiesPage.getNoLabel.click()
+    await browser.refresh()
+    await cookiesPage.getSaveCookieSettingButton.waitForClickable()
     await cookiesPage.getSaveCookieSettingButton.click()
   })
 })

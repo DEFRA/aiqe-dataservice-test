@@ -166,14 +166,6 @@ describe('Cookies Tests', () => {
     const getAcceptText = await cookiesBanner.getCookieAcceptedContent.getText()
     const expectedAcceptText = `You’ve accepted analytics cookies. You can change your cookie settings at any time.`
     await expect(getAcceptText).toMatch(expectedAcceptText)
-    await cookiesBanner.getChangeCookieSettings.click()
-    const getCookiesPageURL = await browser.getUrl()
-    const expectedCookiesPageURL = '/cookies'
-    await expect(getCookiesPageURL).toMatch(expectedCookiesPageURL)
-    browser.back()
-    const isHideCookiesButtonDisplayed =
-      await cookiesBanner.getHideCookiesButton.isDisplayed()
-    await expect(isHideCookiesButtonDisplayed).toBe(true)
 
     const getHideCookiesButton = [await cookiesBanner.getHideCookiesButton]
 
@@ -216,12 +208,21 @@ describe('Cookies Tests', () => {
       expect(styles.padding).toBe('8px 10px 7px')
       expect(styles['text-align']).toBe('center')
     }
+    await cookiesBanner.getChangeCookieSettings.click()
+    const getCookiesPageURL = await browser.getUrl()
+    const expectedCookiesPageURL = '/cookies'
+    await expect(getCookiesPageURL).toMatch(expectedCookiesPageURL)
+    browser.back()
+
+    await browser.deleteCookies(['cookies_policy'])
+    await browser.refresh()
+    await cookiesBanner.getAcceptCookiesButton.click()
     await cookiesBanner.getHideCookiesButton.click()
     await common.notDisplayed(await cookiesBanner.getCookieBanner)
   })
 
   it('cookiebanner, AQD-651, reject cookies scenario', async () => {
-    await browser.deleteCookies(['airaqie_cookies_analytics'])
+    await browser.deleteCookies(['cookies_policy'])
     await browser.refresh()
     await cookiesBanner.getRejectCookiesButton.click()
     const getRejectedText =
@@ -233,6 +234,10 @@ describe('Cookies Tests', () => {
     const expectedCookiesPageURL = '/cookies'
     await expect(getCookiesPageURL).toMatch(expectedCookiesPageURL)
     browser.back()
+
+    await browser.deleteCookies(['cookies_policy'])
+    await browser.refresh()
+    await cookiesBanner.getRejectCookiesButton.click()
     const isHideCookiesButtonAfterRejectDisplayed =
       await cookiesBanner.getHideCookiesButtonAfterReject.isDisplayed()
     await expect(isHideCookiesButtonAfterRejectDisplayed).toBe(true)
