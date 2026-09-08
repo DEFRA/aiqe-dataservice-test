@@ -41,9 +41,9 @@ Essential cookies we use
 Name Purpose Expires
 cookies_policy Saves your cookie consent settings 1 year
 _ga Helps us count how many people visit 'get air pollution data' by telling us if you’ve visited before 2 years
-_gat_UA-[G-V4MBMR0QPC] Used to reduce the number of requests 1 minute
-session Application related data is managed in this cookie. It's required for the application to work 30 minutes
-The cookies _ga_ and _gat_UA-[G-V4MBMR0QPC] will only be active if you accept cookies. If you do not accept cookies, they may still appear in your cookie session, but they will not be active.
+_ga_PQP5766L23 Used to reduce the number of requests 2 years
+session_cookie Application related data is managed in this cookie. It's required for the application to work 4 hours
+The cookies _ga and _ga_PQP5766L23 will only be active if you accept cookies. If you do not accept cookies, they may still appear in your cookie session, but they will not be active.
 Analytics cookies (optional)
 We use Google Analytics software to understand how people use the 'get air pollution data' service. We do this to:
 help make sure the site is meeting the needs of its users
