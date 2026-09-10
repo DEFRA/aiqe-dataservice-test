@@ -62,7 +62,7 @@ class DownloadYourDataPage {
   }
 
   get getOtherDataRequestDataLink() {
-    return $$("a[href*='/emailrequest']")[6]
+    return $("a[class*='email-request-nonaurn govuk-link']")
   }
 
   get getDownloadProgress() {

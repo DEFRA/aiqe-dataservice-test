@@ -203,7 +203,7 @@ class MonitoringStationPage {
   }
 
   get getDownloadAllPollutantsHourlyData() {
-    return $(`a[onclick*="getAPIstn_details1('AllPollutants','Hourly')"]`)
+    return $(`a[aria-label*="Download hourly data for All pollutants"]`)
   }
 
   // NoJS-friendly selectors (href-based) for download links
@@ -216,7 +216,7 @@ class MonitoringStationPage {
   }
 
   get getDownloadSulphurDioxideHourlyDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('Sulphur dioxide','Hourly')"]`)
+    return $(`a[aria-label*="Download hourly data for Sulphur dioxide"]`)
   }
 
   get getPM10SubHeading() {
@@ -224,7 +224,7 @@ class MonitoringStationPage {
   }
 
   get getDownloadPM10HourlyDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('PM10','Hourly')"]`)
+    return $(`a[aria-label*="Download hourly data for PM10"]`)
   }
 
   get getPM25SubHeading() {
@@ -232,7 +232,7 @@ class MonitoringStationPage {
   }
 
   get getDownloadPM25HourlyDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('PM2.5','Hourly')"]`)
+    return $(`a[aria-label*="Download hourly data for PM2.5"]`)
   }
 
   get getOzoneSubHeading() {
@@ -240,7 +240,7 @@ class MonitoringStationPage {
   }
 
   get getDownloadOzoneHourlyDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('Ozone','Hourly')"]`)
+    return $(`a[aria-label*="Download hourly data for Ozone"]`)
   }
 
   get getNitrogenDioxideSubHeading() {
@@ -248,11 +248,11 @@ class MonitoringStationPage {
   }
 
   get getDownloadNitrogenDioxideHourlyDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('Nitrogen dioxide','Hourly')"]`)
+    return $(`a[aria-label*="Download hourly data for Nitrogen dioxide"]`)
   }
 
   get getDownloadAllPollutantsDailyDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('AllPollutants','Daily')"]`)
+    return $(`a[aria-label*=" Download daily average data for All pollutants"]`)
   }
 
   get getDownloadAllPollutantsDailyDataLinkNoJs() {
@@ -260,27 +260,29 @@ class MonitoringStationPage {
   }
 
   get getDownloadNitrogenDioxideDailyDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('Nitrogen dioxide','Daily')"]`)
+    return $(
+      `a[aria-label*="Download daily average data for Nitrogen dioxide"]`
+    )
   }
 
   get getDownloadPM25DailyDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('PM2.5','Daily')"]`)
+    return $(`a[aria-label*="Download daily average data for PM2.5"]`)
   }
 
   get getDownloadPM10DailyDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('PM10','Daily')"]`)
+    return $(`a[aria-label*="Download daily average data for PM10"]`)
   }
 
   get getDownloadOzoneDailyDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('Ozone','Daily')"]`)
+    return $(`a[aria-label*="Download daily average data for Ozone"]`)
   }
 
   get getDownloadSulphurDioxideDailyDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('Sulphur dioxide','Daily')"]`)
+    return $(`a[aria-label*="Download daily average data for Sulphur dioxide"]`)
   }
 
   get getDownloadAllPollutantsAnnualDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('AllPollutants','Annual')"]`)
+    return $(`a[aria-label*="Download annual average data for All pollutants"]`)
   }
 
   get getDownloadAllPollutantsAnnualDataLinkNoJs() {
@@ -288,23 +290,27 @@ class MonitoringStationPage {
   }
 
   get getDownloadPM25AnnualDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('PM2.5','Annual')"]`)
+    return $(`a[aria-label*="Download annual average data for PM2.5"]`)
   }
 
   get getDownloadPM10AnnualDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('PM10','Annual')"]`)
+    return $(`a[aria-label*="Download annual average data for PM10"]`)
   }
 
   get getDownloadNitrogenDioxideAnnualDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('Nitrogen dioxide','Annual')"]`)
+    return $(
+      `a[aria-label*="Download annual average data for Nitrogen dioxide"]`
+    )
   }
 
   get getDownloadOzoneAnnualDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('Ozone','Annual')"]`)
+    return $(`a[aria-label*="Download annual average data for Ozone"]`)
   }
 
   get getDownloadSulphurDioxideAnnualDataLink() {
-    return $(`a[onclick*="getAPIstn_details1('Sulphur dioxide','Annual')"]`)
+    return $(
+      `a[aria-label*="Download annual average data for Sulphur dioxide"]`
+    )
   }
 
   get getPM25HourlyExceedence() {

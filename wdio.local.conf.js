@@ -82,7 +82,7 @@ export const config = {
               'download.directory_upgrade': true,
               'safebrowsing.enabled': true
               // Disable JavaScript via Chrome content settings (reliable vs args)
-              // 'profile.managed_default_content_settings.javascript': 2,
+              // ,'profile.managed_default_content_settings.javascript': 2,
               // 'profile.default_content_setting_values.javascript': 2
             }
           }
@@ -122,7 +122,7 @@ export const config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrl: 'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/',
+  baseUrl: 'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/',
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 30000,
