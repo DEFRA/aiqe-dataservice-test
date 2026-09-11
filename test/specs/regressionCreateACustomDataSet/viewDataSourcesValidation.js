@@ -281,7 +281,7 @@ UKEAP - Precip-Net`
       'Acenaphthylene (ACY)',
       'Anthanthrene (ANTHT)',
       'Anthracene (ANT)',
-      'Benzo(b)naphtho (2,1-d)thiophene(BNT)',
+      'Benzo(b)naphtho (2,1-d)thiophene',
       'Benzo(c)phenanthrene (BCP)',
       'Benzo(e)pyrene (BeP)',
       'Benzo(ghi)perylene (BghiP)',
@@ -310,6 +310,99 @@ UKEAP - Precip-Net`
       const dataSource = await customselectionPage.getDataSourcesValue.getText()
       const expectedDataSource = `PAH Andersen
 PAH Deposition`
+      await expect(dataSource).toMatch(expectedDataSource)
+    }
+  })
+
+  it('add polltants for PAH Digitel (solid+vapour) and PAH Digitel (solid phase) , Display applicable Data Sources AQD-1515, AQD-1518', async function () {
+    const pollutantsToCheck = [
+      'Benzo(a)pyrene (BaP)',
+      'Benzo(b+j)fluoranthene (B(b+j)F)',
+      'Benzo(a)anthracene (BaA)',
+      'Benzo(b)fluoranthene (BbF)',
+      'Benzo(j)fluoranthene (BjF)',
+      'Benzo(k)fluoranthene (BkF)',
+      'Indeno(1,2,3-cd)pyrene (IP)',
+      'Dibenzo(ac)anthracene (DBAcA)',
+      'Dibenzo(ah)anthracene (DBAhA)',
+      'Dibenzo(ah+ac)anthracene (DBA(ah+ac)A)',
+      '5-Methyl Chrysene (5-MeCHR)',
+      'Anthanthrene (ANTHT)',
+      'Anthracene (ANT)',
+      'Benzo(b)naphtho (2,1-d)thiophene(BNT)',
+      'Benzo(c)phenanthrene (BCP)',
+      'Benzo(e)pyrene (BeP)',
+      'Benzo(ghi)perylene (BghiP)',
+      'Cholanthrene (CHOL)',
+      'Chrysene (CHR)',
+      'Coronene (COR)',
+      'Cyclopenta(c,d)pyrene (CPP)',
+      'Dibenzo(al)pyrene (DBalP)',
+      'Dibenzo(ae)pyrene (DBaeP)',
+      'Dibenzo(ai)pyrene (DBaiP)',
+      'Dibenzo(ah)pyrene (DBAhP)',
+      'Fluoranthene (FLA)',
+      'Perylene (PER)',
+      'Phenanthrene (PHE)',
+      'Pyrene (PYR)',
+      'Retene (RET)'
+    ]
+    this.timeout(300000) // 5 minutes - large pollutant list (42 items)
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    for (const pollutant of pollutantsToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource = await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource = `Other data from Defra
+PAH Andersen
+PAH Deposition
+PAH Digitel (solid phase)
+PAH Digitel (solid+vapour)`
+
+      await expect(dataSource).toMatch(expectedDataSource)
+    }
+  })
+
+  it('add polltants for only PAH Digitel (solid+vapour) not PAH Digitel (solid phase) , Display applicable Data Sources AQD-1515', async function () {
+    const pollutantsToCheck = [
+      '1-Methyl anthracene (1-MeA)',
+      '1-Methyl Naphthalene (1-MeNAPH)',
+      '1-Methyl phenanthrene (1-MePHE)',
+      '2-Methyl anthracene (2-MeA)',
+      '2-Methyl Naphthalene (2-MeNAPH)',
+      '2-Methyl phenanthrene (2-MePHE)',
+      '4.5-Methylene phenanthrene (METH-PHE)',
+      '9-Methyl anthracene (9-MeA)',
+      'Acenaphthene (ACE)',
+      'Acenaphthylene (ACY)',
+      'Biphenyl (BP)',
+      'Fluorene (FLU)'
+    ]
+    this.timeout(300000) // 5 minutes - large pollutant list (42 items)
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    for (const pollutant of pollutantsToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource = await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource = `Other data from Defra
+PAH Andersen
+PAH Deposition
+PAH Digitel (solid+vapour)`
+
       await expect(dataSource).toMatch(expectedDataSource)
     }
   })
