@@ -129,6 +129,10 @@ class DownloadYourDataPage {
   get getDownloadPAHDepositionNetworkMonitoringNetworkButton() {
     return $("a[aria-label*='Download data for PAH Deposition']")
   }
+
+  get getDownloadPAHSolidAndVapourNetworkMonitoringNetworkButton() {
+    return $("a[aria-label*='Download data for PAH Digitel (solid+vapour)']")
+  }
 }
 
 // module.exports=new StartNowPage()
