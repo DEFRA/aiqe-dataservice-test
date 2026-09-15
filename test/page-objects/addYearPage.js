@@ -9,6 +9,18 @@ class AddYearPage {
     return $("main[class*='govuk-main-wrapper app-main-wrapper']")
   }
 
+  get getLastSevenDaysOption() {
+    return $("label[for*='time-last7days']")
+  }
+
+  get getLastSevenDaysRadio() {
+    return $("input[id*='time-last7days']")
+  }
+
+  get getLastSevenDaysHintText() {
+    return $("div[id*='time-last7days-hint']")
+  }
+
   get getYearToDateOption() {
     return $("label[for*='time-ytd']")
   }

@@ -22,7 +22,7 @@ describe('add year validation AQD-841', () => {
     await customselectionPage.getAddChangeYearLink.click()
 
     const AddYearHeading = await addYearPage.getAddYearHeading.getText()
-    const expectedgetAddYearHeading = 'Add year(s)'
+    const expectedgetAddYearHeading = 'Add time period'
     await expect(AddYearHeading).toMatch(expectedgetAddYearHeading)
 
     const YearToDateOption = await addYearPage.getYearToDateOption.getText()
@@ -382,7 +382,7 @@ describe('add year validation AQD-841', () => {
     const selectAnOptionBeforeContinuingErrorLink =
       await common.errorSummaryItemByText('Select an option before continuing')
     await selectAnOptionBeforeContinuingErrorLink.click()
-    await expect(await addYearPage.getYearToDateRadio).toBeFocused()
+    await expect(await addYearPage.getLastSevenDaysRadio).toBeFocused()
 
     await addYearPage.getAnyYearOption.click()
     await addYearPage.continueButton.click()
