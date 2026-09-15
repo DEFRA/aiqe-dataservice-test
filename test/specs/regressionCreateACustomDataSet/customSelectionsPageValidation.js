@@ -25,11 +25,12 @@ describe('custom selections page', () => {
     await expect(isFooterOverallDisplayed).toBe(true)
 
     const customSelectionPageContent = `Create a custom dataset
+Create a custom dataset
 Clear selections
 Pollutant None selected Add
 pollutant
 Data sources Any
-Year None selected
+Time period None selected
 Location None selected
 Continue`
     const getCustomSelectionPagecontent =
