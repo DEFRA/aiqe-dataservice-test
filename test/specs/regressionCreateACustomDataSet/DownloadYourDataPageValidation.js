@@ -2488,6 +2488,7 @@ Data from PAH deposition analysers at Auchencorth Moss and Chilbolton Observator
 Download data
 (Visual only)
 PAH Digitel (solid+vapour)
+Solid phase and vapour particulate (PM10) data from PAH Digitel DHA-80 analysers (2007 to present).
 1 stations available
 Download data
 (Visual only)`
@@ -2738,10 +2739,12 @@ Data from PAH deposition analysers at Auchencorth Moss and Chilbolton Observator
 Download data
 (Visual only)
 PAH Digitel (solid phase)
+Solid phase particulate (PM10) data from PAH Digitel DHA-80 analysers (2007 to present).
 22 stations available
 Download data
 (Visual only)
 PAH Digitel (solid+vapour)
+Solid phase and vapour particulate (PM10) data from PAH Digitel DHA-80 analysers (2007 to present).
 0 stations available
 No data available for the selected range.`
     await expect(otherTabContent).toMatch(expectedOtherTabContent)
