@@ -34,7 +34,7 @@ This accessibility statement applies to the Get air pollution data website.
 Compliance status
 This website complies with the Web Content Accessibility Guidelines (WCAG) version 2.2 AA standard.
 Preparation of this accessibility statement
-This statement was prepared on 8 January 2025. It was last reviewed on 19 August 2025.
+This statement was prepared on 8 January 2025. It was last reviewed on 26 August 2026.
 This website was last tested on 5 June 2025. The test was carried out by the Digital Accessibility Centre.
 Feedback and contact information
 If you notice any compliance failures or need to request information and content that is not provided in this document, email accessibility@defra.gov.uk.
