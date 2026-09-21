@@ -137,6 +137,10 @@ class DownloadYourDataPage {
   get getDownloadPAHSolidPhaseNetworkMonitoringNetworkButton() {
     return $("a[aria-label*='Download data for PAH Digitel (solid phase)']")
   }
+
+  get getDownloadLastSevenDaysHourlyData() {
+    return $("a[aria-label*='Download daily average data for']")
+  }
 }
 
 // module.exports=new StartNowPage()

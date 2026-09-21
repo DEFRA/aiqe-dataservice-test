@@ -1,13 +1,17 @@
 import startNowPage from '../../page-objects/startnowpage.js'
 // import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
 import { browser, expect } from '@wdio/globals'
-// import fs from 'node:fs'
+import fs from 'node:fs'
+import path from 'node:path'
+import { execSync } from 'node:child_process'
 // import createLogger from 'helpers/logger'
 import common from '../../page-objects/common.js'
 import hubPage from '../../page-objects/hubPage.js'
 import customselectionPage from '../../page-objects/customSelectionsPage.js'
 import addPollutantPage from '../../page-objects/addPollutantPage.js'
 import addYearPage from '../../page-objects/addYearPage.js'
+import addLocationPage from '../../page-objects/addLocationPage.js'
+import DownloadYourDataPage from '../../page-objects/DownloadYourDataPage.js'
 
 describe('add year validation AQD-841', () => {
   it('Add year - content and titles and styling checks', async () => {
@@ -689,5 +693,244 @@ describe('add year validation AQD-841', () => {
     const selectARangeOfYearsErrorBoxActualWidth =
       await common.getRenderedWidth(selectARangeOfYearsErrorBox)
     expect(selectARangeOfYearsErrorBoxActualWidth).toBe(630)
+  })
+
+  it('AQD-1604, last 7 days date/data differences', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('PM10')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getLastSevenDaysOption.click()
+    await addYearPage.continueButton.click()
+
+    const selectedYearValue = await customselectionPage.getYearValue.getText()
+    const normalisedSelectedYearValue = selectedYearValue
+      .replace(/\s+/g, ' ')
+      .trim()
+
+    const formatDateForUi = (date) =>
+      date.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      })
+
+    const now = new Date()
+    const expectedStartDate = new Date(now)
+    expectedStartDate.setDate(now.getDate() - 7)
+    const expectedEndDate = new Date(now)
+    expectedEndDate.setDate(now.getDate() - 1)
+
+    const expectedStartDateText = formatDateForUi(expectedStartDate)
+    const expectedEndDateText = formatDateForUi(expectedEndDate)
+    const expectedSelectedYearValue = `${expectedStartDateText} to ${expectedEndDateText}`
+
+    await expect(normalisedSelectedYearValue).toBe(expectedSelectedYearValue)
+
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    await customselectionPage.getContinueButton.click()
+    await DownloadYourDataPage.getDownloadLastSevenDaysHourlyData.click()
+
+    await browser.waitUntil(
+      () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter(
+              (fileName) =>
+                !fileName.endsWith('.crdownload') && !fileName.endsWith('.tmp')
+            )
+
+          if (files.length === 0) return false
+
+          const mostRecentFile = files
+            .map((fileName) => ({
+              fileName,
+              fullPath: path.join(DOWNLOAD_DIR, fileName),
+              mtime: fs.statSync(path.join(DOWNLOAD_DIR, fileName)).mtimeMs
+            }))
+            .sort((a, b) => b.mtime - a.mtime)[0]
+
+          return fs.statSync(mostRecentFile.fullPath).size > 0
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 240000,
+        interval: 500,
+        timeoutMsg: 'No downloaded file detected in downloads within 240s'
+      }
+    )
+
+    const downloadedFilePath = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter(
+        (fileName) =>
+          !fileName.endsWith('.crdownload') && !fileName.endsWith('.tmp')
+      )
+      .map((fileName) => ({
+        fileName,
+        fullPath: path.join(DOWNLOAD_DIR, fileName),
+        mtime: fs.statSync(path.join(DOWNLOAD_DIR, fileName)).mtimeMs
+      }))
+      .sort((a, b) => b.mtime - a.mtime)[0].fullPath
+
+    const downloadedFileName = path.basename(downloadedFilePath).toLowerCase()
+
+    let csvFilePath = downloadedFilePath
+    if (downloadedFileName.endsWith('.zip')) {
+      execSync(
+        `powershell -Command "Expand-Archive -Path '${downloadedFilePath}' -DestinationPath '${DOWNLOAD_DIR}' -Force"`
+      )
+
+      const extractedCsvFiles = fs
+        .readdirSync(DOWNLOAD_DIR)
+        .filter((fileName) => fileName.toLowerCase().endsWith('.csv'))
+        .map((fileName) => ({
+          fullPath: path.join(DOWNLOAD_DIR, fileName),
+          mtime: fs.statSync(path.join(DOWNLOAD_DIR, fileName)).mtimeMs
+        }))
+        .sort((a, b) => b.mtime - a.mtime)
+
+      expect(extractedCsvFiles.length).toBeGreaterThan(0)
+      csvFilePath = extractedCsvFiles[0].fullPath
+    } else {
+      await expect(downloadedFileName.endsWith('.csv')).toBe(true)
+    }
+
+    const csvContent = fs.readFileSync(csvFilePath, 'utf-8')
+
+    const parseCsvLine = (line) => {
+      const values = []
+      let currentValue = ''
+      let inQuotes = false
+
+      for (let index = 0; index < line.length; index += 1) {
+        const character = line[index]
+        if (character === '"') {
+          if (inQuotes && line[index + 1] === '"') {
+            currentValue += '"'
+            index += 1
+          } else {
+            inQuotes = !inQuotes
+          }
+        } else if (character === ',' && !inQuotes) {
+          values.push(currentValue)
+          currentValue = ''
+        } else {
+          currentValue += character
+        }
+      }
+
+      values.push(currentValue)
+      return values.map((value) => value.trim())
+    }
+
+    const toIsoDate = (date) => {
+      const year = date.getFullYear()
+      const month = `${date.getMonth() + 1}`.padStart(2, '0')
+      const day = `${date.getDate()}`.padStart(2, '0')
+      return `${year}-${month}-${day}`
+    }
+
+    const parseDateToIso = (rawValue) => {
+      const value = rawValue.replace(/"/g, '').trim()
+      if (!value) return null
+
+      const isoMatch = value.match(/^(\d{4}-\d{2}-\d{2})/)
+      if (isoMatch) return isoMatch[1]
+
+      const slashDateMatch = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/)
+      if (slashDateMatch) {
+        const [, day, month, year] = slashDateMatch
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+      }
+
+      const longDateMatch = value.match(/^([0-9]{1,2}\s+[A-Za-z]+\s+[0-9]{4})/)
+      if (longDateMatch) {
+        const parsed = new Date(longDateMatch[1])
+        if (!Number.isNaN(parsed.getTime())) return toIsoDate(parsed)
+      }
+
+      const fallback = new Date(value)
+      if (!Number.isNaN(fallback.getTime())) return toIsoDate(fallback)
+
+      return null
+    }
+
+    const rows = csvContent
+      .split(/\r?\n/)
+      .map((row) => row.trim())
+      .filter((row) => row !== '')
+
+    expect(rows.length).toBeGreaterThan(1)
+
+    const headerRowIndex = rows.findIndex((row) => {
+      const columns = parseCsvLine(row).map((column) =>
+        column.replace(/"/g, '').toLowerCase()
+      )
+
+      const hasDateColumn = columns.some((column) => /date|time/.test(column))
+      const hasDataColumns = columns.some((column) =>
+        /pollutant|value|site|station/.test(column)
+      )
+
+      return hasDateColumn && hasDataColumns
+    })
+
+    expect(headerRowIndex).toBeGreaterThanOrEqual(0)
+
+    const headers = parseCsvLine(rows[headerRowIndex]).map((header) =>
+      header.replace(/"/g, '').trim().toLowerCase()
+    )
+
+    const dateColumnIndex = headers.findIndex((header) =>
+      /date|time/.test(header)
+    )
+    expect(dateColumnIndex).toBeGreaterThanOrEqual(0)
+
+    const dataRows = rows.slice(headerRowIndex + 1)
+    expect(dataRows.length).toBeGreaterThan(0)
+
+    const parsedIsoDates = []
+    for (const dataRow of dataRows) {
+      const columns = parseCsvLine(dataRow)
+      if (columns.length <= dateColumnIndex) continue
+      const parsedIsoDate = parseDateToIso(columns[dateColumnIndex])
+      if (parsedIsoDate) parsedIsoDates.push(parsedIsoDate)
+    }
+
+    expect(parsedIsoDates.length).toBeGreaterThan(0)
+
+    const expectedStartIso = toIsoDate(expectedStartDate)
+    const expectedEndIso = toIsoDate(expectedEndDate)
+
+    const outOfRangeDates = parsedIsoDates.filter(
+      (dateValue) => dateValue < expectedStartIso || dateValue > expectedEndIso
+    )
+
+    expect(outOfRangeDates.length).toBe(0)
+
+    const minDownloadedIsoDate = [...parsedIsoDates].sort()[0]
+    const maxDownloadedIsoDate = [...parsedIsoDates].sort().reverse()[0]
+
+    expect(minDownloadedIsoDate).toBe(expectedStartIso)
+    expect(maxDownloadedIsoDate).toBe(expectedEndIso)
   })
 })
