@@ -2529,4 +2529,29 @@ annual average data - usually less than 100KB`
       expect(styles.color).toBe('rgb(42, 11, 6)')
     }
   })
+
+  it('AQD-1602, BristolStPauls monitoring station link leads to a page not found', async () => {
+    await browser.url('')
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('Bristol')
+    await searchPage.milesOptionClick('50 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('Bristol')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink(`Bristol St Paul's`)
+      .click()
+    await browser.waitUntil(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 6000))
+        return true
+      },
+      { timeout: 6000 }
+    )
+    const getURLAfterClickingBristolStPauls = await browser.getUrl()
+    const expectedURLAfterClickingBristolStPauls = '/stationdetails'
+    await expect(getURLAfterClickingBristolStPauls).toMatch(
+      expectedURLAfterClickingBristolStPauls
+    )
+  })
 })

@@ -1,6 +1,19 @@
 import { $ } from '@wdio/globals'
 
 class LocationMonitoringStationListPage {
+  toXPathLiteral(text) {
+    if (!text.includes("'")) {
+      return `'${text}'`
+    }
+
+    if (!text.includes('"')) {
+      return `"${text}"`
+    }
+
+    const parts = text.split("'").map((part) => `'${part}'`)
+    return `concat(${parts.join(', "\'", ')})`
+  }
+
   get getMonitoringStationListPageHeading() {
     return $("h1[class*='govuk-heading-xl govuk-!-margin-bottom-6']")
   }
@@ -14,7 +27,8 @@ class LocationMonitoringStationListPage {
   }
 
   get getMonitoringStationLink() {
-    return (text) => $(`//a[contains(text(),'${text}')]`)
+    return (text) =>
+      $(`//a[contains(normalize-space(.), ${this.toXPathLiteral(text)})]`)
   }
 
   get getMonitoringStationTableHeading() {
