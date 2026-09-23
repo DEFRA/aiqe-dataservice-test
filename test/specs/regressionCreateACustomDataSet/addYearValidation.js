@@ -964,4 +964,62 @@ Change the time period`
     const url = await browser.getUrl()
     await expect(url).toContain('/year-aurn/change')
   })
+
+  it('AQD-1526, Last 7 Days - New option for Data Selector (Add time period)', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Particulate calcium (Ca)')
+    await addPollutantPage.addPollutant('PM10')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getScotlandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getLastSevenDaysOption.click()
+    const LastSevenDaysOptionText =
+      await addYearPage.getLastSevenDaysOption.getText()
+    const expectedLastSevenDaysOptionText = 'Last 7 days'
+    await expect(LastSevenDaysOptionText).toMatch(
+      expectedLastSevenDaysOptionText
+    )
+    const LastSevenDaysHintText =
+      await addYearPage.getLastSevenDaysHintText.getText()
+    const expectedLastSevenDaysHintText =
+      'Only near real-time data from Defra is available'
+    await expect(LastSevenDaysHintText).toMatch(expectedLastSevenDaysHintText)
+    await addYearPage.continueButton.click()
+
+    const warningMessage = await customselectionPage.getWarningMessage.getText()
+    const expectedWarningMessage = `Only near real-time data from Defra is available for 7 days`
+    await expect(warningMessage).toMatch(expectedWarningMessage)
+
+    const dataSource = await customselectionPage.getDataSourcesValue.getText()
+    const expectedDataSource = `Near real-time data from Defra
+Automatic Urban and Rural Network (AURN)
+Other data from Defra
+UKEAP - Acid Gas & Aerosol Network`
+    await expect(dataSource).toMatch(expectedDataSource)
+
+    await customselectionPage.getContinueButton.click()
+
+    const pageContent =
+      await customselectionPage.getCustomSelectionPageContent.getText()
+    const expectedPageContent = `Download your data
+File format and metadata
+Near real-time data from Defra
+Near real-time data from Defra
+This data is automatically measured and published every hour.
+Automatic Urban and Rural Network (AURN)
+The most reliable air pollution data in the UK. Provides hourly measurements of fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), nitric oxide (NO), nitrogen oxides as nitrogen dioxide (NOx), ozone (O3), sulphur dioxide (SO2) and carbon monoxide (CO).
+8 stations available
+Download hourly data
+(Visual only)`
+    await expect(pageContent).toMatch(expectedPageContent)
+  })
 })
