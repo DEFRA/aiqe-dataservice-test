@@ -87,6 +87,10 @@ class CustomSelectionsPage {
   get getChangeTheTimePeriodErrorLink() {
     return $("a[href*='/year-aurn/change']")
   }
+
+  get getWarningMessage() {
+    return $("div[class*='govuk-warning-text']")
+  }
 }
 
 // module.exports=new StartNowPage()
