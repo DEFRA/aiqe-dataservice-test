@@ -79,6 +79,14 @@ class CustomSelectionsPage {
   get getNoDataAvailableErrorSummaryMessage() {
     return $("div[data-module*='govuk-error-summary']")
   }
+
+  get getLastSevenDaysErrorSummaryMessage() {
+    return $("div[class*='govuk-error-summary']")
+  }
+
+  get getChangeTheTimePeriodErrorLink() {
+    return $("a[href*='/year-aurn/change']")
+  }
 }
 
 // module.exports=new StartNowPage()

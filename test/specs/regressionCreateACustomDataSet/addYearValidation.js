@@ -933,4 +933,35 @@ describe('add year validation AQD-841', () => {
     expect(minDownloadedIsoDate).toBe(expectedStartIso)
     expect(maxDownloadedIsoDate).toBe(expectedEndIso)
   })
+
+  it('AQD-1627,AQD-1526, user should be blocked from download page when selecting last 7 days and non aurn pollutant', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Particulate calcium (Ca)')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getLastSevenDaysOption.click()
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    const errorMessage =
+      await customselectionPage.getLastSevenDaysErrorSummaryMessage.getText()
+    const expectedErrorMessage = `There is a problem
+There are no stations available based on your selection. Change the time period
+Change the time period`
+    await expect(errorMessage).toMatch(expectedErrorMessage)
+
+    await customselectionPage.getChangeTheTimePeriodErrorLink.click()
+    const url = await browser.getUrl()
+    await expect(url).toContain('/year-aurn/change')
+  })
 })
