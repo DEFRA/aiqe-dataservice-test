@@ -139,7 +139,7 @@ class DownloadYourDataPage {
   }
 
   get getDownloadLastSevenDaysHourlyData() {
-    return $("a[aria-label*='Download daily average data for']")
+    return $("a[aria-label*=' Download hourly average data for ']")
   }
 }
 
