@@ -1022,4 +1022,25 @@ Download hourly data
 (Visual only)`
     await expect(pageContent).toMatch(expectedPageContent)
   })
+
+  it('AQD-1639 last 7 days small defects', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('PM10')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getScotlandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getLastSevenDaysOption.click()
+    await addYearPage.continueButton.click()
+    const warningMessage = await customselectionPage.getWarningMessage.getText()
+    const expectedWarningMessage = `Only near real-time data from Defra is available for 7 days`
+    await expect(warningMessage).toMatch(expectedWarningMessage)
+  })
 })
