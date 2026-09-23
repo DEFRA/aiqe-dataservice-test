@@ -18,7 +18,7 @@ class AddLocationPage {
   }
 
   get getCountriesHintText() {
-    return $$("div[class*='govuk-hint govuk-radios__hint']")[0]
+    return $("div[id*='location-2-hint']")
   }
 
   get getEnglandOption() {
@@ -62,7 +62,7 @@ class AddLocationPage {
   }
 
   get getLocalAuthorityHintText() {
-    return $$("div[class*='govuk-hint govuk-radios__hint']")[1]
+    return $("div[id*='location-4-hint']")
   }
 
   get getLocalAuthorityNameLabel() {
