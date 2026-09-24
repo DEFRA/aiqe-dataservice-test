@@ -1059,7 +1059,7 @@ View on Google Maps (opens in new tab)`
       )
       expect(styles['font-size']).toBe('16px')
       expect(styles['font-weight']).toBe('400')
-      expect(styles['margin-top']).toBe('5px')
+      expect(styles['margin-top']).toBe('4px')
       expect(styles['line-height']).toBe('21.0526px')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['text-align']).toBe('left')
@@ -1778,7 +1778,9 @@ annual average data - usually less than 100KB`
       expect(styles['margin-bottom']).toBe('15px')
     }
     // checking download pollutant order
-    const pollutantDownloadListOrder = await common.getList('h3[id=all-p]')
+    const pollutantDownloadListOrder = await common.getList(
+      'h3[class*="govuk-heading-m"]'
+    )
     const expectedpollutantDownloadListOrder = [
       'All pollutants',
       'PM2.5',
