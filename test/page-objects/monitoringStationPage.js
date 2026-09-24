@@ -199,7 +199,7 @@ class MonitoringStationPage {
   }
 
   get getAllPollutantsSubHeading() {
-    return $$("h3[id*='all-p']")[0]
+    return $$("h3[class*='govuk-heading-m']")[0]
   }
 
   get getDownloadAllPollutantsHourlyData() {
@@ -212,7 +212,7 @@ class MonitoringStationPage {
   }
 
   get getSulphurDioxideSubHeading() {
-    return $$("h3[id*='all-p']")[5]
+    return $$("h3[class*='govuk-heading-m']")[5]
   }
 
   get getDownloadSulphurDioxideHourlyDataLink() {
@@ -220,7 +220,7 @@ class MonitoringStationPage {
   }
 
   get getPM10SubHeading() {
-    return $$("h3[id*='all-p']")[2]
+    return $$("h3[class*='govuk-heading-m']")[2]
   }
 
   get getDownloadPM10HourlyDataLink() {
@@ -228,7 +228,7 @@ class MonitoringStationPage {
   }
 
   get getPM25SubHeading() {
-    return $$("h3[id*='all-p']")[1]
+    return $$("h3[class*='govuk-heading-m']")[1]
   }
 
   get getDownloadPM25HourlyDataLink() {
@@ -236,7 +236,7 @@ class MonitoringStationPage {
   }
 
   get getOzoneSubHeading() {
-    return $$("h3[id*='all-p']")[4]
+    return $$("h3[class*='govuk-heading-m']")[4]
   }
 
   get getDownloadOzoneHourlyDataLink() {
@@ -244,7 +244,7 @@ class MonitoringStationPage {
   }
 
   get getNitrogenDioxideSubHeading() {
-    return $$("h3[id*='all-p']")[3]
+    return $$("h3[class*='govuk-heading-m']")[3]
   }
 
   get getDownloadNitrogenDioxideHourlyDataLink() {

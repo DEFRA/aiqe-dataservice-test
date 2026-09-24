@@ -33,7 +33,7 @@ describe('download data function', () => {
     // clear downloads folder before test
     if (fs.existsSync(downloadsDir)) {
       fs.readdirSync(downloadsDir).forEach((f) =>
-        fs.rmSync(path.join(downloadsDir, f))
+        fs.rmSync(path.join(downloadsDir, f), { recursive: true, force: true })
       )
     }
 

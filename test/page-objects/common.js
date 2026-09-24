@@ -19,7 +19,8 @@ class Common {
   }
 
   async getRenderedWidth(element) {
-    return browser.execute((el) => el.getBoundingClientRect().width, element)
+    const { width } = await element.getSize()
+    return width
   }
 
   get getBackLink() {

@@ -956,8 +956,8 @@ describe('add year validation AQD-841', () => {
     const errorMessage =
       await customselectionPage.getLastSevenDaysErrorSummaryMessage.getText()
     const expectedErrorMessage = `There is a problem
-There are no stations available based on your selection. Change the time period
-Change the time period`
+There are no stations available based on your selection. Change time period
+Change time period`
     await expect(errorMessage).toMatch(expectedErrorMessage)
 
     await customselectionPage.getChangeTheTimePeriodErrorLink.click()

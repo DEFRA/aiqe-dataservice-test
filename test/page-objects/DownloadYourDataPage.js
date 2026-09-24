@@ -46,7 +46,7 @@ class DownloadYourDataPage {
   }
 
   get getDownloadAURNDataButton() {
-    return $("a[aria-label*='Download daily average data for']")
+    return $("a[aria-label*=' Download hourly average data for ']")
   }
 
   get getSaveYourSearchTitle() {

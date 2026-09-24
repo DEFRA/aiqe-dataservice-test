@@ -380,17 +380,16 @@ inlet height`
       await customselectionPage.getNoDataAvailableErrorSummaryMessage.getText()
     const expectedErrorSummaryMessage = `There is a problem
 No monitoring stations are available for your selection. Please try:
-Change the time period
-Change the location`
+Change time period
+Change location`
     await expect(errorSummaryMessage).toMatch(expectedErrorSummaryMessage)
 
     const changeYearErrorMessage = await common
-      .errorSummaryItemByText('Change the time period')
+      .errorSummaryItemByText('Change time period')
       .getText()
-    const changeYearErrorLink = await common.errorSummaryItemByText(
-      'Change the time period'
-    )
-    const expectedChangeYearErrorMessage = 'Change the time period'
+    const changeYearErrorLink =
+      await common.errorSummaryItemByText('Change time period')
+    const expectedChangeYearErrorMessage = 'Change time period'
     await expect(changeYearErrorMessage).toMatch(expectedChangeYearErrorMessage)
     await changeYearErrorLink.click()
     const changeYearUrl = await browser.getUrl()
@@ -398,12 +397,11 @@ Change the location`
     await common.getBackLink.click()
 
     const changeLocationErrorMessage = await common
-      .errorSummaryItemByText('Change the location')
+      .errorSummaryItemByText('Change location')
       .getText()
-    const changeLocationErrorLink = await common.errorSummaryItemByText(
-      'Change the location'
-    )
-    const expectedChangeLocationErrorMessage = 'Change the location'
+    const changeLocationErrorLink =
+      await common.errorSummaryItemByText('Change location')
+    const expectedChangeLocationErrorMessage = 'Change location'
     await expect(changeLocationErrorMessage).toMatch(
       expectedChangeLocationErrorMessage
     )
@@ -413,13 +411,42 @@ Change the location`
     await common.getBackLink.click()
 
     await customselectionPage.getContinueButton.click()
-    await common.legalWait()
-    const noStationsAvailabletag =
-      await DownloadYourDataPage.get0StationsAvailableTag.getText()
-    const expectedNoStationsAvailableContent = `0 stations available`
-    await expect(noStationsAvailabletag).toBe(
-      expectedNoStationsAvailableContent
+
+    const errorSummaryMessage2 =
+      await customselectionPage.getNoDataAvailableErrorSummaryMessage.getText()
+    const expectedErrorSummaryMessage2 = `There is a problem
+No monitoring stations are available for your selection. Please try:
+Change time period
+Change location`
+    await expect(errorSummaryMessage2).toMatch(expectedErrorSummaryMessage2)
+
+    const changeYearErrorMessage2 = await common
+      .errorSummaryItemByText('Change time period')
+      .getText()
+    const changeYearErrorLink2 =
+      await common.errorSummaryItemByText('Change time period')
+    const expectedChangeYearErrorMessage2 = 'Change time period'
+    await expect(changeYearErrorMessage2).toMatch(
+      expectedChangeYearErrorMessage2
     )
+    await changeYearErrorLink2.click()
+    const changeYearUrl2 = await browser.getUrl()
+    await expect(changeYearUrl2).toContain('year-aurn/change')
+    await common.getBackLink.click()
+
+    const changeLocationErrorMessage2 = await common
+      .errorSummaryItemByText('Change location')
+      .getText()
+    const changeLocationErrorLink2 =
+      await common.errorSummaryItemByText('Change location')
+    const expectedChangeLocationErrorMessage2 = 'Change location'
+    await expect(changeLocationErrorMessage2).toMatch(
+      expectedChangeLocationErrorMessage2
+    )
+    await changeLocationErrorLink2.click()
+    const changeLocationUrl2 = await browser.getUrl()
+    await expect(changeLocationUrl2).toContain('location-aurn/change')
+    await common.getBackLink.click()
   })
 
   it('AQD-1195 - Rural NO₂ Network Download your data', async () => {
@@ -509,6 +536,7 @@ Download data
   })
 
   it('Display 0 stations available for networks with 0 stations, when data is available for other networks', async () => {
+    // has data for aurn but no data for non-aurn
     await browser.url('')
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()
@@ -589,6 +617,7 @@ Download data
   })
 
   it('AQD-1328 - Region column is blank in downloaded Local Authority dataset', async () => {
+    // has no aurn data but has data for other networks
     await browser.url('')
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()

@@ -478,7 +478,7 @@ describe('monitoring station list page tests', () => {
 
     const pollutantListDerbyStockbrookPark =
       await locationMonitoringStationListPage.getPollutionListFromListPage(
-        "tr:nth-child(22) td[class='govuk-table__cell govuk-table__cell--numeric']"
+        "tr:nth-child(23) td[class='govuk-table__cell govuk-table__cell--numeric']"
       )
     const pollutantListDerbyStockbrookParkString =
       pollutantListDerbyStockbrookPark.join(',')
