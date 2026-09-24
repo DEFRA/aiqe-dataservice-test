@@ -283,15 +283,15 @@ Continue`
     await common.legalWait()
 
     const isAddYearErrorLinkDisplayed = await common
-      .errorSummaryItemByText('Add year')
+      .errorSummaryItemByText('Add time period')
       .isDisplayed()
     await expect(isAddYearErrorLinkDisplayed).toBe(true)
     const addYearErrorLinkText = await common
-      .errorSummaryItemByText('Add year')
+      .errorSummaryItemByText('Add time period')
       .getText()
-    const expectedAddYearErrorLinkText = 'Add year'
+    const expectedAddYearErrorLinkText = 'Add time period'
     await expect(addYearErrorLinkText).toBe(expectedAddYearErrorLinkText)
-    await common.errorSummaryItemByText('Add year').click()
+    await common.errorSummaryItemByText('Add time period').click()
     const getAddYearCurrentUrl = await browser.getUrl()
     const expectedAddYearCurrentURL = 'year-aurn'
     await expect(getAddYearCurrentUrl).toMatch(expectedAddYearCurrentURL)

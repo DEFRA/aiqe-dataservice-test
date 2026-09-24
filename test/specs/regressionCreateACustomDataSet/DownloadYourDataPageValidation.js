@@ -380,16 +380,17 @@ inlet height`
       await customselectionPage.getNoDataAvailableErrorSummaryMessage.getText()
     const expectedErrorSummaryMessage = `There is a problem
 No monitoring stations are available for your selection. Please try:
-Change the year
+Change the time period
 Change the location`
     await expect(errorSummaryMessage).toMatch(expectedErrorSummaryMessage)
 
     const changeYearErrorMessage = await common
-      .errorSummaryItemByText('Change the year')
+      .errorSummaryItemByText('Change the time period')
       .getText()
-    const changeYearErrorLink =
-      await common.errorSummaryItemByText('Change the year')
-    const expectedChangeYearErrorMessage = 'Change the year'
+    const changeYearErrorLink = await common.errorSummaryItemByText(
+      'Change the time period'
+    )
+    const expectedChangeYearErrorMessage = 'Change the time period'
     await expect(changeYearErrorMessage).toMatch(expectedChangeYearErrorMessage)
     await changeYearErrorLink.click()
     const changeYearUrl = await browser.getUrl()

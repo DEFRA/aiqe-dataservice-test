@@ -16,7 +16,7 @@ let perPollutantCoverage = null
 
 describe('API Testing', () => {
   it('monitoring station api availability and getting site id for one station', async () => {
-    const apiKey = 'ICjO64MiL1VbBKSo5aD13z2PKQJIj42n'
+    const apiKey = ''
     const url =
       'https://ephemeral-protected.api.dev.cdp-int.defra.cloud/aqie-back-end/measurements?localSiteID=DESA'
 
@@ -802,7 +802,7 @@ describe('API Testing', () => {
   it('testing new api - count of all pollutants, listing pollutants with data sources', async () => {
     const urlAtomData =
       'https://ephemeral-protected.api.dev.cdp-int.defra.cloud/aqie-historicaldata-backend/AtomDataSelectionPollutantMaster'
-    const apiKey = 'ICjO64MiL1VbBKSo5aD13z2PKQJIj42n'
+    const apiKey = ''
 
     const data = await browser.call(async () => {
       const res = await axios.get(urlAtomData, {
