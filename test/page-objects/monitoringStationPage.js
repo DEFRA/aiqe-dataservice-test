@@ -252,7 +252,7 @@ class MonitoringStationPage {
   }
 
   get getDownloadAllPollutantsDailyDataLink() {
-    return $(`a[aria-label*=" Download daily average data for All pollutants"]`)
+    return $(`a[aria-label*="Download daily average data for All pollutants"]`)
   }
 
   get getDownloadAllPollutantsDailyDataLinkNoJs() {
@@ -480,7 +480,9 @@ class MonitoringStationPage {
   }
 
   get getSDDataCapture() {
-    return $$("span[style*='margin-top: 4px;']")[4]
+    return $$(
+      "span[class*='defra-aq-levels-table__cell--data defra-aq-levels-table__cell--data-capture']"
+    )[4]
   }
 
   get getDataCaptureToggleTip() {
