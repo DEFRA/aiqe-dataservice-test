@@ -113,7 +113,7 @@ UKEAP - Acid Gas & Aerosol Network`
     await customselectionPage.getViewDataSourcesLink.click()
     const url1 = await browser.getUrl()
     await expect(url1).toContain(
-      'https://www.gov.uk/government/collections/air-pollution-in-the-uk-sources-of-monitoring-data'
+      'https://www.gov.uk/government/collections/how-air-pollution-is-monitored-in-the-uk'
     )
     await browser.back()
     const url2 = await browser.getUrl()
@@ -128,7 +128,7 @@ UKEAP - Acid Gas & Aerosol Network`
     await customselectionPage.getViewDataSourcesLink.click()
     const url3 = await browser.getUrl()
     await expect(url3).toContain(
-      'https://www.gov.uk/government/collections/air-pollution-in-the-uk-sources-of-monitoring-data'
+      'https://www.gov.uk/government/collections/how-air-pollution-is-monitored-in-the-uk'
     )
     await browser.back()
     const url4 = await browser.getUrl()
@@ -143,7 +143,7 @@ UKEAP - Acid Gas & Aerosol Network`
     await customselectionPage.getViewDataSourcesLink.click()
     const url5 = await browser.getUrl()
     await expect(url5).toContain(
-      'https://www.gov.uk/government/collections/air-pollution-in-the-uk-sources-of-monitoring-data'
+      'https://www.gov.uk/government/collections/how-air-pollution-is-monitored-in-the-uk'
     )
     await browser.back()
     const url6 = await browser.getUrl()
@@ -158,7 +158,7 @@ UKEAP - Acid Gas & Aerosol Network`
     await customselectionPage.getViewDataSourcesLink.click()
     const url7 = await browser.getUrl()
     await expect(url7).toContain(
-      'https://www.gov.uk/government/collections/air-pollution-in-the-uk-sources-of-monitoring-data'
+      'https://www.gov.uk/government/collections/how-air-pollution-is-monitored-in-the-uk'
     )
     await browser.back()
     const url8 = await browser.getUrl()
@@ -402,6 +402,70 @@ PAH Digitel (solid+vapour)`
 PAH Andersen
 PAH Deposition
 PAH Digitel (solid+vapour)`
+
+      await expect(dataSource).toMatch(expectedDataSource)
+    }
+  })
+
+  it('add polltants for Automatic Hydrocarbon Network , Display applicable Data Sources AQD-1357', async function () {
+    const pollutantsToCheck = [
+      'methanol(METHANOL)',
+      'ethanol(ETHANOL)',
+      'Ethane (C2H6)',
+      'Ethene (C2H4)',
+      'Ethyne (C2H2)',
+      'Propane (C3H8)',
+      'Propene (C3H6)',
+      'Iso-butane (i-C4H10)',
+      'N-butane (n-C4H10)',
+      '1-butene (C4H8)',
+      'iso-butene(I-BUTENE)',
+      'Trans-2-butene (t-C4H8)',
+      'Cis-2-butene (c-C4H8)',
+      '1,3-butadiene (C4H6)',
+      'Iso-pentane (i-C5H12)',
+      'N-pentane (n-C5H12)',
+      '1-pentene (C5H10)',
+      'Trans-2-pentene (t-C5H10)',
+      'cis-2-pentene (cis-2-PENT)',
+      '2-methylpentane (C6H14)',
+      '3-methylpentane(3-MP)',
+      '2+3-methylpentane(2+3-MP)',
+      'Isoprene (C5H8)',
+      'cyclopentane(C-PENT)',
+      'N-hexane (C6H14)',
+      'N-heptane (C7H16)',
+      'Iso-octane (i-C8H18)',
+      'N-octane (n-C8H18)',
+      'n-nonane(N-NONANE)',
+      'Benzene (C6H6)',
+      'Toluene (C7H8)',
+      'Ethylbenzene (C8H10)',
+      'm-xylene(M-XYL)',
+      'p-xylene(P-XYL)',
+      'M+p-xylene (C8H10)',
+      'O-xylene (C8H10)',
+      '1,2,3-trimethylbenzene (C9H12)',
+      '1,2,4-trimethylbenzene (C9H12)',
+      '1,3,5-trimethylbenzene (C9H12)',
+      'acetaldehyde(ACETALD)',
+      'acetone(ACETONE)'
+    ]
+    this.timeout(300000) // 5 minutes - large pollutant list (42 items)
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    for (const pollutant of pollutantsToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource = await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource = `Near real-time data from Defra
+Automatic Hydrocarbon Network`
 
       await expect(dataSource).toMatch(expectedDataSource)
     }
