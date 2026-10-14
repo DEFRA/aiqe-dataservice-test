@@ -21,6 +21,10 @@ class DownloadYourDataPage {
     return $("h3[class*='govuk-heading-s']")
   }
 
+  get getNearRealTimeDataTab() {
+    return $("a[href*='#tab-nearrealtime']")
+  }
+
   get getSubTitlesStyles() {
     return $("h2[class*='govuk-heading-m']")
   }
@@ -46,7 +50,9 @@ class DownloadYourDataPage {
   }
 
   get getDownloadAURNDataButton() {
-    return $("a[aria-label*=' Download hourly average data for ']")
+    return $(
+      "a[aria-label*='Download hourly data for Automatic Urban and Rural Network (AURN)']"
+    )
   }
 
   get getSaveYourSearchTitle() {
@@ -136,6 +142,12 @@ class DownloadYourDataPage {
 
   get getDownloadPAHSolidPhaseNetworkMonitoringNetworkButton() {
     return $("a[aria-label*='Download data for PAH Digitel (solid phase)']")
+  }
+
+  get getDownloadAutomaticHydrocarbonNetworkMonitoringNetworkButton() {
+    return $(
+      "a[aria-label*='Download hourly data for Automatic Hydrocarbon Network']"
+    )
   }
 
   get getDownloadLastSevenDaysHourlyData() {
