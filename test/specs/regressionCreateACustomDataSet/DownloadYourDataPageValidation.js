@@ -3205,4 +3205,218 @@ Download hourly data
     const currentUrl = await browser.getUrl()
     await expect(currentUrl).toContain('download_dataselector')
   })
+
+  it('AQD-1687 - aurn data and automatic hydrocarbon put in same download when both networks are chosen', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+
+    const Pollutants = ['Particulate matter (PM10)', 'N-butane (n-C4H10)']
+
+    for (const pollutant of Pollutants) {
+      await addPollutantPage.addPollutant(pollutant)
+    }
+
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getScotlandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2022')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await common.legalWait()
+
+    const PageContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const expectedPageContent = `Download your data
+File format and metadata
+Near real-time data from Defra
+Near real-time data from Defra
+This data is automatically measured and published every hour.
+Automatic Urban and Rural Network (AURN)
+The most reliable air pollution data in the UK. Provides hourly measurements of fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), nitric oxide (NO), nitrogen oxides as nitrogen dioxide (NOx), ozone (O3), sulphur dioxide (SO2) and carbon monoxide (CO).
+8 stations available
+Download hourly data
+(Visual only)
+Automatic Hydrocarbon Network
+Hourly measurements of speciated (separated) hydrocarbons.
+1 stations available
+Download hourly data
+(Visual only)`
+    await expect(PageContent).toMatch(expectedPageContent)
+
+    // Ensure downloads directory is clean before downloading
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    const parseCsvLine = (line) => {
+      const cells = []
+      let current = ''
+      let inQuotes = false
+
+      for (let i = 0; i < line.length; i += 1) {
+        const char = line[i]
+        if (char === '"') {
+          const next = line[i + 1]
+          if (inQuotes && next === '"') {
+            current += '"'
+            i += 1
+          } else {
+            inQuotes = !inQuotes
+          }
+        } else if (char === ',' && !inQuotes) {
+          cells.push(current)
+          current = ''
+        } else {
+          current += char
+        }
+      }
+
+      cells.push(current)
+      return cells.map((c) => c.trim())
+    }
+
+    const validateDownloadForPollutants = async (
+      downloadAction,
+      expectedPollutants,
+      timeoutMsg
+    ) => {
+      const filesBefore = new Set(
+        fs.readdirSync(DOWNLOAD_DIR).filter((f) => !f.endsWith('.crdownload'))
+      )
+
+      await downloadAction()
+
+      await browser.waitUntil(
+        () => {
+          try {
+            const files = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((f) => !f.endsWith('.crdownload'))
+            const newFiles = files.filter((f) => !filesBefore.has(f))
+            if (newFiles.length === 0) return false
+            return newFiles.every((f) => {
+              const size = fs.statSync(path.join(DOWNLOAD_DIR, f)).size
+              return size > 0
+            })
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg
+        }
+      )
+
+      const filesAfter = fs
+        .readdirSync(DOWNLOAD_DIR)
+        .filter((f) => !f.endsWith('.crdownload'))
+      const newFiles = filesAfter.filter((f) => !filesBefore.has(f))
+      expect(newFiles.length).toBeGreaterThan(0)
+
+      // Verify downloaded file(s) are non-empty
+      for (const file of newFiles) {
+        const size = fs.statSync(path.join(DOWNLOAD_DIR, file)).size
+        expect(size).toBeGreaterThan(0)
+      }
+
+      const csvPaths = []
+      for (const fileName of newFiles) {
+        const fullPath = path.join(DOWNLOAD_DIR, fileName)
+        if (fileName.toLowerCase().endsWith('.zip')) {
+          const extractDir = path.join(
+            DOWNLOAD_DIR,
+            `${path.parse(fileName).name}-extracted`
+          )
+          fs.mkdirSync(extractDir, { recursive: true })
+          execSync(
+            `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+          )
+          const extractedCsvFiles = fs
+            .readdirSync(extractDir)
+            .filter((name) => name.toLowerCase().endsWith('.csv'))
+            .map((name) => path.join(extractDir, name))
+          csvPaths.push(...extractedCsvFiles)
+        } else if (fileName.toLowerCase().endsWith('.csv')) {
+          csvPaths.push(fullPath)
+        }
+      }
+
+      expect(csvPaths.length).toBeGreaterThan(0)
+
+      let hasExpectedPollutant = false
+
+      for (const csvPath of csvPaths) {
+        const csvContent = fs.readFileSync(csvPath, 'utf-8')
+        const rows = csvContent
+          .split(/\r?\n/)
+          .map((row) => row.trim())
+          .filter((row) => row !== '')
+
+        expect(rows.length).toBeGreaterThan(1)
+
+        const headerRowIndex = rows.findIndex((row) =>
+          parseCsvLine(row)
+            .map((h) => h.replace(/^"|"$/g, '').toLowerCase())
+            .some((h) => h.includes('pollutant'))
+        )
+        expect(headerRowIndex).toBeGreaterThanOrEqual(0)
+
+        const headerColumns = parseCsvLine(rows[headerRowIndex]).map((h) =>
+          h.replace(/^"|"$/g, '').toLowerCase()
+        )
+        const pollutantColumnIndex = headerColumns.findIndex((h) =>
+          h.includes('pollutant')
+        )
+        expect(pollutantColumnIndex).toBeGreaterThanOrEqual(0)
+
+        const pollutantValues = rows
+          .slice(headerRowIndex + 1)
+          .map((row) => parseCsvLine(row)[pollutantColumnIndex] || '')
+          .map((v) => v.replace(/^"|"$/g, '').trim())
+          .filter((v) => v !== '')
+
+        expect(pollutantValues.length).toBeGreaterThan(0)
+
+        if (
+          pollutantValues.some((value) =>
+            expectedPollutants.some((pollutant) =>
+              value.toLowerCase().includes(pollutant)
+            )
+          )
+        ) {
+          hasExpectedPollutant = true
+        }
+      }
+
+      expect(hasExpectedPollutant).toBe(true)
+    }
+
+    // Download : Automatic Hydrocarbon Network - verify n-butane present
+    await validateDownloadForPollutants(
+      async () =>
+        DownloadYourDataPage.getDownloadAutomaticHydrocarbonNetworkMonitoringNetworkButton.click(),
+      ['n-butane'],
+      'automatic hydrocarbon network download not detected within 240s'
+    )
+
+    // Download : AURN - verify PM10 present in its own, separate download
+    await validateDownloadForPollutants(
+      async () => DownloadYourDataPage.getDownloadAURNDataButton.click(),
+      ['particulate matter (pm10)', 'pm10'],
+      'AURN download not detected within 240s'
+    )
+  })
 })
