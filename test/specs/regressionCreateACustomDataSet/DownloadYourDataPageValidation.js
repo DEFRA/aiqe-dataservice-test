@@ -3174,4 +3174,35 @@ Download hourly data
 
     expect(hasExpectedPollutant).toBe(true)
   })
+
+  it('AQD-1681 - adding two Automatic Hydrocarbon Network pollutants triggers error message, should let user through without an error message', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+
+    const Pollutants = ['Iso-butane (i-C4H10)', 'N-butane (n-C4H10)']
+
+    for (const pollutant of Pollutants) {
+      await addPollutantPage.addPollutant(pollutant)
+    }
+
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2022')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await common.legalWait()
+
+    const currentUrl = await browser.getUrl()
+    await expect(currentUrl).toContain('download_dataselector')
+  })
 })
