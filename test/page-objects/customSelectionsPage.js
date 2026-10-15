@@ -91,6 +91,10 @@ class CustomSelectionsPage {
   get getWarningMessage() {
     return $("div[class*='govuk-warning-text']")
   }
+
+  get getErrorSummary() {
+    return $("ul[class*='govuk-list govuk-error-summary__list']")
+  }
 }
 
 // module.exports=new StartNowPage()

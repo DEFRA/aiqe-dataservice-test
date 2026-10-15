@@ -108,6 +108,42 @@ class AddLocationPage {
   get getOptionAberdeenCityCouncil() {
     return $("option[value='Aberdeen City Council']")
   }
+
+  get getZoneLabel() {
+    return $("label[for='location-3']")
+  }
+
+  get getZoneHint() {
+    return $("div[id*='location-3-hint']")
+  }
+
+  get getZoneRadioButton() {
+    return $("input[id*='location-3']")
+  }
+
+  get getZoneList() {
+    return $("div[id*='conditional-location-3']")
+  }
+
+  get getCentralScotlandZoneLabel() {
+    return $("label[for*='zone-1']")
+  }
+
+  get getCentralScotlandZoneCheckbox() {
+    return $("input[id*='zone-1']")
+  }
+
+  get getNorthEastZoneCheckbox() {
+    return $("input[id*='zone-6']")
+  }
+
+  get getScottishBordersZoneCheckbox() {
+    return $("input[id*='zone-11']")
+  }
+
+  get getYorkshireAndHumbersideZoneCheckbox() {
+    return $("input[id*='zone-16']")
+  }
 }
 
 // module.exports=new StartNowPage()
