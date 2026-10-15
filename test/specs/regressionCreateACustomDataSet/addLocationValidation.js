@@ -1,7 +1,9 @@
 import startNowPage from '../../page-objects/startnowpage.js'
 // import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
 import { browser, expect } from '@wdio/globals'
-// import fs from 'node:fs'
+import fs from 'node:fs'
+import path from 'node:path'
+import { execSync } from 'node:child_process'
 // import createLogger from 'helpers/logger'
 import common from '../../page-objects/common.js'
 import hubPage from '../../page-objects/hubPage.js'
@@ -712,5 +714,331 @@ Cornwall County Council`
       .errorSummaryItemByText('Please select a local authority from the list')
       .isDisplayed()
     await expect(addLocalAuthorityError).toBe(true)
+  })
+
+  it('AQD-1562, Add locations(s) - Zones, content', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('PM10')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+
+    const zoneLabel = await addLocationPage.getZoneLabel.getText()
+    const expectedZoneLabel = 'Zones'
+    await expect(zoneLabel).toMatch(expectedZoneLabel)
+
+    const zoneHint = await addLocationPage.getZoneHint.getText()
+    const expectedZoneHint = `Choose one or more UK air quality zones
+Only the Automatic Urban and Rural Network is available for zones`
+    await expect(zoneHint).toMatch(expectedZoneHint)
+
+    await addLocationPage.getZoneRadioButton.click()
+
+    const zoneList = await addLocationPage.getZoneList.getText()
+    const expectedZoneList = `Select zones
+Central Scotland
+East Midlands
+Eastern
+Greater London
+Highland
+North East
+North East Scotland
+North Wales
+North West And Merseyside
+Northern Ireland
+Scottish Borders
+South East
+South Wales
+South West
+West Midlands
+Yorkshire And Humberside`
+    await expect(zoneList).toMatch(expectedZoneList)
+  })
+
+  it('AQD-1562, zone option is a checkbox', async () => {
+    const inputType =
+      await addLocationPage.getCentralScotlandZoneCheckbox.getAttribute('type')
+    await expect(inputType).toBe('checkbox')
+  })
+
+  it('AQD-1562, adding zone and reflecting on custom selection page', async () => {
+    await addLocationPage.getCentralScotlandZoneCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    const locationSelected =
+      await customselectionPage.getLocationValue.getText()
+    const expectedLocationSelected = `Central Scotland`
+    await expect(locationSelected).toMatch(expectedLocationSelected)
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getNorthEastZoneCheckbox.click()
+    await addLocationPage.getScottishBordersZoneCheckbox.click()
+    await addLocationPage.getYorkshireAndHumbersideZoneCheckbox.click()
+
+    await addLocationPage.getLocationContinueButton.click()
+
+    const locationSelected2 =
+      await customselectionPage.getLocationValue.getText()
+    const expectedLocationSelected2 = `Central Scotland`
+    await expect(locationSelected2).toMatch(expectedLocationSelected2)
+  })
+
+  it('AQD-1562, zones error scenarios', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('PM10')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getZoneRadioButton.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    const errorMessage = await common
+      .errorSummaryItemByText('Select at least one zone')
+      .isDisplayed()
+    await expect(errorMessage).toBe(true)
+    await common.errorSummaryItemByText('Select at least one zone').click()
+    await expect(
+      await addLocationPage.getCentralScotlandZoneCheckbox
+    ).toBeFocused()
+
+    await addLocationPage.getCentralScotlandZoneCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('1975')
+    await addYearPage.continueButton.click()
+
+    await customselectionPage.getContinueButton.click()
+    const errorSummaryText = await customselectionPage.getErrorSummary.getText()
+    await expect(errorSummaryText).toMatch(`Change time period
+Change location`)
+
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getFirstAddedPollutantRemoveLink.click()
+    await addPollutantPage.addPollutant('Iso-butane (i-C4H10)')
+    await common.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    const errorSummaryText2 =
+      await customselectionPage.getErrorSummary.getText()
+    await expect(errorSummaryText2).toMatch(`Change location`)
+  })
+
+  it('AQD-1562,If the user makes valid selections, the user is able to download available data for the zones selected via the Downloads page', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('PM10')
+    await common.continueButton.click()
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2022')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getZoneRadioButton.click()
+    await addLocationPage.getCentralScotlandZoneCheckbox.click()
+    await addLocationPage.getNorthEastZoneCheckbox.click()
+    await addLocationPage.getYorkshireAndHumbersideZoneCheckbox.click()
+    await addLocationPage.getScottishBordersZoneCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    await customselectionPage.getContinueButton.click()
+
+    // Ensure downloads directory is clean before downloading
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    await DownloadYourDataPage.getDownloadAURNDataButton.click()
+
+    // Wait until a non-empty file (not .crdownload) appears in downloads
+    await browser.waitUntil(
+      () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          if (files.length === 0) return false
+          const fullPath = path.join(DOWNLOAD_DIR, files[0])
+          const size = fs.statSync(fullPath).size
+          return size > 0
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 240000,
+        interval: 500,
+        timeoutMsg: 'No downloaded file detected in downloads within 240s'
+      }
+    )
+
+    const finalFiles = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => !f.endsWith('.crdownload'))
+    expect(finalFiles.length).toBeGreaterThan(0)
+
+    const parseCsvLine = (line) => {
+      const cells = []
+      let current = ''
+      let inQuotes = false
+
+      for (let i = 0; i < line.length; i += 1) {
+        const char = line[i]
+        if (char === '"') {
+          const next = line[i + 1]
+          if (inQuotes && next === '"') {
+            current += '"'
+            i += 1
+          } else {
+            inQuotes = !inQuotes
+          }
+        } else if (char === ',' && !inQuotes) {
+          cells.push(current)
+          current = ''
+        } else {
+          current += char
+        }
+      }
+
+      cells.push(current)
+      return cells.map((c) => c.trim())
+    }
+
+    // Extract zip files and collect csv paths
+    const csvPaths = []
+    for (const fileName of finalFiles) {
+      const fullPath = path.join(DOWNLOAD_DIR, fileName)
+      if (fileName.toLowerCase().endsWith('.zip')) {
+        const extractDir = path.join(
+          DOWNLOAD_DIR,
+          `${path.parse(fileName).name}-extracted`
+        )
+        fs.mkdirSync(extractDir, { recursive: true })
+        execSync(
+          `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+        )
+        const extractedCsvFiles = fs
+          .readdirSync(extractDir)
+          .filter((name) => name.toLowerCase().endsWith('.csv'))
+          .map((name) => path.join(extractDir, name))
+        csvPaths.push(...extractedCsvFiles)
+      } else if (fileName.toLowerCase().endsWith('.csv')) {
+        csvPaths.push(fullPath)
+      }
+    }
+
+    expect(csvPaths.length).toBeGreaterThan(0)
+
+    const expectedPollutant = 'Particulate matter (PM10)'
+    const expectedSiteNames = [
+      'Leeds Headingley Kerbside',
+      'York Fishergate',
+      'York Bootham',
+      'Immingham Woodlands Avenue',
+      'Edinburgh St Leonards',
+      'Hull Freetown',
+      'Grangemouth',
+      'Scunthorpe Town',
+      'Stockton-on-Tees Eaglescliffe',
+      'Newcastle Cradlewell Roadside',
+      'Middlesbrough',
+      'Dewsbury Ashworth Grange',
+      'Auchencorth Moss',
+      'Hartlepool St Abbs Walk',
+      'Glasgow High Street',
+      'Greenock A8 Roadside',
+      'Glasgow Townhead',
+      'Hull Holderness Road',
+      'Sheffield Devonshire Green',
+      'Sunderland Silksworth',
+      'Leeds Centre',
+      'Newcastle Centre',
+      'High Muffles',
+      'Sheffield Tinsley'
+    ]
+
+    for (const csvPath of csvPaths) {
+      const csvContent = fs.readFileSync(csvPath, 'utf-8')
+      const rows = csvContent
+        .split(/\r?\n/)
+        .map((row) => row.trim())
+        .filter((row) => row !== '')
+
+      expect(rows.length).toBeGreaterThan(1)
+
+      const headerRowIndex = rows.findIndex((row) =>
+        parseCsvLine(row)
+          .map((h) => h.replace(/^"|"$/g, '').toLowerCase())
+          .some((h) => h.includes('pollutant'))
+      )
+      expect(headerRowIndex).toBeGreaterThanOrEqual(0)
+
+      const headerColumns = parseCsvLine(rows[headerRowIndex]).map((h) =>
+        h.replace(/^"|"$/g, '').toLowerCase()
+      )
+
+      const pollutantColumnIndex = headerColumns.findIndex((h) =>
+        h.includes('pollutant')
+      )
+      expect(pollutantColumnIndex).toBeGreaterThanOrEqual(0)
+
+      const siteNameColumnIndex = headerColumns.findIndex(
+        (h) =>
+          h.includes('site name') ||
+          h.includes('sitename') ||
+          (h.includes('site') &&
+            !h.includes('site type') &&
+            !h.includes('site id'))
+      )
+      expect(siteNameColumnIndex).toBeGreaterThanOrEqual(0)
+
+      const dataRows = rows.slice(headerRowIndex + 1)
+      expect(dataRows.length).toBeGreaterThan(0)
+
+      const pollutantValues = new Set()
+      const siteNameValues = new Set()
+
+      for (const row of dataRows) {
+        const columns = parseCsvLine(row)
+        const pollutantValue = (columns[pollutantColumnIndex] || '')
+          .replace(/^"|"$/g, '')
+          .trim()
+        const siteNameValue = (columns[siteNameColumnIndex] || '')
+          .replace(/^"|"$/g, '')
+          .trim()
+
+        if (pollutantValue !== '') pollutantValues.add(pollutantValue)
+        if (siteNameValue !== '') siteNameValues.add(siteNameValue)
+      }
+
+      // Pollutant column should only contain the expected pollutant
+      expect([...pollutantValues]).toEqual([expectedPollutant])
+
+      // Site name column should only contain stations from the expected list
+      for (const siteName of siteNameValues) {
+        expect(expectedSiteNames).toContain(siteName)
+      }
+    }
   })
 })
