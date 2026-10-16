@@ -1,9 +1,7 @@
 // const allure = require('allure-commandline')
-import allure from 'allure-commandline'
 import path from 'node:path'
 
 const debug = process.env.DEBUG
-const oneMinute = 60 * 1000
 const oneHour = 60 * 60 * 1000
 
 export const config = {
@@ -30,7 +28,7 @@ export const config = {
   // will be called from there.
   //
   specs: [
-    './test/specs/regressionCreateACustomDataSet/DownloadYourDataPageValidation.js'
+    './test/specs/regressionCreateACustomDataSet/requestDataPageValidation.js'
   ],
   // Patterns to exclude.
   exclude: [],
@@ -287,7 +285,7 @@ export const config = {
         'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "At least 1 assertion failed"}}'
       )
     }
-  },
+  }
 
   /**
    * Hook that gets executed after the suite has ended
@@ -325,21 +323,13 @@ export const config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
-  onComplete: function (exitCode, config, capabilities, results) {
-    const generation = allure(['generate', 'allure-results', '--clean'])
-
-    return new Promise((resolve) => {
-      const generationTimeout = setTimeout(() => {
-        resolve()
-      }, oneMinute)
-
-      generation.on('exit', function () {
-        clearTimeout(generationTimeout)
-
-        resolve()
-      })
-    })
-  }
+  // Note: Allure report generation is NOT run here automatically.
+  // The allure-commandline wrapper breaks when the project path contains
+  // spaces (e.g. "OneDrive - Cognizant"), causing a
+  // "'...\OneDrive' is not recognized as an internal or external command"
+  // error on Windows. Run `npm run report` manually after the test run
+  // instead to generate the HTML report.
+  // onComplete: function (exitCode, config, capabilities, results) {},
 
   /**
    * Gets executed when a refresh happens.

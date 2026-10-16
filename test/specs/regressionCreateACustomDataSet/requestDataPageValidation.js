@@ -1,7 +1,9 @@
 import startNowPage from '../../page-objects/startnowpage.js'
 // import cookieBanner from '~/test/page-objects/citizens/cookieBanner.js'
 import { browser, expect } from '@wdio/globals'
-// import fs from 'node:fs'
+import fs from 'node:fs'
+import path from 'node:path'
+import { execSync } from 'node:child_process'
 // import createLogger from 'helpers/logger'
 import common from '../../page-objects/common.js'
 import hubPage from '../../page-objects/hubPage.js'
@@ -318,5 +320,174 @@ Continue`)
 The download link had expired. Download links expire after 48 hours.
 To request another download, go to Get air pollution data.`
     expect(dowonloadErrorPageContent).toContain(expectedContent)
+  })
+
+  it('AQD-1710, request data download journey data comes blank when two automatic hydrocarbons pollutants are selected', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+
+    const Pollutants = ['Benzene (C6H6)', 'Ethylbenzene (C8H10)']
+
+    for (const pollutant of Pollutants) {
+      await addPollutantPage.addPollutant(pollutant)
+    }
+
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getScotlandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getRangeOfYearsRadio.click()
+    await addYearPage.getRangeOfYearsStartYearInput.setValue('2022')
+    await addYearPage.getRangeOfYearsEndYearInput.setValue('2026')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await common.legalWait()
+
+    // Ensure downloads directory is clean before downloading
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    await DownloadYourDataPage.getDownloadAutomaticHydrocarbonNetworkMonitoringNetworkButtonOnRequestPage.click()
+
+    // Wait until a non-empty file (not .crdownload) appears in downloads
+    await browser.waitUntil(
+      () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          if (files.length === 0) return false
+          const fullPath = path.join(DOWNLOAD_DIR, files[0])
+          const size = fs.statSync(fullPath).size
+          return size > 0
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 240000,
+        interval: 500,
+        timeoutMsg: 'No downloaded file detected in downloads within 240s'
+      }
+    )
+
+    const finalFiles = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => !f.endsWith('.crdownload'))
+    expect(finalFiles.length).toBeGreaterThan(0)
+
+    const parseCsvLine = (line) => {
+      const cells = []
+      let current = ''
+      let inQuotes = false
+
+      for (let i = 0; i < line.length; i += 1) {
+        const char = line[i]
+        if (char === '"') {
+          const next = line[i + 1]
+          if (inQuotes && next === '"') {
+            current += '"'
+            i += 1
+          } else {
+            inQuotes = !inQuotes
+          }
+        } else if (char === ',' && !inQuotes) {
+          cells.push(current)
+          current = ''
+        } else {
+          current += char
+        }
+      }
+
+      cells.push(current)
+      return cells.map((c) => c.trim())
+    }
+
+    // Extract zip files and collect csv paths
+    const csvPaths = []
+    for (const fileName of finalFiles) {
+      const fullPath = path.join(DOWNLOAD_DIR, fileName)
+      if (fileName.toLowerCase().endsWith('.zip')) {
+        const extractDir = path.join(
+          DOWNLOAD_DIR,
+          `${path.parse(fileName).name}-extracted`
+        )
+        fs.mkdirSync(extractDir, { recursive: true })
+        execSync(
+          `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+        )
+        const extractedCsvFiles = fs
+          .readdirSync(extractDir)
+          .filter((name) => name.toLowerCase().endsWith('.csv'))
+          .map((name) => path.join(extractDir, name))
+        csvPaths.push(...extractedCsvFiles)
+      } else if (fileName.toLowerCase().endsWith('.csv')) {
+        csvPaths.push(fullPath)
+      }
+    }
+
+    expect(csvPaths.length).toBeGreaterThan(0)
+
+    const expectedPollutants = ['Benzene', 'Ethylbenzene']
+    const foundPollutants = new Set()
+
+    for (const csvPath of csvPaths) {
+      const csvContent = fs.readFileSync(csvPath, 'utf-8')
+      const rows = csvContent
+        .split(/\r?\n/)
+        .map((row) => row.trim())
+        .filter((row) => row !== '')
+
+      expect(rows.length).toBeGreaterThan(1)
+
+      const headerRowIndex = rows.findIndex((row) =>
+        parseCsvLine(row)
+          .map((h) => h.replace(/^"|"$/g, '').toLowerCase())
+          .some((h) => h.includes('pollutant'))
+      )
+      expect(headerRowIndex).toBeGreaterThanOrEqual(0)
+
+      const headerColumns = parseCsvLine(rows[headerRowIndex]).map((h) =>
+        h.replace(/^"|"$/g, '').toLowerCase()
+      )
+
+      const pollutantColumnIndex = headerColumns.findIndex((h) =>
+        h.includes('pollutant')
+      )
+      expect(pollutantColumnIndex).toBeGreaterThanOrEqual(0)
+
+      const dataRows = rows.slice(headerRowIndex + 1)
+      expect(dataRows.length).toBeGreaterThan(0)
+
+      for (const row of dataRows) {
+        const columns = parseCsvLine(row)
+        const pollutantValue = (columns[pollutantColumnIndex] || '')
+          .replace(/^"|"$/g, '')
+          .trim()
+
+        if (pollutantValue === '') continue
+
+        const matchedPollutant = expectedPollutants.find(
+          (expected) => pollutantValue.toLowerCase() === expected.toLowerCase()
+        )
+
+        // Only Benzene and Ethylbenzene data should be present
+        expect(matchedPollutant).toBeDefined()
+        if (matchedPollutant) foundPollutants.add(matchedPollutant)
+      }
+    }
+
+    // Both requested pollutants should be present in the downloaded data
+    expect([...foundPollutants].sort()).toEqual([...expectedPollutants].sort())
   })
 })
