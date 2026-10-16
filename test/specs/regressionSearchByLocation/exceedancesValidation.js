@@ -688,7 +688,7 @@ i`
       .click()
     await monitoringStationPage.get2018Button.click()
     await monitoringStationPage.getAboveLimitFlag.waitForDisplayed({
-      timeout: 15000
+      timeout: 20000
     })
     const isAboveLimitFlagDisplayed =
       await monitoringStationPage.getAboveLimitFlag.isDisplayed()

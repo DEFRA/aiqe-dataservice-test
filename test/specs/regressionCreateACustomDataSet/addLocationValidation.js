@@ -39,6 +39,9 @@ England
 Scotland
 Wales
 Northern Ireland
+Zones
+Choose one or more UK air quality zones
+Only the Automatic Urban and Rural Network is available for zones
 Local authority
 Add up to 10 local authorities
 Continue`
