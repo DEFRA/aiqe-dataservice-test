@@ -833,6 +833,12 @@ Change location`)
     const errorSummaryText2 =
       await customselectionPage.getErrorSummary.getText()
     await expect(errorSummaryText2).toMatch(`Change location`)
+
+    const errorLink = await common.errorSummaryItemByText('Change location')
+    await errorLink.click()
+    await browser.getUrl().then((url) => {
+      expect(url).toContain('/location-aurn/change')
+    })
   })
 
   it('AQD-1562,If the user makes valid selections, the user is able to download available data for the zones selected via the Downloads page', async () => {
