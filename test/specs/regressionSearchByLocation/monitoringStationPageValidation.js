@@ -521,10 +521,10 @@ View on Google Maps (opens in new tab)`
     await monitoringStationPage.get2026Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 6000))
+        await new Promise((resolve) => setTimeout(resolve, 7000))
         return true
       },
-      { timeout: 6000 }
+      { timeout: 7000 }
     )
     const yearlyTab2026Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -565,10 +565,10 @@ View on Google Maps (opens in new tab)`
     await monitoringStationPage.get2025Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 6000))
+        await new Promise((resolve) => setTimeout(resolve, 7000))
         return true
       },
-      { timeout: 6000 }
+      { timeout: 7000 }
     )
     const yearlyTab2025Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -608,10 +608,10 @@ View on Google Maps (opens in new tab)`
     await monitoringStationPage.get2024Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 6000))
+        await new Promise((resolve) => setTimeout(resolve, 7000))
         return true
       },
-      { timeout: 6000 }
+      { timeout: 7000 }
     )
     const yearlyTab2024Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -652,10 +652,10 @@ View on Google Maps (opens in new tab)`
     await monitoringStationPage.get2023Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 6000))
+        await new Promise((resolve) => setTimeout(resolve, 7000))
         return true
       },
-      { timeout: 6000 }
+      { timeout: 7000 }
     )
     const yearlyTab2023Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -695,10 +695,10 @@ View on Google Maps (opens in new tab)`
     await monitoringStationPage.get2022Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 6000))
+        await new Promise((resolve) => setTimeout(resolve, 7000))
         return true
       },
-      { timeout: 6000 }
+      { timeout: 7000 }
     )
     const yearlyTab2022Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -738,10 +738,10 @@ View on Google Maps (opens in new tab)`
     await monitoringStationPage.get2021Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 6000))
+        await new Promise((resolve) => setTimeout(resolve, 7000))
         return true
       },
-      { timeout: 6000 }
+      { timeout: 7000 }
     )
     const yearlyTab2021Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -781,10 +781,10 @@ View on Google Maps (opens in new tab)`
     await monitoringStationPage.get2020Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 6000))
+        await new Promise((resolve) => setTimeout(resolve, 7000))
         return true
       },
-      { timeout: 6000 }
+      { timeout: 7000 }
     )
     const yearlyTab2020Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -825,10 +825,10 @@ View on Google Maps (opens in new tab)`
     await monitoringStationPage.get2019Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 6000))
+        await new Promise((resolve) => setTimeout(resolve, 7000))
         return true
       },
-      { timeout: 6000 }
+      { timeout: 7000 }
     )
     const yearlyTab2019Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -869,10 +869,10 @@ View on Google Maps (opens in new tab)`
     await monitoringStationPage.get2018Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 6000))
+        await new Promise((resolve) => setTimeout(resolve, 7000))
         return true
       },
-      { timeout: 6000 }
+      { timeout: 7000 }
     )
     const yearlyTab2018Title =
       await monitoringStationPage.getSumarryTableHeading.getText()

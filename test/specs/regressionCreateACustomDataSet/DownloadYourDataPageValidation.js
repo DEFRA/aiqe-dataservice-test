@@ -36,6 +36,7 @@ describe('Download Your Data page validation AQD-889', () => {
     await addLocationPage.getLocationContinueButton.click()
 
     await customselectionPage.getContinueButton.click()
+    await common.legalWait()
 
     const pageContent =
       await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
@@ -232,7 +233,7 @@ inlet height`
     }
 
     const DownloadHourlyDataButton = [
-      await DownloadYourDataPage.getDownloadHourlyDataButton
+      await DownloadYourDataPage.getDownloadAURNDataButton
     ]
 
     const getDownloadHourlyDataButtonProperties = [
@@ -1731,11 +1732,13 @@ Download data
     await addYearPage.continueButton.click()
     await customselectionPage.getContinueButton.click()
     await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+    await common.legalWait()
 
     const otherTabContent =
       await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
     const expectedOtherTabContent = `Download your data
 File format and metadata
+Near real-time data from Defra
 Other data from Defra
 Other data from Defra
 Data is measured hourly, weekly or monthly depending on the network.

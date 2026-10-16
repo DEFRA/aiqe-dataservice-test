@@ -744,7 +744,7 @@ describe('add year validation AQD-841', () => {
     fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
 
     await customselectionPage.getContinueButton.click()
-    await DownloadYourDataPage.getDownloadLastSevenDaysHourlyData.click()
+    await DownloadYourDataPage.getDownloadAURNDataButton.click()
 
     await browser.waitUntil(
       () => {
