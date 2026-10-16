@@ -153,6 +153,10 @@ class DownloadYourDataPage {
   get getDownloadLastSevenDaysHourlyData() {
     return $("a[aria-label*=' Download hourly average data for ']")
   }
+
+  get getDownloadAutomaticHydrocarbonNetworkMonitoringNetworkButtonOnRequestPage() {
+    return $("a[data-network-name*='Automatic Hydrocarbon Network']")
+  }
 }
 
 // module.exports=new StartNowPage()
