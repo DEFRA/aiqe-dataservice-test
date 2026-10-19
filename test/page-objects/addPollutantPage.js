@@ -153,6 +153,10 @@ class AddPollutantPage {
     return $("option[value*='Fine particulate matter (PM2.5)']")
   }
 
+  get getNoJsParticulateCalciumOptionValue() {
+    return $("option[value*='Particulate calcium (Ca)']")
+  }
+
   async clearPollutantInput() {
     const searchBox = await this.getAddPollutantSearchBox
     await searchBox.waitForDisplayed({ timeout: 5000 })
