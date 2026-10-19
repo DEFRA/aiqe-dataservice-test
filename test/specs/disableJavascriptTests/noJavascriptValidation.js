@@ -416,4 +416,42 @@ Sulphur dioxide (SO2)`
     )
     await common.notDisplayed(missingText)
   })
+
+  it('AQD-1671,AURN section should not show no matter what on the final page', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.getNoJsPollutantDropdown.click()
+    await addPollutantPage.getNoJsParticulateCalciumOptionValue.click()
+    await common.continueButton.click()
+
+    await customselectionPage.getAddChangeLocationLinkNoJs.click()
+    await addLocationPage.getCountriesOptionRadio.click()
+    await addLocationPage.getScotlandOption.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearOption.click()
+    await addYearPage.getAnyYearInput.setValue('2012')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    const pageContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    await expect(pageContent).toContain(`Back
+Download your data
+File format and metadata
+Contents
+Other data from Defra
+Other data from Defra
+Data is measured hourly, weekly or monthly depending on the network.
+UKEAP - Acid Gas & Aerosol Network
+Monitors atmospheric pollutants. Part of the UK Eutrophying and Acidifying Atmospheric Pollutants (UKEAP) Network that monitors long-term pollutant trends in rural and remote locations.
+11 stations available
+Download data
+(Visual only)`)
+  })
 })
