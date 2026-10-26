@@ -1047,6 +1047,7 @@ Download data
     await addYearPage.getAnyYearInput.setValue('2026')
     await addYearPage.continueButton.click()
     await customselectionPage.getContinueButton.click()
+    await common.legalWait()
 
     const otherTabContent =
       await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
