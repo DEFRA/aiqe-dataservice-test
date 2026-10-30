@@ -3,9 +3,6 @@ import { ProxyAgent, setGlobalDispatcher } from 'undici'
 import { bootstrap } from 'global-agent'
 const debug = process.env.DEBUG
 const oneHour = 60 * 60 * 1000
-const ENV = (process.env.ENVIRONMENT || '').toLowerCase()
-// CDP provides one of: dev, test, or prod. Use prod => sidecar, dev/test => BrowserStack.
-const isProd = ENV === 'prod'
 
 // for browserstack
 const dispatcher = new ProxyAgent({
@@ -14,16 +11,6 @@ const dispatcher = new ProxyAgent({
 setGlobalDispatcher(dispatcher)
 bootstrap()
 global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY
-// for chrome sidecar
-const chromeProxyConfig = !process.env.HTTP_PROXY
-  ? {}
-  : {
-      proxy: {
-        proxyType: 'manual',
-        httpProxy: `localhost:3128`,
-        sslProxy: `localhost:3128`
-      }
-    }
 
 export const config = {
   //
@@ -39,41 +26,31 @@ export const config = {
   // gets prepended directly.
   baseUrl: `https://aqie-dataselector-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`,
 
-  // Connection to remote chromedriver (used in prod sidecar)
-  hostname: isProd ? process.env.CHROMEDRIVER_URL || '127.0.0.1' : undefined,
-  port: isProd ? Number(process.env.CHROMEDRIVER_PORT) || 4444 : undefined,
-  path: isProd ? process.env.CHROMEDRIVER_PATH || '/' : undefined,
-  automationProtocol: isProd ? 'webdriver' : undefined,
-
   // connection to browserstack
-  user: isProd ? undefined : process.env.BROWSERSTACK_USER,
-  key: isProd ? undefined : process.env.BROWSERSTACK_KEY,
+  user: process.env.BROWSERSTACK_USER,
+  key: process.env.BROWSERSTACK_KEY,
 
-  services: isProd
-    ? [
-        // No BrowserStack in production; using local/sidecar Chrome
-      ]
-    : [
-        [
-          'browserstack',
-          {
-            testObservability: true, // Disable if you do not want to use the browserstack test observer functionality
-            testObservabilityOptions: {
-              user: process.env.BROWSERSTACK_USER,
-              key: process.env.BROWSERSTACK_KEY,
-              projectName: 'aiqe-dataservice-test',
-              buildName: `test-run-${process.env.ENVIRONMENT}`
-            },
-            acceptInsecureCerts: true,
-            forceLocal: false,
-            browserstackLocal: true,
-            opts: {
-              proxyHost: 'localhost',
-              proxyPort: 3128
-            }
-          }
-        ]
-      ],
+  services: [
+    [
+      'browserstack',
+      {
+        testObservability: true, // Disable if you do not want to use the browserstack test observer functionality
+        testObservabilityOptions: {
+          user: process.env.BROWSERSTACK_USER,
+          key: process.env.BROWSERSTACK_KEY,
+          projectName: 'aiqe-dataservice-test',
+          buildName: `test-run-${process.env.ENVIRONMENT}`
+        },
+        acceptInsecureCerts: true,
+        forceLocal: false,
+        browserstackLocal: true,
+        opts: {
+          proxyHost: 'localhost',
+          proxyPort: 3128
+        }
+      }
+    ]
+  ],
 
   // Tests to run (fallback if a capability doesn't define its own specs)
   specs: ['./test/specs/**/*.js'],
@@ -87,75 +64,46 @@ export const config = {
     }
   },
 
-  // Capabilities switch: sidecar Chrome in production, BrowserStack otherwise
-  capabilities: isProd
-    ? [
-        {
-          ...chromeProxyConfig,
-          browserName: 'chrome',
-          'goog:chromeOptions': {
-            args: [
-              '--no-sandbox',
-              '--disable-infobars',
-              '--headless',
-              '--disable-gpu',
-              '--window-size=1920,1080',
-              '--enable-features=NetworkService,NetworkServiceInProcess',
-              '--password-store=basic',
-              '--use-mock-keychain',
-              '--dns-prefetch-disable',
-              '--disable-background-networking',
-              '--disable-remote-fonts',
-              '--ignore-certificate-errors',
-              '--disable-dev-shm-usage'
-            ]
-          },
-          specs: ['./test/specs/regressionSearchByLocation/*.js']
-        }
-      ]
-    : [
-        // Desktop Chrome on Windows via BrowserStack
-        {
-          browserName: 'Chrome',
-          browserVersion: '146.0.7680.178',
-          'bstack:options': {
-            os: 'Windows',
-            osVersion: '11',
-            local: true
-          },
-          specs: [
-            './test/specs/regressionSearchByLocation/*.js',
-            './test/specs/regressionCreateACustomDataSet/*.js'
-          ],
-          exclude: [
-            './test/specs/regressionCreateACustomDataSet/DownloadYourDataPageValidation.js',
-            './test/specs/regressionCreateACustomDataSet/errorScenarios.js'
-          ]
-        },
-        // Tablet: iPad Air 5 (iOS Safari)
-        {
-          browserName: 'chromium',
-          'bstack:options': {
-            deviceName: 'iPad Air 5',
-            osVersion: '26',
-            realMobile: false,
-            local: true
-          },
-          specs: ['./test/specs/tabletTests/tabletHappyPath.js']
-        },
-        // Mobile: iPhone 15 (iOS Safari)
-        {
-          browserName: 'safari',
-          'bstack:options': {
-            deviceName: 'iPhone 15',
-            osVersion: '26',
-            realMobile: false,
-            local: true
-          },
-          specs: ['./test/specs/mobileTests/mobileHappyPath.js']
-        }
+  // Capabilities: all runs go through BrowserStack now (no CDP prod sidecar)
+  capabilities: [
+    // Desktop Chrome on Windows via BrowserStack
+    {
+      browserName: 'Chrome',
+      browserVersion: '146.0.7680.178',
+      'bstack:options': {
+        os: 'Windows',
+        osVersion: '11',
+        local: true
+      },
+      specs: [
+        './test/specs/regressionSearchByLocation/*.js',
+        './test/specs/regressionCreateACustomDataSet/*.js'
       ],
-  // chrome sidecar block now handled via `isProd` switch above
+      exclude: ['./test/specs/regressionCreateACustomDataSet/errorScenarios.js']
+    },
+    // Tablet: iPad Air 5 (iOS Safari)
+    {
+      browserName: 'chromium',
+      'bstack:options': {
+        deviceName: 'iPad Air 5',
+        osVersion: '26',
+        realMobile: false,
+        local: true
+      },
+      specs: ['./test/specs/tabletTests/tabletHappyPath.js']
+    },
+    // Mobile: iPhone 15 (iOS Safari)
+    {
+      browserName: 'safari',
+      'bstack:options': {
+        deviceName: 'iPhone 15',
+        osVersion: '26',
+        realMobile: false,
+        local: true
+      },
+      specs: ['./test/specs/mobileTests/mobileHappyPath.js']
+    }
+  ],
 
   execArgv: [],
 

@@ -12,6 +12,7 @@ import addPollutantPage from '../../page-objects/addPollutantPage.js'
 import addYearPage from '../../page-objects/addYearPage.js'
 import addLocationPage from '../../page-objects/addLocationPage.js'
 import DownloadYourDataPage from '../../page-objects/DownloadYourDataPage.js'
+import { syncBrowserStackDownloads } from '../../helpers/browserstackDownloads.js'
 
 describe('Download Your Data page validation AQD-889', () => {
   it('content, titles and styling', async () => {
@@ -317,10 +318,14 @@ inlet height`
       await downloadNotification.isDisplayed()
     await expect(downloadNotificationisDisplayed).toBe(true)
 
-    // Wait until a non-empty file (not .crdownload) appears in downloads
+    // Wait until a non-empty file (not .crdownload) appears in downloads.
+    // On BrowserStack, syncBrowserStackDownloads first pulls any remotely
+    // downloaded files into DOWNLOAD_DIR via the Automate REST API; it is
+    // a no-op when running locally.
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -509,8 +514,9 @@ Download data
     fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -657,8 +663,9 @@ Download data
 
     // Wait until a non-empty CSV file appears in downloads
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -942,8 +949,9 @@ Download data
     await DownloadYourDataPage.getDownloadAURNDataButton.click()
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -972,8 +980,9 @@ Download data
     await DownloadYourDataPage.getDownloadUKEAPRuralNO2NetworkButton.click()
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -998,8 +1007,9 @@ Download data
     await DownloadYourDataPage.getDownloadUKEAPAcidGasAerosolNetworkButton.click()
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -1094,8 +1104,9 @@ Download data
     await DownloadYourDataPage.getDownloadUKEAPPrecipNetworkButton.click()
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -1197,8 +1208,9 @@ Download data
       await downloadAction()
 
       await browser.waitUntil(
-        () => {
+        async () => {
           try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
             const filesAfter = fs
               .readdirSync(DOWNLOAD_DIR)
               .filter((file) => !file.endsWith('.crdownload'))
@@ -1393,8 +1405,9 @@ Download data
     await DownloadYourDataPage.getDownloadUKEAPNationalAmmoniaMonitoringNetworkButton.click()
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -1637,8 +1650,9 @@ Download data
       await downloadButton.click()
 
       await browser.waitUntil(
-        () => {
+        async () => {
           try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
             const filesAfter = fs
               .readdirSync(DOWNLOAD_DIR)
               .filter((file) => !file.endsWith('.crdownload'))
@@ -1782,8 +1796,9 @@ Download data
     await DownloadYourDataPage.getDownloadUKEAPNonAutomaticHydrocarbonNetworkMonitoringNetworkButton.click()
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -1925,8 +1940,9 @@ No data available for the selected range.`
     await DownloadYourDataPage.getDownloadPAHAndersenNetworkMonitoringNetworkButton.click()
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -2090,8 +2106,9 @@ No data available for the selected range.`
     await DownloadYourDataPage.getDownloadAURNDataButton.click()
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -2330,8 +2347,9 @@ Download data
     await DownloadYourDataPage.getDownloadPAHDepositionNetworkMonitoringNetworkButton.click()
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -2575,8 +2593,9 @@ Download data
     await DownloadYourDataPage.getDownloadPAHSolidAndVapourNetworkMonitoringNetworkButton.click()
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -2832,8 +2851,9 @@ No data available for the selected range.`
     await DownloadYourDataPage.getDownloadPAHSolidPhaseNetworkMonitoringNetworkButton.click()
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -3047,8 +3067,9 @@ Download hourly data
     await DownloadYourDataPage.getDownloadAutomaticHydrocarbonNetworkMonitoringNetworkButton.click()
 
     await browser.waitUntil(
-      () => {
+      async () => {
         try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -3301,8 +3322,9 @@ Download hourly data
       await downloadAction()
 
       await browser.waitUntil(
-        () => {
+        async () => {
           try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
             const files = fs
               .readdirSync(DOWNLOAD_DIR)
               .filter((f) => !f.endsWith('.crdownload'))
