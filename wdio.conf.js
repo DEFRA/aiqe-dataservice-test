@@ -73,12 +73,7 @@ export const config = {
       'bstack:options': {
         os: 'Windows',
         osVersion: '11',
-        local: true,
-        // Required for BrowserStack to capture files downloaded during the
-        // session so they can be retrieved via the Automate downloads REST
-        // API (see test/helpers/browserstackDownloads.js). Without this,
-        // the downloads list endpoint always returns empty.
-        enableFileDownload: true
+        local: true
       },
       specs: [
         './test/specs/regressionSearchByLocation/*.js',
