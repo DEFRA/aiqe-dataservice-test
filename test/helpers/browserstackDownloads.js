@@ -68,13 +68,26 @@ export async function syncBrowserStackDownloads(downloadDir) {
       `https://api.browserstack.com/automate/sessions/${browser.sessionId}/downloads`,
       { auth: browserStackAuth }
     ))
-  } catch {
+  } catch (err) {
     // Swallow transient API errors; the waitUntil loop calling this will
     // simply retry on the next interval.
+    // eslint-disable-next-line no-console
+    console.warn(
+      '[browserstackDownloads] Failed to list downloads:',
+      err?.response?.status,
+      err?.response?.data ?? err?.message
+    )
     return
   }
 
-  if (!Array.isArray(data)) return
+  if (!Array.isArray(data)) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      '[browserstackDownloads] Unexpected downloads response (not an array):',
+      JSON.stringify(data)
+    )
+    return
+  }
 
   for (const entry of data) {
     if (!entry?.file_id || !entry?.file_name) continue
@@ -88,8 +101,14 @@ export async function syncBrowserStackDownloads(downloadDir) {
         entry.file_id
       )
       fs.writeFileSync(localPath, bytes)
-    } catch {
+    } catch (err) {
       // Ignore and retry on the next poll - the file may not be ready yet.
+      // eslint-disable-next-line no-console
+      console.warn(
+        `[browserstackDownloads] Failed to fetch file ${entry.file_name}:`,
+        err?.response?.status,
+        err?.message
+      )
     }
   }
 }
