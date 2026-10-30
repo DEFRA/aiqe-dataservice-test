@@ -79,7 +79,7 @@ export const config = {
   specs: ['./test/specs/**/*.js'],
   // Let capability-level specs filter tests; no global excludes needed
   exclude: [],
-  maxInstances: 3,
+  maxInstances: 1,
   // for browserstack
   commonCapabilities: {
     'bstack:options': {
