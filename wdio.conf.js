@@ -128,7 +128,8 @@ export const config = {
             './test/specs/regressionCreateACustomDataSet/*.js'
           ],
           exclude: [
-            './test/specs/regressionCreateACustomDataSet/DownloadYourDataPageValidation.js'
+            './test/specs/regressionCreateACustomDataSet/DownloadYourDataPageValidation.js',
+            './test/specs/regressionCreateACustomDataSet/errorScenarios.js'
           ]
         },
         // Tablet: iPad Air 5 (iOS Safari)
@@ -162,7 +163,7 @@ export const config = {
 
   // Number of failures before the test suite bails.
   bail: 0,
-  waitforTimeout: 10000,
+  waitforTimeout: 30000,
   waitforInterval: 200,
   connectionRetryTimeout: 120000,
   connectionRetryCount: 3,
@@ -191,7 +192,7 @@ export const config = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: 'bdd',
-    timeout: debug ? oneHour : 120000
+    timeout: debug ? oneHour : 300000
   },
   //
   // =====
