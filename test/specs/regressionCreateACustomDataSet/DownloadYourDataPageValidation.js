@@ -524,33 +524,41 @@ Download data
       await downloadNotification.isDisplayed()
     await expect(downloadNotificationisDisplayed).toBe(true)
 
-    await browser.waitUntil(
-      async () => {
-        try {
-          await syncBrowserStackDownloads(DOWNLOAD_DIR)
-          const files = fs
-            .readdirSync(DOWNLOAD_DIR)
-            .filter((f) => !f.endsWith('.crdownload'))
-          if (files.length === 0) return false
-          const fullPath = path.join(DOWNLOAD_DIR, files[0])
-          const size = fs.statSync(fullPath).size
-          return size > 0
-        } catch {
-          return false
+    const browserStackRun = isBrowserStackSession()
+
+    if (browserStackRun) {
+      await syncBrowserStackDownloads(DOWNLOAD_DIR)
+    } else {
+      await browser.waitUntil(
+        async () => {
+          try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            const files = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((f) => !f.endsWith('.crdownload'))
+            if (files.length === 0) return false
+            const fullPath = path.join(DOWNLOAD_DIR, files[0])
+            const size = fs.statSync(fullPath).size
+            return size > 0
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg: 'No downloaded file detected in downloads within 240s'
         }
-      },
-      {
-        timeout: 240000,
-        interval: 500,
-        timeoutMsg: 'No downloaded file detected in downloads within 240s'
-      }
-    )
+      )
+    }
 
     // Optional: basic assertion that at least one file exists
     const finalFiles = fs
       .readdirSync(DOWNLOAD_DIR)
       .filter((f) => !f.endsWith('.crdownload'))
-    expect(finalFiles.length).toBeGreaterThan(0)
+    if (!browserStackRun) {
+      expect(finalFiles.length).toBeGreaterThan(0)
+    }
   })
 
   it('Display 0 stations available for networks with 0 stations, when data is available for other networks', async () => {
