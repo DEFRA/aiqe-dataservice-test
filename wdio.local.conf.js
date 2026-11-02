@@ -3,6 +3,37 @@ import path from 'node:path'
 
 const debug = process.env.DEBUG
 const oneHour = 60 * 60 * 1000
+const localChromedriverBinary =
+  process.env.CHROMEDRIVER_PATH ||
+  path.resolve(
+    process.cwd(),
+    'node_modules',
+    'chromedriver',
+    'lib',
+    'chromedriver',
+    'chromedriver.exe'
+  )
+
+process.env.WDIO_USE_NATIVE_FETCH = '1'
+process.env.CHROMEDRIVER_PATH = localChromedriverBinary
+delete process.env.HTTP_PROXY
+delete process.env.HTTPS_PROXY
+delete process.env.ALL_PROXY
+delete process.env.http_proxy
+delete process.env.https_proxy
+delete process.env.all_proxy
+
+const noProxyEntries = new Set(
+  `${process.env.NO_PROXY || process.env.no_proxy || ''}`
+    .split(',')
+    .map((entry) => entry.trim())
+    .filter(Boolean)
+)
+noProxyEntries.add('localhost')
+noProxyEntries.add('127.0.0.1')
+const noProxyValue = Array.from(noProxyEntries).join(',')
+process.env.NO_PROXY = noProxyValue
+process.env.no_proxy = noProxyValue
 
 export const config = {
   //
@@ -27,9 +58,7 @@ export const config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: [
-    './test/specs/regressionSearchByLocation/monitoringStationPageValidation.js'
-  ],
+  specs: ['./test/specs/regressionSearchByLocation/startnowPageValidation.js'],
   // Patterns to exclude.
   exclude: [],
   // injectGlobals: false,
@@ -57,11 +86,17 @@ export const config = {
   //
 
   capabilities: debug
-    ? [{ browserName: 'chrome' }]
+    ? [
+        {
+          browserName: 'chrome',
+          'wdio:enforceWebDriverClassic': true
+        }
+      ]
     : [
         {
           maxInstances: 1,
           browserName: 'chrome',
+          'wdio:enforceWebDriverClassic': true,
           'goog:loggingPrefs': {
             browser: 'ALL'
           },

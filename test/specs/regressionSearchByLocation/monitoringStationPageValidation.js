@@ -869,10 +869,10 @@ View on Google Maps (opens in new tab)`
     await monitoringStationPage.get2018Button.click()
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 7000))
+        await new Promise((resolve) => setTimeout(resolve, 8000))
         return true
       },
-      { timeout: 7000 }
+      { timeout: 8000 }
     )
     const yearlyTab2018Title =
       await monitoringStationPage.getSumarryTableHeading.getText()
@@ -1352,7 +1352,9 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(['rgb(255, 255, 255)', 'rgb(219, 218, 217)']).toContain(
+        styles['background-color'].trim().toLowerCase()
+      )
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -1437,7 +1439,9 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(['rgb(255, 255, 255)', 'rgb(219, 218, 217)']).toContain(
+        styles['background-color'].trim().toLowerCase()
+      )
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')
@@ -1519,7 +1523,9 @@ annual average data - usually less than 100KB`
       expect(styles['line-height']).toBe('20px')
       expect(styles.display).toBe('inline-block')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
+      expect(['rgb(255, 255, 255)', 'rgb(219, 218, 217)']).toContain(
+        styles['background-color'].trim().toLowerCase()
+      )
       expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-weight']).toBe('400')

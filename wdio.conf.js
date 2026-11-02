@@ -69,7 +69,7 @@ export const config = {
     // Desktop Chrome on Windows via BrowserStack
     {
       browserName: 'Chrome',
-      browserVersion: '146.0.7680.178',
+      browserVersion: '155.0.8059.80',
       'bstack:options': {
         os: 'Windows',
         osVersion: '11',
@@ -85,10 +85,30 @@ export const config = {
         './test/specs/apiTests/apiValidation.js',
         './test/specs/citizen/UKAirApiDataComparison.js',
         './test/specs/disableJavascriptTests/noJavascriptValidation.js',
-        './test/specs/maps/mapsValidation.js',
-        './test/specs/tabletTests/tabletHappyPath.js',
-        './test/specs/mobileTests/mobileHappyPath.js'
+        './test/specs/maps/mapsValidation.js'
       ]
+    },
+    // Tablet: iPad Air 5 (iOS Safari)
+    {
+      browserName: 'chromium',
+      'bstack:options': {
+        deviceName: 'iPad Air 5',
+        osVersion: '26',
+        realMobile: false,
+        local: true
+      },
+      specs: ['./test/specs/tabletTests/tabletHappyPath.js']
+    },
+    // Mobile: iPhone 15 (iOS Safari)
+    {
+      browserName: 'safari',
+      'bstack:options': {
+        deviceName: 'iPhone 15',
+        osVersion: '26',
+        realMobile: false,
+        local: true
+      },
+      specs: ['./test/specs/mobileTests/mobileHappyPath.js']
     }
   ],
 
