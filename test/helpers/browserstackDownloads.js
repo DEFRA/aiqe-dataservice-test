@@ -16,16 +16,16 @@ export function isBrowserStackSession() {
   const caps = browser?.capabilities ?? {}
   const requestedCaps = browser?.requestedCapabilities ?? {}
   const browserHost = String(browser?.options?.hostname ?? '').toLowerCase()
+  const hasSession = Boolean(browser?.sessionId)
   const hasCreds = Boolean(
     process.env.BROWSERSTACK_USER && process.env.BROWSERSTACK_KEY
   )
-  const hasSession = Boolean(browser?.sessionId)
+  const hasBstackCaps =
+    Boolean(caps['bstack:options']) || Boolean(requestedCaps['bstack:options'])
+  const hasBstackHost = browserHost.includes('browserstack')
 
   return (
-    Boolean(caps['bstack:options']) ||
-    Boolean(requestedCaps['bstack:options']) ||
-    (browserHost.includes('browserstack') && hasCreds && hasSession) ||
-    (hasCreds && hasSession)
+    hasBstackCaps || (hasBstackHost && hasSession) || (hasCreds && hasSession)
   )
 }
 

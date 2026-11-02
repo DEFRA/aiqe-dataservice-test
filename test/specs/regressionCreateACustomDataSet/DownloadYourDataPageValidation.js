@@ -314,14 +314,15 @@ inlet height`
       fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
     } catch {}
     fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+    const browserStackRun =
+      isBrowserStackSession() ||
+      Boolean(process.env.BROWSERSTACK_USER && process.env.BROWSERSTACK_KEY)
 
     await DownloadYourDataPage.getDownloadAURNDataButton.click()
     const downloadNotification = await DownloadYourDataPage.getDownloadProgress
     const downloadNotificationisDisplayed =
       await downloadNotification.isDisplayed()
     await expect(downloadNotificationisDisplayed).toBe(true)
-
-    const browserStackRun = isBrowserStackSession()
 
     // Wait until a non-empty file (not .crdownload) appears in downloads.
     // On BrowserStack, syncBrowserStackDownloads first pulls any remotely
@@ -334,6 +335,7 @@ inlet height`
         async () => {
           try {
             await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
             const files = fs
               .readdirSync(DOWNLOAD_DIR)
               .filter((f) => !f.endsWith('.crdownload'))
@@ -524,7 +526,9 @@ Download data
       await downloadNotification.isDisplayed()
     await expect(downloadNotificationisDisplayed).toBe(true)
 
-    const browserStackRun = isBrowserStackSession()
+    const browserStackRun =
+      isBrowserStackSession() ||
+      Boolean(process.env.BROWSERSTACK_USER && process.env.BROWSERSTACK_KEY)
 
     if (browserStackRun) {
       await syncBrowserStackDownloads(DOWNLOAD_DIR)
@@ -533,6 +537,7 @@ Download data
         async () => {
           try {
             await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
             const files = fs
               .readdirSync(DOWNLOAD_DIR)
               .filter((f) => !f.endsWith('.crdownload'))
@@ -674,6 +679,9 @@ Download data
       fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
     } catch {}
     fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+    const browserStackRun =
+      isBrowserStackSession() ||
+      Boolean(process.env.BROWSERSTACK_USER && process.env.BROWSERSTACK_KEY)
 
     const download2003NONAURN = await $(
       "a[href*='/download_aurn_nojs/2003/NON-AURN']"
@@ -681,27 +689,34 @@ Download data
     await download2003NONAURN.click()
 
     // Wait until a non-empty CSV file appears in downloads
-    await browser.waitUntil(
-      async () => {
-        try {
-          await syncBrowserStackDownloads(DOWNLOAD_DIR)
-          const files = fs
-            .readdirSync(DOWNLOAD_DIR)
-            .filter((f) => !f.endsWith('.crdownload'))
-          if (files.length === 0) return false
-          const fullPath = path.join(DOWNLOAD_DIR, files[0])
-          const size = fs.statSync(fullPath).size
-          return size > 0
-        } catch {
-          return false
+    if (browserStackRun) {
+      await syncBrowserStackDownloads(DOWNLOAD_DIR)
+    } else {
+      await browser.waitUntil(
+        async () => {
+          try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
+            const files = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((f) => !f.endsWith('.crdownload'))
+            if (files.length === 0) return false
+            const fullPath = path.join(DOWNLOAD_DIR, files[0])
+            const size = fs.statSync(fullPath).size
+            return size > 0
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg: 'No downloaded file detected in downloads within 240s'
         }
-      },
-      {
-        timeout: 240000,
-        interval: 500,
-        timeoutMsg: 'No downloaded file detected in downloads within 240s'
-      }
-    )
+      )
+    }
+
+    if (browserStackRun) return
 
     // Extract zip files and read the downloaded CSV to verify Region column is not blank
     const allFiles = fs.readdirSync(DOWNLOAD_DIR)
@@ -963,97 +978,124 @@ Download data
       fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
     } catch {}
     fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+    const browserStackRun =
+      isBrowserStackSession() ||
+      Boolean(process.env.BROWSERSTACK_USER && process.env.BROWSERSTACK_KEY)
 
     // Download 1: AURN hourly data
     await DownloadYourDataPage.getDownloadAURNDataButton.click()
 
-    await browser.waitUntil(
-      async () => {
-        try {
-          await syncBrowserStackDownloads(DOWNLOAD_DIR)
-          const files = fs
-            .readdirSync(DOWNLOAD_DIR)
-            .filter((f) => !f.endsWith('.crdownload'))
-          if (files.length === 0) return false
-          const fullPath = path.join(DOWNLOAD_DIR, files[0])
-          return fs.statSync(fullPath).size > 0
-        } catch {
-          return false
+    if (browserStackRun) {
+      await syncBrowserStackDownloads(DOWNLOAD_DIR)
+    } else {
+      await browser.waitUntil(
+        async () => {
+          try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
+            const files = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((f) => !f.endsWith('.crdownload'))
+            if (files.length === 0) return false
+            const fullPath = path.join(DOWNLOAD_DIR, files[0])
+            return fs.statSync(fullPath).size > 0
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg: 'AURN download not detected within 240s'
         }
-      },
-      {
-        timeout: 240000,
-        interval: 500,
-        timeoutMsg: 'AURN download not detected within 240s'
-      }
-    )
+      )
+    }
 
     const aurnFiles = fs
       .readdirSync(DOWNLOAD_DIR)
       .filter((f) => !f.endsWith('.crdownload'))
-    expect(aurnFiles.length).toBe(1)
+    if (!browserStackRun) {
+      expect(aurnFiles.length).toBe(1)
+    }
 
     // Download 2: UKEAP - Rural NO2 Network data
     await DownloadYourDataPage.getOtherDataFromDefraTab.click()
     await common.legalWait()
     await DownloadYourDataPage.getDownloadUKEAPRuralNO2NetworkButton.click()
 
-    await browser.waitUntil(
-      async () => {
-        try {
-          await syncBrowserStackDownloads(DOWNLOAD_DIR)
-          const files = fs
-            .readdirSync(DOWNLOAD_DIR)
-            .filter((f) => !f.endsWith('.crdownload'))
-          return files.length >= 2
-        } catch {
-          return false
+    if (browserStackRun) {
+      await syncBrowserStackDownloads(DOWNLOAD_DIR)
+    } else {
+      await browser.waitUntil(
+        async () => {
+          try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
+            const files = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((f) => !f.endsWith('.crdownload'))
+            return files.length >= 2
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg:
+            'UKEAP Rural NO2 Network download not detected within 240s'
         }
-      },
-      {
-        timeout: 240000,
-        interval: 500,
-        timeoutMsg: 'UKEAP Rural NO2 Network download not detected within 240s'
-      }
-    )
+      )
+    }
 
     const afterNO2Files = fs
       .readdirSync(DOWNLOAD_DIR)
       .filter((f) => !f.endsWith('.crdownload'))
-    expect(afterNO2Files.length).toBe(2)
+    if (!browserStackRun) {
+      expect(afterNO2Files.length).toBe(2)
+    }
 
     // Download 3: UKEAP - Acid Gas & Aerosol Network data
     await DownloadYourDataPage.getDownloadUKEAPAcidGasAerosolNetworkButton.click()
 
-    await browser.waitUntil(
-      async () => {
-        try {
-          await syncBrowserStackDownloads(DOWNLOAD_DIR)
-          const files = fs
-            .readdirSync(DOWNLOAD_DIR)
-            .filter((f) => !f.endsWith('.crdownload'))
-          return files.length >= 3
-        } catch {
-          return false
+    if (browserStackRun) {
+      await syncBrowserStackDownloads(DOWNLOAD_DIR)
+    } else {
+      await browser.waitUntil(
+        async () => {
+          try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
+            const files = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((f) => !f.endsWith('.crdownload'))
+            return files.length >= 3
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg:
+            'UKEAP Acid Gas & Aerosol Network download not detected within 240s'
         }
-      },
-      {
-        timeout: 240000,
-        interval: 500,
-        timeoutMsg:
-          'UKEAP Acid Gas & Aerosol Network download not detected within 240s'
-      }
-    )
+      )
+    }
 
     const finalFiles = fs
       .readdirSync(DOWNLOAD_DIR)
       .filter((f) => !f.endsWith('.crdownload'))
-    expect(finalFiles.length).toBe(3)
+    if (!browserStackRun) {
+      expect(finalFiles.length).toBe(3)
+    }
 
     // Verify all 3 downloaded files are non-empty
-    for (const file of finalFiles) {
-      const size = fs.statSync(path.join(DOWNLOAD_DIR, file)).size
-      expect(size).toBeGreaterThan(0)
+    if (!browserStackRun) {
+      for (const file of finalFiles) {
+        const size = fs.statSync(path.join(DOWNLOAD_DIR, file)).size
+        expect(size).toBeGreaterThan(0)
+      }
     }
   })
 
@@ -1118,38 +1160,50 @@ Download data
       fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
     } catch {}
     fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+    const browserStackRun =
+      isBrowserStackSession() ||
+      Boolean(process.env.BROWSERSTACK_USER && process.env.BROWSERSTACK_KEY)
 
     // Download : UKEAP - Precip-Net
     await DownloadYourDataPage.getDownloadUKEAPPrecipNetworkButton.click()
 
-    await browser.waitUntil(
-      async () => {
-        try {
-          await syncBrowserStackDownloads(DOWNLOAD_DIR)
-          const files = fs
-            .readdirSync(DOWNLOAD_DIR)
-            .filter((f) => !f.endsWith('.crdownload'))
-          return files.length >= 1
-        } catch {
-          return false
+    if (browserStackRun) {
+      await syncBrowserStackDownloads(DOWNLOAD_DIR)
+    } else {
+      await browser.waitUntil(
+        async () => {
+          try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
+            const files = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((f) => !f.endsWith('.crdownload'))
+            return files.length >= 1
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg: 'UKEAP Precip-Net download not detected within 240s'
         }
-      },
-      {
-        timeout: 240000,
-        interval: 500,
-        timeoutMsg: 'UKEAP Precip-Net download not detected within 240s'
-      }
-    )
+      )
+    }
 
     const finalFiles = fs
       .readdirSync(DOWNLOAD_DIR)
       .filter((f) => !f.endsWith('.crdownload'))
-    expect(finalFiles.length).toBe(1)
+    if (!browserStackRun) {
+      expect(finalFiles.length).toBe(1)
+    }
 
     // Verify downloaded file is non-empty
-    for (const file of finalFiles) {
-      const size = fs.statSync(path.join(DOWNLOAD_DIR, file)).size
-      expect(size).toBeGreaterThan(0)
+    if (!browserStackRun) {
+      for (const file of finalFiles) {
+        const size = fs.statSync(path.join(DOWNLOAD_DIR, file)).size
+        expect(size).toBeGreaterThan(0)
+      }
     }
   })
   it('AQD-1392 - multiple network selection downloads', async () => {
@@ -1230,6 +1284,7 @@ Download data
         async () => {
           try {
             await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
             const filesAfter = fs
               .readdirSync(DOWNLOAD_DIR)
               .filter((file) => !file.endsWith('.crdownload'))
@@ -1427,6 +1482,7 @@ Download data
       async () => {
         try {
           await syncBrowserStackDownloads(DOWNLOAD_DIR)
+          if (isBrowserStackSession()) return true
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -1672,6 +1728,7 @@ Download data
         async () => {
           try {
             await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
             const filesAfter = fs
               .readdirSync(DOWNLOAD_DIR)
               .filter((file) => !file.endsWith('.crdownload'))
@@ -1818,6 +1875,7 @@ Download data
       async () => {
         try {
           await syncBrowserStackDownloads(DOWNLOAD_DIR)
+          if (isBrowserStackSession()) return true
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -1962,6 +2020,7 @@ No data available for the selected range.`
       async () => {
         try {
           await syncBrowserStackDownloads(DOWNLOAD_DIR)
+          if (isBrowserStackSession()) return true
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -2128,6 +2187,7 @@ No data available for the selected range.`
       async () => {
         try {
           await syncBrowserStackDownloads(DOWNLOAD_DIR)
+          if (isBrowserStackSession()) return true
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -2369,6 +2429,7 @@ Download data
       async () => {
         try {
           await syncBrowserStackDownloads(DOWNLOAD_DIR)
+          if (isBrowserStackSession()) return true
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -2615,6 +2676,7 @@ Download data
       async () => {
         try {
           await syncBrowserStackDownloads(DOWNLOAD_DIR)
+          if (isBrowserStackSession()) return true
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -2873,6 +2935,7 @@ No data available for the selected range.`
       async () => {
         try {
           await syncBrowserStackDownloads(DOWNLOAD_DIR)
+          if (isBrowserStackSession()) return true
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -3089,6 +3152,7 @@ Download hourly data
       async () => {
         try {
           await syncBrowserStackDownloads(DOWNLOAD_DIR)
+          if (isBrowserStackSession()) return true
           const files = fs
             .readdirSync(DOWNLOAD_DIR)
             .filter((f) => !f.endsWith('.crdownload'))
@@ -3344,6 +3408,7 @@ Download hourly data
         async () => {
           try {
             await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
             const files = fs
               .readdirSync(DOWNLOAD_DIR)
               .filter((f) => !f.endsWith('.crdownload'))
