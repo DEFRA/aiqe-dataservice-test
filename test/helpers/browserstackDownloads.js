@@ -110,22 +110,33 @@ export async function syncBrowserStackDownloads(downloadDir) {
   }
 
   for (const entry of entries) {
-    if (!entry?.file_id || !entry?.file_name) continue
+    const fileId = entry?.file_id ?? entry?.id ?? entry?.fileId
+    const fileName = entry?.file_name ?? entry?.name ?? entry?.fileName
+    const directUrl =
+      entry?.download_url ?? entry?.downloadUrl ?? entry?.url ?? null
 
-    const localPath = path.join(downloadDir, entry.file_name)
+    if (!fileName || (!fileId && !directUrl)) continue
+
+    const localPath = path.join(downloadDir, fileName)
     if (fs.existsSync(localPath)) continue
 
     try {
-      const bytes = await fetchBrowserStackFile(
-        browser.sessionId,
-        entry.file_id
-      )
+      const bytes = fileId
+        ? await fetchBrowserStackFile(browser.sessionId, fileId)
+        : Buffer.from(
+            (
+              await axios.get(directUrl, {
+                auth: browserStackAuth,
+                responseType: 'arraybuffer'
+              })
+            ).data
+          )
       fs.writeFileSync(localPath, bytes)
     } catch (err) {
       // Ignore and retry on the next poll - the file may not be ready yet.
       // eslint-disable-next-line no-console
       console.warn(
-        `[browserstackDownloads] Failed to fetch file ${entry.file_name}:`,
+        `[browserstackDownloads] Failed to fetch file ${fileName}:`,
         err?.response?.status,
         err?.message
       )
