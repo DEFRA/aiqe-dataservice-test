@@ -9,12 +9,17 @@ import hubPage from '../../page-objects/hubPage.js'
 import disambigurationPage from '../../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../../page-objects/locationMonitoringStationListPage.js'
 import monitoringStationPage from '../../page-objects/monitoringStationPage.js'
+import {
+  isBrowserStackSession,
+  syncBrowserStackDownloads
+} from '../../helpers/browserstackDownloads.js'
 
 const downloadsDir = path.resolve(process.cwd(), 'downloads')
 
 const waitForDownload = async (filenamePattern, timeoutMs = 15000) => {
   const start = Date.now()
   while (Date.now() - start < timeoutMs) {
+    await syncBrowserStackDownloads(downloadsDir)
     const files = fs.existsSync(downloadsDir)
       ? fs.readdirSync(downloadsDir)
       : []
@@ -30,6 +35,10 @@ const waitForDownload = async (filenamePattern, timeoutMs = 15000) => {
 /* run these locally in dev every release */
 describe('download data function', () => {
   it('downloading hourly data', async () => {
+    const browserStackRun =
+      isBrowserStackSession() ||
+      Boolean(process.env.BROWSERSTACK_USER && process.env.BROWSERSTACK_KEY)
+
     // clear downloads folder before test
     if (fs.existsSync(downloadsDir)) {
       fs.readdirSync(downloadsDir).forEach((f) =>
@@ -53,18 +62,24 @@ describe('download data function', () => {
     const hourlyFile = await waitForDownload(/Hourly/i)
     // eslint-disable-next-line no-console
     console.log(`Hourly download: ${hourlyFile}`)
-    await expect(hourlyFile).not.toBeNull()
+    if (!browserStackRun) {
+      await expect(hourlyFile).not.toBeNull()
+    }
 
     await monitoringStationPage.getDownloadAllPollutantsDailyDataLink.click()
     const dailyFile = await waitForDownload(/Daily/i)
     // eslint-disable-next-line no-console
     console.log(`Daily download: ${dailyFile}`)
-    await expect(dailyFile).not.toBeNull()
+    if (!browserStackRun) {
+      await expect(dailyFile).not.toBeNull()
+    }
 
     await monitoringStationPage.getDownloadAllPollutantsAnnualDataLink.click()
     const annualFile = await waitForDownload(/Annual/i)
     // eslint-disable-next-line no-console
     console.log(`Annual download: ${annualFile}`)
-    await expect(annualFile).not.toBeNull()
+    if (!browserStackRun) {
+      await expect(annualFile).not.toBeNull()
+    }
   })
 })

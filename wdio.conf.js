@@ -76,9 +76,19 @@ export const config = {
         local: true
       },
       specs: [
-        './test/specs/regressionCreateACustomDataSet/DownloadYourDataPageValidation.js'
+        './test/specs/regressionCreateACustomDataSet/*.js',
+        './test/specs/regressionSearchByLocation/*.js',
+        './test/specs/downloadTest/*.js'
       ],
-      exclude: ['./test/specs/regressionCreateACustomDataSet/errorScenarios.js']
+      exclude: [
+        './test/specs/regressionCreateACustomDataSet/errorScenarios.js',
+        './test/specs/apiTests/apiValidation.js',
+        './test/specs/citizen/UKAirApiDataComparison.js',
+        './test/specs/disableJavascriptTests/noJavascriptValidation.js',
+        './test/specs/maps/mapsValidation.js',
+        './test/specs/tabletTests/tabletHappyPath.js',
+        './test/specs/mobileTests/mobileHappyPath.js'
+      ]
     }
   ],
 
