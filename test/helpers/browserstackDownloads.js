@@ -1,6 +1,7 @@
 import axios from 'axios'
 import fs from 'node:fs'
 import path from 'node:path'
+import { HttpsProxyAgent } from 'https-proxy-agent'
 
 /**
  * Detects whether the current WDIO session is running on BrowserStack
@@ -14,9 +15,16 @@ import path from 'node:path'
 export function isBrowserStackSession() {
   const caps = browser?.capabilities ?? {}
   const requestedCaps = browser?.requestedCapabilities ?? {}
+  const browserHost = String(browser?.options?.hostname ?? '').toLowerCase()
+  const hasCreds = Boolean(
+    process.env.BROWSERSTACK_USER && process.env.BROWSERSTACK_KEY
+  )
+  const hasSession = Boolean(browser?.sessionId)
 
   return (
-    Boolean(caps['bstack:options']) || Boolean(requestedCaps['bstack:options'])
+    Boolean(caps['bstack:options']) ||
+    Boolean(requestedCaps['bstack:options']) ||
+    (browserHost.includes('browserstack') && hasCreds && hasSession)
   )
 }
 
@@ -24,6 +32,14 @@ const browserStackAuth = {
   username: process.env.BROWSERSTACK_USER,
   password: process.env.BROWSERSTACK_KEY
 }
+
+const proxyUri = process.env.HTTP_PROXY || process.env.HTTPS_PROXY
+const browserStackAxios = axios.create({
+  auth: browserStackAuth,
+  httpsAgent: proxyUri ? new HttpsProxyAgent(proxyUri) : undefined,
+  proxy: false,
+  timeout: 30000
+})
 
 const KEEP_ALIVE_INTERVAL_MS = 15000
 let lastKeepAliveTs = 0
@@ -47,9 +63,9 @@ async function keepBrowserStackSessionAlive() {
  * @returns {Promise<Buffer>}
  */
 async function fetchBrowserStackFile(sessionId, fileId) {
-  const res = await axios.get(
+  const res = await browserStackAxios.get(
     `https://api.browserstack.com/automate/sessions/${sessionId}/downloads/${fileId}`,
-    { auth: browserStackAuth, responseType: 'arraybuffer' }
+    { responseType: 'arraybuffer' }
   )
 
   return Buffer.from(res.data)
@@ -78,9 +94,8 @@ export async function syncBrowserStackDownloads(downloadDir) {
 
   let data
   try {
-    ;({ data } = await axios.get(
-      `https://api.browserstack.com/automate/sessions/${browser.sessionId}/downloads`,
-      { auth: browserStackAuth }
+    ;({ data } = await browserStackAxios.get(
+      `https://api.browserstack.com/automate/sessions/${browser.sessionId}/downloads`
     ))
   } catch (err) {
     // Swallow transient API errors; the waitUntil loop calling this will
@@ -125,8 +140,7 @@ export async function syncBrowserStackDownloads(downloadDir) {
         ? await fetchBrowserStackFile(browser.sessionId, fileId)
         : Buffer.from(
             (
-              await axios.get(directUrl, {
-                auth: browserStackAuth,
+              await browserStackAxios.get(directUrl, {
                 responseType: 'arraybuffer'
               })
             ).data
