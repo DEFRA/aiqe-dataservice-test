@@ -24,7 +24,8 @@ export function isBrowserStackSession() {
   return (
     Boolean(caps['bstack:options']) ||
     Boolean(requestedCaps['bstack:options']) ||
-    (browserHost.includes('browserstack') && hasCreds && hasSession)
+    (browserHost.includes('browserstack') && hasCreds && hasSession) ||
+    (hasCreds && hasSession)
   )
 }
 

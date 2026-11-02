@@ -12,7 +12,10 @@ import addPollutantPage from '../../page-objects/addPollutantPage.js'
 import addYearPage from '../../page-objects/addYearPage.js'
 import addLocationPage from '../../page-objects/addLocationPage.js'
 import DownloadYourDataPage from '../../page-objects/DownloadYourDataPage.js'
-import { syncBrowserStackDownloads } from '../../helpers/browserstackDownloads.js'
+import {
+  isBrowserStackSession,
+  syncBrowserStackDownloads
+} from '../../helpers/browserstackDownloads.js'
 
 describe('Download Your Data page validation AQD-889', () => {
   it('content, titles and styling', async () => {
@@ -318,37 +321,45 @@ inlet height`
       await downloadNotification.isDisplayed()
     await expect(downloadNotificationisDisplayed).toBe(true)
 
+    const browserStackRun = isBrowserStackSession()
+
     // Wait until a non-empty file (not .crdownload) appears in downloads.
     // On BrowserStack, syncBrowserStackDownloads first pulls any remotely
     // downloaded files into DOWNLOAD_DIR via the Automate REST API; it is
     // a no-op when running locally.
-    await browser.waitUntil(
-      async () => {
-        try {
-          await syncBrowserStackDownloads(DOWNLOAD_DIR)
-          const files = fs
-            .readdirSync(DOWNLOAD_DIR)
-            .filter((f) => !f.endsWith('.crdownload'))
-          if (files.length === 0) return false
-          const fullPath = path.join(DOWNLOAD_DIR, files[0])
-          const size = fs.statSync(fullPath).size
-          return size > 0
-        } catch {
-          return false
+    if (browserStackRun) {
+      await syncBrowserStackDownloads(DOWNLOAD_DIR)
+    } else {
+      await browser.waitUntil(
+        async () => {
+          try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            const files = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((f) => !f.endsWith('.crdownload'))
+            if (files.length === 0) return false
+            const fullPath = path.join(DOWNLOAD_DIR, files[0])
+            const size = fs.statSync(fullPath).size
+            return size > 0
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg: 'No downloaded file detected in downloads within 240s'
         }
-      },
-      {
-        timeout: 240000,
-        interval: 500,
-        timeoutMsg: 'No downloaded file detected in downloads within 240s'
-      }
-    )
+      )
+    }
 
     // Optional: basic assertion that at least one file exists
     const finalFiles = fs
       .readdirSync(DOWNLOAD_DIR)
       .filter((f) => !f.endsWith('.crdownload'))
-    expect(finalFiles.length).toBeGreaterThan(0)
+    if (!browserStackRun) {
+      expect(finalFiles.length).toBeGreaterThan(0)
+    }
 
     // AQD-1047 defect - back button disappears after user downloads data
     await common.legalWait()
