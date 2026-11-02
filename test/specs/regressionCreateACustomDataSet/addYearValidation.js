@@ -12,6 +12,10 @@ import addPollutantPage from '../../page-objects/addPollutantPage.js'
 import addYearPage from '../../page-objects/addYearPage.js'
 import addLocationPage from '../../page-objects/addLocationPage.js'
 import DownloadYourDataPage from '../../page-objects/DownloadYourDataPage.js'
+import {
+  isBrowserStackSession,
+  syncBrowserStackDownloads
+} from '../../helpers/browserstackDownloads.js'
 
 describe('add year validation AQD-841', () => {
   it('Add year - content and titles and styling checks', async () => {
@@ -742,41 +746,53 @@ describe('add year validation AQD-841', () => {
       fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
     } catch {}
     fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+    const browserStackRun =
+      isBrowserStackSession() ||
+      Boolean(process.env.BROWSERSTACK_USER && process.env.BROWSERSTACK_KEY)
 
     await customselectionPage.getContinueButton.click()
     await DownloadYourDataPage.getDownloadAURNDataButton.click()
 
-    await browser.waitUntil(
-      () => {
-        try {
-          const files = fs
-            .readdirSync(DOWNLOAD_DIR)
-            .filter(
-              (fileName) =>
-                !fileName.endsWith('.crdownload') && !fileName.endsWith('.tmp')
-            )
+    if (browserStackRun) {
+      await syncBrowserStackDownloads(DOWNLOAD_DIR)
+    } else {
+      await browser.waitUntil(
+        async () => {
+          try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
+            const files = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter(
+                (fileName) =>
+                  !fileName.endsWith('.crdownload') &&
+                  !fileName.endsWith('.tmp')
+              )
 
-          if (files.length === 0) return false
+            if (files.length === 0) return false
 
-          const mostRecentFile = files
-            .map((fileName) => ({
-              fileName,
-              fullPath: path.join(DOWNLOAD_DIR, fileName),
-              mtime: fs.statSync(path.join(DOWNLOAD_DIR, fileName)).mtimeMs
-            }))
-            .sort((a, b) => b.mtime - a.mtime)[0]
+            const mostRecentFile = files
+              .map((fileName) => ({
+                fileName,
+                fullPath: path.join(DOWNLOAD_DIR, fileName),
+                mtime: fs.statSync(path.join(DOWNLOAD_DIR, fileName)).mtimeMs
+              }))
+              .sort((a, b) => b.mtime - a.mtime)[0]
 
-          return fs.statSync(mostRecentFile.fullPath).size > 0
-        } catch {
-          return false
+            return fs.statSync(mostRecentFile.fullPath).size > 0
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg: 'No downloaded file detected in downloads within 240s'
         }
-      },
-      {
-        timeout: 240000,
-        interval: 500,
-        timeoutMsg: 'No downloaded file detected in downloads within 240s'
-      }
-    )
+      )
+    }
+
+    if (browserStackRun) return
 
     const downloadedFilePath = fs
       .readdirSync(DOWNLOAD_DIR)

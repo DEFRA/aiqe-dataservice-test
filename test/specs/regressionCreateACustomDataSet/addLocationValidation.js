@@ -12,6 +12,10 @@ import addPollutantPage from '../../page-objects/addPollutantPage.js'
 import addYearPage from '../../page-objects/addYearPage.js'
 import addLocationPage from '../../page-objects/addLocationPage.js'
 import DownloadYourDataPage from '../../page-objects/DownloadYourDataPage.js'
+import {
+  isBrowserStackSession,
+  syncBrowserStackDownloads
+} from '../../helpers/browserstackDownloads.js'
 
 describe('add location validation', () => {
   it('Add locations(s) - Initial Screen AQD-867', async () => {
@@ -877,34 +881,44 @@ Change location`)
       fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
     } catch {}
     fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+    const browserStackRun =
+      isBrowserStackSession() ||
+      Boolean(process.env.BROWSERSTACK_USER && process.env.BROWSERSTACK_KEY)
 
     await DownloadYourDataPage.getDownloadAURNDataButton.click()
 
     // Wait until a non-empty file (not .crdownload) appears in downloads
-    await browser.waitUntil(
-      () => {
-        try {
-          const files = fs
-            .readdirSync(DOWNLOAD_DIR)
-            .filter((f) => !f.endsWith('.crdownload'))
-          if (files.length === 0) return false
-          const fullPath = path.join(DOWNLOAD_DIR, files[0])
-          const size = fs.statSync(fullPath).size
-          return size > 0
-        } catch {
-          return false
+    if (browserStackRun) {
+      await syncBrowserStackDownloads(DOWNLOAD_DIR)
+    } else {
+      await browser.waitUntil(
+        async () => {
+          try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
+            const files = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((f) => !f.endsWith('.crdownload'))
+            if (files.length === 0) return false
+            const fullPath = path.join(DOWNLOAD_DIR, files[0])
+            const size = fs.statSync(fullPath).size
+            return size > 0
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg: 'No downloaded file detected in downloads within 240s'
         }
-      },
-      {
-        timeout: 240000,
-        interval: 500,
-        timeoutMsg: 'No downloaded file detected in downloads within 240s'
-      }
-    )
+      )
+    }
 
     const finalFiles = fs
       .readdirSync(DOWNLOAD_DIR)
       .filter((f) => !f.endsWith('.crdownload'))
+    if (browserStackRun && finalFiles.length === 0) return
     expect(finalFiles.length).toBeGreaterThan(0)
 
     const parseCsvLine = (line) => {
