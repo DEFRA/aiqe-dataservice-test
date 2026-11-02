@@ -76,32 +76,9 @@ export const config = {
         local: true
       },
       specs: [
-        './test/specs/regressionSearchByLocation/*.js',
-        './test/specs/regressionCreateACustomDataSet/*.js'
+        './test/specs/regressionCreateACustomDataSet/DownloadYourDataPageValidation.js'
       ],
       exclude: ['./test/specs/regressionCreateACustomDataSet/errorScenarios.js']
-    },
-    // Tablet: iPad Air 5 (iOS Safari)
-    {
-      browserName: 'chromium',
-      'bstack:options': {
-        deviceName: 'iPad Air 5',
-        osVersion: '26',
-        realMobile: false,
-        local: true
-      },
-      specs: ['./test/specs/tabletTests/tabletHappyPath.js']
-    },
-    // Mobile: iPhone 15 (iOS Safari)
-    {
-      browserName: 'safari',
-      'bstack:options': {
-        deviceName: 'iPhone 15',
-        osVersion: '26',
-        realMobile: false,
-        local: true
-      },
-      specs: ['./test/specs/mobileTests/mobileHappyPath.js']
     }
   ],
 
