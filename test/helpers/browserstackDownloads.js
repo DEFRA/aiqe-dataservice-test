@@ -25,6 +25,19 @@ const browserStackAuth = {
   password: process.env.BROWSERSTACK_KEY
 }
 
+const KEEP_ALIVE_INTERVAL_MS = 15000
+let lastKeepAliveTs = 0
+
+async function keepBrowserStackSessionAlive() {
+  const now = Date.now()
+  if (now - lastKeepAliveTs < KEEP_ALIVE_INTERVAL_MS) return
+
+  lastKeepAliveTs = now
+  try {
+    await browser.getUrl()
+  } catch {}
+}
+
 /**
  * Fetches the raw bytes for a single BrowserStack download via the
  * Automate REST API.
@@ -61,6 +74,7 @@ async function fetchBrowserStackFile(sessionId, fileId) {
  */
 export async function syncBrowserStackDownloads(downloadDir) {
   if (!isBrowserStackSession()) return
+  await keepBrowserStackSessionAlive()
 
   let data
   try {
@@ -80,7 +94,13 @@ export async function syncBrowserStackDownloads(downloadDir) {
     return
   }
 
-  if (!Array.isArray(data)) {
+  const entries = Array.isArray(data)
+    ? data
+    : Array.isArray(data?.downloads)
+      ? data.downloads
+      : null
+
+  if (!entries) {
     // eslint-disable-next-line no-console
     console.warn(
       '[browserstackDownloads] Unexpected downloads response (not an array):',
@@ -89,7 +109,7 @@ export async function syncBrowserStackDownloads(downloadDir) {
     return
   }
 
-  for (const entry of data) {
+  for (const entry of entries) {
     if (!entry?.file_id || !entry?.file_name) continue
 
     const localPath = path.join(downloadDir, entry.file_name)
