@@ -501,17 +501,17 @@ Download data
       await DownloadYourDataPage.getNoNAURNAvailableStationsTag.isDisplayed()
     await expect(isAvailableStationsTagDisplayed).toBe(true)
 
-    await DownloadYourDataPage.getDownloadDataButton.click()
-    const downloadNotification = await DownloadYourDataPage.getDownloadProgress
-    const downloadNotificationisDisplayed =
-      await downloadNotification.isDisplayed()
-    await expect(downloadNotificationisDisplayed).toBe(true)
-
     const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
     try {
       fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
     } catch {}
     fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+
+    await DownloadYourDataPage.getDownloadDataButton.click()
+    const downloadNotification = await DownloadYourDataPage.getDownloadProgress
+    const downloadNotificationisDisplayed =
+      await downloadNotification.isDisplayed()
+    await expect(downloadNotificationisDisplayed).toBe(true)
 
     await browser.waitUntil(
       async () => {
