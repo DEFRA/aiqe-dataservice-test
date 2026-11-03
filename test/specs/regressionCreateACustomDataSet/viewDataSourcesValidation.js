@@ -518,7 +518,8 @@ Black Smoke & SO2`
       'Dibenzo(ah)pyrene (DBAhP)',
       'Benzene (C6H6)',
       'Particulate ammonium (NH4)',
-      'Calcium in precipitation (Ca)'
+      'Calcium in precipitation (Ca)',
+      'Black Carbon(BC)'
     ]
     this.timeout(300000) // 5 minutes - large pollutant list (42 items)
     await browser.url('')
@@ -546,8 +547,31 @@ PAH Andersen
 PAH Deposition
 PAH Digitel (solid phase)
 PAH Digitel (solid+vapour)
+Black Carbon Network
 Black Smoke & SO2`
 
     await expect(dataSource).toMatch(expectedDataSource)
+  })
+
+  it('add polltants for Black Carbon Network , Display applicable Data Sources AQD-1705', async function () {
+    const pollutantsToCheck = ['Black carbon(BC)']
+    this.timeout(30000)
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    for (const pollutant of pollutantsToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource = await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource = `Other data from Defra
+Black Carbon Network`
+
+      await expect(dataSource).toMatch(expectedDataSource)
+    }
   })
 })
