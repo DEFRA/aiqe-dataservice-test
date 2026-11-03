@@ -553,7 +553,7 @@ Black Smoke & SO2`
     await expect(dataSource).toMatch(expectedDataSource)
   })
 
-  it('add polltants for Black Carbon Network , Display applicable Data Sources AQD-1357', async function () {
+  it('add polltants for Black Carbon Network , Display applicable Data Sources AQD-1705', async function () {
     const pollutantsToCheck = ['Black carbon(BC)']
     this.timeout(30000)
     await browser.url('')
