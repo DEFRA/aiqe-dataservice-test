@@ -85,7 +85,8 @@ UKEAP - Acid Gas & Aerosol Network`
 Automatic Urban and Rural Network (AURN)
 Other data from Defra
 UKEAP - Rural NO2 Network
-UKEAP - Acid Gas & Aerosol Network`
+UKEAP - Acid Gas & Aerosol Network
+Black Smoke & SO2`
     await expect(AQSRdataSource).toEqual(expectedAQSRDataSource)
 
     await customselectionPage.getClearSelectionsLink.click()
@@ -99,7 +100,8 @@ UKEAP - Acid Gas & Aerosol Network`
 Automatic Urban and Rural Network (AURN)
 Other data from Defra
 UKEAP - Rural NO2 Network
-UKEAP - Acid Gas & Aerosol Network`
+UKEAP - Acid Gas & Aerosol Network
+Black Smoke & SO2`
     await expect(DAQIRdataSource).toEqual(expectedDAQIDataSource)
   })
 
@@ -469,5 +471,83 @@ Automatic Hydrocarbon Network`
 
       await expect(dataSource).toMatch(expectedDataSource)
     }
+  })
+
+  it('add polltants for Black Smoke & SO2 Network , Display applicable Data Sources AQD-1719', async function () {
+    const pollutantToCheck = ['Black smoke(BS)']
+    const pollutantsToCheck = ['Sulphur dioxide (SO2)']
+    this.timeout(300000) // 5 minutes - large pollutant list (42 items)
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    for (const pollutant of pollutantToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource = await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource = `Other data from Defra
+Black Smoke & SO2`
+      await expect(dataSource).toMatch(expectedDataSource)
+    }
+    for (const pollutant of pollutantsToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource2 =
+        await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource2 = `Near real-time data from Defra
+Automatic Urban and Rural Network (AURN)
+Other data from Defra
+UKEAP - Acid Gas & Aerosol Network
+Black Smoke & SO2`
+      await expect(dataSource2).toMatch(expectedDataSource2)
+    }
+  })
+
+  it('add polltants for every Network , Display applicable Data Sources AQD-1742', async function () {
+    const pollutantsToCheck = [
+      'Black smoke(BS)',
+      'Sulphur dioxide (SO2)',
+      'Isoprene (C5H8)',
+      'Dibenzo(ah)pyrene (DBAhP)',
+      'Benzene (C6H6)',
+      'Particulate ammonium (NH4)',
+      'Calcium in precipitation (Ca)'
+    ]
+    this.timeout(300000) // 5 minutes - large pollutant list (42 items)
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    for (const pollutant of pollutantsToCheck) {
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+    }
+    const dataSource = await customselectionPage.getDataSourcesValue.getText()
+    const expectedDataSource = `Near real-time data from Defra
+Automatic Urban and Rural Network (AURN)
+Automatic Hydrocarbon Network
+Other data from Defra
+UKEAP - Acid Gas & Aerosol Network
+UKEAP - Precip-Net
+UKEAP - National Ammonia Monitoring Network
+Non-Automatic Hydrocarbon Network
+PAH Andersen
+PAH Deposition
+PAH Digitel (solid phase)
+PAH Digitel (solid+vapour)
+Black Smoke & SO2`
+
+    await expect(dataSource).toMatch(expectedDataSource)
   })
 })
