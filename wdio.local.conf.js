@@ -59,7 +59,7 @@ export const config = {
   // will be called from there.
   //
   specs: [
-    './test/specs/regressionCreateACustomDataSet/viewDataSourcesValidation.js'
+    './test/specs/regressionCreateACustomDataSet/DownloadYourDataPageValidation.js'
   ],
   // Patterns to exclude.
   exclude: [],
@@ -316,12 +316,6 @@ export const config = {
     { error, result, duration, passed, retries }
   ) {
     await browser.takeScreenshot()
-
-    if (error) {
-      browser.executeScript(
-        'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "At least 1 assertion failed"}}'
-      )
-    }
   }
 
   /**
