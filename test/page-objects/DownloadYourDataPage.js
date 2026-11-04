@@ -157,6 +157,10 @@ class DownloadYourDataPage {
   get getDownloadAutomaticHydrocarbonNetworkMonitoringNetworkButtonOnRequestPage() {
     return $("a[data-network-name*='Automatic Hydrocarbon Network']")
   }
+
+  get getDownloadBlackCarbonNetworkButton() {
+    return $("a[aria-label*='Download data for Black Carbon Network']")
+  }
 }
 
 // module.exports=new StartNowPage()

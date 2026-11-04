@@ -3582,4 +3582,221 @@ Download hourly data
       'AURN download not detected within 240s'
     )
   })
+
+  it('AQD-1706 - tab content for Black Carbon Network', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+
+    const Pollutants = ['Black Carbon(BC)']
+
+    for (const pollutant of Pollutants) {
+      await addPollutantPage.addPollutant(pollutant)
+    }
+
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2010')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+    await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+
+    const otherTabContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const expectedOtherTabContent = `Download your data
+File format and metadata
+Other data from Defra
+Other data from Defra
+Data is measured hourly, weekly or monthly depending on the network.
+Black Carbon Network
+Black carbon (BC) and UVPM measurements.
+15 stations available
+Download data
+(Visual only)`
+    await expect(otherTabContent).toMatch(expectedOtherTabContent)
+  })
+
+  it('AQD-1706 - download checks for Black Carbon Network', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+
+    const Pollutants = ['Black Carbon(BC)']
+
+    for (const pollutant of Pollutants) {
+      await addPollutantPage.addPollutant(pollutant)
+    }
+
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOption.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2010')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    await DownloadYourDataPage.getOtherDataFromDefraTab.click()
+
+    // Ensure downloads directory is clean before downloading
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+    const browserStackRun =
+      isBrowserStackSession() ||
+      Boolean(process.env.BROWSERSTACK_USER && process.env.BROWSERSTACK_KEY)
+
+    // Download : Black carbon network
+    await DownloadYourDataPage.getDownloadBlackCarbonNetworkButton.click()
+
+    await browser.waitUntil(
+      async () => {
+        try {
+          await syncBrowserStackDownloads(DOWNLOAD_DIR)
+          if (isBrowserStackSession()) return true
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          return files.length >= 1
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 240000,
+        interval: 500,
+        timeoutMsg: 'black carbon network download not detected within 240s'
+      }
+    )
+
+    const finalFiles = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => !f.endsWith('.crdownload'))
+    if (browserStackRun) return
+    expect(finalFiles.length).toBe(1)
+
+    // Verify downloaded file is non-empty
+    for (const file of finalFiles) {
+      const size = fs.statSync(path.join(DOWNLOAD_DIR, file)).size
+      expect(size).toBeGreaterThan(0)
+    }
+
+    // Verify downloaded file contains pollutant values
+    const parseCsvLine = (line) => {
+      const cells = []
+      let current = ''
+      let inQuotes = false
+
+      for (let i = 0; i < line.length; i += 1) {
+        const char = line[i]
+        if (char === '"') {
+          const next = line[i + 1]
+          if (inQuotes && next === '"') {
+            current += '"'
+            i += 1
+          } else {
+            inQuotes = !inQuotes
+          }
+        } else if (char === ',' && !inQuotes) {
+          cells.push(current)
+          current = ''
+        } else {
+          current += char
+        }
+      }
+
+      cells.push(current)
+      return cells.map((c) => c.trim())
+    }
+
+    const csvPaths = []
+    for (const fileName of finalFiles) {
+      const fullPath = path.join(DOWNLOAD_DIR, fileName)
+      if (fileName.toLowerCase().endsWith('.zip')) {
+        const extractDir = path.join(
+          DOWNLOAD_DIR,
+          `${path.parse(fileName).name}-extracted`
+        )
+        fs.mkdirSync(extractDir, { recursive: true })
+        execSync(
+          `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+        )
+        const extractedCsvFiles = fs
+          .readdirSync(extractDir)
+          .filter((name) => name.toLowerCase().endsWith('.csv'))
+          .map((name) => path.join(extractDir, name))
+        csvPaths.push(...extractedCsvFiles)
+      } else if (fileName.toLowerCase().endsWith('.csv')) {
+        csvPaths.push(fullPath)
+      }
+    }
+
+    expect(csvPaths.length).toBeGreaterThan(0)
+
+    let hasExpectedPollutant = false
+
+    for (const csvPath of csvPaths) {
+      const csvContent = fs.readFileSync(csvPath, 'utf-8')
+      const rows = csvContent
+        .split(/\r?\n/)
+        .map((row) => row.trim())
+        .filter((row) => row !== '')
+
+      expect(rows.length).toBeGreaterThan(1)
+
+      const headerRowIndex = rows.findIndex((row) =>
+        parseCsvLine(row)
+          .map((h) => h.replace(/^"|"$/g, '').toLowerCase())
+          .some((h) => h.includes('pollutant'))
+      )
+      expect(headerRowIndex).toBeGreaterThanOrEqual(0)
+
+      const headerColumns = parseCsvLine(rows[headerRowIndex]).map((h) =>
+        h.replace(/^"|"$/g, '').toLowerCase()
+      )
+      const pollutantColumnIndex = headerColumns.findIndex((h) =>
+        h.includes('pollutant')
+      )
+      expect(pollutantColumnIndex).toBeGreaterThanOrEqual(0)
+
+      const pollutantValues = rows
+        .slice(headerRowIndex + 1)
+        .map((row) => parseCsvLine(row)[pollutantColumnIndex] || '')
+        .map((v) => v.replace(/^"|"$/g, '').trim())
+        .filter((v) => v !== '')
+
+      expect(pollutantValues.length).toBeGreaterThan(0)
+
+      const expectedPollutants = ['black carbon']
+
+      if (
+        pollutantValues.some((value) =>
+          expectedPollutants.some((pollutant) =>
+            value.toLowerCase().includes(pollutant)
+          )
+        )
+      ) {
+        hasExpectedPollutant = true
+      }
+    }
+
+    expect(hasExpectedPollutant).toBe(true)
+  })
 })
