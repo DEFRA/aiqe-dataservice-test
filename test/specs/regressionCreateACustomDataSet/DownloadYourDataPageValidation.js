@@ -17,6 +17,22 @@ import {
   syncBrowserStackDownloads
 } from '../../helpers/browserstackDownloads.js'
 
+// Some download endpoints serve a zip archive without a .zip extension
+// (e.g. a .tmp file or no extension at all). Detect zip archives by their
+// 'PK' signature bytes so these are still extracted correctly, regardless
+// of the extension Chrome happened to save the file with.
+const isZipFileBySignature = (fullPath) => {
+  try {
+    const fd = fs.openSync(fullPath, 'r')
+    const buffer = Buffer.alloc(4)
+    fs.readSync(fd, buffer, 0, 4, 0)
+    fs.closeSync(fd)
+    return buffer[0] === 0x50 && buffer[1] === 0x4b
+  } catch {
+    return false
+  }
+}
+
 describe('Download Your Data page validation AQD-889', () => {
   it('content, titles and styling', async () => {
     await browser.url('')
@@ -720,9 +736,16 @@ Download data
 
     // Extract zip files and read the downloaded CSV to verify Region column is not blank
     const allFiles = fs.readdirSync(DOWNLOAD_DIR)
-    const zipFiles = allFiles.filter((f) => f.endsWith('.zip'))
+    const zipFiles = allFiles.filter(
+      (f) =>
+        f.endsWith('.zip') || isZipFileBySignature(path.join(DOWNLOAD_DIR, f))
+    )
     for (const zipFile of zipFiles) {
-      const zipPath = path.join(DOWNLOAD_DIR, zipFile)
+      const originalPath = path.join(DOWNLOAD_DIR, zipFile)
+      const zipPath = zipFile.toLowerCase().endsWith('.zip')
+        ? originalPath
+        : `${originalPath}.zip`
+      if (zipPath !== originalPath) fs.copyFileSync(originalPath, zipPath)
       execSync(
         `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${DOWNLOAD_DIR}' -Force"`
       )
@@ -1322,14 +1345,21 @@ Download data
       const csvPaths = []
       for (const fileName of newFiles) {
         const fullPath = path.join(DOWNLOAD_DIR, fileName)
-        if (fileName.toLowerCase().endsWith('.zip')) {
+        if (
+          fileName.toLowerCase().endsWith('.zip') ||
+          isZipFileBySignature(fullPath)
+        ) {
+          const zipPath = fullPath.toLowerCase().endsWith('.zip')
+            ? fullPath
+            : `${fullPath}.zip`
+          if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
           const extractDir = path.join(
             DOWNLOAD_DIR,
-            `${path.parse(fileName).name}-extracted`
+            `${path.parse(zipPath).name}-extracted`
           )
           fs.mkdirSync(extractDir, { recursive: true })
           execSync(
-            `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+            `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
           )
 
           const extractedCsvFiles = fs
@@ -1785,14 +1815,21 @@ Download data
 
         if (fileName.toLowerCase().endsWith('.csv')) {
           csvPaths = [fullPath]
-        } else if (fileName.toLowerCase().endsWith('.zip')) {
+        } else if (
+          fileName.toLowerCase().endsWith('.zip') ||
+          isZipFileBySignature(fullPath)
+        ) {
+          const zipPath = fullPath.toLowerCase().endsWith('.zip')
+            ? fullPath
+            : `${fullPath}.zip`
+          if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
           const extractDir = path.join(
             DOWNLOAD_DIR,
-            `${path.parse(fileName).name}-extracted`
+            `${path.parse(zipPath).name}-extracted`
           )
           fs.mkdirSync(extractDir, { recursive: true })
           execSync(
-            `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+            `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
           )
           csvPaths = findCsvFilesRecursively(extractDir)
         }
@@ -2042,7 +2079,6 @@ No data available for the selected range.`
 
     // Download : Dibenzo(ah)anthracene (DBAhA)
     await DownloadYourDataPage.getDownloadPAHAndersenNetworkMonitoringNetworkButton.click()
-
     await browser.waitUntil(
       async () => {
         try {
@@ -2106,14 +2142,21 @@ No data available for the selected range.`
     const csvPaths = []
     for (const fileName of finalFiles) {
       const fullPath = path.join(DOWNLOAD_DIR, fileName)
-      if (fileName.toLowerCase().endsWith('.zip')) {
+      if (
+        fileName.toLowerCase().endsWith('.zip') ||
+        isZipFileBySignature(fullPath)
+      ) {
+        const zipPath = fullPath.toLowerCase().endsWith('.zip')
+          ? fullPath
+          : `${fullPath}.zip`
+        if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
         const extractDir = path.join(
           DOWNLOAD_DIR,
-          `${path.parse(fileName).name}-extracted`
+          `${path.parse(zipPath).name}-extracted`
         )
         fs.mkdirSync(extractDir, { recursive: true })
         execSync(
-          `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+          `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
         )
         const extractedCsvFiles = fs
           .readdirSync(extractDir)
@@ -2272,14 +2315,21 @@ No data available for the selected range.`
     const csvPaths = []
     for (const fileName of finalFiles) {
       const fullPath = path.join(DOWNLOAD_DIR, fileName)
-      if (fileName.toLowerCase().endsWith('.zip')) {
+      if (
+        fileName.toLowerCase().endsWith('.zip') ||
+        isZipFileBySignature(fullPath)
+      ) {
+        const zipPath = fullPath.toLowerCase().endsWith('.zip')
+          ? fullPath
+          : `${fullPath}.zip`
+        if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
         const extractDir = path.join(
           DOWNLOAD_DIR,
-          `${path.parse(fileName).name}-extracted`
+          `${path.parse(zipPath).name}-extracted`
         )
         fs.mkdirSync(extractDir, { recursive: true })
         execSync(
-          `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+          `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
         )
         const extractedCsvFiles = fs
           .readdirSync(extractDir)
@@ -2459,7 +2509,6 @@ Download data
 
     // Download : Benzo(a)pyrene (BaP) PAH Deposition Network
     await DownloadYourDataPage.getDownloadPAHDepositionNetworkMonitoringNetworkButton.click()
-
     await browser.waitUntil(
       async () => {
         try {
@@ -2523,14 +2572,21 @@ Download data
     const csvPaths = []
     for (const fileName of finalFiles) {
       const fullPath = path.join(DOWNLOAD_DIR, fileName)
-      if (fileName.toLowerCase().endsWith('.zip')) {
+      if (
+        fileName.toLowerCase().endsWith('.zip') ||
+        isZipFileBySignature(fullPath)
+      ) {
+        const zipPath = fullPath.toLowerCase().endsWith('.zip')
+          ? fullPath
+          : `${fullPath}.zip`
+        if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
         const extractDir = path.join(
           DOWNLOAD_DIR,
-          `${path.parse(fileName).name}-extracted`
+          `${path.parse(zipPath).name}-extracted`
         )
         fs.mkdirSync(extractDir, { recursive: true })
         execSync(
-          `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+          `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
         )
         const extractedCsvFiles = fs
           .readdirSync(extractDir)
@@ -2710,7 +2766,6 @@ Download data
 
     // Download : PAH solid + vapour data
     await DownloadYourDataPage.getDownloadPAHSolidAndVapourNetworkMonitoringNetworkButton.click()
-
     await browser.waitUntil(
       async () => {
         try {
@@ -2775,14 +2830,21 @@ Download data
     const csvPaths = []
     for (const fileName of finalFiles) {
       const fullPath = path.join(DOWNLOAD_DIR, fileName)
-      if (fileName.toLowerCase().endsWith('.zip')) {
+      if (
+        fileName.toLowerCase().endsWith('.zip') ||
+        isZipFileBySignature(fullPath)
+      ) {
+        const zipPath = fullPath.toLowerCase().endsWith('.zip')
+          ? fullPath
+          : `${fullPath}.zip`
+        if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
         const extractDir = path.join(
           DOWNLOAD_DIR,
-          `${path.parse(fileName).name}-extracted`
+          `${path.parse(zipPath).name}-extracted`
         )
         fs.mkdirSync(extractDir, { recursive: true })
         execSync(
-          `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+          `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
         )
         const extractedCsvFiles = fs
           .readdirSync(extractDir)
@@ -2973,7 +3035,6 @@ No data available for the selected range.`
 
     // Download : PAH solid phase
     await DownloadYourDataPage.getDownloadPAHSolidPhaseNetworkMonitoringNetworkButton.click()
-
     await browser.waitUntil(
       async () => {
         try {
@@ -3037,14 +3098,21 @@ No data available for the selected range.`
     const csvPaths = []
     for (const fileName of finalFiles) {
       const fullPath = path.join(DOWNLOAD_DIR, fileName)
-      if (fileName.toLowerCase().endsWith('.zip')) {
+      if (
+        fileName.toLowerCase().endsWith('.zip') ||
+        isZipFileBySignature(fullPath)
+      ) {
+        const zipPath = fullPath.toLowerCase().endsWith('.zip')
+          ? fullPath
+          : `${fullPath}.zip`
+        if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
         const extractDir = path.join(
           DOWNLOAD_DIR,
-          `${path.parse(fileName).name}-extracted`
+          `${path.parse(zipPath).name}-extracted`
         )
         fs.mkdirSync(extractDir, { recursive: true })
         execSync(
-          `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+          `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
         )
         const extractedCsvFiles = fs
           .readdirSync(extractDir)
@@ -3256,17 +3324,33 @@ Download hourly data
       return cells.map((c) => c.trim())
     }
 
+    const isZipFile = (fullPath) => {
+      try {
+        const fd = fs.openSync(fullPath, 'r')
+        const buffer = Buffer.alloc(4)
+        fs.readSync(fd, buffer, 0, 4, 0)
+        fs.closeSync(fd)
+        return buffer[0] === 0x50 && buffer[1] === 0x4b
+      } catch {
+        return false
+      }
+    }
+
     const csvPaths = []
     for (const fileName of finalFiles) {
       const fullPath = path.join(DOWNLOAD_DIR, fileName)
-      if (fileName.toLowerCase().endsWith('.zip')) {
+      if (fileName.toLowerCase().endsWith('.zip') || isZipFile(fullPath)) {
+        const zipPath = fullPath.toLowerCase().endsWith('.zip')
+          ? fullPath
+          : `${fullPath}.zip`
+        if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
         const extractDir = path.join(
           DOWNLOAD_DIR,
-          `${path.parse(fileName).name}-extracted`
+          `${path.parse(zipPath).name}-extracted`
         )
         fs.mkdirSync(extractDir, { recursive: true })
         execSync(
-          `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+          `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
         )
         const extractedCsvFiles = fs
           .readdirSync(extractDir)
@@ -3497,14 +3581,21 @@ Download hourly data
       const csvPaths = []
       for (const fileName of newFiles) {
         const fullPath = path.join(DOWNLOAD_DIR, fileName)
-        if (fileName.toLowerCase().endsWith('.zip')) {
+        if (
+          fileName.toLowerCase().endsWith('.zip') ||
+          isZipFileBySignature(fullPath)
+        ) {
+          const zipPath = fullPath.toLowerCase().endsWith('.zip')
+            ? fullPath
+            : `${fullPath}.zip`
+          if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
           const extractDir = path.join(
             DOWNLOAD_DIR,
-            `${path.parse(fileName).name}-extracted`
+            `${path.parse(zipPath).name}-extracted`
           )
           fs.mkdirSync(extractDir, { recursive: true })
           execSync(
-            `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
+            `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
           )
           const extractedCsvFiles = fs
             .readdirSync(extractDir)
@@ -3685,6 +3776,32 @@ Download data
       }
     )
 
+    // Wait for the downloaded file's size to stop changing, so we don't try
+    // to extract a zip that Chrome hasn't finished writing to disk yet.
+    await browser.waitUntil(
+      async () => {
+        try {
+          const files = fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload'))
+          if (files.length === 0) return false
+          const fullPath = path.join(DOWNLOAD_DIR, files[0])
+          const sizeNow = fs.statSync(fullPath).size
+          if (sizeNow === 0) return false
+          await new Promise((resolve) => setTimeout(resolve, 300))
+          const sizeAfter = fs.statSync(fullPath).size
+          return sizeNow === sizeAfter
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 30000,
+        interval: 300,
+        timeoutMsg: 'Downloaded black carbon file size never stabilised'
+      }
+    )
+
     const finalFiles = fs
       .readdirSync(DOWNLOAD_DIR)
       .filter((f) => !f.endsWith('.crdownload'))
@@ -3728,15 +3845,35 @@ Download data
     const csvPaths = []
     for (const fileName of finalFiles) {
       const fullPath = path.join(DOWNLOAD_DIR, fileName)
-      if (fileName.toLowerCase().endsWith('.zip')) {
+      if (
+        fileName.toLowerCase().endsWith('.zip') ||
+        isZipFileBySignature(fullPath)
+      ) {
+        const zipPath = fullPath.toLowerCase().endsWith('.zip')
+          ? fullPath
+          : `${fullPath}.zip`
+        if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
         const extractDir = path.join(
           DOWNLOAD_DIR,
-          `${path.parse(fileName).name}-extracted`
+          `${path.parse(zipPath).name}-extracted`
         )
         fs.mkdirSync(extractDir, { recursive: true })
-        execSync(
-          `powershell -Command "Expand-Archive -Path '${fullPath}' -DestinationPath '${extractDir}' -Force"`
-        )
+
+        let lastError
+        let extracted = false
+        for (let attempt = 0; attempt < 3 && !extracted; attempt += 1) {
+          try {
+            execSync(
+              `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
+            )
+            extracted = true
+          } catch (err) {
+            lastError = err
+            fs.mkdirSync(extractDir, { recursive: true })
+          }
+        }
+        if (!extracted) throw lastError
+
         const extractedCsvFiles = fs
           .readdirSync(extractDir)
           .filter((name) => name.toLowerCase().endsWith('.csv'))
