@@ -161,6 +161,10 @@ class DownloadYourDataPage {
   get getDownloadBlackCarbonNetworkButton() {
     return $("a[aria-label*='Download data for Black Carbon Network']")
   }
+
+  get getDownloadBlackSmokeAndSO2NetworkButton() {
+    return $("a[aria-label*='Download data for Black Smoke & SO2']")
+  }
 }
 
 // module.exports=new StartNowPage()
