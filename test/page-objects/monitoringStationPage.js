@@ -502,6 +502,14 @@ class MonitoringStationPage {
   get getAboveLimitFlag() {
     return $("strong[class*='govuk-tag govuk-tag--red govuk-!-font-size-16']")
   }
+
+  get getLastSevenDaysButton() {
+    return $("a[id*='link-last-7-days']")
+  }
+
+  get getLastSevenDaysWarningText() {
+    return $("div[class*='govuk-inset-text not-verified']")
+  }
 }
 
 // module.exports=new StartNowPage()
