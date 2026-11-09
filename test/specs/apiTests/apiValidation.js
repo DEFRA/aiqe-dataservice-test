@@ -880,7 +880,13 @@ describe('API Testing', () => {
     }
   })
 
-  it('testing atom api and calculations for last 7 days average, data capture, and exceedances. AQD-1535,AQD-1550', async () => {
+  // Below this data capture % the front end shows "Low data capture" and
+  // does not calculate the average (it shows "-" instead)
+  const lowDataCaptureThreshold = 75
+
+  // Works out last 7 days average, data capture and exceedances per pollutant
+  // from the ATOM feed for one site (e.g. 'CLL2', 'MKCC')
+  const calculateLastSevenDays = async (siteCode) => {
     // Exceedance thresholds (µg/m³), null where there is no legal limit.
     // Values count once they would round above the legal limit, matching
     // the existing daily/hourly exceedance tests:
@@ -928,7 +934,7 @@ describe('API Testing', () => {
     const parser = new xml2js.Parser({ explicitArray: false })
     let featureArray = []
     for (const year of years) {
-      const urlAtom = `https://uk-air.defra.gov.uk/data/atom-dls/observations/auto/GB_FixedObservations_${year}_CLL2.xml`
+      const urlAtom = `https://uk-air.defra.gov.uk/data/atom-dls/observations/auto/GB_FixedObservations_${year}_${siteCode}.xml`
       const response = await axios.get(urlAtom)
       const result = await parser.parseStringPromise(response.data)
       const featureMembers =
@@ -1084,7 +1090,7 @@ describe('API Testing', () => {
 
     try {
       allure.addAttachment(
-        'Last 7 Days Averages (CLL2)',
+        `Last 7 Days Averages (${siteCode})`,
         JSON.stringify(
           {
             windowStart: windowStart.toISOString(),
@@ -1121,63 +1127,54 @@ describe('API Testing', () => {
     }
 
     // The feed should contain recent data for at least one pollutant
-    const pollutantsWithAverage = Object.values(results).filter(
-      (r) => r.roundedAverage != null
+    const pollutantsWithData = Object.values(results).filter(
+      (r) => r.validHoursCount > 0
     )
-    await expect(pollutantsWithAverage.length).toBeGreaterThan(0)
+    await expect(pollutantsWithData.length).toBeGreaterThan(0)
 
-    // comparing to the front end
-    await browser.url('')
-    await browser.maximizeWindow()
-    await startNowPage.startNowBtnClick()
-    await hubPage.getFindMonitoringStationsByLocation.click()
-    await searchPage.setsearch('London')
-    await searchPage.milesOptionClick('5 miles')
-    await searchPage.continueBtnClick()
-    await disambigurationPage.locationLinkClick('City of London')
-    await locationMonitoringStationListPage
-      .getMonitoringStationLink('London Bloomsbury')
-      .click()
-    await monitoringStationPage.getLastSevenDaysButton.click()
-    await common.legalWait()
+    return results
+  }
 
-    // Front-end elements for each pollutant, in summary table order
-    const frontEndElements = {
-      'PM2.5': {
-        average: monitoringStationPage.getPM25AnnaulAverageST,
-        dataCapture: monitoringStationPage.getPM25DataCapture,
-        dailyExceedances: monitoringStationPage.getPM25DailyExceedence,
-        hourlyExceedances: monitoringStationPage.getPM25HourlyExceedence
-      },
-      PM10: {
-        average: monitoringStationPage.getPM10AnnaulAverageST,
-        dataCapture: monitoringStationPage.getPM10DataCapture,
-        dailyExceedances: monitoringStationPage.getPM10DailyExceedence,
-        hourlyExceedances: monitoringStationPage.getPM10HourlyExceedence
-      },
-      'Nitrogen dioxide': {
-        average: monitoringStationPage.getNitrogenDioxideAnnaulAverageST,
-        dataCapture: monitoringStationPage.getNODataCapture,
-        dailyExceedances: monitoringStationPage.getNODailyExceedence,
-        hourlyExceedances: monitoringStationPage.getNOHourlyExceedence
-      },
-      Ozone: {
-        average: monitoringStationPage.getOzoneAnnaulAverageST,
-        dataCapture: monitoringStationPage.getOzoneDataCapture,
-        dailyExceedances: monitoringStationPage.getOzoneDailyExceedence,
-        hourlyExceedances: monitoringStationPage.getOzoneHourlyExceedence
-      },
-      'Sulphur dioxide': {
-        average: monitoringStationPage.getSulphurDioxideAnnaulAverageST,
-        dataCapture: monitoringStationPage.getSDDataCapture,
-        dailyExceedances: monitoringStationPage.getSDDailyExceedence,
-        hourlyExceedances: monitoringStationPage.getSDHourlyExceedence
-      }
-    }
+  // Summary table row order on the station page when all five are measured
+  const allSummaryTablePollutants = [
+    'PM2.5',
+    'PM10',
+    'Nitrogen dioxide',
+    'Ozone',
+    'Sulphur dioxide'
+  ]
 
-    await monitoringStationPage.getPM25AnnaulAverageST.waitForExist({
+  // Compares our last 7 days calculations with the station page currently open
+  // (Last 7 days view). pollutantsOnPage lists the summary table rows in order,
+  // for stations that only measure some pollutants.
+  // Returns the comparison rows for any extra checks
+  const compareLastSevenDaysWithFrontEnd = async (
+    results,
+    pollutantsOnPage = allSummaryTablePollutants
+  ) => {
+    await monitoringStationPage.getAverageCell(0).waitForExist({
       timeout: 5000
     })
+
+    // The table should have exactly one row per pollutant we expect
+    await expect(await monitoringStationPage.getAverageCells.length).toEqual(
+      pollutantsOnPage.length
+    )
+
+    // Front-end elements for each pollutant, by its row in the summary table
+    const frontEndElements = Object.fromEntries(
+      pollutantsOnPage.map((pollutant, rowIndex) => [
+        pollutant,
+        {
+          average: monitoringStationPage.getAverageCell(rowIndex),
+          dataCapture: monitoringStationPage.getDataCaptureCell(rowIndex),
+          dailyExceedances:
+            monitoringStationPage.getDailyExceedanceCell(rowIndex),
+          hourlyExceedances:
+            monitoringStationPage.getHourlyExceedanceCell(rowIndex)
+        }
+      ])
+    )
 
     // Read every front-end value first so all mismatches are reported together.
     // Cells with no number (e.g. no legal limit) parse to null, matching our null
@@ -1218,12 +1215,100 @@ describe('API Testing', () => {
     for (const c of comparisons) {
       const isExceedance =
         c.measure === 'dailyExceedances' || c.measure === 'hourlyExceedances'
+      const isLowDataCapture =
+        results[c.pollutant]?.dataCapturePercent != null &&
+        results[c.pollutant].dataCapturePercent < lowDataCaptureThreshold
       if (isExceedance && c.backEnd === null) {
         // No legal limit for this pollutant - the cell should say so
         await expect(c.frontEndText).toMatch(/no legal limit/i)
+      } else if (c.measure === 'average' && isLowDataCapture) {
+        // Low data capture - the average is not calculated and shows "-"
+        await expect(c.frontEndText.trim()).toBe('-')
       } else {
         await expect(c.frontEnd).toEqual(c.backEnd)
       }
     }
+
+    // Any pollutant under 75% data capture should show the "Low data capture" tag
+    const anyLowDataCapture = Object.values(results).some(
+      (r) =>
+        r.dataCapturePercent != null &&
+        r.dataCapturePercent < lowDataCaptureThreshold
+    )
+    if (anyLowDataCapture) {
+      await expect(
+        await monitoringStationPage.getLowDataCaptureFlag.isDisplayed()
+      ).toBe(true)
+      await expect(
+        await monitoringStationPage.getLowDataCaptureFlag.getText()
+      ).toMatch('Low data capture')
+    }
+
+    return comparisons
+  }
+
+  it('testing atom api and calculations for last 7 days average, data capture, and exceedances. AQD-1535,AQD-1550', async () => {
+    const results = await calculateLastSevenDays('CLL2')
+
+    // comparing to the front end
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getLastSevenDaysButton.click()
+    await common.legalWait()
+
+    await compareLastSevenDaysWithFrontEnd(results)
+  })
+
+  it('testing atom api and calculations for last 7 days with low data capture for Milton Keynes Civic Centre. AQD-1535,AQD-1550', async () => {
+    const results = await calculateLastSevenDays('MKCC')
+
+    // This test covers the low data capture scenario - ozone at this site
+    // should be under 75% data capture for the last 7 days
+    await expect(results.Ozone).toBeDefined()
+    await expect(results.Ozone.dataCapturePercent).toBeLessThan(
+      lowDataCaptureThreshold
+    )
+
+    // comparing to the front end
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('milton keynes')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('Milton Keynes')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Milton Keynes Civic Centre')
+      .click()
+    await monitoringStationPage.getLastSevenDaysButton.click()
+    await common.legalWait()
+
+    // Milton Keynes Civic Centre only measures PM2.5, PM10 and ozone,
+    // so the summary table only has these three rows
+    const pollutantsOnPage = ['PM2.5', 'PM10', 'Ozone']
+    await compareLastSevenDaysWithFrontEnd(results, pollutantsOnPage)
+
+    // Ozone specifically: low data capture % matches, and no average is shown
+    const ozoneRow = pollutantsOnPage.indexOf('Ozone')
+    const ozoneDataCaptureFrontEnd = common.parseNumber(
+      await monitoringStationPage.getDataCaptureCell(ozoneRow).getText()
+    )
+    await expect(ozoneDataCaptureFrontEnd).toEqual(
+      results.Ozone.dataCapturePercent
+    )
+    const ozoneAverageFrontEnd = await monitoringStationPage
+      .getAverageCell(ozoneRow)
+      .getText()
+    await expect(ozoneAverageFrontEnd.trim()).toBe('-')
   })
 })
