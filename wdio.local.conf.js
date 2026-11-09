@@ -59,7 +59,7 @@ export const config = {
   // will be called from there.
   //
   specs: [
-    './test/specs/RegressionCreateACustomDataSet/DownloadYourDataPageValidation.js'
+    './test/specs/RegressionCreateACustomDataSet/addLocationValidation.js'
   ],
   // Patterns to exclude.
   exclude: [],

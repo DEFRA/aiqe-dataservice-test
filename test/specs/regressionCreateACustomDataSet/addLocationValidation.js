@@ -1128,4 +1128,152 @@ Change location`)
       }
     }
   })
+
+  it('AQD-1661, no warning message for agglomerations/zones/last seven days when only aurn pollutant is selected', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('PM10')
+    await common.continueButton.click()
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getZoneRadioButton.click()
+    await addLocationPage.getCentralScotlandZoneCheckbox.click()
+    await addLocationPage.getNorthEastZoneCheckbox.click()
+    await addLocationPage.getYorkshireAndHumbersideZoneCheckbox.click()
+    await addLocationPage.getScottishBordersZoneCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    const ZonewarningMessageNotDisplayed = await common.elementRemoved(
+      customselectionPage.getWarningMessage
+    )
+    expect(ZonewarningMessageNotDisplayed).toBe(true)
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getAgglomerationsRadioButton.click()
+    await addLocationPage.getAgglomerationsEastMidlandsOption.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    const AgglomerationswarningMessageNotDisplayed =
+      await common.elementRemoved(customselectionPage.getWarningMessage)
+    expect(AgglomerationswarningMessageNotDisplayed).toBe(true)
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getLastSevenDaysRadio.click()
+    await addYearPage.continueButton.click()
+
+    const lastSevenDayswarningMessageNotDisplayed = await common.elementRemoved(
+      customselectionPage.getWarningMessage
+    )
+    expect(lastSevenDayswarningMessageNotDisplayed).toBe(true)
+  })
+
+  it('AQD-1661,Add AURN availability warning for Zones and Agglomerations and last 7 days ', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Particulate matter (PM10)')
+    await addPollutantPage.addPollutant('Black Carbon(BC)')
+    await common.continueButton.click()
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getLastSevenDaysRadio.click()
+    await addYearPage.continueButton.click()
+
+    const lastSevenDayswarningMessageDisplayed =
+      await customselectionPage.getWarningMessage.isDisplayed()
+    expect(lastSevenDayswarningMessageDisplayed).toBe(true)
+    const lastSevenDayswarningMessageText =
+      await customselectionPage.getWarningMessage.getText()
+    const expectedlastSevenDayswarningMessageText = `!
+Warning
+Only near real-time data from Defra is available for 7 days`
+    await expect(lastSevenDayswarningMessageText).toMatch(
+      expectedlastSevenDayswarningMessageText
+    )
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getZoneRadioButton.click()
+    await addLocationPage.getCentralScotlandZoneCheckbox.click()
+    await addLocationPage.getNorthEastZoneCheckbox.click()
+    await addLocationPage.getYorkshireAndHumbersideZoneCheckbox.click()
+    await addLocationPage.getScottishBordersZoneCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    const ZonewarningMessageDisplayed =
+      await customselectionPage.getWarningMessage.isDisplayed()
+    expect(ZonewarningMessageDisplayed).toBe(true)
+    const ZonewarningMessageText =
+      await customselectionPage.getWarningMessage.getText()
+    const expectedZonewarningMessageText = `!
+Warning
+Only the Automatic Urban and Rural Network is available for zones`
+    await expect(ZonewarningMessageText).toMatch(expectedZonewarningMessageText)
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getAgglomerationsRadioButton.click()
+    await addLocationPage.getAgglomerationsEastMidlandsOption.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    const AgglomerationswarningMessageDisplayed =
+      await customselectionPage.getWarningMessage.isDisplayed()
+    expect(AgglomerationswarningMessageDisplayed).toBe(true)
+    const AgglomerationswarningMessageText =
+      await customselectionPage.getWarningMessage.getText()
+    const expectedAgglomerationswarningMessageText = `!
+Warning
+Only the Automatic Urban and Rural Network is available for agglomerations`
+    await expect(AgglomerationswarningMessageText).toMatch(
+      expectedAgglomerationswarningMessageText
+    )
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getCountriesOptionRadio.click()
+    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    const lastSevenDayswarningMessageDisplayed2 =
+      await customselectionPage.getWarningMessage.isDisplayed()
+    expect(lastSevenDayswarningMessageDisplayed2).toBe(true)
+    const lastSevenDayswarningMessageText2 =
+      await customselectionPage.getWarningMessage.getText()
+    const expectedlastSevenDayswarningMessageText2 = `!
+Warning
+Only near real-time data from Defra is available for 7 days`
+    await expect(lastSevenDayswarningMessageText2).toMatch(
+      expectedlastSevenDayswarningMessageText2
+    )
+  })
+
+  it('AQD-1661,hint text for zones and agglomerations', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Particulate matter (PM10)')
+    await common.continueButton.click()
+    await customselectionPage.getAddChangeLocationLink.click()
+
+    const zoneHint = await addLocationPage.getZoneHint.getText()
+    const expectedZoneHint = `Choose one or more UK air quality zones
+Only the Automatic Urban and Rural Network is available for zones`
+    await expect(zoneHint).toMatch(expectedZoneHint)
+
+    await addLocationPage.getAgglomerationsRadioButton.click()
+    const agglomerationsHint =
+      await addLocationPage.getAgglomerationsHintText.getText()
+    const expectedAgglomerationsHint = `Choose one or more UK air quality agglomerations. Only Automatic Urban and Rural Network is available for agglomerations.`
+    await expect(agglomerationsHint).toMatch(expectedAgglomerationsHint)
+  })
 })
