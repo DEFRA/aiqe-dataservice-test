@@ -81,7 +81,7 @@ class Common {
   }
 
   async elementRemoved(element) {
-    await element.waitForExist({
+    return await element.waitForExist({
       reverse: true
     })
   }

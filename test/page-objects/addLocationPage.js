@@ -144,6 +144,18 @@ class AddLocationPage {
   get getYorkshireAndHumbersideZoneCheckbox() {
     return $("input[id*='zone-16']")
   }
+
+  get getAgglomerationsRadioButton() {
+    return $("input[value*='agglomerations']")
+  }
+
+  get getAgglomerationsHintText() {
+    return $("div[id*='location-5-hint']")
+  }
+
+  get getAgglomerationsEastMidlandsOption() {
+    return $("label[for*='agglomeration-1']")
+  }
 }
 
 // module.exports=new StartNowPage()
