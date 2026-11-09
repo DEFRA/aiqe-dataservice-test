@@ -13,7 +13,6 @@ import allure from '@wdio/allure-reporter'
 
 // Persist coverage summary for reuse across tests in this file
 let perPollutantCoverage = null
-
 describe('API Testing', () => {
   it('monitoring station api availability and getting site id for one station', async () => {
     const apiKey = ''
@@ -708,7 +707,7 @@ describe('API Testing', () => {
 
     // Sulphur dioxide pollutant code
     const sulphurDioxideCode = 1
-    const exceedanceThreshold = 300.4
+    const exceedanceThreshold = 350.4
 
     // Fetch the XML data
     const response = await axios.get(urlAtom)
@@ -756,7 +755,7 @@ describe('API Testing', () => {
         .filter((r) => r.value !== undefined && r.value !== '-99')
     )
 
-    // Count exceedances (values over 300.4)
+    // Count exceedances (values over 350.4)
     let exceedanceCount = 0
     for (const row of rows) {
       const value = Number(row.value)
@@ -878,6 +877,353 @@ describe('API Testing', () => {
     for (const p of ukeapSourcePollutants) {
       // eslint-disable-next-line no-console
       console.log(p)
+    }
+  })
+
+  it('testing atom api and calculations for last 7 days average, data capture, and exceedances. AQD-1535,AQD-1550', async () => {
+    // Exceedance thresholds (µg/m³), null where there is no legal limit.
+    // Values count once they would round above the legal limit, matching
+    // the existing daily/hourly exceedance tests:
+    // PM10 daily limit 50, NO2 hourly limit 200,
+    // sulphur dioxide daily limit 125 and hourly limit 350
+    const pollutantDefs = [
+      { key: 'PM10', code: 5, dailyThreshold: 50.5, hourlyThreshold: null },
+      {
+        key: 'PM2.5',
+        code: 6001,
+        dailyThreshold: null,
+        hourlyThreshold: null
+      },
+      {
+        key: 'Nitrogen dioxide',
+        code: 8,
+        dailyThreshold: null,
+        hourlyThreshold: 200.4
+      },
+      { key: 'Ozone', code: 7, dailyThreshold: null, hourlyThreshold: null },
+      {
+        key: 'Sulphur dioxide',
+        code: 1,
+        dailyThreshold: 125.4,
+        hourlyThreshold: 350.4
+      }
+    ]
+
+    // Last 7 days = 7 full days before today (today - 7 up to and including yesterday),
+    // matching the date range shown on the custom selections page (AQD-1604)
+    const windowEnd = new Date()
+    windowEnd.setHours(0, 0, 0, 0)
+    const windowStart = new Date(windowEnd)
+    windowStart.setDate(windowEnd.getDate() - 7)
+
+    // Total possible hours in the window, normally 7 * 24 = 168
+    // (worked out from the dates so clock-change weeks give 167 or 169)
+    const totalHoursInWindow = Math.round((windowEnd - windowStart) / 3600000)
+
+    // In the first week of January the window spans two yearly feeds
+    const years = [
+      ...new Set([windowStart.getFullYear(), windowEnd.getFullYear()])
+    ]
+
+    const parser = new xml2js.Parser({ explicitArray: false })
+    let featureArray = []
+    for (const year of years) {
+      const urlAtom = `https://uk-air.defra.gov.uk/data/atom-dls/observations/auto/GB_FixedObservations_${year}_CLL2.xml`
+      const response = await axios.get(urlAtom)
+      const result = await parser.parseStringPromise(response.data)
+      const featureMembers =
+        result['gml:FeatureCollection']['gml:featureMember']
+      featureArray = featureArray.concat(
+        Array.isArray(featureMembers) ? featureMembers : [featureMembers]
+      )
+    }
+
+    const results = {}
+    for (const pol of pollutantDefs) {
+      const matchingObservations = featureArray.filter((member) => {
+        const obs = member['om:OM_Observation']
+        if (!obs) return false
+        const observedProperty = obs['om:observedProperty']
+        return (
+          observedProperty &&
+          observedProperty.$ &&
+          observedProperty.$['xlink:href'] &&
+          observedProperty.$['xlink:href'].endsWith(`/pollutant/${pol.code}`)
+        )
+      })
+
+      if (!matchingObservations.length) {
+        // eslint-disable-next-line no-console
+        console.log(`[${pol.key}] No observations matched in feed`)
+        continue
+      }
+
+      const values = matchingObservations.map((obsMember) => {
+        const obs = obsMember['om:OM_Observation']
+        return obs['om:result']['swe:DataArray']['swe:values']
+      })
+
+      const rows = values.flatMap((valStr) =>
+        valStr
+          .split('@@')
+          .map((row) => row.split(','))
+          .map((fields) => ({
+            ts:
+              fields[0] && !isNaN(Date.parse(fields[0]))
+                ? fields[0]
+                : fields[1] && !isNaN(Date.parse(fields[1]))
+                  ? fields[1]
+                  : fields.find((f) => !isNaN(Date.parse(f))) || '',
+            durationMs: Date.parse(fields[1]) - Date.parse(fields[0]),
+            v: fields[4]
+          }))
+          .filter((r) => r.v !== undefined && r.v !== '-99')
+      )
+
+      // Some pollutants (e.g. sulphur dioxide) also have 15-minute readings in
+      // the feed - keep hourly rows only so each hour is counted once
+      const oneHourMs = 3600000
+      const hourlyRows = rows.filter(
+        (r) => isNaN(r.durationMs) || r.durationMs === oneHourMs
+      )
+      if (hourlyRows.length !== rows.length) {
+        // eslint-disable-next-line no-console
+        console.log(
+          `[${pol.key}] ignored ${rows.length - hourlyRows.length} non-hourly rows (${matchingObservations.length} observations in feed)`
+        )
+      }
+
+      // Keep only valid hours that fall inside the last 7 days,
+      // once per hour in case the same hour appears more than once
+      const seenHours = new Set()
+      const parsed = hourlyRows
+        .map((r) => ({ date: new Date(r.ts), value: Number(r.v) }))
+        .filter((r) => !isNaN(r.date.getTime()) && !isNaN(r.value))
+        .filter((r) => r.date >= windowStart && r.date < windowEnd)
+        .filter((r) => {
+          const hourKey = r.date.getTime()
+          if (seenHours.has(hourKey)) return false
+          seenHours.add(hourKey)
+          return true
+        })
+
+      const byDay = new Map()
+      for (const r of parsed) {
+        // Group by local date to match front-end calculations
+        const yyyy = r.date.getFullYear()
+        const mm = String(r.date.getMonth() + 1).padStart(2, '0')
+        const dd = String(r.date.getDate()).padStart(2, '0')
+        const key = `${yyyy}-${mm}-${dd}`
+        if (!byDay.has(key)) byDay.set(key, [])
+        byDay.get(key).push(r.value)
+      }
+
+      const hoursInDay = 24
+      const coverageThreshold = 0.75
+      const minHours = Math.ceil(hoursInDay * coverageThreshold) // 18
+
+      let acceptedValues = []
+      const acceptedDays = []
+      const rejectedDays = []
+      const dailyMeans = []
+      for (const [day, valuesForDay] of byDay) {
+        if (valuesForDay.length >= minHours) {
+          acceptedDays.push(day)
+          acceptedValues = acceptedValues.concat(valuesForDay)
+          dailyMeans.push({
+            day,
+            mean: valuesForDay.reduce((s, v) => s + v, 0) / valuesForDay.length
+          })
+        } else {
+          rejectedDays.push(day)
+        }
+      }
+
+      // Daily exceedances: days (with >= 75% coverage) whose mean is over the limit
+      const dailyExceedances =
+        pol.dailyThreshold != null
+          ? dailyMeans.filter((d) => d.mean > pol.dailyThreshold).length
+          : null
+
+      // Hourly exceedances: valid hourly readings over the limit
+      const hourlyExceedances =
+        pol.hourlyThreshold != null
+          ? parsed.filter((r) => r.value > pol.hourlyThreshold).length
+          : null
+
+      const average =
+        acceptedValues.length > 0
+          ? acceptedValues.reduce((sum, v) => sum + v, 0) /
+            acceptedValues.length
+          : null
+      const roundedAverage = average != null ? Math.round(average) : null
+
+      // Data capture % = valid hourly measurements / total possible hours,
+      // same method as the annual data capture test
+      const dataCapturePercent = Math.round(
+        (parsed.length / totalHoursInWindow) * 100
+      )
+
+      results[pol.key] = {
+        code: pol.code,
+        rawAverage: average,
+        roundedAverage,
+        dataCapturePercent,
+        dailyExceedances,
+        hourlyExceedances,
+        acceptedDays,
+        rejectedDays,
+        validHoursCount: parsed.length
+      }
+
+      // eslint-disable-next-line no-console
+      console.log(
+        `[${pol.key}] last 7 days average: ${roundedAverage} | data capture: ${dataCapturePercent}% (${parsed.length}/${totalHoursInWindow} hours) | daily exceedances: ${dailyExceedances ?? 'n/a'} | hourly exceedances: ${hourlyExceedances ?? 'n/a'} | accepted days: ${acceptedDays.length}, rejected days: ${rejectedDays.length}`
+      )
+    }
+
+    try {
+      allure.addAttachment(
+        'Last 7 Days Averages (CLL2)',
+        JSON.stringify(
+          {
+            windowStart: windowStart.toISOString(),
+            windowEnd: windowEnd.toISOString(),
+            totalHoursInWindow,
+            results
+          },
+          null,
+          2
+        ),
+        'application/json'
+      )
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('Allure attachment failed:', e.message)
+    }
+
+    // The window is 7 full days, so no pollutant can have more than 7 days
+    // or more than 100% data capture
+    for (const r of Object.values(results)) {
+      await expect(
+        r.acceptedDays.length + r.rejectedDays.length
+      ).toBeLessThanOrEqual(7)
+      await expect(r.dataCapturePercent).toBeLessThanOrEqual(100)
+      // Can't exceed on more days than were accepted, or more hours than were valid
+      if (r.dailyExceedances != null) {
+        await expect(r.dailyExceedances).toBeLessThanOrEqual(
+          r.acceptedDays.length
+        )
+      }
+      if (r.hourlyExceedances != null) {
+        await expect(r.hourlyExceedances).toBeLessThanOrEqual(r.validHoursCount)
+      }
+    }
+
+    // The feed should contain recent data for at least one pollutant
+    const pollutantsWithAverage = Object.values(results).filter(
+      (r) => r.roundedAverage != null
+    )
+    await expect(pollutantsWithAverage.length).toBeGreaterThan(0)
+
+    // comparing to the front end
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getLastSevenDaysButton.click()
+    await common.legalWait()
+
+    // Front-end elements for each pollutant, in summary table order
+    const frontEndElements = {
+      'PM2.5': {
+        average: monitoringStationPage.getPM25AnnaulAverageST,
+        dataCapture: monitoringStationPage.getPM25DataCapture,
+        dailyExceedances: monitoringStationPage.getPM25DailyExceedence,
+        hourlyExceedances: monitoringStationPage.getPM25HourlyExceedence
+      },
+      PM10: {
+        average: monitoringStationPage.getPM10AnnaulAverageST,
+        dataCapture: monitoringStationPage.getPM10DataCapture,
+        dailyExceedances: monitoringStationPage.getPM10DailyExceedence,
+        hourlyExceedances: monitoringStationPage.getPM10HourlyExceedence
+      },
+      'Nitrogen dioxide': {
+        average: monitoringStationPage.getNitrogenDioxideAnnaulAverageST,
+        dataCapture: monitoringStationPage.getNODataCapture,
+        dailyExceedances: monitoringStationPage.getNODailyExceedence,
+        hourlyExceedances: monitoringStationPage.getNOHourlyExceedence
+      },
+      Ozone: {
+        average: monitoringStationPage.getOzoneAnnaulAverageST,
+        dataCapture: monitoringStationPage.getOzoneDataCapture,
+        dailyExceedances: monitoringStationPage.getOzoneDailyExceedence,
+        hourlyExceedances: monitoringStationPage.getOzoneHourlyExceedence
+      },
+      'Sulphur dioxide': {
+        average: monitoringStationPage.getSulphurDioxideAnnaulAverageST,
+        dataCapture: monitoringStationPage.getSDDataCapture,
+        dailyExceedances: monitoringStationPage.getSDDailyExceedence,
+        hourlyExceedances: monitoringStationPage.getSDHourlyExceedence
+      }
+    }
+
+    await monitoringStationPage.getPM25AnnaulAverageST.waitForExist({
+      timeout: 5000
+    })
+
+    // Read every front-end value first so all mismatches are reported together.
+    // Cells with no number (e.g. no legal limit) parse to null, matching our null
+    const comparisons = []
+    for (const [pollutant, elements] of Object.entries(frontEndElements)) {
+      const backEnd = results[pollutant] ?? {}
+      const backEndValues = {
+        average: backEnd.roundedAverage ?? null,
+        dataCapture: backEnd.dataCapturePercent ?? null,
+        dailyExceedances: backEnd.dailyExceedances ?? null,
+        hourlyExceedances: backEnd.hourlyExceedances ?? null
+      }
+      for (const [measure, element] of Object.entries(elements)) {
+        const frontEndText = await element.getText()
+        comparisons.push({
+          pollutant,
+          measure,
+          backEnd: backEndValues[measure],
+          frontEnd: common.parseNumber(frontEndText),
+          frontEndText
+        })
+      }
+    }
+
+    // eslint-disable-next-line no-console
+    console.table(comparisons)
+    try {
+      allure.addAttachment(
+        'Last 7 Days Back End vs Front End',
+        JSON.stringify(comparisons, null, 2),
+        'application/json'
+      )
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('Allure attachment failed:', e.message)
+    }
+
+    for (const c of comparisons) {
+      const isExceedance =
+        c.measure === 'dailyExceedances' || c.measure === 'hourlyExceedances'
+      if (isExceedance && c.backEnd === null) {
+        // No legal limit for this pollutant - the cell should say so
+        await expect(c.frontEndText).toMatch(/no legal limit/i)
+      } else {
+        await expect(c.frontEnd).toEqual(c.backEnd)
+      }
     }
   })
 })
