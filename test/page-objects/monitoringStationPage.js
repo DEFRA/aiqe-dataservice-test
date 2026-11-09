@@ -510,6 +510,36 @@ class MonitoringStationPage {
   get getLastSevenDaysWarningText() {
     return $("div[class*='govuk-inset-text not-verified']")
   }
+
+  // Summary table cells by row position, for stations that don't measure
+  // all five pollutants (rows only appear for pollutants the station measures)
+  get getAverageCells() {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--average']"
+    )
+  }
+
+  getAverageCell(rowIndex) {
+    return this.getAverageCells[rowIndex]
+  }
+
+  getDataCaptureCell(rowIndex) {
+    return $$(
+      "span[class*='defra-aq-levels-table__cell--data defra-aq-levels-table__cell--data-capture']"
+    )[rowIndex]
+  }
+
+  getDailyExceedanceCell(rowIndex) {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--daily']"
+    )[rowIndex]
+  }
+
+  getHourlyExceedanceCell(rowIndex) {
+    return $$(
+      "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
+    )[rowIndex]
+  }
 }
 
 // module.exports=new StartNowPage()
