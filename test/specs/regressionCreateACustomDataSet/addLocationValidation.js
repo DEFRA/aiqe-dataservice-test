@@ -34,7 +34,7 @@ const isZipFileBySignature = (fullPath) => {
 }
 
 describe('add location validation', () => {
-  it('Add locations(s) - Initial Screen AQD-867', async () => {
+  it('Add locations - Initial Screen AQD-867', async () => {
     await browser.url('')
     await browser.maximizeWindow()
     await startNowPage.startNowBtnClick()
@@ -53,6 +53,8 @@ describe('add location validation', () => {
     const addLocationPageContent =
       await addLocationPage.getAddLocationPageContent.getText()
     const expectedAddLocationPageContent = `Add location(s)
+!
+Local authorities are not currently available. Choose countries or try again later.
 Countries
 Choose one or more: England, Scotland, Wales or Northern Ireland
 England
@@ -63,7 +65,8 @@ Zones
 Choose one or more UK air quality zones
 Only the Automatic Urban and Rural Network is available for zones
 Agglomerations
-Choose one or more UK air quality agglomerations. Only Automatic Urban and Rural Network is available for agglomerations.
+Choose one or more UK air quality agglomerations.
+Only Automatic Urban and Rural Network is available for agglomerations.
 Local authority
 Add up to 10 local authorities
 Continue`
@@ -186,7 +189,7 @@ Continue`
     await expect(url).toContain('customdataset')
   })
 
-  it('Add locations(s) - Countries Journey - AQD-868, AQD-961 country choices retained for change functionality', async () => {
+  it('Add locations - Countries Journey - AQD-868, AQD-961 country choices retained for change functionality', async () => {
     await customselectionPage.getAddChangeLocationLink.click()
     await addLocationPage.getCountriesOption.click()
     // all countries selected
@@ -1305,18 +1308,33 @@ Agglomerations
 Choose one or more UK air quality agglomerations.
 Only Automatic Urban and Rural Network is available for agglomerations.
 Select agglomerations
-East Midlands
-Eastern
-Greater London
-North East
-North West & Merseyside
-Northern Ireland
-Scotland
-South East
-South West
-Wales
-West Midlands
-Yorkshire & Humberside
+Belfast Metropolitan Urban Area
+Birkenhead Urban Area
+Blackpool Urban Area
+Bournemouth Urban Area
+Brighton/Worthing/Littlehampton
+Bristol Urban Area
+Cardiff Urban Area
+Coventry/Bedworth
+Edinburgh Urban Area
+Glasgow Urban Area
+Greater London Urban Area
+Greater Manchester Urban Area
+Kingston upon Hull
+Leicester Urban Area
+Liverpool Urban Area
+Nottingham Urban Area
+Portsmouth Urban Area
+Preston Urban Area
+Reading/Wokingham Urban Area
+Sheffield Urban Area
+Southampton Urban Area
+Swansea Urban Area
+Teesside Urban Area
+The Potteries
+Tyneside
+West Midlands Urban Area
+West Yorkshire Urban Area
 Local authority
 Add up to 10 local authorities
 Continue`
@@ -1399,16 +1417,18 @@ Continue`
       'Select at least one agglomeration'
     )
     await agglomerationErrorLink.click()
-    const isAgglomerationsEastMidlandsOptionFocused =
-      await addLocationPage.getAgglomerationsEastMidlandsOptionCheckBox.isFocused()
-    await expect(isAgglomerationsEastMidlandsOptionFocused).toBe(true)
+    const isAgglomerationsBelfastMetropolitanUrbanAreaOptionFocused =
+      await addLocationPage.getAgglomerationsBelfastMetropolitanUrbanAreaOptionCheckBox.isFocused()
+    await expect(
+      isAgglomerationsBelfastMetropolitanUrbanAreaOptionFocused
+    ).toBe(true)
 
-    await addLocationPage.getAgglomerationsEastMidlandsOptionCheckBox.click()
+    await addLocationPage.getAgglomerationsGlasgowUrbanAreaOptionCheckBox.click()
     await addLocationPage.getLocationContinueButton.click()
 
     const agglomerationSourcesValue =
       await customselectionPage.getLocationValue.getText()
-    const expectedAgglomerationSourcesValue = `East Midlands`
+    const expectedAgglomerationSourcesValue = `Glasgow Urban Area`
     await expect(agglomerationSourcesValue).toMatch(
       expectedAgglomerationSourcesValue
     )
@@ -1564,7 +1584,7 @@ Continue`
     expect(csvPaths.length).toBeGreaterThan(0)
 
     const expectedPollutant = 'Particulate matter (PM10)'
-    const expectedSiteNames = ['Leicester Centre', 'Nottingham Centre']
+    const expectedSiteNames = ['Glasgow Centre', 'Glasgow Kerbside']
 
     for (const csvPath of csvPaths) {
       const csvContent = fs.readFileSync(csvPath, 'utf-8')

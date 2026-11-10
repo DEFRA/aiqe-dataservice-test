@@ -164,6 +164,14 @@ class AddLocationPage {
   get getAgglomerationsEastMidlandsOptionCheckBox() {
     return $("input[id*='agglomeration-1']")
   }
+
+  get getAgglomerationsGlasgowUrbanAreaOptionCheckBox() {
+    return $("input[value*='Glasgow Urban Area']")
+  }
+
+  get getAgglomerationsBelfastMetropolitanUrbanAreaOptionCheckBox() {
+    return $("input[value*='Belfast Metropolitan Urban Area']")
+  }
 }
 
 // module.exports=new StartNowPage()
