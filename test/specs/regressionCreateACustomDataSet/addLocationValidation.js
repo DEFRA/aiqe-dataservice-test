@@ -1276,4 +1276,384 @@ Only the Automatic Urban and Rural Network is available for zones`
     const expectedAgglomerationsHint = `Choose one or more UK air quality agglomerations. Only Automatic Urban and Rural Network is available for agglomerations.`
     await expect(agglomerationsHint).toMatch(expectedAgglomerationsHint)
   })
+
+  it('AQD-1563, Add locations - Agglomerations', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Particulate matter (PM10)')
+    await common.continueButton.click()
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getAgglomerationsRadioButton.click()
+
+    const contentWithAgglomerationsSelected =
+      await addLocationPage.getAddLocationPageContent.getText()
+    const expectedContentWithAgglomerationsSelected = `Add location(s)
+!
+Local authorities are not currently available. Choose countries or try again later.
+Countries
+Choose one or more: England, Scotland, Wales or Northern Ireland
+Zones
+Choose one or more UK air quality zones
+Only the Automatic Urban and Rural Network is available for zones
+Agglomerations
+Choose one or more UK air quality agglomerations.
+Only Automatic Urban and Rural Network is available for agglomerations.
+Select agglomerations
+East Midlands
+Eastern
+Greater London
+North East
+North West & Merseyside
+Northern Ireland
+Scotland
+South East
+South West
+Wales
+West Midlands
+Yorkshire & Humberside
+Local authority
+Add up to 10 local authorities
+Continue`
+    await expect(contentWithAgglomerationsSelected).toMatch(
+      expectedContentWithAgglomerationsSelected
+    )
+
+    const getAgglomerationsLabel = [
+      await addLocationPage.getAgglomerationsLabel
+    ]
+    const getAgglomerationsLabelProperties = [
+      'cursor',
+      'margin-bottom',
+      'padding',
+      'touch-action',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+    for (const element of getAgglomerationsLabel) {
+      const styles = await common.getStyles(
+        element,
+        getAgglomerationsLabelProperties
+      )
+      expect(styles.cursor).toBe('pointer')
+      expect(styles['margin-bottom']).toBe('0px')
+      expect(styles.padding).toBe('7px 15px')
+      expect(styles['touch-action']).toBe('manipulation')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toContain(
+        '"GDS Transport", arial, sans-serif'
+      )
+      expect(styles['font-weight']).toBe('400')
+    }
+
+    const getAgglomerationsHintText = [
+      await addLocationPage.getAgglomerationsHintText
+    ]
+    const getAgglomerationsHintTextProperties = [
+      'margin-bottom',
+      'margin-top',
+      'padding-left',
+      'padding-right',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+    for (const element of getAgglomerationsHintText) {
+      const styles = await common.getStyles(
+        element,
+        getAgglomerationsHintTextProperties
+      )
+      expect(styles['margin-bottom']).toBe('0px')
+      expect(styles['margin-top']).toBe('-5px')
+      expect(styles['padding-left']).toBe('59px')
+      expect(styles['padding-right']).toBe('15px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(80, 90, 95)')
+      expect(styles['font-family']).toContain(
+        '"GDS Transport", arial, sans-serif'
+      )
+      expect(styles['font-weight']).toBe('400')
+    }
+
+    await addLocationPage.getLocationContinueButton.click()
+    const agglomerationError = await common
+      .errorSummaryItemByText('Select at least one agglomeration')
+      .getText()
+    const expectedAgglomerationError = 'Select at least one agglomeration'
+    await expect(agglomerationError).toMatch(expectedAgglomerationError)
+
+    const agglomerationErrorLink = await common.errorSummaryItemByText(
+      'Select at least one agglomeration'
+    )
+    await agglomerationErrorLink.click()
+    const isAgglomerationsEastMidlandsOptionFocused =
+      await addLocationPage.getAgglomerationsEastMidlandsOptionCheckBox.isFocused()
+    await expect(isAgglomerationsEastMidlandsOptionFocused).toBe(true)
+
+    await addLocationPage.getAgglomerationsEastMidlandsOptionCheckBox.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    const agglomerationSourcesValue =
+      await customselectionPage.getLocationValue.getText()
+    const expectedAgglomerationSourcesValue = `East Midlands`
+    await expect(agglomerationSourcesValue).toMatch(
+      expectedAgglomerationSourcesValue
+    )
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('2008')
+    await addYearPage.continueButton.click()
+    await customselectionPage.getContinueButton.click()
+
+    // Ensure downloads directory is clean before downloading
+    const DOWNLOAD_DIR = path.resolve(process.cwd(), 'downloads')
+    try {
+      fs.rmSync(DOWNLOAD_DIR, { recursive: true, force: true })
+    } catch {}
+    fs.mkdirSync(DOWNLOAD_DIR, { recursive: true })
+    const browserStackRun =
+      isBrowserStackSession() ||
+      Boolean(process.env.BROWSERSTACK_USER && process.env.BROWSERSTACK_KEY)
+
+    await DownloadYourDataPage.getDownloadAURNDataButton.click()
+
+    // Wait until a non-empty file (not .crdownload) appears in downloads
+    if (browserStackRun) {
+      await syncBrowserStackDownloads(DOWNLOAD_DIR)
+    } else {
+      await browser.waitUntil(
+        async () => {
+          try {
+            await syncBrowserStackDownloads(DOWNLOAD_DIR)
+            if (isBrowserStackSession()) return true
+            const files = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((f) => !f.endsWith('.crdownload'))
+            if (files.length === 0) return false
+            const fullPath = path.join(DOWNLOAD_DIR, files[0])
+            const size = fs.statSync(fullPath).size
+            return size > 0
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 240000,
+          interval: 500,
+          timeoutMsg: 'No downloaded file detected in downloads within 240s'
+        }
+      )
+
+      // Wait for the downloaded file's size to stop changing, so we don't try
+      // to extract a zip that Chrome hasn't finished writing to disk yet.
+      await browser.waitUntil(
+        async () => {
+          try {
+            const files = fs
+              .readdirSync(DOWNLOAD_DIR)
+              .filter((f) => !f.endsWith('.crdownload'))
+            if (files.length === 0) return false
+            const fullPath = path.join(DOWNLOAD_DIR, files[0])
+            const sizeNow = fs.statSync(fullPath).size
+            if (sizeNow === 0) return false
+            await new Promise((resolve) => setTimeout(resolve, 300))
+            const sizeAfter = fs.statSync(fullPath).size
+            return sizeNow === sizeAfter
+          } catch {
+            return false
+          }
+        },
+        {
+          timeout: 30000,
+          interval: 300,
+          timeoutMsg: 'Downloaded zones file size never stabilised'
+        }
+      )
+    }
+
+    const finalFiles = fs
+      .readdirSync(DOWNLOAD_DIR)
+      .filter((f) => !f.endsWith('.crdownload'))
+    if (browserStackRun && finalFiles.length === 0) return
+    expect(finalFiles.length).toBeGreaterThan(0)
+
+    const parseCsvLine = (line) => {
+      const cells = []
+      let current = ''
+      let inQuotes = false
+
+      for (let i = 0; i < line.length; i += 1) {
+        const char = line[i]
+        if (char === '"') {
+          const next = line[i + 1]
+          if (inQuotes && next === '"') {
+            current += '"'
+            i += 1
+          } else {
+            inQuotes = !inQuotes
+          }
+        } else if (char === ',' && !inQuotes) {
+          cells.push(current)
+          current = ''
+        } else {
+          current += char
+        }
+      }
+
+      cells.push(current)
+      return cells.map((c) => c.trim())
+    }
+
+    // Extract zip files and collect csv paths
+    const csvPaths = []
+    for (const fileName of finalFiles) {
+      const fullPath = path.join(DOWNLOAD_DIR, fileName)
+      if (
+        fileName.toLowerCase().endsWith('.zip') ||
+        isZipFileBySignature(fullPath)
+      ) {
+        const zipPath = fullPath.toLowerCase().endsWith('.zip')
+          ? fullPath
+          : `${fullPath}.zip`
+        if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
+        const extractDir = path.join(
+          DOWNLOAD_DIR,
+          `${path.parse(zipPath).name}-extracted`
+        )
+        fs.mkdirSync(extractDir, { recursive: true })
+
+        let lastError
+        let extracted = false
+        for (let attempt = 0; attempt < 3 && !extracted; attempt += 1) {
+          try {
+            execSync(
+              `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
+            )
+            extracted = true
+          } catch (err) {
+            lastError = err
+            fs.mkdirSync(extractDir, { recursive: true })
+          }
+        }
+        if (!extracted) throw lastError
+
+        const extractedCsvFiles = fs
+          .readdirSync(extractDir)
+          .filter((name) => name.toLowerCase().endsWith('.csv'))
+          .map((name) => path.join(extractDir, name))
+        csvPaths.push(...extractedCsvFiles)
+      } else if (fileName.toLowerCase().endsWith('.csv')) {
+        csvPaths.push(fullPath)
+      }
+    }
+
+    expect(csvPaths.length).toBeGreaterThan(0)
+
+    const expectedPollutant = 'Particulate matter (PM10)'
+    const expectedSiteNames = ['Leicester Centre', 'Nottingham Centre']
+
+    for (const csvPath of csvPaths) {
+      const csvContent = fs.readFileSync(csvPath, 'utf-8')
+      const rows = csvContent
+        .split(/\r?\n/)
+        .map((row) => row.trim())
+        .filter((row) => row !== '')
+
+      expect(rows.length).toBeGreaterThan(1)
+
+      const headerRowIndex = rows.findIndex((row) =>
+        parseCsvLine(row)
+          .map((h) => h.replace(/^"|"$/g, '').toLowerCase())
+          .some((h) => h.includes('pollutant'))
+      )
+      expect(headerRowIndex).toBeGreaterThanOrEqual(0)
+
+      const headerColumns = parseCsvLine(rows[headerRowIndex]).map((h) =>
+        h.replace(/^"|"$/g, '').toLowerCase()
+      )
+
+      const pollutantColumnIndex = headerColumns.findIndex((h) =>
+        h.includes('pollutant')
+      )
+      expect(pollutantColumnIndex).toBeGreaterThanOrEqual(0)
+
+      const siteNameColumnIndex = headerColumns.findIndex(
+        (h) =>
+          h.includes('site name') ||
+          h.includes('sitename') ||
+          (h.includes('site') &&
+            !h.includes('site type') &&
+            !h.includes('site id'))
+      )
+      expect(siteNameColumnIndex).toBeGreaterThanOrEqual(0)
+
+      const dataRows = rows.slice(headerRowIndex + 1)
+      expect(dataRows.length).toBeGreaterThan(0)
+
+      const pollutantValues = new Set()
+      const siteNameValues = new Set()
+
+      for (const row of dataRows) {
+        const columns = parseCsvLine(row)
+        const pollutantValue = (columns[pollutantColumnIndex] || '')
+          .replace(/^"|"$/g, '')
+          .trim()
+        const siteNameValue = (columns[siteNameColumnIndex] || '')
+          .replace(/^"|"$/g, '')
+          .trim()
+
+        if (pollutantValue !== '') pollutantValues.add(pollutantValue)
+        if (siteNameValue !== '') siteNameValues.add(siteNameValue)
+      }
+
+      // Pollutant column should only contain the expected pollutant
+      expect([...pollutantValues]).toEqual([expectedPollutant])
+
+      // Site name column should only contain stations from the expected list
+      for (const siteName of siteNameValues) {
+        expect(expectedSiteNames).toContain(siteName)
+      }
+    }
+
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Particulate matter (PM10)')
+    await common.continueButton.click()
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getAnyYearRadio.click()
+    await addYearPage.getAnyYearInput.setValue('1990')
+    await addYearPage.continueButton.click()
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getAgglomerationsRadioButton.click()
+    await addLocationPage.getAgglomerationsEastMidlandsOptionCheckBox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await common.legalWait()
+    await customselectionPage.getContinueButton.click()
+
+    const errorSummaryText = await customselectionPage.getErrorSummary.getText()
+    const expectedErrorSummaryText = `Change time period
+Change location`
+    await expect(errorSummaryText).toMatch(expectedErrorSummaryText)
+  })
 })

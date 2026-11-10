@@ -149,12 +149,20 @@ class AddLocationPage {
     return $("input[value*='agglomerations']")
   }
 
+  get getAgglomerationsLabel() {
+    return $("label[for*='location-5']")
+  }
+
   get getAgglomerationsHintText() {
     return $("div[id*='location-5-hint']")
   }
 
   get getAgglomerationsEastMidlandsOption() {
     return $("label[for*='agglomeration-1']")
+  }
+
+  get getAgglomerationsEastMidlandsOptionCheckBox() {
+    return $("input[id*='agglomeration-1']")
   }
 }
 
