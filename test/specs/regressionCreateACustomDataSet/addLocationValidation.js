@@ -1585,6 +1585,7 @@ Continue`
 
     const expectedPollutant = 'Particulate matter (PM10)'
     const expectedSiteNames = ['Glasgow Centre', 'Glasgow Kerbside']
+    const expectedCountry = 'Scotland'
 
     for (const csvPath of csvPaths) {
       const csvContent = fs.readFileSync(csvPath, 'utf-8')
@@ -1621,11 +1622,18 @@ Continue`
       )
       expect(siteNameColumnIndex).toBeGreaterThanOrEqual(0)
 
+      // There should be a country column
+      const countryColumnIndex = headerColumns.findIndex((h) =>
+        h.includes('country')
+      )
+      expect(countryColumnIndex).toBeGreaterThanOrEqual(0)
+
       const dataRows = rows.slice(headerRowIndex + 1)
       expect(dataRows.length).toBeGreaterThan(0)
 
       const pollutantValues = new Set()
       const siteNameValues = new Set()
+      const countryValues = new Set()
 
       for (const row of dataRows) {
         const columns = parseCsvLine(row)
@@ -1635,9 +1643,14 @@ Continue`
         const siteNameValue = (columns[siteNameColumnIndex] || '')
           .replace(/^"|"$/g, '')
           .trim()
+        const countryValue = (columns[countryColumnIndex] || '')
+          .replace(/^"|"$/g, '')
+          .trim()
 
         if (pollutantValue !== '') pollutantValues.add(pollutantValue)
         if (siteNameValue !== '') siteNameValues.add(siteNameValue)
+        // Collect blanks too, so a row missing its country fails the check
+        countryValues.add(countryValue)
       }
 
       // Pollutant column should only contain the expected pollutant
@@ -1647,6 +1660,9 @@ Continue`
       for (const siteName of siteNameValues) {
         expect(expectedSiteNames).toContain(siteName)
       }
+
+      // Country column should only contain the expected country
+      expect([...countryValues]).toEqual([expectedCountry])
     }
 
     await browser.url('')
