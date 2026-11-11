@@ -52,10 +52,10 @@ describe('exceedences', () => {
     const SDHourlyExceedence =
       await monitoringStationPage.getSDHourlyExceedence.getText()
 
-    const expectedPM25HourlyExceedence = `n/a`
-    const expectedPM10HourlyExceedence = `n/a`
+    const expectedPM25HourlyExceedence = `no legal limit`
+    const expectedPM10HourlyExceedence = `no legal limit`
     const expectedNOHourlyExceedence = `0`
-    const expectedOzoneHourlyExceedence = `n/a`
+    const expectedOzoneHourlyExceedence = `no legal limit`
     const expectedSDHourlyExceedence = `0`
 
     await expect(PM25HourlyExceedence).toMatch(expectedPM25HourlyExceedence)
@@ -121,11 +121,11 @@ describe('exceedences', () => {
     const SDDailyExceedence =
       await monitoringStationPage.getSDDailyExceedence.getText()
 
-    const expectedPM25DailyExceedence = `n/a`
+    const expectedPM25DailyExceedence = `no legal limit`
     const expectedPM10DailyExceedence = `0
 i`
-    const expectedNODailyExceedence = `n/a`
-    const expectedOzoneDailyExceedence = `n/a`
+    const expectedNODailyExceedence = `no legal limit`
+    const expectedOzoneDailyExceedence = `no legal limit`
     const expectedSDDailyExceedence = `0`
 
     await expect(PM25DailyExceedence).toMatch(expectedPM25DailyExceedence)

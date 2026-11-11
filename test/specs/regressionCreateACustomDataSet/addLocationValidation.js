@@ -1158,7 +1158,7 @@ Change location`)
 
     await customselectionPage.getAddChangeLocationLink.click()
     await addLocationPage.getAgglomerationsRadioButton.click()
-    await addLocationPage.getAgglomerationsEastMidlandsOption.click()
+    await addLocationPage.getAgglomerationsEastMidlandsOptionCheckBox.click()
     await addLocationPage.getLocationContinueButton.click()
 
     const AgglomerationswarningMessageNotDisplayed =
@@ -1223,7 +1223,7 @@ Only the Automatic Urban and Rural Network is available for zones`
 
     await customselectionPage.getAddChangeLocationLink.click()
     await addLocationPage.getAgglomerationsRadioButton.click()
-    await addLocationPage.getAgglomerationsEastMidlandsOption.click()
+    await addLocationPage.getAgglomerationsGlasgowUrbanAreaOptionCheckBox.click()
     await addLocationPage.getLocationContinueButton.click()
 
     const AgglomerationswarningMessageDisplayed =
@@ -1683,7 +1683,7 @@ Continue`
 
     await customselectionPage.getAddChangeLocationLink.click()
     await addLocationPage.getAgglomerationsRadioButton.click()
-    await addLocationPage.getAgglomerationsEastMidlandsOptionCheckBox.click()
+    await addLocationPage.getAgglomerationsGlasgowUrbanAreaOptionCheckBox.click()
     await addLocationPage.getLocationContinueButton.click()
     await common.legalWait()
     await customselectionPage.getContinueButton.click()
