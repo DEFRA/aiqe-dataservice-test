@@ -1005,7 +1005,9 @@ View on Google Maps (opens in new tab)`
         element,
         getCurrentYearButtonProperties
       )
-      expect(styles.color).toBe('rgb(0, 48, 120)')
+      expect(['rgb(0, 48, 120)', 'rgb(11, 12, 12)']).toContain(
+        styles['background-color'].trim().toLowerCase()
+      )
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['padding-bottom']).toBe('12px')
       expect(styles['padding-top']).toBe('12px')

@@ -1276,7 +1276,8 @@ Only the Automatic Urban and Rural Network is available for zones`
     await addLocationPage.getAgglomerationsRadioButton.click()
     const agglomerationsHint =
       await addLocationPage.getAgglomerationsHintText.getText()
-    const expectedAgglomerationsHint = `Choose one or more UK air quality agglomerations. Only Automatic Urban and Rural Network is available for agglomerations.`
+    const expectedAgglomerationsHint = `Choose one or more UK air quality agglomerations.
+Only Automatic Urban and Rural Network is available for agglomerations.`
     await expect(agglomerationsHint).toMatch(expectedAgglomerationsHint)
   })
 
