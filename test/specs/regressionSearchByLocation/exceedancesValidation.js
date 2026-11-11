@@ -245,7 +245,7 @@ i`
       expect(styles.width).toBe('26px')
     }
     // checking that toggle tip doesnt show if theres no data
-    await monitoringStationPage.get2020Button.click()
+    await monitoringStationPage.get2022Button.click()
     await browser.waitUntil(
       async () => {
         await new Promise((resolve) => setTimeout(resolve, 4000))
@@ -254,7 +254,7 @@ i`
       { timeout: 4000 }
     )
     await common.notDisplayed(
-      await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip
+      await monitoringStationPage.getPM25AnnualAverageToggleTip
     )
   })
 

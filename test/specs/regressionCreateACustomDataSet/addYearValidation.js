@@ -710,7 +710,7 @@ describe('add year validation AQD-841', () => {
     await common.continueButton.click()
     await customselectionPage.getAddChangeLocationLink.click()
     await addLocationPage.getCountriesOption.click()
-    await addLocationPage.getEnglandCheckbox.click()
+    await addLocationPage.getScotlandCheckbox.click()
     await addLocationPage.getLocationContinueButton.click()
 
     await customselectionPage.getAddChangeYearLink.click()
@@ -1047,6 +1047,7 @@ Download hourly data
     await customselectionPage.getAddPollutantLink.click()
     await addPollutantPage.getAddPollutantOption.click()
     await addPollutantPage.addPollutant('PM10')
+    await addPollutantPage.addPollutant('black smoke')
     await common.continueButton.click()
     await customselectionPage.getAddChangeLocationLink.click()
     await addLocationPage.getCountriesOption.click()

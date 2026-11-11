@@ -85,7 +85,8 @@ export const config = {
         './test/specs/apiTests/apiValidation.js',
         './test/specs/citizen/UKAirApiDataComparison.js',
         './test/specs/disableJavascriptTests/noJavascriptValidation.js',
-        './test/specs/maps/mapsValidation.js'
+        './test/specs/maps/mapsValidation.js',
+        './test/specs/maps/mapsMobileValidation.js'
       ]
     },
     // Tablet: iPad Air 5 (iOS Safari)

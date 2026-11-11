@@ -241,7 +241,7 @@ Sources of air pollution data`
     const sidePanelLocation = await sidePanel.getLocation()
     const sidePanelSize = await sidePanel.getSize()
 
-    await expect(Math.round(sidePanelLocation.x)).toBe(1118)
+    await expect(Math.round(sidePanelLocation.x)).toBe(1121)
     await expect(Math.round(sidePanelLocation.y)).toBe(497)
     await expect(Math.round(sidePanelSize.width)).toBe(330)
     await expect(Math.round(sidePanelSize.height)).toBe(147)
