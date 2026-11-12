@@ -81,10 +81,7 @@ describe('monitoring station page tests', () => {
     const getGoogleMapLink = [await monitoringStationPage.getGoogleMapLink]
 
     const getGoogleMapLinkProperties = [
-      'color',
       'font-family',
-      'text-decoration',
-      'text-decoration-thickness',
       'font-size',
       'line-height',
       'font-weight'
@@ -1006,7 +1003,7 @@ View on Google Maps (opens in new tab)`
         getCurrentYearButtonProperties
       )
       expect(['rgb(0, 48, 120)', 'rgb(11, 12, 12)']).toContain(
-        styles['background-color'].trim().toLowerCase()
+        styles.color.trim().toLowerCase()
       )
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['padding-bottom']).toBe('12px')

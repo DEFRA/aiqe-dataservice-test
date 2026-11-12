@@ -3779,17 +3779,30 @@ Download data
 
     // Wait for the downloaded file's size to stop changing, so we don't try
     // to extract a zip that Chrome hasn't finished writing to disk yet.
+    // Chrome may write to a temporary <guid>.tmp file and rename it once
+    // complete, so prefer a non-.tmp file and only accept a .tmp file once it
+    // has been stable for longer.
+    const listDownloads = () => {
+      const files = fs
+        .readdirSync(DOWNLOAD_DIR)
+        .filter(
+          (f) =>
+            !f.endsWith('.crdownload') &&
+            fs.statSync(path.join(DOWNLOAD_DIR, f)).isFile()
+        )
+      const nonTmpFiles = files.filter((f) => !f.endsWith('.tmp'))
+      return nonTmpFiles.length > 0 ? nonTmpFiles : files
+    }
     await browser.waitUntil(
       async () => {
         try {
-          const files = fs
-            .readdirSync(DOWNLOAD_DIR)
-            .filter((f) => !f.endsWith('.crdownload'))
+          const files = listDownloads()
           if (files.length === 0) return false
           const fullPath = path.join(DOWNLOAD_DIR, files[0])
           const sizeNow = fs.statSync(fullPath).size
           if (sizeNow === 0) return false
-          await new Promise((resolve) => setTimeout(resolve, 300))
+          const stableWaitMs = files[0].endsWith('.tmp') ? 3000 : 300
+          await new Promise((resolve) => setTimeout(resolve, stableWaitMs))
           const sizeAfter = fs.statSync(fullPath).size
           return sizeNow === sizeAfter
         } catch {
@@ -3803,9 +3816,7 @@ Download data
       }
     )
 
-    const finalFiles = fs
-      .readdirSync(DOWNLOAD_DIR)
-      .filter((f) => !f.endsWith('.crdownload'))
+    const finalFiles = listDownloads()
     if (browserStackRun) return
     expect(finalFiles.length).toBe(1)
 
