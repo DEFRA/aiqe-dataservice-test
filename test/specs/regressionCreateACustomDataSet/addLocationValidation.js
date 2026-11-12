@@ -1693,4 +1693,91 @@ Continue`
 Change location`
     await expect(errorSummaryText).toMatch(expectedErrorSummaryText)
   })
+
+  it('AQD-1780, defect - agglomerations/zones - when automatic hydrocarbon network is chosen', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    await customselectionPage.getClearSelectionsLink.click()
+    await customselectionPage.getAddPollutantLink.click()
+    await addPollutantPage.getAddPollutantOption.click()
+    await addPollutantPage.addPollutant('Particulate matter (PM10)')
+    await addPollutantPage.addPollutant('Iso-butane (i-C4H10)')
+    await common.continueButton.click()
+
+    await customselectionPage.getAddChangeYearLink.click()
+    await addYearPage.getLastSevenDaysRadio.click()
+    await addYearPage.continueButton.click()
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getAgglomerationsRadioButton.click()
+    await addLocationPage.getAgglomerationsGlasgowUrbanAreaOptionCheckBox.click()
+    await addLocationPage.getLocationContinueButton.click()
+    await common.legalWait()
+
+    const AgglomerationswarningMessageDisplayed =
+      await customselectionPage.getWarningMessage.isDisplayed()
+    expect(AgglomerationswarningMessageDisplayed).toBe(true)
+    const AgglomerationswarningMessageText =
+      await customselectionPage.getWarningMessage.getText()
+    const expectedAgglomerationswarningMessageText = `!
+Warning
+Only the Automatic Urban and Rural Network is available for agglomerations`
+    await expect(AgglomerationswarningMessageText).toMatch(
+      expectedAgglomerationswarningMessageText
+    )
+
+    await customselectionPage.getContinueButton.click()
+
+    const downloadPageContent =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const expectedDownloadPageContent = `Download your data
+File format and metadata
+Near real-time data from Defra
+Near real-time data from Defra
+This data is automatically measured and published every hour.
+Automatic Urban and Rural Network (AURN)
+The most reliable air pollution data in the UK. Provides hourly measurements of fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), nitric oxide (NO), nitrogen oxides as nitrogen dioxide (NOx), ozone (O3), sulphur dioxide (SO2) and carbon monoxide (CO).
+2 stations available
+Download hourly data
+(Visual only)`
+    await expect(downloadPageContent).toMatch(expectedDownloadPageContent)
+
+    await common.getBackLink.click()
+
+    await customselectionPage.getAddChangeLocationLink.click()
+    await addLocationPage.getZoneRadioButton.click()
+    await addLocationPage.getCentralScotlandZoneCheckbox.click()
+    await addLocationPage.getNorthEastZoneCheckbox.click()
+    await addLocationPage.getYorkshireAndHumbersideZoneCheckbox.click()
+    await addLocationPage.getScottishBordersZoneCheckbox.click()
+    await addLocationPage.getLocationContinueButton.click()
+
+    const ZonewarningMessageDisplayed =
+      await customselectionPage.getWarningMessage.isDisplayed()
+    expect(ZonewarningMessageDisplayed).toBe(true)
+    const ZonewarningMessageText =
+      await customselectionPage.getWarningMessage.getText()
+    const expectedZonewarningMessageText = `!
+Warning
+Only the Automatic Urban and Rural Network is available for zones`
+    await expect(ZonewarningMessageText).toMatch(expectedZonewarningMessageText)
+
+    await customselectionPage.getContinueButton.click()
+
+    const downloadPageContent2 =
+      await DownloadYourDataPage.getDownloadYourDataPageContent.getText()
+    const expectedDownloadPageContent2 = `Download your data
+File format and metadata
+Near real-time data from Defra
+Near real-time data from Defra
+This data is automatically measured and published every hour.
+Automatic Urban and Rural Network (AURN)
+The most reliable air pollution data in the UK. Provides hourly measurements of fine particulate matter (PM2.5), particulate matter (PM10), nitrogen dioxide (NO2), nitric oxide (NO), nitrogen oxides as nitrogen dioxide (NOx), ozone (O3), sulphur dioxide (SO2) and carbon monoxide (CO).
+36 stations available
+Download hourly data
+(Visual only)`
+    await expect(downloadPageContent2).toMatch(expectedDownloadPageContent2)
+  })
 })
