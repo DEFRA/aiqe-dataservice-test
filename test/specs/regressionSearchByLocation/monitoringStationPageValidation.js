@@ -2594,4 +2594,257 @@ annual average data - usually less than 100KB`
       expectedURLAfterClickingBristolStPauls
     )
   })
+
+  it('AQD-1535, Add Last 7 days tab to summary table', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getLastSevenDaysButton.click()
+    await common.legalWait()
+
+    await monitoringStationPage.getAirPollutionSummaryLastSevenDaysHeading.waitForDisplayed(
+      { timeout: 5000 }
+    )
+    const getAirPollutionSummaryLastSevenDaysHeadingText =
+      await monitoringStationPage.getAirPollutionSummaryLastSevenDaysHeading.getText()
+    const expectedgetAirPollutionSummaryLastSevenDaysHeadingText = `Air pollution summary: last 7 days`
+    await expect(getAirPollutionSummaryLastSevenDaysHeadingText).toMatch(
+      expectedgetAirPollutionSummaryLastSevenDaysHeadingText
+    )
+
+    const getAirPollutionSummaryLastSevenDaysHeadingStyles = [
+      await monitoringStationPage.getAirPollutionSummaryLastSevenDaysHeading
+    ]
+    const getAirPollutionSummaryLastSevenDaysHeadingStylesProperties = [
+      'margin-top',
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+    for (const element of getAirPollutionSummaryLastSevenDaysHeadingStyles) {
+      const styles = await common.getStyles(
+        element,
+        getAirPollutionSummaryLastSevenDaysHeadingStylesProperties
+      )
+      expect(styles['margin-top']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('10px')
+      expect(styles['font-size']).toBe('36px')
+      expect(styles['line-height']).toBe('40px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
+    }
+
+    await monitoringStationPage.getLastSevenDaysTimeDuration.waitForDisplayed({
+      timeout: 5000
+    })
+    const getLastSevenDaysTimeDurationText =
+      await monitoringStationPage.getLastSevenDaysTimeDuration.getText()
+    const sevenDaysAgoDate =
+      await monitoringStationPage.getDaysAgoAsDayMonthString(7)
+    const yesterdaysDate =
+      await monitoringStationPage.getDaysAgoAsDayMonthString(1)
+    const expectedgetLastSevenDaysTimeDurationText = `${sevenDaysAgoDate} to ${yesterdaysDate}`
+    await expect(getLastSevenDaysTimeDurationText).toMatch(
+      expectedgetLastSevenDaysTimeDurationText
+    )
+
+    const getLastSevenDaysTimeDurationStyles = [
+      await monitoringStationPage.getLastSevenDaysTimeDuration
+    ]
+    const getLastSevenDaysTimeDurationStylesProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight',
+      'margin-top'
+    ]
+    for (const element of getLastSevenDaysTimeDurationStyles) {
+      const styles = await common.getStyles(
+        element,
+        getLastSevenDaysTimeDurationStylesProperties
+      )
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['margin-top']).toBe('0px')
+    }
+
+    await monitoringStationPage.getLastSevenDaysWarningText.waitForDisplayed({
+      timeout: 5000
+    })
+    const getLastSevenDaysWarningTextText =
+      await monitoringStationPage.getLastSevenDaysWarningText.getText()
+    const expectedgetLastSevenDaysWarningTextText = `Data has not been checked and verified`
+    await expect(getLastSevenDaysWarningTextText).toMatch(
+      expectedgetLastSevenDaysWarningTextText
+    )
+
+    const getLastSevenDaysWarningTextStyles = [
+      await monitoringStationPage.getLastSevenDaysWarningText
+    ]
+    const getLastSevenDaysWarningTextStylesProperties = [
+      'background-color',
+      'border-left',
+      'margin-bottom',
+      'margin-top',
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight',
+      'padding'
+    ]
+    for (const element of getLastSevenDaysWarningTextStyles) {
+      const styles = await common.getStyles(
+        element,
+        getLastSevenDaysWarningTextStylesProperties
+      )
+      expect(styles['background-color']).toBe('rgb(249, 226, 215)')
+      expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles['margin-top']).toBe('30px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.padding).toBe('15px')
+    }
+
+    const LastSevenDaysHintText =
+      await monitoringStationPage.getLastSevenDaysHint.getText()
+    const expectedLastSevenDaysHintText = `The pollution levels shown are measured against UK legal limits.`
+    await expect(LastSevenDaysHintText).toMatch(expectedLastSevenDaysHintText)
+
+    const getLastSevenDaysHintStyles = [
+      await monitoringStationPage.getLastSevenDaysHint
+    ]
+    const getLastSevenDaysHintStylesProperties = [
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight',
+      'margin-bottom'
+    ]
+    for (const element of getLastSevenDaysHintStyles) {
+      const styles = await common.getStyles(
+        element,
+        getLastSevenDaysHintStylesProperties
+      )
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles.color).toBe('rgb(80, 90, 95)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['margin-bottom']).toBe('15px')
+    }
+
+    const summaryTableDisplayedComponents = [
+      await monitoringStationPage.getPM25AnnaulAverageST,
+      await monitoringStationPage.getPM10AnnaulAverageST,
+      await monitoringStationPage.getNitrogenDioxideAnnaulAverageST,
+      await monitoringStationPage.getOzoneAnnaulAverageST,
+      await monitoringStationPage.getSulphurDioxideAnnaulAverageST,
+      await monitoringStationPage.getPM25HourlyExceedence,
+      await monitoringStationPage.getPM10HourlyExceedence,
+      await monitoringStationPage.getNOHourlyExceedence,
+      await monitoringStationPage.getOzoneHourlyExceedence,
+      await monitoringStationPage.getSDHourlyExceedence,
+      await monitoringStationPage.getPM25DailyExceedence,
+      await monitoringStationPage.getPM10DailyExceedence,
+      await monitoringStationPage.getNODailyExceedence,
+      await monitoringStationPage.getOzoneDailyExceedence,
+      await monitoringStationPage.getSDDailyExceedence,
+      await monitoringStationPage.getPM25DataCapture,
+      await monitoringStationPage.getPM10DataCapture,
+      await monitoringStationPage.getNODataCapture,
+      await monitoringStationPage.getOzoneDataCapture,
+      await monitoringStationPage.getSDDataCapture
+    ]
+    for (const element of summaryTableDisplayedComponents) {
+      const isElementDisplayed = await element.isDisplayed()
+      await expect(isElementDisplayed).toBe(true)
+    }
+
+    await monitoringStationPage.getPM25AnnualAverageToggleTip.click()
+    const getPM25AnnualAverageToggleTipInfoText =
+      await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText.getText()
+    await expect(getPM25AnnualAverageToggleTipInfoText).toMatch(
+      `Annual average PM2.5 levels at any site must not go above 20 micrograms per cubic metre (µg/m³) in a calendar year (when rounded to a whole number).`
+    )
+
+    await monitoringStationPage.getPM10AnnualAverageToggleTip.click()
+    const getPM10AnnualAverageToggleTipInfoText =
+      await monitoringStationPage.getPM10AnnualAverageToggleTipInfoText.getText()
+    await expect(getPM10AnnualAverageToggleTipInfoText).toMatch(
+      `Annual average PM10 levels at any site must not go above 40 micrograms per cubic metre (µg/m³) in a calendar year (when rounded to a whole number).`
+    )
+
+    await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip.click()
+    const getNitrogenDioxideAnnualAverageToggleTipInfoText =
+      await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTipInfoText.getText()
+    await expect(getNitrogenDioxideAnnualAverageToggleTipInfoText).toMatch(
+      `Annual average nitrogen dioxide levels at any site must not go above 40 micrograms per cubic metre (µg/m³) in a calendar year (when rounded to a whole number).`
+    )
+
+    await monitoringStationPage.getOzoneAnnualAverageToggleTip.click()
+    const getOzoneAnnualAverageToggleTipInfoText =
+      await monitoringStationPage.getOzoneAnnualAverageToggleTipInfoText.getText()
+    await expect(getOzoneAnnualAverageToggleTipInfoText).toMatch(
+      `There is no annual average limit value for ozone.`
+    )
+
+    await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.click()
+    const getSulphurDioxideAnnualAverageToggleTipInfoText =
+      await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTipInfoText.getText()
+    await expect(getSulphurDioxideAnnualAverageToggleTipInfoText).toMatch(
+      `There is no annual average limit value for sulphur dioxide.`
+    )
+
+    await monitoringStationPage.getPM10DailyExceedenceToggleTip.click()
+    const getPM10DailyExceedenceToggleTipInfoText =
+      await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText.getText()
+    await expect(getPM10DailyExceedenceToggleTipInfoText).toMatch(
+      `Daily average PM10 levels must not go above 50 micrograms per cubic metre (µg/m³) more than 35 times in a calendar year (when rounded to a whole number).`
+    )
+
+    await monitoringStationPage.getSDDailyExceedenceToggleTip.click()
+    const getSDDailyExceedenceToggleTipInfoText =
+      await monitoringStationPage.getSDDailyExceedenceToggleTipInfoText.getText()
+    await expect(getSDDailyExceedenceToggleTipInfoText).toMatch(
+      `Daily average sulphur dioxide levels must not go above 125 micrograms per cubic metre (µg/m³) more than 3 times in a calendar year (when rounded to a whole number).`
+    )
+
+    await monitoringStationPage.getNOHourlyExceedenceToggleTip.click()
+    const getNOHourlyExceedenceToggleTipInfoText =
+      await monitoringStationPage.getNOHourlyExceedenceToggleTipInfoText.getText()
+    await expect(getNOHourlyExceedenceToggleTipInfoText).toMatch(
+      `Hourly nitrogen dioxide levels must not go above 200 micrograms per cubic metre (µg/m³) more than 18 times in a calendar year (when rounded to a whole number).`
+    )
+
+    await monitoringStationPage.getSDHourlyExceedenceToggleTip.click()
+    const getSDHourlyExceedenceToggleTipInfoText =
+      await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.getText()
+    await expect(getSDHourlyExceedenceToggleTipInfoText).toMatch(
+      `Hourly sulphur dioxide levels must not go above 350 micrograms per cubic metre (µg/m³) more than 24 times in a calendar year (when rounded to a whole number).`
+    )
+  })
 })

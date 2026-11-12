@@ -1158,7 +1158,7 @@ Change location`)
 
     await customselectionPage.getAddChangeLocationLink.click()
     await addLocationPage.getAgglomerationsRadioButton.click()
-    await addLocationPage.getAgglomerationsEastMidlandsOptionCheckBox.click()
+    await addLocationPage.getAgglomerationsGlasgowUrbanAreaOptionCheckBox.click()
     await addLocationPage.getLocationContinueButton.click()
 
     const AgglomerationswarningMessageNotDisplayed =

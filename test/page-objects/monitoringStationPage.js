@@ -77,6 +77,13 @@ class MonitoringStationPage {
     return today.toLocaleDateString('en-GB', options)
   }
 
+  async getDaysAgoAsDayMonthString(daysAgo) {
+    const date = new Date()
+    date.setDate(date.getDate() - daysAgo)
+    const options = { day: 'numeric', month: 'long' }
+    return date.toLocaleDateString('en-GB', options)
+  }
+
   get get2018Button() {
     return $("a[id*='link-2018']")
   }
@@ -509,6 +516,18 @@ class MonitoringStationPage {
 
   get getLastSevenDaysWarningText() {
     return $("div[class*='govuk-inset-text not-verified']")
+  }
+
+  get getLastSevenDaysHint() {
+    return $("p[id*='last7days-hint']")
+  }
+
+  get getAirPollutionSummaryLastSevenDaysHeading() {
+    return $("h2[id*='airpollution-heading']")
+  }
+
+  get getLastSevenDaysTimeDuration() {
+    return $("p[id*='duration_current']")
   }
 
   // Summary table cells by row position, for stations that don't measure
