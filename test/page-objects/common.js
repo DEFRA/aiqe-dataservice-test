@@ -1,21 +1,35 @@
 /* eslint-disable prettier/prettier */
 class Common {
   // get styling method is used in all tests
-  async getStyles(element, properties) {
-    const styles = await browser.execute(
-      (el, props) => {
-        if (!el) throw new Error('element not found')
-        const computedStyle = window.getComputedStyle(el)
-        return props.reduce((acc, prop) => {
-          acc[prop] = computedStyle.getPropertyValue(prop)
-          return acc
-        }, {})
-      },
-      element,
-      properties
-    )
-
-    return styles
+  // element can be an element or a function returning one; pass a function
+  // when the DOM may re-render so a stale element can be re-fetched and retried
+  async getStyles(element, properties, retries = 3) {
+    for (let attempt = 1; ; attempt++) {
+      const el = typeof element === 'function' ? await element() : element
+      try {
+        return await browser.execute(
+          (el, props) => {
+            if (!el) throw new Error('element not found')
+            const computedStyle = window.getComputedStyle(el)
+            return props.reduce((acc, prop) => {
+              acc[prop] = computedStyle.getPropertyValue(prop)
+              return acc
+            }, {})
+          },
+          el,
+          properties
+        )
+      } catch (err) {
+        const isStale = /stale element/i.test(err.message)
+        if (!isStale || typeof element !== 'function' || attempt >= retries) {
+          throw err
+        }
+        await browser.waitUntil(async () => (await element()).isExisting(), {
+          timeout: 5000,
+          timeoutMsg: 'element did not re-render after going stale'
+        })
+      }
+    }
   }
 
   async getRenderedWidth(element) {

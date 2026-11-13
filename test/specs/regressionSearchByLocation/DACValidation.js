@@ -45,7 +45,7 @@ describe('DAC tests ', () => {
       { timeout: 10000 }
     )
     const getPM25AnnualAverageToggleTipInfoTextAfterClick = [
-      await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText
+      () => monitoringStationPage.getPM25AnnualAverageToggleTipInfoText
     ]
 
     const getPM25AnnualAverageToggleTipInfoTextProperties = [
@@ -69,7 +69,7 @@ describe('DAC tests ', () => {
       timeout: 5000
     })
     const getPM10AnnualAverageToggleTipInfoTextHover = [
-      await monitoringStationPage.getPM10AnnualAverageToggleTipInfoText
+      () => monitoringStationPage.getPM10AnnualAverageToggleTipInfoText
     ]
 
     const getPM10AnnualAverageToggleTipInfoTextProperties = [
@@ -89,7 +89,7 @@ describe('DAC tests ', () => {
     }
 
     const getPM25AnnualAverageToggleTipInfoTextHover2 = [
-      await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText
+      () => monitoringStationPage.getPM25AnnualAverageToggleTipInfoText
     ]
 
     const getPM25AnnualAverageToggleTipInfoTextProperties2 = [
@@ -117,7 +117,7 @@ describe('DAC tests ', () => {
       { timeout: 3000 }
     )
     const getPM25AnnualAverageToggleTipInfoText = [
-      await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText
+      () => monitoringStationPage.getPM25AnnualAverageToggleTipInfoText
     ]
 
     const getPM25AnnualAverageToggleTipInfoTextProperties3 = [
