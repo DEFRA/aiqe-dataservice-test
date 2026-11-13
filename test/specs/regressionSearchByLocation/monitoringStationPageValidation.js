@@ -2782,6 +2782,7 @@ annual average data - usually less than 100KB`
     }
 
     await monitoringStationPage.getPM25AnnualAverageToggleTip.click()
+    await common.legalWait()
     const getPM25AnnualAverageToggleTipInfoText =
       await monitoringStationPage.getPM25AnnualAverageToggleTipInfoText.getText()
     await expect(getPM25AnnualAverageToggleTipInfoText).toMatch(
@@ -2789,6 +2790,7 @@ annual average data - usually less than 100KB`
     )
 
     await monitoringStationPage.getPM10AnnualAverageToggleTip.click()
+    await common.legalWait()
     const getPM10AnnualAverageToggleTipInfoText =
       await monitoringStationPage.getPM10AnnualAverageToggleTipInfoText.getText()
     await expect(getPM10AnnualAverageToggleTipInfoText).toMatch(
@@ -2796,6 +2798,7 @@ annual average data - usually less than 100KB`
     )
 
     await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTip.click()
+    await common.legalWait()
     const getNitrogenDioxideAnnualAverageToggleTipInfoText =
       await monitoringStationPage.getNitrogenDioxideAnnualAverageToggleTipInfoText.getText()
     await expect(getNitrogenDioxideAnnualAverageToggleTipInfoText).toMatch(
@@ -2803,6 +2806,7 @@ annual average data - usually less than 100KB`
     )
 
     await monitoringStationPage.getOzoneAnnualAverageToggleTip.click()
+    await common.legalWait()
     const getOzoneAnnualAverageToggleTipInfoText =
       await monitoringStationPage.getOzoneAnnualAverageToggleTipInfoText.getText()
     await expect(getOzoneAnnualAverageToggleTipInfoText).toMatch(
@@ -2810,6 +2814,7 @@ annual average data - usually less than 100KB`
     )
 
     await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTip.click()
+    await common.legalWait()
     const getSulphurDioxideAnnualAverageToggleTipInfoText =
       await monitoringStationPage.getSulphurDioxideAnnualAverageToggleTipInfoText.getText()
     await expect(getSulphurDioxideAnnualAverageToggleTipInfoText).toMatch(
@@ -2817,6 +2822,7 @@ annual average data - usually less than 100KB`
     )
 
     await monitoringStationPage.getPM10DailyExceedenceToggleTip.click()
+    await common.legalWait()
     const getPM10DailyExceedenceToggleTipInfoText =
       await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText.getText()
     await expect(getPM10DailyExceedenceToggleTipInfoText).toMatch(
@@ -2824,6 +2830,7 @@ annual average data - usually less than 100KB`
     )
 
     await monitoringStationPage.getSDDailyExceedenceToggleTip.click()
+    await common.legalWait()
     const getSDDailyExceedenceToggleTipInfoText =
       await monitoringStationPage.getSDDailyExceedenceToggleTipInfoText.getText()
     await expect(getSDDailyExceedenceToggleTipInfoText).toMatch(
@@ -2831,6 +2838,7 @@ annual average data - usually less than 100KB`
     )
 
     await monitoringStationPage.getNOHourlyExceedenceToggleTip.click()
+    await common.legalWait()
     const getNOHourlyExceedenceToggleTipInfoText =
       await monitoringStationPage.getNOHourlyExceedenceToggleTipInfoText.getText()
     await expect(getNOHourlyExceedenceToggleTipInfoText).toMatch(
@@ -2838,6 +2846,7 @@ annual average data - usually less than 100KB`
     )
 
     await monitoringStationPage.getSDHourlyExceedenceToggleTip.click()
+    await common.legalWait()
     const getSDHourlyExceedenceToggleTipInfoText =
       await monitoringStationPage.getSDHourlyExceedenceToggleTipInfoText.getText()
     await expect(getSDHourlyExceedenceToggleTipInfoText).toMatch(

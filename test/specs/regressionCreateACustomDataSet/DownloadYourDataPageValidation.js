@@ -3776,6 +3776,10 @@ Download data
       }
     )
 
+    // On BrowserStack the file lives on the remote VM, so there is nothing
+    // local to stabilise or validate.
+    if (browserStackRun) return
+
     // Wait for the downloaded file's size to stop changing, so we don't try
     // to extract a zip that Chrome hasn't finished writing to disk yet.
     // Chrome may write to a temporary <guid>.tmp file and rename it once
@@ -3816,7 +3820,6 @@ Download data
     )
 
     const finalFiles = listDownloads()
-    if (browserStackRun) return
     expect(finalFiles.length).toBe(1)
 
     // Verify downloaded file is non-empty
@@ -4061,6 +4064,10 @@ Download data
       }
     )
 
+    // On BrowserStack the file lives on the remote VM, so there is nothing
+    // local to stabilise or validate.
+    if (browserStackRun) return
+
     // Wait for the downloaded file's size to stop changing, so we don't try
     // to extract a zip that Chrome hasn't finished writing to disk yet.
     await browser.waitUntil(
@@ -4091,7 +4098,6 @@ Download data
     const finalFiles = fs
       .readdirSync(DOWNLOAD_DIR)
       .filter((f) => !f.endsWith('.crdownload'))
-    if (browserStackRun) return
     expect(finalFiles.length).toBe(1)
 
     // Verify downloaded file is non-empty
