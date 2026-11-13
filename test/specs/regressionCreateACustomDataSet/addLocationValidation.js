@@ -53,8 +53,6 @@ describe('add location validation', () => {
     const addLocationPageContent =
       await addLocationPage.getAddLocationPageContent.getText()
     const expectedAddLocationPageContent = `Add location(s)
-!
-Local authorities are not currently available. Choose countries or try again later.
 Countries
 Choose one or more: England, Scotland, Wales or Northern Ireland
 England
@@ -1298,8 +1296,6 @@ Only Automatic Urban and Rural Network is available for agglomerations.`
     const contentWithAgglomerationsSelected =
       await addLocationPage.getAddLocationPageContent.getText()
     const expectedContentWithAgglomerationsSelected = `Add location(s)
-!
-Local authorities are not currently available. Choose countries or try again later.
 Countries
 Choose one or more: England, Scotland, Wales or Northern Ireland
 Zones
