@@ -177,7 +177,7 @@ Continue`)
 
   it('AQD-1173 - Content Change | Your link has expired (Data Selector)', async () => {
     await browser.url(
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/download_emailreq/2453edb3556c472a97fcdd0d01713e19/925224.5492'
+      '/download_emailreq/2453edb3556c472a97fcdd0d01713e19/925224.5492'
     )
     const ExpiredRequestDataPageContent =
       await downloadRequestedDataPage.getLinkExpiredPageContent.getText()
@@ -328,11 +328,11 @@ Continue`)
 
   it('AQD-1288 - wrong error page showing when download errors', async () => {
     await browser.url(
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/download_emailreq/00459af0fc574d9da6fjfjf8f8fcc649502d34b21/1778767984297'
+      'download_emailreq/00459af0fc574d9da6fjfjf8f8fcc649502d34b21/1778767984297'
     )
     const url = await browser.getUrl()
     expect(url).toContain(
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/download_emailreq/00459af0fc574d9da6fjfjf8f8fcc649502d34b21/1778767984297'
+      'download_emailreq/00459af0fc574d9da6fjfjf8f8fcc649502d34b21/1778767984297'
     )
     const dowonloadErrorPageContent =
       await errorPage.getCouldNotFindContent.getText()
