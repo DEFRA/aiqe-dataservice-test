@@ -113,7 +113,6 @@ class AddPollutantPage {
     await this.getSearchFirstAutocomplete.waitForExist({ timeout: 30000 })
     await this.getSearchFirstAutocomplete.click()
     await this.getAddPollutantButton.click()
-    await this.getAddPollutantButton.click()
   }
 
   get getPollutantGroupHint() {

@@ -3540,20 +3540,42 @@ Download hourly data
 
       await downloadAction()
 
+      // Chrome may write to a temporary <guid>.tmp file and rename it once
+      // complete, so prefer non-.tmp files and only accept a .tmp file once it
+      // has been stable for longer.
+      const listNewDownloads = () => {
+        const files = fs
+          .readdirSync(DOWNLOAD_DIR)
+          .filter(
+            (f) =>
+              !f.endsWith('.crdownload') &&
+              !filesBefore.has(f) &&
+              fs.statSync(path.join(DOWNLOAD_DIR, f)).isFile()
+          )
+        const nonTmpFiles = files.filter((f) => !f.endsWith('.tmp'))
+        return nonTmpFiles.length > 0 ? nonTmpFiles : files
+      }
+
       await browser.waitUntil(
         async () => {
           try {
             await syncBrowserStackDownloads(DOWNLOAD_DIR)
             if (isBrowserStackSession()) return true
-            const files = fs
-              .readdirSync(DOWNLOAD_DIR)
-              .filter((f) => !f.endsWith('.crdownload'))
-            const newFiles = files.filter((f) => !filesBefore.has(f))
-            if (newFiles.length === 0) return false
-            return newFiles.every((f) => {
-              const size = fs.statSync(path.join(DOWNLOAD_DIR, f)).size
-              return size > 0
-            })
+            const files = listNewDownloads()
+            if (files.length === 0) return false
+            const sizes = (list) =>
+              list.map((f) => fs.statSync(path.join(DOWNLOAD_DIR, f)).size)
+            const sizesNow = sizes(files)
+            if (sizesNow.some((size) => size === 0)) return false
+            const stableWaitMs = files.some((f) => f.endsWith('.tmp'))
+              ? 3000
+              : 300
+            await new Promise((resolve) => setTimeout(resolve, stableWaitMs))
+            const filesAfterWait = listNewDownloads()
+            return (
+              filesAfterWait.join(',') === files.join(',') &&
+              sizes(filesAfterWait).join(',') === sizesNow.join(',')
+            )
           } catch {
             return false
           }
@@ -3565,10 +3587,11 @@ Download hourly data
         }
       )
 
-      const filesAfter = fs
-        .readdirSync(DOWNLOAD_DIR)
-        .filter((f) => !f.endsWith('.crdownload'))
-      const newFiles = filesAfter.filter((f) => !filesBefore.has(f))
+      const newFiles = browserStackRun
+        ? fs
+            .readdirSync(DOWNLOAD_DIR)
+            .filter((f) => !f.endsWith('.crdownload') && !filesBefore.has(f))
+        : listNewDownloads()
       if (browserStackRun && newFiles.length === 0) return
       expect(newFiles.length).toBeGreaterThan(0)
 
