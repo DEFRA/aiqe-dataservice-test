@@ -698,6 +698,7 @@ Cornwall County Council`
     await addPollutantPage.getAddPollutantOption.click()
     await addPollutantPage.addPollutant('sulphur dioxide')
     await common.continueButton.click()
+    await common.legalWait()
     await customselectionPage.getAddChangeYearLink.click()
     await addYearPage.getYearToDateOption.click()
     await addYearPage.continueButton.click()
