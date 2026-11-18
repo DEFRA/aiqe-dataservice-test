@@ -11,11 +11,21 @@ import axios from 'axios'
 import xml2js from 'xml2js'
 import allure from '@wdio/allure-reporter'
 
+// API key for the CDP ephemeral-protected gateway (aqie-back-end,
+// aqie-historicaldata-backend). Set CDP_API_KEY in .env
+const getCdpApiKey = () => {
+  const apiKey = process.env.CDP_API_KEY
+  if (!apiKey) {
+    throw new Error('Set CDP_API_KEY in .env to call the CDP protected APIs')
+  }
+  return apiKey
+}
+
 // Persist coverage summary for reuse across tests in this file
 let perPollutantCoverage = null
 describe('API Testing', () => {
   it('monitoring station api availability and getting site id for one station', async () => {
-    const apiKey = ''
+    const apiKey = getCdpApiKey()
     const url =
       'https://ephemeral-protected.api.dev.cdp-int.defra.cloud/aqie-back-end/measurements?localSiteID=DESA'
 
@@ -801,7 +811,7 @@ describe('API Testing', () => {
   it('testing new api - count of all pollutants, listing pollutants with data sources', async () => {
     const urlAtomData =
       'https://ephemeral-protected.api.dev.cdp-int.defra.cloud/aqie-historicaldata-backend/AtomDataSelectionPollutantMaster'
-    const apiKey = ''
+    const apiKey = getCdpApiKey()
 
     const data = await browser.call(async () => {
       const res = await axios.get(urlAtomData, {
@@ -822,7 +832,7 @@ describe('API Testing', () => {
         `ID: ${pollutant.pollutantID} | Name: ${pollutant.pollutantName} | Abbreviation: ${pollutant.pollutant_Abbreviation}`
       )
     }
-    await expect(pollutants.length).toEqual(123)
+    await expect(pollutants.length).toEqual(124)
 
     // extracting each pollutant with a data source
     const urlPollutantDataSource =
@@ -884,32 +894,111 @@ describe('API Testing', () => {
   // does not calculate the average (it shows "-" instead)
   const lowDataCaptureThreshold = 75
 
+  // UK-AIR API - the source aqie-back-end uses for the last 24 hours and
+  // last 7 days views. Needs UK_AIR_API_TOKEN (set in .env) - a token from
+  // "Login Check" in the API docs, which expires after 5 days
+  const ukAirApiUrl = 'https://uk-air-api.staging.rcdo.co.uk/api'
+
+  const getUkAirApiToken = () => {
+    const token = process.env.UK_AIR_API_TOKEN
+    if (!token) {
+      throw new Error(
+        'Set UK_AIR_API_TOKEN in .env to call the UK-AIR API (get one from "Login Check" at https://uk-air-api.staging.rcdo.co.uk/api/docs)'
+      )
+    }
+    return token
+  }
+
+  // Measurements for one station and pollutant between two dates (YYYY-MM-DD).
+  // The API only takes one pollutant per request
+  const getPollutantMeasurements = async (
+    stationId,
+    pollutantName,
+    startDate,
+    endDate
+  ) => {
+    const token = getUkAirApiToken()
+    const request = (page) =>
+      axios.get(`${ukAirApiUrl}/pollutant_measurement_datas`, {
+        params: {
+          page,
+          'station-id': stationId,
+          'pollutant-name': pollutantName,
+          'start-date': startDate,
+          'end-date': endDate
+        },
+        headers: {
+          accept: 'application/ld+json',
+          Authorization: `Bearer ${token}`
+        },
+        // Check the status ourselves so the errors below say what went wrong
+        validateStatus: () => true
+      })
+    // Longer ranges can come back over several pages
+    let measurements = []
+    for (let page = 1; ; page++) {
+      const res = await request(page)
+      if (String(res.data).includes('Zscaler')) {
+        // Zscaler shows a "Pause before you continue" page for this site,
+        // which has to be accepted in a browser before scripts can get through
+        throw new Error(
+          `Zscaler blocked the UK-AIR API (HTTP ${res.status}). Open ${ukAirApiUrl}/docs in your browser, click "Continue", then run the test again`
+        )
+      }
+      if (res.status === 401) {
+        throw new Error(
+          'UK-AIR API token rejected (HTTP 401) - it has probably expired. Get a new one from "Login Check" in the API docs and update UK_AIR_API_TOKEN in .env'
+        )
+      }
+      if (!Array.isArray(res.data?.member)) {
+        throw new Error(
+          `UK-AIR API did not return measurements for ${stationId} ${pollutantName} (HTTP ${res.status}): ${JSON.stringify(res.data).slice(0, 300)}`
+        )
+      }
+      measurements = measurements.concat(res.data.member)
+      if (!res.data.view?.next || !res.data.member.length) break
+    }
+    return measurements
+  }
+
   // Works out last 7 days average, data capture and exceedances per pollutant
-  // from the ATOM feed for one site (e.g. 'CLL2', 'MKCC')
-  const calculateLastSevenDays = async (siteCode) => {
+  // from the UK-AIR API for one station (e.g. 'UKA00211' London Bloomsbury,
+  // 'UKA00963' Milton Keynes Civic Centre)
+  const calculateLastSevenDays = async (stationId) => {
     // Exceedance thresholds (µg/m³), null where there is no legal limit.
     // Values count once they would round above the legal limit, matching
     // the existing daily/hourly exceedance tests:
     // PM10 daily limit 50, NO2 hourly limit 200,
-    // sulphur dioxide daily limit 125 and hourly limit 350
+    // sulphur dioxide daily limit 125 and hourly limit 350.
+    // apiName is the pollutant-name the UK-AIR API expects
     const pollutantDefs = [
-      { key: 'PM10', code: 5, dailyThreshold: 50.5, hourlyThreshold: null },
+      {
+        key: 'PM10',
+        apiName: 'GE10',
+        dailyThreshold: 50.5,
+        hourlyThreshold: null
+      },
       {
         key: 'PM2.5',
-        code: 6001,
+        apiName: 'PM25',
         dailyThreshold: null,
         hourlyThreshold: null
       },
       {
         key: 'Nitrogen dioxide',
-        code: 8,
+        apiName: 'NO2',
         dailyThreshold: null,
         hourlyThreshold: 200.4
       },
-      { key: 'Ozone', code: 7, dailyThreshold: null, hourlyThreshold: null },
+      {
+        key: 'Ozone',
+        apiName: 'O3',
+        dailyThreshold: null,
+        hourlyThreshold: null
+      },
       {
         key: 'Sulphur dioxide',
-        code: 1,
+        apiName: 'SO2',
         dailyThreshold: 125.4,
         hourlyThreshold: 350.4
       }
@@ -926,85 +1015,49 @@ describe('API Testing', () => {
     // (worked out from the dates so clock-change weeks give 167 or 169)
     const totalHoursInWindow = Math.round((windowEnd - windowStart) / 3600000)
 
-    // In the first week of January the window spans two yearly feeds
-    const years = [
-      ...new Set([windowStart.getFullYear(), windowEnd.getFullYear()])
-    ]
-
-    const parser = new xml2js.Parser({ explicitArray: false })
-    let featureArray = []
-    for (const year of years) {
-      const urlAtom = `https://uk-air.defra.gov.uk/data/atom-dls/observations/auto/GB_FixedObservations_${year}_${siteCode}.xml`
-      const response = await axios.get(urlAtom)
-      const result = await parser.parseStringPromise(response.data)
-      const featureMembers =
-        result['gml:FeatureCollection']['gml:featureMember']
-      featureArray = featureArray.concat(
-        Array.isArray(featureMembers) ? featureMembers : [featureMembers]
-      )
-    }
+    // Ask for the day before the window too, so the whole window is covered
+    // whatever the time zone. The API takes UTC dates
+    const oneHourMs = 3600000
+    const toApiDate = (d) => d.toISOString().slice(0, 10)
+    const startDate = toApiDate(
+      new Date(windowStart.getTime() - 24 * oneHourMs)
+    )
+    const endDate = toApiDate(new Date())
 
     const results = {}
     for (const pol of pollutantDefs) {
-      const matchingObservations = featureArray.filter((member) => {
-        const obs = member['om:OM_Observation']
-        if (!obs) return false
-        const observedProperty = obs['om:observedProperty']
-        return (
-          observedProperty &&
-          observedProperty.$ &&
-          observedProperty.$['xlink:href'] &&
-          observedProperty.$['xlink:href'].endsWith(`/pollutant/${pol.code}`)
-        )
-      })
+      const measurements = await getPollutantMeasurements(
+        stationId,
+        pol.apiName,
+        startDate,
+        endDate
+      )
 
-      if (!matchingObservations.length) {
+      if (!measurements.length) {
         // eslint-disable-next-line no-console
-        console.log(`[${pol.key}] No observations matched in feed`)
+        console.log(`[${pol.key}] No measurements returned`)
         continue
       }
 
-      const values = matchingObservations.map((obsMember) => {
-        const obs = obsMember['om:OM_Observation']
-        return obs['om:result']['swe:DataArray']['swe:values']
-      })
-
-      const rows = values.flatMap((valStr) =>
-        valStr
-          .split('@@')
-          .map((row) => row.split(','))
-          .map((fields) => ({
-            ts:
-              fields[0] && !isNaN(Date.parse(fields[0]))
-                ? fields[0]
-                : fields[1] && !isNaN(Date.parse(fields[1]))
-                  ? fields[1]
-                  : fields.find((f) => !isNaN(Date.parse(f))) || '',
-            durationMs: Date.parse(fields[1]) - Date.parse(fields[0]),
-            v: fields[4]
-          }))
-          .filter((r) => r.v !== undefined && r.v !== '-99')
-      )
-
-      // Some pollutants (e.g. sulphur dioxide) also have 15-minute readings in
-      // the feed - keep hourly rows only so each hour is counted once
-      const oneHourMs = 3600000
-      const hourlyRows = rows.filter(
-        (r) => isNaN(r.durationMs) || r.durationMs === oneHourMs
-      )
-      if (hourlyRows.length !== rows.length) {
-        // eslint-disable-next-line no-console
-        console.log(
-          `[${pol.key}] ignored ${rows.length - hourlyRows.length} non-hourly rows (${matchingObservations.length} observations in feed)`
-        )
-      }
-
-      // Keep only valid hours that fall inside the last 7 days,
-      // once per hour in case the same hour appears more than once
+      // Keep only valid hours that fall inside the last 7 days, once per hour.
+      // Sulphur dioxide also has 15-minute readings - keep hourly rows only so
+      // each hour is counted once. Missing hours come back as -9999.
+      // Each hour is placed by its startDateTime, so 23:00-24:00 counts on its own day
       const seenHours = new Set()
-      const parsed = hourlyRows
-        .map((r) => ({ date: new Date(r.ts), value: Number(r.v) }))
-        .filter((r) => !isNaN(r.date.getTime()) && !isNaN(r.value))
+      const parsed = measurements
+        .filter(
+          (m) =>
+            Date.parse(m.endDateTime) - Date.parse(m.startDateTime) ===
+            oneHourMs
+        )
+        .map((m) => ({
+          date: new Date(m.startDateTime),
+          value: Number(m.value)
+        }))
+        .filter(
+          (r) =>
+            !isNaN(r.date.getTime()) && Number.isFinite(r.value) && r.value >= 0
+        )
         .filter((r) => r.date >= windowStart && r.date < windowEnd)
         .filter((r) => {
           const hourKey = r.date.getTime()
@@ -1071,7 +1124,7 @@ describe('API Testing', () => {
       )
 
       results[pol.key] = {
-        code: pol.code,
+        apiName: pol.apiName,
         rawAverage: average,
         roundedAverage,
         dataCapturePercent,
@@ -1090,7 +1143,7 @@ describe('API Testing', () => {
 
     try {
       allure.addAttachment(
-        `Last 7 Days Averages (${siteCode})`,
+        `Last 7 Days Averages (${stationId})`,
         JSON.stringify(
           {
             windowStart: windowStart.toISOString(),
@@ -1248,7 +1301,7 @@ describe('API Testing', () => {
   }
 
   it('testing atom api and calculations for last 7 days average, data capture, and exceedances. AQD-1535,AQD-1550', async () => {
-    const results = await calculateLastSevenDays('CLL2')
+    const results = await calculateLastSevenDays('UKA00211')
 
     // comparing to the front end
     await browser.url('')
@@ -1269,7 +1322,7 @@ describe('API Testing', () => {
   })
 
   it('testing atom api and calculations for last 7 days with low data capture for Milton Keynes Civic Centre. AQD-1535,AQD-1550', async () => {
-    const results = await calculateLastSevenDays('MKCC')
+    const results = await calculateLastSevenDays('UKA00963')
 
     // This test covers the low data capture scenario - ozone at this site
     // should be under 75% data capture for the last 7 days
@@ -1310,5 +1363,227 @@ describe('API Testing', () => {
       .getAverageCell(ozoneRow)
       .getText()
     await expect(ozoneAverageFrontEnd.trim()).toBe('-')
+  })
+
+  // Works out the last 24 hours average per pollutant from the UK-AIR API for
+  // one station (e.g. 'UKA00211' for London Bloomsbury). The window is the
+  // latest available hour for the station plus the 23 hours immediately
+  // before it (24 hourly timestamps)
+  const calculateLastTwentyFourHours = async (stationId) => {
+    // apiName is the pollutant-name the UK-AIR API expects
+    const pollutantDefs = [
+      { key: 'PM10', apiName: 'GE10' },
+      { key: 'PM2.5', apiName: 'PM25' },
+      { key: 'Nitrogen dioxide', apiName: 'NO2' },
+      { key: 'Ozone', apiName: 'O3' },
+      { key: 'Sulphur dioxide', apiName: 'SO2' }
+    ]
+
+    const oneHourMs = 3600000
+    const hoursInWindow = 24
+
+    // 3 days ago to today, so the window is covered whatever the latest hour is
+    const toApiDate = (d) => d.toISOString().slice(0, 10)
+    const now = new Date()
+    const startDate = toApiDate(new Date(now.getTime() - 3 * 24 * oneHourMs))
+    const endDate = toApiDate(now)
+
+    // Valid hourly readings for each pollutant, once per hour.
+    // Each reading is timed by its endDateTime
+    const readingsByPollutant = {}
+    for (const pol of pollutantDefs) {
+      const measurements = await getPollutantMeasurements(
+        stationId,
+        pol.apiName,
+        startDate,
+        endDate
+      )
+
+      if (!measurements.length) {
+        // eslint-disable-next-line no-console
+        console.log(`[${pol.key}] No measurements returned`)
+        continue
+      }
+
+      // Sulphur dioxide also has 15-minute readings - keep hourly rows only so
+      // each hour is counted once. Missing hours come back as -9999
+      const seenHours = new Set()
+      readingsByPollutant[pol.key] = measurements
+        .filter(
+          (m) =>
+            Date.parse(m.endDateTime) - Date.parse(m.startDateTime) ===
+            oneHourMs
+        )
+        .map((m) => ({ date: new Date(m.endDateTime), value: Number(m.value) }))
+        .filter(
+          (r) =>
+            !isNaN(r.date.getTime()) && Number.isFinite(r.value) && r.value >= 0
+        )
+        .filter((r) => {
+          const hourKey = r.date.getTime()
+          if (seenHours.has(hourKey)) return false
+          seenHours.add(hourKey)
+          return true
+        })
+    }
+
+    // Latest available hour for the station, across all pollutants
+    const allHours = Object.values(readingsByPollutant).flatMap((readings) =>
+      readings.map((r) => r.date.getTime())
+    )
+    await expect(allHours.length).toBeGreaterThan(0)
+    const latestHour = new Date(Math.max(...allHours))
+    // 23 hours before the latest hour, so the window holds 24 hourly timestamps
+    const windowStart = new Date(
+      latestHour.getTime() - (hoursInWindow - 1) * oneHourMs
+    )
+
+    const results = {}
+    for (const [pollutant, readings] of Object.entries(readingsByPollutant)) {
+      const inWindow = readings.filter(
+        (r) => r.date >= windowStart && r.date <= latestHour
+      )
+
+      const average =
+        inWindow.length > 0
+          ? inWindow.reduce((sum, r) => sum + r.value, 0) / inWindow.length
+          : null
+      const roundedAverage = average != null ? Math.round(average) : null
+
+      // Valid hours out of the 24 in the window
+      const dataCapturePercent = Math.round(
+        (inWindow.length / hoursInWindow) * 100
+      )
+
+      results[pollutant] = {
+        rawAverage: average,
+        roundedAverage,
+        dataCapturePercent,
+        validHoursCount: inWindow.length
+      }
+
+      // eslint-disable-next-line no-console
+      console.log(
+        `[${pollutant}] last 24 hours average: ${roundedAverage} | valid hours: ${inWindow.length}/${hoursInWindow}`
+      )
+    }
+
+    // eslint-disable-next-line no-console
+    console.log(
+      `[${stationId}] last 24 hours window (API): ${windowStart.toISOString()} to ${latestHour.toISOString()}`
+    )
+
+    try {
+      allure.addAttachment(
+        `Last 24 Hours Averages (${stationId})`,
+        JSON.stringify(
+          {
+            windowStart: windowStart.toISOString(),
+            latestHour: latestHour.toISOString(),
+            results
+          },
+          null,
+          2
+        ),
+        'application/json'
+      )
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('Allure attachment failed:', e.message)
+    }
+
+    // The window is 24 hours, so no pollutant can have more than 24 valid hours
+    for (const r of Object.values(results)) {
+      await expect(r.validHoursCount).toBeLessThanOrEqual(hoursInWindow)
+    }
+
+    return results
+  }
+
+  // Compares our last 24 hours averages with the station page currently open
+  // (Last 24 hours view). pollutantsOnPage lists the summary table rows in
+  // order, for stations that only measure some pollutants.
+  // Returns the comparison rows for any extra checks
+  const compareLastTwentyFourHoursWithFrontEnd = async (
+    results,
+    pollutantsOnPage = allSummaryTablePollutants
+  ) => {
+    await monitoringStationPage.getAverageCell(0).waitForExist({
+      timeout: 5000
+    })
+
+    // The table should have exactly one row per pollutant we expect
+    await expect(await monitoringStationPage.getAverageCells.length).toEqual(
+      pollutantsOnPage.length
+    )
+
+    // Time period the front end says it is showing, to compare with our window
+    const frontEndDuration =
+      await monitoringStationPage.getLast24HoursTimeDuration.getText()
+    // eslint-disable-next-line no-console
+    console.log(`last 24 hours window (front end): ${frontEndDuration}`)
+
+    // Read every front-end value first so all mismatches are reported together
+    const comparisons = []
+    for (const [rowIndex, pollutant] of pollutantsOnPage.entries()) {
+      const frontEndText = await monitoringStationPage
+        .getAverageCell(rowIndex)
+        .getText()
+      comparisons.push({
+        pollutant,
+        measure: 'average',
+        backEnd: results[pollutant]?.roundedAverage ?? null,
+        frontEnd: common.parseNumber(frontEndText),
+        frontEndText
+      })
+    }
+
+    // eslint-disable-next-line no-console
+    console.table(comparisons)
+    try {
+      allure.addAttachment(
+        'Last 24 Hours Back End vs Front End',
+        JSON.stringify(comparisons, null, 2),
+        'application/json'
+      )
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('Allure attachment failed:', e.message)
+    }
+
+    for (const c of comparisons) {
+      const isLowDataCapture =
+        results[c.pollutant]?.dataCapturePercent != null &&
+        results[c.pollutant].dataCapturePercent < lowDataCaptureThreshold
+      if (isLowDataCapture) {
+        // Low data capture - the average is not calculated and shows "-"
+        await expect(c.frontEndText.trim()).toBe('-')
+      } else {
+        await expect(c.frontEnd).toEqual(c.backEnd)
+      }
+    }
+
+    return comparisons
+  }
+
+  it('testing api and calculations for last 24 hours average, data capture, and exceedances. AQD-1534', async () => {
+    const results = await calculateLastTwentyFourHours('UKA00211')
+
+    // comparing to the front end
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getLast24HoursButton.click()
+    await common.legalWait()
+
+    await compareLastTwentyFourHoursWithFrontEnd(results)
   })
 })

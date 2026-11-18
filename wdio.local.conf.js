@@ -14,6 +14,18 @@ const localChromedriverBinary =
     'chromedriver.exe'
   )
 
+// Local secrets (e.g. UK_AIR_API_TOKEN, CDP_API_KEY) from a git-ignored
+// .env file, so they don't need setting in every terminal. See .env.example
+try {
+  process.loadEnvFile(path.resolve(process.cwd(), '.env'))
+} catch {
+  // no .env file - fall back to whatever is set in the terminal
+}
+
+// Trust the Windows certificate store in the test workers - Zscaler intercepts
+// HTTPS to some hosts (e.g. the UK-AIR API) with its own certificate
+process.env.NODE_USE_SYSTEM_CA = '1'
+
 process.env.WDIO_USE_NATIVE_FETCH = '1'
 process.env.CHROMEDRIVER_PATH = localChromedriverBinary
 delete process.env.HTTP_PROXY
@@ -59,7 +71,7 @@ export const config = {
   // will be called from there.
   //
   specs: [
-    './test/specs/regressionCreateACustomDataSet/requestDataPageValidation.js'
+    './test/specs/regressionSearchByLocation/monitoringStationPageValidation.js'
   ],
   // Patterns to exclude.
   exclude: [],
@@ -159,7 +171,7 @@ export const config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrl: 'https://aqie-dataselector-frontend.test.cdp-int.defra.cloud/',
+  baseUrl: 'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/',
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 30000,

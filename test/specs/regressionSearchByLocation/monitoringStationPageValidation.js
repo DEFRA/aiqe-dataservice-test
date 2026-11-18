@@ -2853,4 +2853,242 @@ annual average data - usually less than 100KB`
       `Hourly sulphur dioxide levels must not go above 350 micrograms per cubic metre (µg/m³) more than 24 times in a calendar year (when rounded to a whole number).`
     )
   })
+
+  it('AQD-1534, Add Last 24 hours tab to summary table', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getLast24HoursButton.click()
+    await common.legalWait()
+
+    await monitoringStationPage.getAirPollutionSummaryLast24HoursHeading.waitForDisplayed(
+      { timeout: 5000 }
+    )
+    const getAirPollutionSummaryLast24HoursHeadingText =
+      await monitoringStationPage.getAirPollutionSummaryLast24HoursHeading.getText()
+    const expectedgetAirPollutionSummaryLast24HoursHeadingText = `Air pollution summary: last 24 hours`
+    await expect(getAirPollutionSummaryLast24HoursHeadingText).toMatch(
+      expectedgetAirPollutionSummaryLast24HoursHeadingText
+    )
+
+    const getAirPollutionSummaryLast24HoursHeadingStyles = [
+      await monitoringStationPage.getAirPollutionSummaryLast24HoursHeading
+    ]
+    const getAirPollutionSummaryLast24HoursHeadingStylesProperties = [
+      'margin-top',
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+    for (const element of getAirPollutionSummaryLast24HoursHeadingStyles) {
+      const styles = await common.getStyles(
+        element,
+        getAirPollutionSummaryLast24HoursHeadingStylesProperties
+      )
+      expect(styles['margin-top']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('10px')
+      expect(styles['font-size']).toBe('36px')
+      expect(styles['line-height']).toBe('40px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
+    }
+
+    await monitoringStationPage.getLast24HoursTimeDuration.waitForDisplayed({
+      timeout: 5000
+    })
+    const getLast24HoursTimeDurationText =
+      await monitoringStationPage.getLast24HoursTimeDuration.getText()
+    const todaysDate = await monitoringStationPage.getTodayAsDayMonthString()
+    const expectedgetLast24HoursTimeDurationText = `${todaysDate}`
+    await expect(getLast24HoursTimeDurationText).toMatch(
+      expectedgetLast24HoursTimeDurationText
+    )
+
+    const getLast24HoursTimeDurationStyles = [
+      await monitoringStationPage.getLast24HoursTimeDuration
+    ]
+    const getLast24HoursTimeDurationStylesProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight',
+      'margin-top'
+    ]
+    for (const element of getLast24HoursTimeDurationStyles) {
+      const styles = await common.getStyles(
+        element,
+        getLast24HoursTimeDurationStylesProperties
+      )
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['margin-top']).toBe('0px')
+    }
+
+    await monitoringStationPage.getLast24HoursWarningText.waitForDisplayed({
+      timeout: 5000
+    })
+    const getLast24HoursWarningTextText =
+      await monitoringStationPage.getLast24HoursWarningText.getText()
+    const expectedgetLast24HoursWarningTextText = `Data has not been checked and verified`
+    await expect(getLast24HoursWarningTextText).toMatch(
+      expectedgetLast24HoursWarningTextText
+    )
+
+    const getLast24HoursWarningTextStyles = [
+      await monitoringStationPage.getLast24HoursWarningText
+    ]
+    const getLast24HoursWarningTextStylesProperties = [
+      'background-color',
+      'border-left',
+      'margin-bottom',
+      'margin-top',
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight',
+      'padding'
+    ]
+    for (const element of getLast24HoursWarningTextStyles) {
+      const styles = await common.getStyles(
+        element,
+        getLast24HoursWarningTextStylesProperties
+      )
+      expect(styles['background-color']).toBe('rgb(249, 226, 215)')
+      expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles['margin-top']).toBe('30px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.padding).toBe('15px')
+    }
+
+    const Last24HoursHintText =
+      await monitoringStationPage.getLast24HoursHint.getText()
+    const expectedLast24HoursHintText = `The pollution levels shown are measured against UK legal limits.`
+    await expect(Last24HoursHintText).toMatch(expectedLast24HoursHintText)
+
+    const getLast24HoursHintStyles = [
+      await monitoringStationPage.getLast24HoursHint
+    ]
+    const getLast24HoursHintProperties = [
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight',
+      'margin-bottom'
+    ]
+    for (const element of getLast24HoursHintStyles) {
+      const styles = await common.getStyles(
+        element,
+        getLast24HoursHintProperties
+      )
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles.color).toBe('rgb(80, 90, 95)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['margin-bottom']).toBe('15px')
+    }
+
+    const summaryTableDisplayedComponents = [
+      await monitoringStationPage.getPM25AnnaulAverageST,
+      await monitoringStationPage.getPM10AnnaulAverageST,
+      await monitoringStationPage.getNitrogenDioxideAnnaulAverageST,
+      await monitoringStationPage.getOzoneAnnaulAverageST,
+      await monitoringStationPage.getSulphurDioxideAnnaulAverageST,
+      await monitoringStationPage.getPM25HourlyExceedence,
+      await monitoringStationPage.getPM10HourlyExceedence,
+      await monitoringStationPage.getNOHourlyExceedence,
+      await monitoringStationPage.getOzoneHourlyExceedence,
+      await monitoringStationPage.getSDHourlyExceedence,
+      await monitoringStationPage.getPM25DataCapture,
+      await monitoringStationPage.getPM10DataCapture,
+      await monitoringStationPage.getNODataCapture,
+      await monitoringStationPage.getOzoneDataCapture,
+      await monitoringStationPage.getSDDataCapture
+    ]
+    for (const element of summaryTableDisplayedComponents) {
+      const isElementDisplayed = await element.isDisplayed()
+      await expect(isElementDisplayed).toBe(true)
+    }
+
+    await monitoringStationPage.getPM2524HourAverageToggleTip.click()
+    await common.legalWait()
+    const getPM2524HourAverageToggleTipInfoText =
+      await monitoringStationPage.getPM2524HourAverageToggleTipInfoText.getText()
+    await expect(getPM2524HourAverageToggleTipInfoText).toMatch(
+      `Annual average PM2.5 levels at any site must not go above 20 micrograms per cubic metre (µg/m³) in a calendar year (when rounded to a whole number).`
+    )
+
+    await monitoringStationPage.getPM1024HourAverageToggleTip.click()
+    await common.legalWait()
+    const getPM1024HourAverageToggleTipInfoText =
+      await monitoringStationPage.getPM1024HourAverageToggleTipInfoText.getText()
+    await expect(getPM1024HourAverageToggleTipInfoText).toMatch(
+      `Annual average PM10 levels at any site must not go above 40 micrograms per cubic metre (µg/m³) in a calendar year (when rounded to a whole number).`
+    )
+
+    await monitoringStationPage.getNitrogenDioxide24HourAverageToggleTip.click()
+    await common.legalWait()
+    const getNitrogenDioxide24HourAverageToggleTipInfoText =
+      await monitoringStationPage.getNitrogenDioxide24HourAverageToggleTipInfoText.getText()
+    await expect(getNitrogenDioxide24HourAverageToggleTipInfoText).toMatch(
+      `Annual average nitrogen dioxide levels at any site must not go above 40 micrograms per cubic metre (µg/m³) in a calendar year (when rounded to a whole number).`
+    )
+
+    await monitoringStationPage.getOzone24HourAverageToggleTip.click()
+    await common.legalWait()
+    const getOzone24HourAverageToggleTipInfoText =
+      await monitoringStationPage.getOzone24HourAverageToggleTipInfoText.getText()
+    await expect(getOzone24HourAverageToggleTipInfoText).toMatch(
+      `There is no annual average limit value for ozone.`
+    )
+
+    await monitoringStationPage.getSulphurDioxide24HourAverageToggleTip.click()
+    await common.legalWait()
+    const getSulphurDioxide24HourAverageToggleTipInfoText =
+      await monitoringStationPage.getSulphurDioxide24HourAverageToggleTipInfoText.getText()
+    await expect(getSulphurDioxide24HourAverageToggleTipInfoText).toMatch(
+      `There is no annual average limit value for sulphur dioxide.`
+    )
+
+    await monitoringStationPage.getNOHourlyExceedenceToggleTip.click()
+    await common.legalWait()
+    const getNO24HourHourlyExceedenceToggleTipInfoText =
+      await monitoringStationPage.getNO24HourHourlyExceedenceToggleTipInfoText.getText()
+    await expect(getNO24HourHourlyExceedenceToggleTipInfoText).toMatch(
+      `Hourly nitrogen dioxide levels must not go above 200 micrograms per cubic metre (µg/m³) more than 18 times in a calendar year (when rounded to a whole number).`
+    )
+
+    await monitoringStationPage.getSDHourlyExceedenceToggleTip.click()
+    await common.legalWait()
+    const getSD24HourHourlyExceedenceToggleTipInfoText =
+      await monitoringStationPage.getSD24HourHourlyExceedenceToggleTipInfoText.getText()
+    await expect(getSD24HourHourlyExceedenceToggleTipInfoText).toMatch(
+      `Hourly sulphur dioxide levels must not go above 350 micrograms per cubic metre (µg/m³) more than 24 times in a calendar year (when rounded to a whole number).`
+    )
+  })
 })
