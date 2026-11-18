@@ -6,24 +6,24 @@ class MapsPage {
   }
 
   get getOpenFilterPanelButton() {
-    return $(`button[aria-label*="Toggle filter panel"]`)
+    return $(`button[aria-label*="Open map menu"]`)
   }
 
   get getOpenMapKeyButton() {
-    return $(`button[aria-label*="Toggle map key"]`)
+    return $(`button[aria-label*="Open map key"]`)
   }
 
   get getZoomInButton() {
-    return $(`button[id*="map-zoom-in"]`)
+    return $(`button[id="zoom-in"]`)
   }
 
   get getZoomOutButton() {
-    return $(`button[id*="map-zoom-out"]`)
+    return $(`button[id="zoom-out"]`)
   }
   // map key
 
   get getMapKey() {
-    return $(`div[aria-label*="Map key"]`)
+    return $(`div[class*="aq-map-key__body"]`)
   }
 
   get getMapKeyClose() {
@@ -31,11 +31,13 @@ class MapsPage {
   }
 
   get getMapKeyHeading() {
-    return $(`h2[class*="govuk-heading-s govuk-!-margin-bottom-1"]`)
+    return $(`h2[class*="govuk-heading-m govuk-!-margin-bottom-0"]`)
   }
 
   get getMapKeyDailyAirQualityIndexDAQISubheading() {
-    return $(`p[class*="govuk-body-s govuk-!-margin-bottom-2"]`)
+    return $(
+      `p[class*="govuk-hint govuk-!-margin-top-1 govuk-!-margin-bottom-2"]`
+    )
   }
 
   get getMapKeyScaleBandOne() {
@@ -216,7 +218,7 @@ class MapsPage {
   }
 
   get getMonitoringStationInformationPanelMonitoringStationInfoDaqiLowStatus() {
-    return $(`span[class*="aq-daqi-tag aq-daqi-tag--low"]`)
+    return $(`span[class*="aq-daqi-tag aq-daqi-tag--1"]`)
   }
 
   get getMonitoringStationInformationPanelMonitoringStationLink() {
