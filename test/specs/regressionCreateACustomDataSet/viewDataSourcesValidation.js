@@ -45,6 +45,7 @@ Automatic Urban and Rural Network (AURN)`
       await addPollutantPage.getAddPollutantOption.click()
       await addPollutantPage.addPollutant(pollutant)
       await common.continueButton.click()
+      await common.legalWait()
       const dataSource1 =
         await customselectionPage.getDataSourcesValue.getText()
       const expectedDataSource1 = `Near real-time data from Defra
@@ -361,6 +362,7 @@ PAH Deposition`
       await addPollutantPage.getAddPollutantOption.click()
       await addPollutantPage.addPollutant(pollutant)
       await common.continueButton.click()
+      await common.legalWait()
       const dataSource = await customselectionPage.getDataSourcesValue.getText()
       const expectedDataSource = `Other data from Defra
 PAH Andersen
@@ -465,6 +467,7 @@ PAH Digitel (solid+vapour)`
       await addPollutantPage.getAddPollutantOption.click()
       await addPollutantPage.addPollutant(pollutant)
       await common.continueButton.click()
+      await common.legalWait()
       const dataSource = await customselectionPage.getDataSourcesValue.getText()
       const expectedDataSource = `Near real-time data from Defra
 Automatic Hydrocarbon Network`
