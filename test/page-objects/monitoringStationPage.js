@@ -530,6 +530,86 @@ class MonitoringStationPage {
     return $("p[id*='duration_current']")
   }
 
+  // last 24 hours tab
+
+  get getLast24HoursButton() {
+    return $("a[id*='link-last-24-hours']")
+  }
+
+  get getLast24HoursTimeDuration() {
+    return $("p[id*='duration_current']")
+  }
+
+  get getLast24HoursWarningText() {
+    return $("div[class*='govuk-inset-text not-verified']")
+  }
+
+  get getAirPollutionSummaryLast24HoursHeading() {
+    return $("h2[id*='airpollution-heading']")
+  }
+
+  get getLast24HoursHint() {
+    return $("p[id*='last24hours-hint']")
+  }
+
+  get getPM2524HourAverageToggleTip() {
+    return $(
+      "button[aria-label*='More information about the UK annual average limit value for PM2.5']"
+    )
+  }
+
+  get getPM2524HourAverageToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[1]
+  }
+
+  get getPM1024HourAverageToggleTip() {
+    return $(
+      "button[aria-label*='More information about the UK annual average limit value for PM10']"
+    )
+  }
+
+  get getPM1024HourAverageToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[2]
+  }
+
+  get getNitrogenDioxide24HourAverageToggleTip() {
+    return $(
+      "button[aria-label*='More information about the UK annual average limit value for nitrogen dioxide']"
+    )
+  }
+
+  get getNitrogenDioxide24HourAverageToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[3]
+  }
+
+  get getOzone24HourAverageToggleTip() {
+    return $(
+      "button[aria-label*='More information about the UK annual average limit value for ozone']"
+    )
+  }
+
+  get getOzone24HourAverageToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[5]
+  }
+
+  get getSulphurDioxide24HourAverageToggleTip() {
+    return $(
+      "button[aria-label*='More information about the UK annual average limit value for sulphur dioxide']"
+    )
+  }
+
+  get getSulphurDioxide24HourAverageToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[6]
+  }
+
+  get getNO24HourHourlyExceedenceToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[4]
+  }
+
+  get getSD24HourHourlyExceedenceToggleTipInfoText() {
+    return $$("span[class*='defra-toggletip__text']")[7]
+  }
+
   // Summary table cells by row position, for stations that don't measure
   // all five pollutants (rows only appear for pollutants the station measures)
   get getAverageCells() {
