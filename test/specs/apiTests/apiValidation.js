@@ -1365,19 +1365,26 @@ describe('API Testing', () => {
     await expect(ozoneAverageFrontEnd.trim()).toBe('-')
   })
 
-  // Works out the last 24 hours average per pollutant from the UK-AIR API for
-  // one station (e.g. 'UKA00211' for London Bloomsbury). The window is the
-  // latest available hour for the station plus the 23 hours immediately
-  // before it (24 hourly timestamps)
+  // Works out the last 24 hours average, data capture and hourly exceedances
+  // per pollutant from the UK-AIR API for one station (e.g. 'UKA00211' for
+  // London Bloomsbury). The window is the latest available hour for the
+  // station plus the 23 hours immediately before it (24 hourly timestamps)
   const calculateLastTwentyFourHours = async (stationId) => {
+    // Hourly exceedance thresholds (µg/m³), null where there is no hourly
+    // legal limit. Values count once they would round above the legal limit,
+    // same as the last 7 days test: NO2 hourly limit 200, sulphur dioxide
+    // hourly limit 350.
     // apiName is the pollutant-name the UK-AIR API expects
     const pollutantDefs = [
-      { key: 'PM10', apiName: 'GE10' },
-      { key: 'PM2.5', apiName: 'PM25' },
-      { key: 'Nitrogen dioxide', apiName: 'NO2' },
-      { key: 'Ozone', apiName: 'O3' },
-      { key: 'Sulphur dioxide', apiName: 'SO2' }
+      { key: 'PM10', apiName: 'GE10', hourlyThreshold: null },
+      { key: 'PM2.5', apiName: 'PM25', hourlyThreshold: null },
+      { key: 'Nitrogen dioxide', apiName: 'NO2', hourlyThreshold: 200.4 },
+      { key: 'Ozone', apiName: 'O3', hourlyThreshold: null },
+      { key: 'Sulphur dioxide', apiName: 'SO2', hourlyThreshold: 350.4 }
     ]
+    const hourlyThresholds = Object.fromEntries(
+      pollutantDefs.map((pol) => [pol.key, pol.hourlyThreshold])
+    )
 
     const oneHourMs = 3600000
     const hoursInWindow = 24
@@ -1455,16 +1462,24 @@ describe('API Testing', () => {
         (inWindow.length / hoursInWindow) * 100
       )
 
+      // Hourly exceedances: valid hourly readings in the window over the limit
+      const hourlyThreshold = hourlyThresholds[pollutant]
+      const hourlyExceedances =
+        hourlyThreshold != null
+          ? inWindow.filter((r) => r.value > hourlyThreshold).length
+          : null
+
       results[pollutant] = {
         rawAverage: average,
         roundedAverage,
         dataCapturePercent,
+        hourlyExceedances,
         validHoursCount: inWindow.length
       }
 
       // eslint-disable-next-line no-console
       console.log(
-        `[${pollutant}] last 24 hours average: ${roundedAverage} | valid hours: ${inWindow.length}/${hoursInWindow}`
+        `[${pollutant}] last 24 hours average: ${roundedAverage} | data capture: ${dataCapturePercent}% (${inWindow.length}/${hoursInWindow} hours) | hourly exceedances: ${hourlyExceedances ?? 'n/a'}`
       )
     }
 
@@ -1493,14 +1508,21 @@ describe('API Testing', () => {
     }
 
     // The window is 24 hours, so no pollutant can have more than 24 valid hours
+    // or more than 100% data capture
     for (const r of Object.values(results)) {
       await expect(r.validHoursCount).toBeLessThanOrEqual(hoursInWindow)
+      await expect(r.dataCapturePercent).toBeLessThanOrEqual(100)
+      // Can't exceed in more hours than were valid
+      if (r.hourlyExceedances != null) {
+        await expect(r.hourlyExceedances).toBeLessThanOrEqual(r.validHoursCount)
+      }
     }
 
     return results
   }
 
-  // Compares our last 24 hours averages with the station page currently open
+  // Compares our last 24 hours average, data capture and hourly exceedances
+  // with the station page currently open
   // (Last 24 hours view). pollutantsOnPage lists the summary table rows in
   // order, for stations that only measure some pollutants.
   // Returns the comparison rows for any extra checks
@@ -1523,19 +1545,40 @@ describe('API Testing', () => {
     // eslint-disable-next-line no-console
     console.log(`last 24 hours window (front end): ${frontEndDuration}`)
 
-    // Read every front-end value first so all mismatches are reported together
-    const comparisons = []
-    for (const [rowIndex, pollutant] of pollutantsOnPage.entries()) {
-      const frontEndText = await monitoringStationPage
-        .getAverageCell(rowIndex)
-        .getText()
-      comparisons.push({
+    // Front-end elements for each pollutant, by its row in the summary table.
+    // The last 24 hours view has no daily exceedances column
+    const frontEndElements = Object.fromEntries(
+      pollutantsOnPage.map((pollutant, rowIndex) => [
         pollutant,
-        measure: 'average',
-        backEnd: results[pollutant]?.roundedAverage ?? null,
-        frontEnd: common.parseNumber(frontEndText),
-        frontEndText
-      })
+        {
+          average: monitoringStationPage.getAverageCell(rowIndex),
+          dataCapture: monitoringStationPage.getDataCaptureCell(rowIndex),
+          hourlyExceedances:
+            monitoringStationPage.getHourlyExceedanceCell(rowIndex)
+        }
+      ])
+    )
+
+    // Read every front-end value first so all mismatches are reported together.
+    // Cells with no number (e.g. no legal limit) parse to null, matching our null
+    const comparisons = []
+    for (const [pollutant, elements] of Object.entries(frontEndElements)) {
+      const backEnd = results[pollutant] ?? {}
+      const backEndValues = {
+        average: backEnd.roundedAverage ?? null,
+        dataCapture: backEnd.dataCapturePercent ?? null,
+        hourlyExceedances: backEnd.hourlyExceedances ?? null
+      }
+      for (const [measure, element] of Object.entries(elements)) {
+        const frontEndText = await element.getText()
+        comparisons.push({
+          pollutant,
+          measure,
+          backEnd: backEndValues[measure],
+          frontEnd: common.parseNumber(frontEndText),
+          frontEndText
+        })
+      }
     }
 
     // eslint-disable-next-line no-console
@@ -1555,12 +1598,30 @@ describe('API Testing', () => {
       const isLowDataCapture =
         results[c.pollutant]?.dataCapturePercent != null &&
         results[c.pollutant].dataCapturePercent < lowDataCaptureThreshold
-      if (isLowDataCapture) {
+      if (c.measure === 'hourlyExceedances' && c.backEnd === null) {
+        // No hourly legal limit for this pollutant - the cell should say so
+        await expect(c.frontEndText).toMatch(/no legal limit/i)
+      } else if (c.measure === 'average' && isLowDataCapture) {
         // Low data capture - the average is not calculated and shows "-"
         await expect(c.frontEndText.trim()).toBe('-')
       } else {
         await expect(c.frontEnd).toEqual(c.backEnd)
       }
+    }
+
+    // Any pollutant under 75% data capture should show the "Low data capture" tag
+    const anyLowDataCapture = Object.values(results).some(
+      (r) =>
+        r.dataCapturePercent != null &&
+        r.dataCapturePercent < lowDataCaptureThreshold
+    )
+    if (anyLowDataCapture) {
+      await expect(
+        await monitoringStationPage.getLowDataCaptureFlag.isDisplayed()
+      ).toBe(true)
+      await expect(
+        await monitoringStationPage.getLowDataCaptureFlag.getText()
+      ).toMatch('Low data capture')
     }
 
     return comparisons
