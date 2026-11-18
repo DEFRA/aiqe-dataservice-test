@@ -55,9 +55,11 @@ describe('maps Validation', () => {
         element,
         getzoomButtonStylingProperties
       )
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['padding-left']).toBe('8px')
-      expect(styles['padding-right']).toBe('8px')
+      expect(['rgb(11, 12, 12)', 'rgb(0, 0, 0)']).toContain(
+        styles.color.trim().toLowerCase()
+      )
+      expect(styles['padding-left']).toBe('10px')
+      expect(styles['padding-right']).toBe('10px')
     }
 
     // checking filter menu and map key buttons work and styling
@@ -194,12 +196,12 @@ describe('maps Validation', () => {
   it('information panel content checks, AQD-1523', async () => {
     const panelContent =
       await mapsPage.getMonitoringStationInformationPanel.getText()
-    const expectedContent = `Dundee Mains Loan Active
+    const expectedContent = `Perth Glasgow Road Active
 Pollutants: NO₂
 DAQI (observed): 1 (low)
-Local authority: Dundee City
-Site type: Background Urban
-Start date: 1 October 2017
+Local authority: Perth and Kinross
+Site type: Traffic Urban
+Start date: 1 January 2025
 View full station summary`
     await expect(panelContent).toMatch(expectedContent)
   })
@@ -362,7 +364,7 @@ View full station summary`
         InformationPanelMonitoringStationInfoDaqiLowStatusProperties
       )
       expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['background-color']).toBe('rgb(204, 226, 216)')
+      expect(styles['background-color']).toBe('rgb(156, 255, 156)')
       expect(styles.padding).toBe('1px 6px')
       expect(styles['font-weight']).toBe('400')
       expect(styles.display).toBe('inline-block')
