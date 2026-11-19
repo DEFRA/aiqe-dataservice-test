@@ -2683,20 +2683,16 @@ annual average data - usually less than 100KB`
       expect(styles['margin-top']).toBe('0px')
     }
 
-    await monitoringStationPage.getLastSevenDaysWarningText.waitForDisplayed({
+    await monitoringStationPage.getWarningText.waitForDisplayed({
       timeout: 5000
     })
-    const getLastSevenDaysWarningTextText =
-      await monitoringStationPage.getLastSevenDaysWarningText.getText()
-    const expectedgetLastSevenDaysWarningTextText = `Data has not been checked and verified`
-    await expect(getLastSevenDaysWarningTextText).toMatch(
-      expectedgetLastSevenDaysWarningTextText
-    )
+    const getWarningTextText =
+      await monitoringStationPage.getWarningText.getText()
+    const expectedgetWarningTextText = `Data has not been checked and verified`
+    await expect(getWarningTextText).toMatch(expectedgetWarningTextText)
 
-    const getLastSevenDaysWarningTextStyles = [
-      await monitoringStationPage.getLastSevenDaysWarningText
-    ]
-    const getLastSevenDaysWarningTextStylesProperties = [
+    const getWarningTextStyles = [await monitoringStationPage.getWarningText]
+    const getWarningTextStylesProperties = [
       'background-color',
       'border-left',
       'margin-bottom',
@@ -2708,10 +2704,10 @@ annual average data - usually less than 100KB`
       'font-weight',
       'padding'
     ]
-    for (const element of getLastSevenDaysWarningTextStyles) {
+    for (const element of getWarningTextStyles) {
       const styles = await common.getStyles(
         element,
-        getLastSevenDaysWarningTextStylesProperties
+        getWarningTextStylesProperties
       )
       expect(styles['background-color']).toBe('rgb(249, 226, 215)')
       expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
@@ -2942,20 +2938,16 @@ annual average data - usually less than 100KB`
       expect(styles['margin-top']).toBe('0px')
     }
 
-    await monitoringStationPage.getLast24HoursWarningText.waitForDisplayed({
+    await monitoringStationPage.getWarningText.waitForDisplayed({
       timeout: 5000
     })
-    const getLast24HoursWarningTextText =
-      await monitoringStationPage.getLast24HoursWarningText.getText()
-    const expectedgetLast24HoursWarningTextText = `Data has not been checked and verified`
-    await expect(getLast24HoursWarningTextText).toMatch(
-      expectedgetLast24HoursWarningTextText
-    )
+    const getWarningTextText =
+      await monitoringStationPage.getWarningText.getText()
+    const expectedgetWarningTextText = `Data has not been checked and verified`
+    await expect(getWarningTextText).toMatch(expectedgetWarningTextText)
 
-    const getLast24HoursWarningTextStyles = [
-      await monitoringStationPage.getLast24HoursWarningText
-    ]
-    const getLast24HoursWarningTextStylesProperties = [
+    const getWarningTextStyles = [await monitoringStationPage.getWarningText]
+    const getWarningTextStylesProperties = [
       'background-color',
       'border-left',
       'margin-bottom',
@@ -2967,10 +2959,10 @@ annual average data - usually less than 100KB`
       'font-weight',
       'padding'
     ]
-    for (const element of getLast24HoursWarningTextStyles) {
+    for (const element of getWarningTextStyles) {
       const styles = await common.getStyles(
         element,
-        getLast24HoursWarningTextStylesProperties
+        getWarningTextStylesProperties
       )
       expect(styles['background-color']).toBe('rgb(249, 226, 215)')
       expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
@@ -3089,6 +3081,193 @@ annual average data - usually less than 100KB`
       await monitoringStationPage.getSD24HourHourlyExceedenceToggleTipInfoText.getText()
     await expect(getSD24HourHourlyExceedenceToggleTipInfoText).toMatch(
       `Hourly sulphur dioxide levels must not go above 350 micrograms per cubic metre (µg/m³) more than 24 times in a calendar year (when rounded to a whole number).`
+    )
+  })
+
+  it('AQD-1533, Add Daily Air Quality Index tab - Monitoring Station Page', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getDaqiTab.click()
+    await common.legalWait()
+
+    await monitoringStationPage.getDaqiTabHeading.waitForDisplayed({
+      timeout: 5000
+    })
+    const getDaqiTabHeadingText =
+      await monitoringStationPage.getDaqiTabHeading.getText()
+    const expectedDaqiTabHeadingText = `Air pollution summary: Daily Air Quality Index (DAQI)`
+    await expect(getDaqiTabHeadingText).toMatch(expectedDaqiTabHeadingText)
+
+    const getDaqiTabHeadingStyles = [
+      await monitoringStationPage.getDaqiTabHeading
+    ]
+    const getDaqiTabHeadingStylesProperties = [
+      'margin-top',
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+    for (const element of getDaqiTabHeadingStyles) {
+      const styles = await common.getStyles(
+        element,
+        getDaqiTabHeadingStylesProperties
+      )
+      expect(styles['margin-top']).toBe('30px')
+      expect(styles['margin-bottom']).toBe('10px')
+      expect(styles['font-size']).toBe('36px')
+      expect(styles['line-height']).toBe('40px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
+    }
+
+    await monitoringStationPage.getDaqiTimeDuration.waitForDisplayed({
+      timeout: 5000
+    })
+    const getDaqiTimeDurationText =
+      await monitoringStationPage.getDaqiTimeDuration.getText()
+    const todaysDate = await monitoringStationPage.getTodayAsDayMonthString()
+    const expectedgetDaqiTimeDurationText = `${todaysDate}`
+    await expect(getDaqiTimeDurationText).toMatch(
+      expectedgetDaqiTimeDurationText
+    )
+
+    const getDaqiTimeDurationStyles = [
+      await monitoringStationPage.getDaqiTimeDuration
+    ]
+    const getDaqiTimeDurationStylesProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight',
+      'margin-top'
+    ]
+    for (const element of getDaqiTimeDurationStyles) {
+      const styles = await common.getStyles(
+        element,
+        getDaqiTimeDurationStylesProperties
+      )
+      expect(styles['margin-bottom']).toBe('15px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['margin-top']).toBe('0px')
+    }
+
+    await monitoringStationPage.getWarningText.waitForDisplayed({
+      timeout: 5000
+    })
+    const getWarningText = await monitoringStationPage.getWarningText.getText()
+    const expectedgetWarningText = `Data has not been checked and verified`
+    await expect(getWarningText).toMatch(expectedgetWarningText)
+
+    const getWarningTextStyles = [await monitoringStationPage.getWarningText]
+    const getWarningTextStylesProperties = [
+      'background-color',
+      'border-left',
+      'margin-bottom',
+      'margin-top',
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight',
+      'padding'
+    ]
+    for (const element of getWarningTextStyles) {
+      const styles = await common.getStyles(
+        element,
+        getWarningTextStylesProperties
+      )
+      expect(styles['background-color']).toBe('rgb(249, 226, 215)')
+      expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles['margin-top']).toBe('30px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.padding).toBe('15px')
+    }
+
+    const getDaqiTabHintText =
+      await monitoringStationPage.getDaqiTabHint.getText()
+    const expectedDaqiTabHintText = `Learn more about the Daily Air Quality Index (DAQI).`
+    await expect(getDaqiTabHintText).toMatch(expectedDaqiTabHintText)
+
+    const getDaqiTabHintStyles = [await monitoringStationPage.getDaqiTabHint]
+    const getDaqiTabHintProperties = [
+      'font-size',
+      'line-height',
+      'font-family',
+      'color',
+      'font-weight',
+      'margin-bottom'
+    ]
+    for (const element of getDaqiTabHintStyles) {
+      const styles = await common.getStyles(element, getDaqiTabHintProperties)
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles.color).toBe('rgb(80, 90, 95)')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['margin-bottom']).toBe('15px')
+    }
+
+    const summaryTableDisplayedComponents = [
+      await monitoringStationPage.getPM10DaqiAverageValue,
+      await monitoringStationPage.getPM25DaqiAverageValue,
+      await monitoringStationPage.getNitrogenDioxideDaqiAverageValue,
+      await monitoringStationPage.getOzoneDaqiAverageValue,
+      await monitoringStationPage.getSulphurDioxideDaqiAverageValue,
+      await monitoringStationPage.getPM10DaqiIndex,
+      await monitoringStationPage.getPM25DaqiIndex,
+      await monitoringStationPage.getNitrogenDioxideDaqiIndex,
+      await monitoringStationPage.getOzoneDaqiIndex,
+      await monitoringStationPage.getSulphurDioxideDaqiIndex,
+      await monitoringStationPage.getPM25DaqiAveragingPeriod,
+      await monitoringStationPage.getPM10DaqiAveragingPeriod,
+      await monitoringStationPage.getNODaqiAveragingPeriod,
+      await monitoringStationPage.getOzoneDaqiAveragingPeriod,
+      await monitoringStationPage.getSulphurDioxideDaqiAveragingPeriod
+    ]
+    for (const element of summaryTableDisplayedComponents) {
+      const isElementDisplayed = await element.isDisplayed()
+      await expect(isElementDisplayed).toBe(true)
+    }
+
+    await monitoringStationPage.getDaqiIndexToggleTip.click()
+    await common.legalWait()
+    const getDaqiIndexToggleTipText =
+      await monitoringStationPage.getDaqiIndexToggleTipText.getText()
+    await expect(getDaqiIndexToggleTipText).toMatch(
+      `The Daily Air Quality Index (DAQI) is a simple 10-point scale designed to help people understand the short term risk of air pollution.`
+    )
+
+    await monitoringStationPage.getDaqiIndexLink.click()
+    await common.legalWait()
+    const getURLAfterClickingDaqiIndexLink = await browser.getUrl()
+    const expectedURLAfterClickingDaqiIndexLink =
+      'https://www.gov.uk/government/publications/health-effects-of-air-pollution/using-the-daily-air-quality-index-daqi'
+    await expect(getURLAfterClickingDaqiIndexLink).toMatch(
+      expectedURLAfterClickingDaqiIndexLink
     )
   })
 })

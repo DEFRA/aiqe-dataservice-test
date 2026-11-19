@@ -1647,4 +1647,363 @@ describe('API Testing', () => {
 
     await compareLastTwentyFourHoursWithFrontEnd(results)
   })
+
+  // Works out the Daily Air Quality Index averages per pollutant from the
+  // UK-AIR API for one station (e.g. 'UKA00211' for London Bloomsbury).
+  // Each pollutant uses its own DAQI averaging period, all ending at the
+  // latest available hour for the station:
+  //   PM2.5, PM10 - 24 hour average
+  //   Nitrogen dioxide - hourly average (latest hour)
+  //   Ozone - 8 hour rolling average (latest 8 hours)
+  //   Sulphur dioxide - 15 minute concentration (latest 15 minutes)
+  const calculateAverages = async (stationId) => {
+    const oneHourMs = 3600000
+    const fifteenMinutesMs = 900000
+
+    // apiName is the pollutant-name the UK-AIR API expects.
+    // readingMs is the length of reading to use (hourly or 15-minute rows),
+    // windowHours is how many hours the average covers
+    const pollutantDefs = [
+      {
+        key: 'PM2.5',
+        apiName: 'PM25',
+        method: '24 hour average',
+        readingMs: oneHourMs,
+        windowHours: 24
+      },
+      {
+        key: 'PM10',
+        apiName: 'GE10',
+        method: '24 hour average',
+        readingMs: oneHourMs,
+        windowHours: 24
+      },
+      {
+        key: 'Nitrogen dioxide',
+        apiName: 'NO2',
+        method: 'hourly average',
+        readingMs: oneHourMs,
+        windowHours: 1
+      },
+      {
+        key: 'Ozone',
+        apiName: 'O3',
+        method: '8 hour rolling average',
+        readingMs: oneHourMs,
+        windowHours: 8
+      },
+      {
+        key: 'Sulphur dioxide',
+        apiName: 'SO2',
+        method: '15 minute concentration',
+        readingMs: fifteenMinutesMs,
+        windowHours: 0.25
+      }
+    ]
+
+    // 3 days ago to today, so every window is covered whatever the latest hour is
+    const toApiDate = (d) => d.toISOString().slice(0, 10)
+    const now = new Date()
+    const startDate = toApiDate(new Date(now.getTime() - 3 * 24 * oneHourMs))
+    const endDate = toApiDate(now)
+
+    // Valid readings for each pollutant, once per timestamp, of the reading
+    // length that pollutant uses. Each reading is timed by its endDateTime
+    const readingsByPollutant = {}
+    for (const pol of pollutantDefs) {
+      const measurements = await getPollutantMeasurements(
+        stationId,
+        pol.apiName,
+        startDate,
+        endDate
+      )
+
+      if (!measurements.length) {
+        // eslint-disable-next-line no-console
+        console.log(`[${pol.key}] No measurements returned`)
+        continue
+      }
+
+      // Sulphur dioxide has both hourly and 15-minute rows - keep only the
+      // length this pollutant uses. Missing readings come back as -9999
+      const seenTimes = new Set()
+      readingsByPollutant[pol.key] = measurements
+        .filter(
+          (m) =>
+            Date.parse(m.endDateTime) - Date.parse(m.startDateTime) ===
+            pol.readingMs
+        )
+        .map((m) => ({ date: new Date(m.endDateTime), value: Number(m.value) }))
+        .filter(
+          (r) =>
+            !isNaN(r.date.getTime()) && Number.isFinite(r.value) && r.value >= 0
+        )
+        .filter((r) => {
+          const timeKey = r.date.getTime()
+          if (seenTimes.has(timeKey)) return false
+          seenTimes.add(timeKey)
+          return true
+        })
+    }
+
+    // Latest available hour for the station, across the hourly pollutants
+    const hourlyPollutants = pollutantDefs
+      .filter((pol) => pol.readingMs === oneHourMs)
+      .map((pol) => pol.key)
+    const allHours = hourlyPollutants.flatMap((key) =>
+      (readingsByPollutant[key] ?? []).map((r) => r.date.getTime())
+    )
+    await expect(allHours.length).toBeGreaterThan(0)
+    const latestHour = new Date(Math.max(...allHours))
+
+    const results = {}
+    for (const pol of pollutantDefs) {
+      const readings = readingsByPollutant[pol.key]
+      if (!readings) continue
+
+      // Window ends at the latest hour and goes back windowHours, e.g. the
+      // 24 hour average covers the latest hour and the 23 hours before it,
+      // the 15 minute concentration is the reading ending at the latest hour
+      const windowStartExclusive = new Date(
+        latestHour.getTime() - pol.windowHours * oneHourMs
+      )
+      const inWindow = readings.filter(
+        (r) => r.date > windowStartExclusive && r.date <= latestHour
+      )
+      const expectedReadings = Math.round(
+        (pol.windowHours * oneHourMs) / pol.readingMs
+      )
+
+      const average =
+        inWindow.length > 0
+          ? inWindow.reduce((sum, r) => sum + r.value, 0) / inWindow.length
+          : null
+      const roundedAverage = average != null ? Math.round(average) : null
+
+      results[pol.key] = {
+        method: pol.method,
+        rawAverage: average,
+        roundedAverage,
+        validReadingsCount: inWindow.length,
+        expectedReadings
+      }
+
+      // eslint-disable-next-line no-console
+      console.log(
+        `[${pol.key}] ${pol.method}: ${roundedAverage} (${inWindow.length}/${expectedReadings} readings)`
+      )
+    }
+
+    // eslint-disable-next-line no-console
+    console.log(
+      `[${stationId}] DAQI averages up to latest hour (API): ${latestHour.toISOString()}`
+    )
+
+    try {
+      allure.addAttachment(
+        `DAQI Averages (${stationId})`,
+        JSON.stringify(
+          { latestHour: latestHour.toISOString(), results },
+          null,
+          2
+        ),
+        'application/json'
+      )
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('Allure attachment failed:', e.message)
+    }
+
+    // No window can hold more readings than it has time slots for
+    for (const r of Object.values(results)) {
+      await expect(r.validReadingsCount).toBeLessThanOrEqual(r.expectedReadings)
+    }
+
+    return results
+  }
+
+  // Compares our DAQI averages with the station page currently open
+  // (Daily Air Quality Index tab). Returns the comparison rows for any
+  // extra checks
+  const compareAveragesWithFrontEnd = async (results) => {
+    await monitoringStationPage.getPM10DaqiAverageValue.waitForExist({
+      timeout: 5000
+    })
+
+    // Front-end average for each pollutant. The DAQI table lists PM10 first
+    const frontEndElements = {
+      PM10: monitoringStationPage.getPM10DaqiAverageValue,
+      'PM2.5': monitoringStationPage.getPM25DaqiAverageValue,
+      'Nitrogen dioxide':
+        monitoringStationPage.getNitrogenDioxideDaqiAverageValue,
+      Ozone: monitoringStationPage.getOzoneDaqiAverageValue,
+      'Sulphur dioxide': monitoringStationPage.getSulphurDioxideDaqiAverageValue
+    }
+
+    // Read every front-end value first so all mismatches are reported together
+    const comparisons = []
+    for (const [pollutant, element] of Object.entries(frontEndElements)) {
+      const frontEndText = await element.getText()
+      comparisons.push({
+        pollutant,
+        method: results[pollutant]?.method ?? null,
+        backEnd: results[pollutant]?.roundedAverage ?? null,
+        frontEnd: common.parseNumber(frontEndText),
+        frontEndText
+      })
+    }
+
+    // eslint-disable-next-line no-console
+    console.table(comparisons)
+    try {
+      allure.addAttachment(
+        'DAQI Averages Back End vs Front End',
+        JSON.stringify(comparisons, null, 2),
+        'application/json'
+      )
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('Allure attachment failed:', e.message)
+    }
+
+    for (const c of comparisons) {
+      await expect(c.frontEnd).toEqual(c.backEnd)
+    }
+
+    return comparisons
+  }
+
+  // DAQI index bands (µg/m³) per pollutant - the upper limit of each index
+  // from 1 to 9. Anything above the index 9 limit is index 10
+  const daqiUpperLimits = {
+    'Nitrogen dioxide': [67, 134, 200, 267, 334, 400, 467, 534, 600],
+    Ozone: [33, 66, 100, 120, 140, 160, 187, 213, 240],
+    'Sulphur dioxide': [88, 177, 266, 354, 443, 532, 710, 887, 1064],
+    'PM2.5': [11, 23, 35, 41, 47, 53, 58, 64, 70],
+    PM10: [16, 33, 50, 58, 66, 75, 83, 91, 100]
+  }
+
+  // Index 1-3 Low, 4-6 Moderate, 7-9 High, 10 Very High
+  const getDaqiBand = (index) => {
+    if (index == null) return null
+    if (index <= 3) return 'Low'
+    if (index <= 6) return 'Moderate'
+    if (index <= 9) return 'High'
+    return 'Very High'
+  }
+
+  // Works out the DAQI index and band for each pollutant from its rounded
+  // average (from calculateAverages)
+  const calculateDaqi = (results) => {
+    const daqiResults = {}
+    for (const [pollutant, upperLimits] of Object.entries(daqiUpperLimits)) {
+      const average = results[pollutant]?.roundedAverage ?? null
+      let index = null
+      if (average != null) {
+        const bandPosition = upperLimits.findIndex((limit) => average <= limit)
+        index = bandPosition === -1 ? 10 : bandPosition + 1
+      }
+      daqiResults[pollutant] = {
+        average,
+        index,
+        band: getDaqiBand(index)
+      }
+
+      // eslint-disable-next-line no-console
+      console.log(
+        `[${pollutant}] average: ${average} | DAQI index: ${index} (${getDaqiBand(index)})`
+      )
+    }
+
+    try {
+      allure.addAttachment(
+        'DAQI Index',
+        JSON.stringify(daqiResults, null, 2),
+        'application/json'
+      )
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('Allure attachment failed:', e.message)
+    }
+
+    return daqiResults
+  }
+
+  // Compares our DAQI index for each pollutant with the station page
+  // currently open (Daily Air Quality Index tab). Returns the comparison rows
+  // for any extra checks
+  const compareDaqiWithFrontEnd = async (daqiResults) => {
+    await monitoringStationPage.getPM10DaqiIndex.waitForExist({
+      timeout: 5000
+    })
+
+    const frontEndElements = {
+      'PM2.5': monitoringStationPage.getPM25DaqiIndex,
+      PM10: monitoringStationPage.getPM10DaqiIndex,
+      'Nitrogen dioxide': monitoringStationPage.getNitrogenDioxideDaqiIndex,
+      Ozone: monitoringStationPage.getOzoneDaqiIndex,
+      'Sulphur dioxide': monitoringStationPage.getSulphurDioxideDaqiIndex
+    }
+
+    // Read every front-end value first so all mismatches are reported together
+    const comparisons = []
+    for (const [pollutant, element] of Object.entries(frontEndElements)) {
+      const frontEndText = await element.getText()
+      comparisons.push({
+        pollutant,
+        average: daqiResults[pollutant]?.average ?? null,
+        backEndIndex: daqiResults[pollutant]?.index ?? null,
+        backEndBand: daqiResults[pollutant]?.band ?? null,
+        frontEndIndex: common.parseNumber(frontEndText),
+        frontEndText
+      })
+    }
+
+    // eslint-disable-next-line no-console
+    console.table(comparisons)
+    try {
+      allure.addAttachment(
+        'DAQI Index Back End vs Front End',
+        JSON.stringify(comparisons, null, 2),
+        'application/json'
+      )
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('Allure attachment failed:', e.message)
+    }
+
+    for (const c of comparisons) {
+      await expect(c.frontEndIndex).toEqual(c.backEndIndex)
+      // If the cell also shows the band (e.g. "3 Low"), check that too
+      if (/[a-z]/i.test(c.frontEndText) && c.backEndBand) {
+        await expect(c.frontEndText).toMatch(new RegExp(c.backEndBand, 'i'))
+      }
+    }
+
+    return comparisons
+  }
+
+  it('AQD-1533, Daily Air Quality Index tab, testing calculations for average, daqi range and comparing to front end', async () => {
+    const results = await calculateAverages('UKA00211')
+
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getDaqiTab.click()
+    await common.legalWait()
+
+    await compareAveragesWithFrontEnd(results)
+
+    // daqi index
+    const daqiResults = calculateDaqi(results)
+    await compareDaqiWithFrontEnd(daqiResults)
+  })
 })
