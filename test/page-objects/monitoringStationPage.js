@@ -510,12 +510,14 @@ class MonitoringStationPage {
     return $("strong[class*='govuk-tag govuk-tag--red govuk-!-font-size-16']")
   }
 
-  get getLastSevenDaysButton() {
-    return $("a[id*='link-last-7-days']")
+  get getWarningText() {
+    return $("div[class*='govuk-inset-text not-verified']")
   }
 
-  get getLastSevenDaysWarningText() {
-    return $("div[class*='govuk-inset-text not-verified']")
+  // last 7 days tab
+
+  get getLastSevenDaysButton() {
+    return $("a[id*='link-last-7-days']")
   }
 
   get getLastSevenDaysHint() {
@@ -538,10 +540,6 @@ class MonitoringStationPage {
 
   get getLast24HoursTimeDuration() {
     return $("p[id*='duration_current']")
-  }
-
-  get getLast24HoursWarningText() {
-    return $("div[class*='govuk-inset-text not-verified']")
   }
 
   get getAirPollutionSummaryLast24HoursHeading() {
@@ -608,6 +606,130 @@ class MonitoringStationPage {
 
   get getSD24HourHourlyExceedenceToggleTipInfoText() {
     return $$("span[class*='defra-toggletip__text']")[7]
+  }
+
+  // daqi  tab
+
+  get getDaqiTab() {
+    return $("a[id='link-daqi']")
+  }
+
+  get getDaqiTabHeading() {
+    return $("h2[id='airpollution-heading']")
+  }
+
+  get getDaqiTimeDuration() {
+    return $("p[id='duration_current']")
+  }
+
+  get getDaqiTabHint() {
+    return $("p[id='daqi-hint']")
+  }
+
+  get getDaqiIndexLink() {
+    return $(
+      "a[href='https://www.gov.uk/government/publications/health-effects-of-air-pollution/using-the-daily-air-quality-index-daqi']"
+    )
+  }
+
+  get getPM10DaqiAverageValue() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--average']"
+    )[1]
+  }
+
+  get getPM25DaqiAverageValue() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--average']"
+    )[0]
+  }
+
+  get getNitrogenDioxideDaqiAverageValue() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--average']"
+    )[2]
+  }
+
+  get getOzoneDaqiAverageValue() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--average']"
+    )[3]
+  }
+
+  get getSulphurDioxideDaqiAverageValue() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--average']"
+    )[4]
+  }
+
+  get getPM10DaqiIndex() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--daily']"
+    )[1]
+  }
+
+  get getPM25DaqiIndex() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--daily']"
+    )[0]
+  }
+
+  get getNitrogenDioxideDaqiIndex() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--daily']"
+    )[2]
+  }
+
+  get getOzoneDaqiIndex() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--daily']"
+    )[3]
+  }
+
+  get getSulphurDioxideDaqiIndex() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--daily']"
+    )[4]
+  }
+
+  get getPM25DaqiAveragingPeriod() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
+    )[0]
+  }
+
+  get getPM10DaqiAveragingPeriod() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
+    )[1]
+  }
+
+  get getNODaqiAveragingPeriod() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
+    )[2]
+  }
+
+  get getOzoneDaqiAveragingPeriod() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
+    )[3]
+  }
+
+  get getSulphurDioxideDaqiAveragingPeriod() {
+    return $$(
+      "td[class='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
+    )[4]
+  }
+
+  get getDaqiIndexToggleTip() {
+    return $(
+      "button[aria-label='More information about the Daily Air Quality Index (DAQI)']"
+    )
+  }
+
+  get getDaqiIndexToggleTipText() {
+    return $$("span[class*='defra-toggletip__text']")[1]
   }
 
   // Summary table cells by row position, for stations that don't measure
