@@ -171,16 +171,12 @@ class MapsPage {
     return $$(`label[for*="filter-pollutant"]`)[4]
   }
 
-  get getMapFilterPanelDataSourcesDropdownLink() {
-    return $$(`summary[class*="govuk-details__summary"]`)[12]
-  }
-
   get getMapFilterPanelDataSourceAURNText() {
     return $$(`div[class*="govuk-details__text"]`)[12]
   }
 
   get getMapFilterPanelOtherPollutantsButton() {
-    return $(`button[id*="filter-tab-other"]`)
+    return $(`button[id="filter-tab-other"]`)
   }
 
   get getMapFilterPanelOtherPollutantsText() {
