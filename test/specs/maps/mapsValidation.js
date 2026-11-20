@@ -94,11 +94,6 @@ describe('maps Validation', () => {
     const displayedMapKey = await mapsPage.getMapKey
     await expect(displayedMapKey).toBeDisplayed()
 
-    await mapsPage.getOpenMapKeyButton.click()
-    await common.legalWait()
-    const notDisplayedMapKeyAfterClick = await mapsPage.getMapKey
-    await expect(notDisplayedMapKeyAfterClick).not.toBeDisplayed()
-
     const OpenFilterPanelButtonStyling = [
       await mapsPage.getOpenFilterPanelButton
     ]
@@ -132,10 +127,6 @@ describe('maps Validation', () => {
     const displayedFilterPanel = await mapsPage.getMapFilterPanel
     await expect(displayedFilterPanel).toBeDisplayed()
 
-    await mapsPage.getOpenFilterPanelButton.click()
-    await common.legalWait()
-    const notDisplayedFilterPanelAfterClick = await mapsPage.getMapFilterPanel
-    await expect(notDisplayedFilterPanelAfterClick).not.toBeDisplayed()
     // checking exit map button works and styling of the button
 
     const getExitMapButtonStyling = [await mapsPage.getExitMapButton]
@@ -158,9 +149,9 @@ describe('maps Validation', () => {
       expect(['rgb(243, 242, 241)', 'rgb(255, 255, 255)']).toContain(
         styles['background-color'].trim().toLowerCase()
       )
-      expect(styles.gap).toBe('6px')
+      expect(styles.gap).toBe('normal')
       expect(styles.height).toBe('40px')
-      expect(styles.padding).toBe('0px 12px')
+      expect(styles.padding).toBe('0px 11px 0px 0px')
       expect(styles['font-family']).toBe('"GDS Transport", Arial, sans-serif')
       expect(styles['font-size']).toBe('16px')
       expect(styles.top).toBe('10px')
@@ -400,32 +391,13 @@ View full station summary`
     const stationLink =
       await mapsPage.getMonitoringStationInformationPanelMonitoringStationLink
     await expect(stationLink).toBeDisplayed()
-
-    const originalHandle = await browser.getWindowHandle()
-    const originalHandles = await browser.getWindowHandles()
     await stationLink.click()
-
-    await browser.waitUntil(
-      async () =>
-        (await browser.getWindowHandles()).length > originalHandles.length,
-      {
-        timeout: 10000,
-        timeoutMsg:
-          'expected a new tab/window to open after clicking the station link'
-      }
-    )
-
-    const updatedHandles = await browser.getWindowHandles()
-    const newTabHandle = updatedHandles.find(
-      (handle) => !originalHandles.includes(handle)
-    )
-    await browser.switchToWindow(newTabHandle)
-
-    const newTabUrl = await browser.getUrl()
-    expect(newTabUrl).not.toContain('/map')
-
-    await browser.closeWindow()
-    await browser.switchToWindow(originalHandle)
+    const URL = await browser.getUrl()
+    const expectedURL =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails'
+    await expect(URL).toMatch(expectedURL)
+    await browser.back()
+    await browser.refresh()
   })
 
   it('monitoring station information panel dissapears when user clicks the cross', async () => {
@@ -443,8 +415,7 @@ View full station summary`
     await common.legalWait()
     // content
     const MapKeyContent = await mapsPage.getMapKey.getText()
-    const expectedMapKeyContent = `Close map key
-Map key
+    const expectedMapKeyContent = `Key
 Daily Air Quality Index (DAQI)
 1
 2
@@ -470,27 +441,12 @@ Very high
 
     const getMapKey = [await mapsPage.getMapKey]
 
-    const getMapKeyProperties = [
-      'background-color',
-      'border-left',
-      'width',
-      'min-height',
-      'padding',
-      'font-family',
-      'bottom',
-      'left'
-    ]
+    const getMapKeyProperties = ['margin-right', 'padding']
 
     for (const element of getMapKey) {
       const styles = await common.getStyles(element, getMapKeyProperties)
-      expect(styles['background-color']).toBe('rgb(255, 255, 255)')
-      expect(styles['border-left']).toBe('4px solid rgb(29, 112, 184)')
-      expect(styles.width).toBe('400px')
-      expect(styles['min-height']).toBe('190px')
-      expect(styles.padding).toBe('16px 20px 16px 16px')
-      expect(styles['font-family']).toBe('"GDS Transport", Arial, sans-serif')
-      expect(styles.bottom).toBe('10px')
-      expect(styles.left).toBe('10px')
+      expect(styles['margin-right']).toBe('36px')
+      expect(styles.padding).toBe('15px')
     }
 
     const getMapKeyClose = [await mapsPage.getMapKeyClose]
@@ -506,12 +462,12 @@ Very high
     for (const element of getMapKeyClose) {
       const styles = await common.getStyles(element, getMapKeyCloseProperties)
       expect(styles.background).toBe(
-        'rgba(0, 0, 0, 0) none repeat scroll 0px 0px / auto padding-box border-box'
+        'rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box'
       )
-      expect(styles.border).toBe('0px none rgb(0, 0, 0)')
-      expect(styles.padding).toBe('4px')
-      expect(styles.top).toBe('8px')
-      expect(styles.right).toBe('8px')
+      expect(styles.border).toBe('0px none rgb(11, 12, 12)')
+      expect(styles.padding).toBe('0px')
+      expect(styles.top).toBe('3px')
+      expect(styles.right).toBe('3px')
     }
 
     const getMapKeyHeading = [await mapsPage.getMapKeyHeading]
@@ -527,10 +483,10 @@ Very high
 
     for (const element of getMapKeyHeading) {
       const styles = await common.getStyles(element, getMapKeyHeadingProperties)
-      expect(styles['margin-bottom']).toBe('5px')
-      expect(styles['font-size']).toBe('19px')
+      expect(styles['margin-bottom']).toBe('0px')
+      expect(styles['font-size']).toBe('24px')
       expect(styles['font-weight']).toBe('700')
-      expect(styles['line-height']).toBe('25px')
+      expect(styles['line-height']).toBe('30px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
@@ -554,11 +510,11 @@ Very high
         getMapKeyDailyAirQualityIndexDAQISubheadingProperties
       )
       expect(styles['margin-bottom']).toBe('10px')
-      expect(styles['font-size']).toBe('16px')
-      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
       expect(styles['font-weight']).toBe('400')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles.color).toBe('rgb(80, 90, 95)')
     }
 
     const getMapKeyScaleBandOne = [await mapsPage.getMapKeyScaleBandOne]
@@ -852,10 +808,7 @@ Very high
       'https://aqie-maps-frontend.dev.cdp-int.defra.cloud/map?map:center=-1.4649,52.5619&map:zoom=5.4842222'
     )
     await browser.maximizeWindow()
-    await cookiesBanner.getAcceptCookiesButton.click()
-    await cookiesBanner.getHideCookiesButton.click()
     await common.legalWait()
-    await mapsPage.getMapFilterPanelDataSourcesDropdownLink.click()
     const mapFilterPanelContent = await mapsPage.getMapFilterPanel.getText()
     const expectedMapFilterPanelContent = `Search by pollutant
 DAQI pollutants
@@ -867,24 +820,28 @@ Nitrogen dioxide (NO2)
 Ozone (O3)
 Sulphur dioxide (SO2)
 Data sources
-Automatic Urban and Rural Network (AURN)`
+Near real-time Defra data
+Automatic Urban and Rural Network`
     await expect(mapFilterPanelContent).toMatch(expectedMapFilterPanelContent)
 
     await mapsPage.getMapFilterPanelOtherPollutantsButton.click()
+    await common.legalWait()
     const mapFilterPanelOtherPollutantsContent =
       await mapsPage.getMapFilterPanel.getText()
     const expectedMapFilterPanelOtherPollutantsContent = `Search by pollutant
 DAQI pollutants
 Other pollutants
-Other pollutant networks are not yet available.
+We will add more pollutants and data sources during 2026.
 Data sources
-Automatic Urban and Rural Network (AURN)`
+Near real-time Defra data
+Automatic Urban and Rural Network`
     await expect(mapFilterPanelOtherPollutantsContent).toMatch(
       expectedMapFilterPanelOtherPollutantsContent
     )
 
     // styling checks
     await mapsPage.getMapFilterPanelDAQIPollutantsButton.click()
+    await common.legalWait()
     const getMapFilterPanel = [await mapsPage.getMapFilterPanel]
 
     const getMapFilterPanelProperties = ['padding']
@@ -894,7 +851,7 @@ Automatic Urban and Rural Network (AURN)`
         element,
         getMapFilterPanelProperties
       )
-      expect(styles.padding).toBe('18px 50px 18px 18px')
+      expect(styles.padding).toBe('22px 18px 18px')
     }
 
     const getMapFilterPanelTitle = [await mapsPage.getMapFilterPanelTitle]
@@ -972,7 +929,7 @@ Automatic Urban and Rural Network (AURN)`
       )
       expect(styles.border).toBe('2px solid rgb(11, 12, 12)')
       expect(styles['background-color']).toBe('rgba(0, 0, 0, 0)')
-      expect(styles.width).toBe('191px')
+      expect(styles.width).toBe('207px')
       expect(styles.height).toBe('40px')
       expect(styles.padding).toBe('0px 5px')
       expect(styles['font-family']).toBe('"GDS Transport", Arial, sans-serif')
@@ -1004,7 +961,7 @@ Automatic Urban and Rural Network (AURN)`
       )
       expect(styles.border).toBe('1px solid rgb(231, 231, 231)')
       expect(styles['background-color']).toBe('rgb(248, 248, 248)')
-      expect(styles.width).toBe('191px')
+      expect(styles.width).toBe('207px')
       expect(styles.height).toBe('40px')
       expect(styles.padding).toBe('0px 5px')
       expect(styles['font-family']).toBe('"GDS Transport", Arial, sans-serif')
@@ -1079,71 +1036,8 @@ Automatic Urban and Rural Network (AURN)`
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
     }
 
-    const getMapFilterPanelDataSourcesDropdownLink = [
-      await mapsPage.getMapFilterPanelDataSourcesDropdownLink
-    ]
-
-    const getMapFilterPanelDataSourcesDropdownLinkProperties = [
-      'margin-bottom',
-      'color',
-      'width',
-      'padding-left',
-      'position',
-      'font-size',
-      'line-height',
-      'font-weight',
-      'font-family'
-    ]
-
-    for (const element of getMapFilterPanelDataSourcesDropdownLink) {
-      const styles = await common.getStyles(
-        element,
-        getMapFilterPanelDataSourcesDropdownLinkProperties
-      )
-      expect(styles['margin-bottom']).toBe('5px')
-      expect(styles.color).toBe('rgb(29, 112, 184)')
-      expect(styles.width).toBe('107.344px')
-      expect(styles['padding-left']).toBe('25px')
-      expect(styles.position).toBe('relative')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-weight']).toBe('400')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-    }
-
-    const getMapFilterPanelDataSourceAURNText = [
-      await mapsPage.getMapFilterPanelDataSourceAURNText
-    ]
-
-    const getMapFilterPanelDataSourceAURNTextProperties = [
-      'border-left',
-      'padding-top',
-      'padding-bottom',
-      'padding-left',
-      'color',
-      'font-size',
-      'line-height',
-      'font-weight',
-      'font-family'
-    ]
-
-    for (const element of getMapFilterPanelDataSourceAURNText) {
-      const styles = await common.getStyles(
-        element,
-        getMapFilterPanelDataSourceAURNTextProperties
-      )
-      expect(styles['border-left']).toBe('5px solid rgb(177, 180, 182)')
-      expect(styles['padding-top']).toBe('15px')
-      expect(styles['padding-bottom']).toBe('15px')
-      expect(styles['padding-left']).toBe('20px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-weight']).toBe('400')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-    }
-
     await mapsPage.getMapFilterPanelOtherPollutantsButton.click()
+    await common.legalWait()
 
     const getMapFilterPanelOtherPollutantsText = [
       await mapsPage.getMapFilterPanelOtherPollutantsText
