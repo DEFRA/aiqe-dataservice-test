@@ -21,6 +21,8 @@ describe('hub page checks', () => {
     const hubPageContent = `Get air pollution data
 Find monitoring stations by location
 View and download data by town or postcode
+Search on a map
+Find monitoring stations and view their data on a map
 Create a custom dataset
 View and download data by pollutant, year and location`
     const getHubPageContent = await hubPage.getHubPagecontent.getText()
@@ -135,12 +137,27 @@ View and download data by pollutant, year and location`
     const expectedCurrentURL = '/search-location'
     await expect(getCurrentUrl1).toMatch(expectedCurrentURL)
 
-    browser.back()
-    browser.refresh()
+    await browser.back()
+    await browser.refresh()
 
     await hubPage.getCreateCustomDataSet.click()
     const getCurrentUrl2 = await browser.getUrl()
     const expectedCurrentURL2 = '/customdataset'
     await expect(getCurrentUrl2).toMatch(expectedCurrentURL2)
+
+    await browser.back()
+    await browser.refresh()
+
+    await hubPage.getSearchOnMap.click()
+    const getCurrentUrl3 = await browser.getUrl()
+    const expectedCurrentURL3 = '/map'
+    await expect(getCurrentUrl3).toMatch(expectedCurrentURL3)
+
+    await browser.back()
+    await browser.refresh()
+
+    const getCurrentUrl4 = await browser.getUrl()
+    const expectedCurrentURL4 = '/hubpage'
+    await expect(getCurrentUrl4).toMatch(expectedCurrentURL4)
   })
 })

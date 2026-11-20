@@ -22,6 +22,12 @@ class StartNowPage {
   get getCreateCustomDataSet() {
     return $$(
       "a[class='govuk-link gem-c-cards__link gem-c-force-print-link-styles']"
+    )[2]
+  }
+
+  get getSearchOnMap() {
+    return $$(
+      "a[class='govuk-link gem-c-cards__link gem-c-force-print-link-styles']"
     )[1]
   }
 
