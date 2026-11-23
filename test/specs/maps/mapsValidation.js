@@ -5,6 +5,11 @@ import { browser, expect } from '@wdio/globals'
 import common from '../../page-objects/common.js'
 import mapsPage from '../../page-objects/mapsPage.js'
 import cookiesBanner from '../../page-objects/cookiesBanner.js'
+import startNowPage from '../../page-objects/startnowpage.js'
+import searchPage from '../../page-objects/searchPage.js'
+import disambigurationPage from '../../page-objects/disambigurationPage.js'
+import locationMonitoringStationListPage from '../../page-objects/locationMonitoringStationListPage.js'
+import hubPage from '../../page-objects/hubPage.js'
 
 describe('maps Validation', () => {
   it('map buttons', async () => {
@@ -1066,5 +1071,87 @@ Automatic Urban and Rural Network`
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles.color).toBe('rgb(11, 12, 12)')
     }
+  })
+
+  it('AQD-1665, Ensure Back button behaviour and map links work correctly across the service', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await browser.maximizeWindow()
+    await common.legalWait()
+    // back from monitoring station page to map page
+    await startNowPage.startNowBtnClick()
+    await hubPage.getSearchOnMap.click()
+
+    const found = await mapsPage.findAndClickMarker(async () => {
+      return await mapsPage.getMonitoringStationInformationPanel
+        .isDisplayed()
+        .catch(() => false)
+    })
+    expect(found).not.toBeNull()
+    await expect(mapsPage.getMonitoringStationInformationPanel).toBeDisplayed()
+
+    const stationLink =
+      await mapsPage.getMonitoringStationInformationPanelMonitoringStationLink
+    await expect(stationLink).toBeDisplayed()
+    await stationLink.click()
+    const URL = await browser.getUrl()
+    const expectedURL =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails'
+    await expect(URL).toMatch(expectedURL)
+
+    await common.getBackLink.click()
+    const mapUrl = await browser.getUrl()
+    const expectedMapURL = '/map?map:center=-1.4649,52.5619&map:zoom=5.4842222'
+    await expect(mapUrl).toMatch(expectedMapURL)
+
+    // back using the browser back button
+    await stationLink.click()
+    const URL2 = await browser.getUrl()
+    const expectedURL2 =
+      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails'
+    await expect(URL2).toMatch(expectedURL2)
+
+    await browser.back()
+    const mapUrl2 = await browser.getUrl()
+    const expectedMapURL2 = '/map?map:center=-1.4649,52.5619&map:zoom=5.4842222'
+    await expect(mapUrl2).toMatch(expectedMapURL2)
+
+    // When the user accesses a monitoring station page through another journey, the ‘Back’ link returns them to the appropriate previous page in that journey.
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('birmingham')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('Birmingham')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Birmingham A4540 Roadside')
+      .click()
+    const getCurrentURLOfA450Roadside = await browser.getUrl()
+    const expectedURLOfA450Roadside = '/stationdetails'
+    await expect(getCurrentURLOfA450Roadside).toMatch(expectedURLOfA450Roadside)
+
+    await common.getBackLink.click()
+    const getlistPageURL = await browser.getUrl()
+    const expectedlistPageURL = '/location'
+    await expect(getlistPageURL).toMatch(expectedlistPageURL)
+
+    await common.getBackLink.click()
+    const getDisambigurationPageURL = await browser.getUrl()
+    const expectedDisambigurationPageURL = '/multiplelocations'
+    await expect(getDisambigurationPageURL).toMatch(
+      expectedDisambigurationPageURL
+    )
+
+    await common.getBackLink.click()
+    const getSearchPageURL = await browser.getUrl()
+    const expectedSearchPageURL = '/search-location'
+    await expect(getSearchPageURL).toMatch(expectedSearchPageURL)
+
+    await common.getBackLink.click()
+    const getHubPageURL = await browser.getUrl()
+    const expectedHubPageURL = '/hubpage'
+    await expect(getHubPageURL).toMatch(expectedHubPageURL)
   })
 })
