@@ -10,6 +10,7 @@ import searchPage from '../../page-objects/searchPage.js'
 import disambigurationPage from '../../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../../page-objects/locationMonitoringStationListPage.js'
 import hubPage from '../../page-objects/hubPage.js'
+import monitoringStationPage from '../../page-objects/monitoringStationPage.js'
 
 describe('maps Validation', () => {
   it('map buttons', async () => {
@@ -1153,5 +1154,75 @@ Automatic Urban and Rural Network`
     const getHubPageURL = await browser.getUrl()
     const expectedHubPageURL = '/hubpage'
     await expect(getHubPageURL).toMatch(expectedHubPageURL)
+  })
+
+  it('AQD-1709, Add View map of nearby monitoring stations', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('london')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+
+    const ViewMapOfNearbyMonitoringStationsLink =
+      await monitoringStationPage.getViewMapOfNearbyMonitoringStationsLink
+    await expect(ViewMapOfNearbyMonitoringStationsLink).toBeDisplayed()
+
+    const getViewMapOfNearbyMonitoringStationsLink = [
+      await monitoringStationPage.getViewMapOfNearbyMonitoringStationsLink
+    ]
+
+    const getViewMapOfNearbyMonitoringStationsLinkProperties = [
+      'font-family',
+      'text-decoration',
+      'text-decoration-thickness',
+      'text-underline-offset',
+      'font-size',
+      'line-height',
+      'align-items',
+      'background',
+      'border',
+      'display',
+      'font-weight',
+      'gap',
+      'padding',
+      'text-align',
+      'color'
+    ]
+
+    for (const element of getViewMapOfNearbyMonitoringStationsLink) {
+      const styles = await common.getStyles(
+        element,
+        getViewMapOfNearbyMonitoringStationsLinkProperties
+      )
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['text-decoration']).toBe('underline 1px')
+      expect(styles['text-decoration-thickness']).toBe('1px')
+      expect(styles['text-underline-offset']).toBe('2.9982px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['align-items']).toBe('center')
+      expect(styles.background).toBe(
+        'rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box'
+      )
+      expect(styles.border).toBe('1px solid rgb(177, 180, 182)')
+      expect(styles.display).toBe('inline-flex')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles.gap).toBe('10px')
+      expect(styles.padding).toBe('10px 15px')
+      expect(styles['text-align']).toBe('left')
+      expect(styles.color).toBe('rgb(0, 0, 0)')
+    }
+
+    await ViewMapOfNearbyMonitoringStationsLink.click()
+    await common.legalWait()
+    const getCurrentURL = await browser.getUrl()
+    const expectedURL = '/map?map:center=-0.125889,51.52229&map:zoom=11'
+    await expect(getCurrentURL).toMatch(expectedURL)
   })
 })
