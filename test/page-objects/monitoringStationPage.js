@@ -17,6 +17,10 @@ class MonitoringStationPage {
     return $("p[class*='status-description govuk-!-margin-top-3']")
   }
 
+  get getViewMapOfNearbyMonitoringStationsLink() {
+    return $("button[id*='view-nearby-map']")
+  }
+
   get getMonitoringNetworkTitle() {
     return $$("dt[class*='defra-aq-features__key']")[0]
   }
