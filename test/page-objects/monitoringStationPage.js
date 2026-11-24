@@ -125,7 +125,7 @@ class MonitoringStationPage {
   }
 
   get getVerifiedTag() {
-    return $$("p[class*='govuk-heading-s']")[0]
+    return $("div[data-testid='app-verification-banner']")
   }
 
   async getPollutionListFromSummaryTable() {
