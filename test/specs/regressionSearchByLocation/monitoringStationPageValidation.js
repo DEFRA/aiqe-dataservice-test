@@ -1013,27 +1013,6 @@ View on Google Maps (opens in new tab)`
       expect(styles['font-weight']).toBe('400')
     }
 
-    const getVerifiedTag = [await monitoringStationPage.getVerifiedTag]
-
-    const getVerifiedTagsProperties = [
-      'margin-bottom',
-      'font-size',
-      'line-height',
-      'color',
-      'font-family',
-      'font-weight'
-    ]
-
-    for (const element of getVerifiedTag) {
-      const styles = await common.getStyles(element, getVerifiedTagsProperties)
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['font-weight']).toBe('700')
-    }
-
     const DataCaptureStyles = [
       await monitoringStationPage.getPM25DataCapture,
       await monitoringStationPage.getPM10DataCapture,
@@ -2682,44 +2661,6 @@ annual average data - usually less than 100KB`
       expect(styles['margin-top']).toBe('0px')
     }
 
-    await monitoringStationPage.getWarningText.waitForDisplayed({
-      timeout: 5000
-    })
-    const getWarningTextText =
-      await monitoringStationPage.getWarningText.getText()
-    const expectedgetWarningTextText = `Data has not been checked and verified`
-    await expect(getWarningTextText).toMatch(expectedgetWarningTextText)
-
-    const getWarningTextStyles = [await monitoringStationPage.getWarningText]
-    const getWarningTextStylesProperties = [
-      'background-color',
-      'border-left',
-      'margin-bottom',
-      'margin-top',
-      'font-size',
-      'line-height',
-      'font-family',
-      'color',
-      'font-weight',
-      'padding'
-    ]
-    for (const element of getWarningTextStyles) {
-      const styles = await common.getStyles(
-        element,
-        getWarningTextStylesProperties
-      )
-      expect(styles['background-color']).toBe('rgb(249, 226, 215)')
-      expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
-      expect(styles['margin-bottom']).toBe('30px')
-      expect(styles['margin-top']).toBe('30px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-      expect(styles.padding).toBe('15px')
-    }
-
     const LastSevenDaysHintText =
       await monitoringStationPage.getLastSevenDaysHint.getText()
     const expectedLastSevenDaysHintText = `The pollution levels shown are measured against UK legal limits.`
@@ -2937,44 +2878,6 @@ annual average data - usually less than 100KB`
       expect(styles['margin-top']).toBe('0px')
     }
 
-    await monitoringStationPage.getWarningText.waitForDisplayed({
-      timeout: 5000
-    })
-    const getWarningTextText =
-      await monitoringStationPage.getWarningText.getText()
-    const expectedgetWarningTextText = `Data has not been checked and verified`
-    await expect(getWarningTextText).toMatch(expectedgetWarningTextText)
-
-    const getWarningTextStyles = [await monitoringStationPage.getWarningText]
-    const getWarningTextStylesProperties = [
-      'background-color',
-      'border-left',
-      'margin-bottom',
-      'margin-top',
-      'font-size',
-      'line-height',
-      'font-family',
-      'color',
-      'font-weight',
-      'padding'
-    ]
-    for (const element of getWarningTextStyles) {
-      const styles = await common.getStyles(
-        element,
-        getWarningTextStylesProperties
-      )
-      expect(styles['background-color']).toBe('rgb(249, 226, 215)')
-      expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
-      expect(styles['margin-bottom']).toBe('30px')
-      expect(styles['margin-top']).toBe('30px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-      expect(styles.padding).toBe('15px')
-    }
-
     const Last24HoursHintText =
       await monitoringStationPage.getLast24HoursHint.getText()
     const expectedLast24HoursHintText = `The pollution levels shown are measured against UK legal limits.`
@@ -3169,43 +3072,6 @@ annual average data - usually less than 100KB`
       expect(styles['margin-top']).toBe('0px')
     }
 
-    await monitoringStationPage.getWarningText.waitForDisplayed({
-      timeout: 5000
-    })
-    const getWarningText = await monitoringStationPage.getWarningText.getText()
-    const expectedgetWarningText = `Data has not been checked and verified`
-    await expect(getWarningText).toMatch(expectedgetWarningText)
-
-    const getWarningTextStyles = [await monitoringStationPage.getWarningText]
-    const getWarningTextStylesProperties = [
-      'background-color',
-      'border-left',
-      'margin-bottom',
-      'margin-top',
-      'font-size',
-      'line-height',
-      'font-family',
-      'color',
-      'font-weight',
-      'padding'
-    ]
-    for (const element of getWarningTextStyles) {
-      const styles = await common.getStyles(
-        element,
-        getWarningTextStylesProperties
-      )
-      expect(styles['background-color']).toBe('rgb(249, 226, 215)')
-      expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
-      expect(styles['margin-bottom']).toBe('30px')
-      expect(styles['margin-top']).toBe('30px')
-      expect(styles['font-size']).toBe('19px')
-      expect(styles['line-height']).toBe('25px')
-      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles.color).toBe('rgb(11, 12, 12)')
-      expect(styles['font-weight']).toBe('400')
-      expect(styles.padding).toBe('15px')
-    }
-
     const getDaqiTabHintText =
       await monitoringStationPage.getDaqiTabHint.getText()
     const expectedDaqiTabHintText = `Learn more about the Daily Air Quality Index (DAQI).`
@@ -3268,5 +3134,170 @@ annual average data - usually less than 100KB`
     await expect(getURLAfterClickingDaqiIndexLink).toMatch(
       expectedURLAfterClickingDaqiIndexLink
     )
+  })
+
+  it('AQD-1538, Update Data verification tag to Coloured Banner', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getDaqiTab.click()
+    await common.legalWait()
+
+    const getDaqiTabVerifiedTag =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expectedDaqiTabVerifiedTag = 'Data has not been checked and verified'
+    await expect(getDaqiTabVerifiedTag).toMatch(expectedDaqiTabVerifiedTag)
+    const getDaqiTabVerifiedTagStyles = [
+      await monitoringStationPage.getVerifiedTag
+    ]
+    const getDaqiTabVerifiedTagProperties = [
+      'background-color',
+      'border-left',
+      'color',
+      'margin-bottom',
+      'padding'
+    ]
+    for (const element of getDaqiTabVerifiedTagStyles) {
+      const styles = await common.getStyles(
+        element,
+        getDaqiTabVerifiedTagProperties
+      )
+      expect(styles['background-color']).toBe('rgb(249, 226, 215)')
+      expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles.padding).toBe('15px 20px')
+    }
+
+    await monitoringStationPage.getLast24HoursButton.click()
+    await common.legalWait()
+
+    const getLast24HoursTabVerifiedTag =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expectedLast24HoursTabVerifiedTag =
+      'Data has not been checked and verified'
+    await expect(getLast24HoursTabVerifiedTag).toMatch(
+      expectedLast24HoursTabVerifiedTag
+    )
+    const getLast24HoursTabVerifiedTagStyles = [
+      await monitoringStationPage.getVerifiedTag
+    ]
+    const getLast24HoursTabVerifiedTagProperties = [
+      'background-color',
+      'border-left',
+      'color',
+      'margin-bottom',
+      'padding'
+    ]
+    for (const element of getLast24HoursTabVerifiedTagStyles) {
+      const styles = await common.getStyles(
+        element,
+        getLast24HoursTabVerifiedTagProperties
+      )
+      expect(styles['background-color']).toBe('rgb(249, 226, 215)')
+      expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles.padding).toBe('15px 20px')
+    }
+
+    await monitoringStationPage.getLast24HoursButton.click()
+    await common.legalWait()
+
+    const getLast7DaysTabVerifiedTag =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expectedLast7DaysTabVerifiedTag =
+      'Data has not been checked and verified'
+    await expect(getLast7DaysTabVerifiedTag).toMatch(
+      expectedLast7DaysTabVerifiedTag
+    )
+    const getLast7DaysTabVerifiedTagStyles = [
+      await monitoringStationPage.getVerifiedTag
+    ]
+    const getLast7DaysTabVerifiedTagProperties = [
+      'background-color',
+      'border-left',
+      'color',
+      'margin-bottom',
+      'padding'
+    ]
+    for (const element of getLast7DaysTabVerifiedTagStyles) {
+      const styles = await common.getStyles(
+        element,
+        getLast7DaysTabVerifiedTagProperties
+      )
+      expect(styles['background-color']).toBe('rgb(249, 226, 215)')
+      expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles.padding).toBe('15px 20px')
+    }
+
+    await monitoringStationPage.get2026Button.click()
+    await common.legalWait()
+
+    const get2026TabVerifiedTag =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expected2026TabVerifiedTag =
+      'Data has been checked and verified until 30 June 2026'
+    await expect(get2026TabVerifiedTag).toMatch(expected2026TabVerifiedTag)
+    const get2026TabVerifiedTagStyles = [
+      await monitoringStationPage.getVerifiedTag
+    ]
+    const get2026TabVerifiedTagProperties = [
+      'background-color',
+      'border-left',
+      'color',
+      'margin-bottom',
+      'padding'
+    ]
+    for (const element of get2026TabVerifiedTagStyles) {
+      const styles = await common.getStyles(
+        element,
+        get2026TabVerifiedTagProperties
+      )
+      expect(styles['background-color']).toBe('rgb(255, 247, 191)')
+      expect(styles['border-left']).toBe('10px solid rgb(236, 210, 40)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles.padding).toBe('15px 20px')
+    }
+
+    await monitoringStationPage.get2025Button.click()
+    await common.legalWait()
+
+    const get2025TabVerifiedTag =
+      await monitoringStationPage.getVerifiedTag.getText()
+    const expected2025TabVerifiedTag = 'Data has been checked and verified'
+    await expect(get2025TabVerifiedTag).toMatch(expected2025TabVerifiedTag)
+    const get2025TabVerifiedTagStyles = [
+      await monitoringStationPage.getVerifiedTag
+    ]
+    const get2025TabVerifiedTagProperties = [
+      'background-color',
+      'border-left',
+      'color',
+      'margin-bottom',
+      'padding'
+    ]
+    for (const element of get2025TabVerifiedTagStyles) {
+      const styles = await common.getStyles(
+        element,
+        get2025TabVerifiedTagProperties
+      )
+      expect(styles['background-color']).toBe('rgb(212, 250, 226)')
+      expect(styles['border-left']).toBe('10px solid rgb(0, 112, 60)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles.padding).toBe('15px 20px')
+    }
   })
 })

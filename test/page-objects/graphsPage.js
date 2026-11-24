@@ -1,9 +1,11 @@
 import { $ } from '@wdio/globals'
-class MapsPage {
-  get getExitMapButton() {
-    return $(`button[id*="exit-map"]`)
+class GraphsPage {
+  get getGraphButton() {
+    return $(
+      `a[class="aq-button-secondary aq-button-secondary--icon govuk-!-margin-bottom-0"]`
+    )
   }
 }
 
 // module.exports=new StartNowPage()
-export default new MapsPage()
+export default new GraphsPage()
