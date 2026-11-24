@@ -1224,5 +1224,10 @@ Automatic Urban and Rural Network`
     const getCurrentURL = await browser.getUrl()
     const expectedURL = '/map?map:center=-0.125889,51.52229&map:zoom=11'
     await expect(getCurrentURL).toMatch(expectedURL)
+
+    await mapsPage.getExitMapButton.click()
+    const getCurrentURL2 = await browser.getUrl()
+    const expectedURL2 = '/hubpage'
+    await expect(getCurrentURL2).toMatch(expectedURL2)
   })
 })

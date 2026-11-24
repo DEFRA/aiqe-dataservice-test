@@ -671,6 +671,8 @@ Contact the air quality team if you continue to get this error message`
     await locationMonitoringStationListPage
       .getMonitoringStationLink('Wrexham')
       .click()
+    await monitoringStationPage.get2024Button.click()
+    await common.legalWait()
     await monitoringStationPage.getPM10DailyExceedenceToggleTip.moveTo()
     const getPM10DailyExceedenceToggleTipInfoTextHover = [
       await monitoringStationPage.getPM10DailyExceedenceToggleTipInfoText

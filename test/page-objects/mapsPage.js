@@ -2,7 +2,7 @@ import { $ } from '@wdio/globals'
 
 class MapsPage {
   get getExitMapButton() {
-    return $(`button[id*="exit-map"]`)
+    return $(`a[id="exit-map"]`)
   }
 
   get getOpenFilterPanelButton() {

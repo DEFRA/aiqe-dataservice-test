@@ -2650,9 +2650,8 @@ annual average data - usually less than 100KB`
       await monitoringStationPage.getLastSevenDaysTimeDuration.getText()
     const sevenDaysAgoDate =
       await monitoringStationPage.getDaysAgoAsDayMonthString(7)
-    const yesterdaysDate =
-      await monitoringStationPage.getDaysAgoAsDayMonthString(1)
-    const expectedgetLastSevenDaysTimeDurationText = `${sevenDaysAgoDate} to ${yesterdaysDate}`
+    const todaysDate = await monitoringStationPage.getDaysAgoAsDayMonthString(0)
+    const expectedgetLastSevenDaysTimeDurationText = `${sevenDaysAgoDate} to ${todaysDate} 2026`
     await expect(getLastSevenDaysTimeDurationText).toMatch(
       expectedgetLastSevenDaysTimeDurationText
     )
