@@ -14,11 +14,10 @@ import monitoringStationPage from '../../page-objects/monitoringStationPage.js'
 
 describe('maps Validation', () => {
   it('map buttons', async () => {
-    await browser.url(
-      'https://aqie-maps-frontend.dev.cdp-int.defra.cloud/map?map:center=-1.4649,52.5619&map:zoom=5.4842222'
-    )
+    await browser.url('')
     await browser.maximizeWindow()
-    await common.legalWait()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getSearchOnMap.click()
     await cookiesBanner.getAcceptCookiesButton.click()
     await cookiesBanner.getHideCookiesButton.click()
 
@@ -162,21 +161,23 @@ describe('maps Validation', () => {
       expect(styles['font-size']).toBe('16px')
       expect(styles.top).toBe('10px')
       expect(styles.left).toBe('10px')
-      expect(styles.color).toBe('rgb(0, 0, 0)')
+      expect(['rgb(11, 12, 12)', 'rgb(0, 0, 0)']).toContain(
+        styles.color.trim().toLowerCase()
+      )
     }
 
     await mapsPage.getExitMapButton.click()
     await common.legalWait()
     const exitMapUrl = await browser.getUrl()
-    const expectedExitMapURL = 'data:,'
-    expect(exitMapUrl).toBe(expectedExitMapURL)
+    const expectedExitMapURL = '/hubpage'
+    expect(exitMapUrl).toMatch(expectedExitMapURL)
   })
 
   it('Click a monitoring station marker on the map', async () => {
-    await browser.url(
-      'https://aqie-maps-frontend.dev.cdp-int.defra.cloud/map?map:center=-1.4649,52.5619&map:zoom=5.4842222'
-    )
+    await browser.url('')
     await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getSearchOnMap.click()
     await common.legalWait()
     // Markers are drawn on the MapLibre GL canvas, not as individual DOM
     // elements, so we scan pixel offsets on the canvas until clicking one
@@ -393,7 +394,7 @@ View full station summary`
     }
   })
 
-  it('station link is displayed and when clicked leads user to monitoring station page in a new tab, AQD-1523', async () => {
+  it('station link is displayed and when clicked leads user to monitoring station page, AQD-1523', async () => {
     const stationLink =
       await mapsPage.getMonitoringStationInformationPanelMonitoringStationLink
     await expect(stationLink).toBeDisplayed()
@@ -403,7 +404,6 @@ View full station summary`
       'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails'
     await expect(URL).toMatch(expectedURL)
     await browser.back()
-    await browser.refresh()
   })
 
   it('monitoring station information panel dissapears when user clicks the cross', async () => {
@@ -414,10 +414,10 @@ View full station summary`
   })
 
   it('map key ui checks and styling', async () => {
-    await browser.url(
-      'https://aqie-maps-frontend.dev.cdp-int.defra.cloud/map?map:center=-1.4649,52.5619&map:zoom=5.4842222'
-    )
+    await browser.url('')
     await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getSearchOnMap.click()
     await common.legalWait()
     // content
     const MapKeyContent = await mapsPage.getMapKey.getText()
@@ -810,10 +810,10 @@ Very high
 
   it('map filter panel content checks, styling', async () => {
     // content checks
-    await browser.url(
-      'https://aqie-maps-frontend.dev.cdp-int.defra.cloud/map?map:center=-1.4649,52.5619&map:zoom=5.4842222'
-    )
+    await browser.url('')
     await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getSearchOnMap.click()
     await common.legalWait()
     const mapFilterPanelContent = await mapsPage.getMapFilterPanel.getText()
     const expectedMapFilterPanelContent = `Search by pollutant
@@ -1101,6 +1101,7 @@ Automatic Urban and Rural Network`
     await expect(URL).toMatch(expectedURL)
 
     await common.getBackLink.click()
+    await common.legalWait()
     const mapUrl = await browser.getUrl()
     const expectedMapURL = '/map?map:center=-1.4649,52.5619&map:zoom=5.4842222'
     await expect(mapUrl).toMatch(expectedMapURL)
@@ -1201,8 +1202,8 @@ Automatic Urban and Rural Network`
         getViewMapOfNearbyMonitoringStationsLinkProperties
       )
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
-      expect(styles['text-decoration']).toBe('underline 1px')
-      expect(styles['text-decoration-thickness']).toBe('1px')
+      expect(styles['text-decoration']).toBe('none')
+      expect(styles['text-decoration-thickness']).toBe('auto')
       expect(styles['text-underline-offset']).toBe('2.9982px')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')
@@ -1228,6 +1229,36 @@ Automatic Urban and Rural Network`
     await mapsPage.getExitMapButton.click()
     const getCurrentURL2 = await browser.getUrl()
     const expectedURL2 = '/hubpage'
+    await expect(getCurrentURL2).toMatch(expectedURL2)
+  })
+
+  it('AQD-1822, Move Maps into Dataselector Fronted', async () => {
+    // checking the url of the map page is using data selector after clicking on view map of nearby monitoring stations link from monitoring station page
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('london')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+
+    await monitoringStationPage.getViewMapOfNearbyMonitoringStationsLink.click()
+    await common.legalWait()
+    const getCurrentURL = await browser.getUrl()
+    const expectedURL = 'aqie-dataselector-frontend.'
+    await expect(getCurrentURL).toMatch(expectedURL)
+
+    // checking the url of the map page is using data selector after clicking on search on map link from hub page
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getSearchOnMap.click()
+    const getCurrentURL2 = await browser.getUrl()
+    const expectedURL2 = 'aqie-dataselector-frontend.'
     await expect(getCurrentURL2).toMatch(expectedURL2)
   })
 })

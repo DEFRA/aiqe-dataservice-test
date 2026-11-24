@@ -723,4 +723,34 @@ Download data
       expect([...countryValues]).toEqual([expectedCountry])
     }
   })
+
+  it('AQD-1822, View map of nearby monitoring stations link and search on map option should be hidden', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await common.legalWait()
+
+    const isSearchOnMapOptionHidden = await common.notDisplayed(
+      hubPage.getSearchOnMap
+    )
+    expect(isSearchOnMapOptionHidden).toBe(true)
+
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('birmingham')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('Birmingham')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('Birmingham A4540 Roadside')
+      .click()
+    await common.legalWait()
+
+    const isViewMapLinkHidden = await common.notDisplayed(
+      monitoringStationPage.getViewMapOfNearbyMonitoringStationsLink
+    )
+    expect(isViewMapLinkHidden).toBe(true)
+  })
 })
