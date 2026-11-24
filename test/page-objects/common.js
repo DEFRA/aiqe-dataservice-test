@@ -88,7 +88,7 @@ class Common {
   }
 
   async notDisplayed(element, timeout = 30000) {
-    await element.waitForDisplayed({
+    return await element.waitForDisplayed({
       reverse: true,
       timeout
     })
