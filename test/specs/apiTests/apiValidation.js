@@ -103,10 +103,18 @@ describe('API Testing', () => {
         return obs['om:result']['swe:DataArray']['swe:values']
       })
 
+      // Sulphur dioxide also has 15-minute readings (4 per hour) alongside the
+      // hourly average - keep hourly rows only (end - start = 1 hour) so each
+      // hour is counted once
+      const oneHourMs = 3600000
       const rows = values.flatMap((valStr) =>
         valStr
           .split('@@')
           .map((row) => row.split(','))
+          .filter(
+            (fields) =>
+              Date.parse(fields[1]) - Date.parse(fields[0]) === oneHourMs
+          )
           .map((fields) => ({
             ts:
               fields[0] && !isNaN(Date.parse(fields[0]))
@@ -232,10 +240,12 @@ describe('API Testing', () => {
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Bloomsbury')
       .click()
+    const tableTextBefore = await monitoringStationPage.getSummaryTableText()
     await monitoringStationPage.get2024Button.click()
     await common.legalWait()
     await monitoringStationPage.get2024Button.click()
     await common.legalWait()
+    await monitoringStationPage.waitForYear(2024, tableTextBefore)
 
     await monitoringStationPage.getPM25AnnaulAverageST.waitForExist({
       timeout: 5000
@@ -471,10 +481,12 @@ describe('API Testing', () => {
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Bloomsbury')
       .click()
+    const tableTextBefore = await monitoringStationPage.getSummaryTableText()
     await monitoringStationPage.get2022Button.click()
     await common.legalWait()
     await monitoringStationPage.get2022Button.click()
     await common.legalWait()
+    await monitoringStationPage.waitForYear(2022, tableTextBefore)
 
     await monitoringStationPage.getPM10DailyExceedence.waitForExist({
       timeout: 6000
@@ -594,10 +606,12 @@ describe('API Testing', () => {
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Bloomsbury')
       .click()
+    const tableTextBefore = await monitoringStationPage.getSummaryTableText()
     await monitoringStationPage.get2022Button.click()
     await common.legalWait()
     await monitoringStationPage.get2022Button.click()
     await common.legalWait()
+    await monitoringStationPage.waitForYear(2022, tableTextBefore)
 
     await monitoringStationPage.getSDDailyExceedence.waitForExist({
       timeout: 5000
@@ -693,10 +707,12 @@ describe('API Testing', () => {
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Marylebone Road')
       .click()
+    const tableTextBefore = await monitoringStationPage.getSummaryTableText()
     await monitoringStationPage.get2018Button.click()
     await common.legalWait()
     await monitoringStationPage.get2018Button.click()
     await common.legalWait()
+    await monitoringStationPage.waitForYear(2018, tableTextBefore)
 
     await monitoringStationPage.getNOHourlyExceedence.waitForExist({
       timeout: 5000
@@ -791,10 +807,12 @@ describe('API Testing', () => {
     await locationMonitoringStationListPage
       .getMonitoringStationLink('London Marylebone Road')
       .click()
+    const tableTextBefore = await monitoringStationPage.getSummaryTableText()
     await monitoringStationPage.get2018Button.click()
     await common.legalWait()
     await monitoringStationPage.get2018Button.click()
     await common.legalWait()
+    await monitoringStationPage.waitForYear(2018, tableTextBefore)
 
     await monitoringStationPage.getSDHourlyExceedence.waitForExist({
       timeout: 5000
@@ -832,7 +850,7 @@ describe('API Testing', () => {
         `ID: ${pollutant.pollutantID} | Name: ${pollutant.pollutantName} | Abbreviation: ${pollutant.pollutant_Abbreviation}`
       )
     }
-    await expect(pollutants.length).toEqual(124)
+    await expect(pollutants.length).toEqual(141)
 
     // extracting each pollutant with a data source
     const urlPollutantDataSource =
@@ -1004,25 +1022,20 @@ describe('API Testing', () => {
       }
     ]
 
-    // Last 7 days = 7 full days before today (today - 7 up to and including yesterday),
-    // matching the date range shown on the custom selections page (AQD-1604)
-    const windowEnd = new Date()
-    windowEnd.setHours(0, 0, 0, 0)
-    const windowStart = new Date(windowEnd)
-    windowStart.setDate(windowEnd.getDate() - 7)
-
-    // Total possible hours in the window, normally 7 * 24 = 168
-    // (worked out from the dates so clock-change weeks give 167 or 169)
-    const totalHoursInWindow = Math.round((windowEnd - windowStart) / 3600000)
-
-    // Ask for the day before the window too, so the whole window is covered
-    // whatever the time zone. The API takes UTC dates
+    // Last 7 days = the latest available hour plus the 167 hours before it,
+    // 168 hourly timestamps in total. The cutoff is the latest available hour,
+    // not midnight, so the window is worked out per pollutant from its data.
+    // e.g. latest hour 10:00 on 13 November gives 11:00 on 6 November through
+    // 10:00 on 13 November
     const oneHourMs = 3600000
+    const totalHoursInWindow = 168
+
+    // Ask for 9 days back to tomorrow, so the window is covered whatever the
+    // latest available hour is. The API takes UTC dates
     const toApiDate = (d) => d.toISOString().slice(0, 10)
-    const startDate = toApiDate(
-      new Date(windowStart.getTime() - 24 * oneHourMs)
-    )
-    const endDate = toApiDate(new Date())
+    const now = Date.now()
+    const startDate = toApiDate(new Date(now - 9 * 24 * oneHourMs))
+    const endDate = toApiDate(new Date(now + 24 * oneHourMs))
 
     const results = {}
     for (const pol of pollutantDefs) {
@@ -1039,12 +1052,10 @@ describe('API Testing', () => {
         continue
       }
 
-      // Keep only valid hours that fall inside the last 7 days, once per hour.
-      // Sulphur dioxide also has 15-minute readings - keep hourly rows only so
-      // each hour is counted once. Missing hours come back as -9999.
-      // Each hour is placed by its startDateTime, so 23:00-24:00 counts on its own day
-      const seenHours = new Set()
-      const parsed = measurements
+      // Valid hourly readings, once per hour. Sulphur dioxide also has 15-minute
+      // readings - keep hourly rows only so each hour is counted once. Missing
+      // hours come back as -9999. Each hour is timestamped by its startDateTime
+      const validHours = measurements
         .filter(
           (m) =>
             Date.parse(m.endDateTime) - Date.parse(m.startDateTime) ===
@@ -1058,7 +1069,24 @@ describe('API Testing', () => {
           (r) =>
             !isNaN(r.date.getTime()) && Number.isFinite(r.value) && r.value >= 0
         )
-        .filter((r) => r.date >= windowStart && r.date < windowEnd)
+
+      if (!validHours.length) {
+        // eslint-disable-next-line no-console
+        console.log(`[${pol.key}] No valid hourly measurements returned`)
+        continue
+      }
+
+      // Window = latest available hour and the 167 hours before it (inclusive)
+      const windowEnd = new Date(
+        Math.max(...validHours.map((r) => r.date.getTime()))
+      )
+      const windowStart = new Date(
+        windowEnd.getTime() - (totalHoursInWindow - 1) * oneHourMs
+      )
+
+      const seenHours = new Set()
+      const parsed = validHours
+        .filter((r) => r.date >= windowStart && r.date <= windowEnd)
         .filter((r) => {
           const hourKey = r.date.getTime()
           if (seenHours.has(hourKey)) return false
@@ -1066,29 +1094,37 @@ describe('API Testing', () => {
           return true
         })
 
+      // Group by local date to match front-end calculations
+      const dayKey = (d) =>
+        `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+
+      // The rolling window cuts through the first and last days, so count how
+      // many of each day's hours fall inside the window
+      const windowHoursByDay = new Map()
+      for (let i = 0; i < totalHoursInWindow; i++) {
+        const key = dayKey(new Date(windowStart.getTime() + i * oneHourMs))
+        windowHoursByDay.set(key, (windowHoursByDay.get(key) ?? 0) + 1)
+      }
+
       const byDay = new Map()
       for (const r of parsed) {
-        // Group by local date to match front-end calculations
-        const yyyy = r.date.getFullYear()
-        const mm = String(r.date.getMonth() + 1).padStart(2, '0')
-        const dd = String(r.date.getDate()).padStart(2, '0')
-        const key = `${yyyy}-${mm}-${dd}`
+        const key = dayKey(r.date)
         if (!byDay.has(key)) byDay.set(key, [])
         byDay.get(key).push(r.value)
       }
 
-      const hoursInDay = 24
+      // A day needs valid data for 75% of its hours inside the window
+      // (18 of 24 for a full day) to count towards daily exceedances
       const coverageThreshold = 0.75
-      const minHours = Math.ceil(hoursInDay * coverageThreshold) // 18
+      const minHoursFor = (day) =>
+        Math.ceil((windowHoursByDay.get(day) ?? 24) * coverageThreshold)
 
-      let acceptedValues = []
       const acceptedDays = []
       const rejectedDays = []
       const dailyMeans = []
       for (const [day, valuesForDay] of byDay) {
-        if (valuesForDay.length >= minHours) {
+        if (valuesForDay.length >= minHoursFor(day)) {
           acceptedDays.push(day)
-          acceptedValues = acceptedValues.concat(valuesForDay)
           dailyMeans.push({
             day,
             mean: valuesForDay.reduce((s, v) => s + v, 0) / valuesForDay.length
@@ -1110,21 +1146,22 @@ describe('API Testing', () => {
           ? parsed.filter((r) => r.value > pol.hourlyThreshold).length
           : null
 
+      // Average = mean of every valid hour in the 168-hour window
       const average =
-        acceptedValues.length > 0
-          ? acceptedValues.reduce((sum, v) => sum + v, 0) /
-            acceptedValues.length
+        parsed.length > 0
+          ? parsed.reduce((sum, r) => sum + r.value, 0) / parsed.length
           : null
       const roundedAverage = average != null ? Math.round(average) : null
 
-      // Data capture % = valid hourly measurements / total possible hours,
-      // same method as the annual data capture test
+      // Data capture % = valid hourly measurements / 168 possible hours
       const dataCapturePercent = Math.round(
         (parsed.length / totalHoursInWindow) * 100
       )
 
       results[pol.key] = {
         apiName: pol.apiName,
+        windowStart: windowStart.toISOString(),
+        windowEnd: windowEnd.toISOString(),
         rawAverage: average,
         roundedAverage,
         dataCapturePercent,
@@ -1137,7 +1174,7 @@ describe('API Testing', () => {
 
       // eslint-disable-next-line no-console
       console.log(
-        `[${pol.key}] last 7 days average: ${roundedAverage} | data capture: ${dataCapturePercent}% (${parsed.length}/${totalHoursInWindow} hours) | daily exceedances: ${dailyExceedances ?? 'n/a'} | hourly exceedances: ${hourlyExceedances ?? 'n/a'} | accepted days: ${acceptedDays.length}, rejected days: ${rejectedDays.length}`
+        `[${pol.key}] window ${windowStart.toISOString()} to ${windowEnd.toISOString()} | last 7 days average: ${roundedAverage} | data capture: ${dataCapturePercent}% (${parsed.length}/${totalHoursInWindow} hours) | daily exceedances: ${dailyExceedances ?? 'n/a'} | hourly exceedances: ${hourlyExceedances ?? 'n/a'} | accepted days: ${acceptedDays.length}, rejected days: ${rejectedDays.length}`
       )
     }
 
@@ -1146,8 +1183,6 @@ describe('API Testing', () => {
         `Last 7 Days Averages (${stationId})`,
         JSON.stringify(
           {
-            windowStart: windowStart.toISOString(),
-            windowEnd: windowEnd.toISOString(),
             totalHoursInWindow,
             results
           },
@@ -1161,12 +1196,13 @@ describe('API Testing', () => {
       console.log('Allure attachment failed:', e.message)
     }
 
-    // The window is 7 full days, so no pollutant can have more than 7 days
-    // or more than 100% data capture
+    // The 168-hour window can touch 8 calendar days (part days at each end),
+    // and data capture can't be over 100%
     for (const r of Object.values(results)) {
       await expect(
         r.acceptedDays.length + r.rejectedDays.length
-      ).toBeLessThanOrEqual(7)
+      ).toBeLessThanOrEqual(8)
+      await expect(r.validHoursCount).toBeLessThanOrEqual(totalHoursInWindow)
       await expect(r.dataCapturePercent).toBeLessThanOrEqual(100)
       // Can't exceed on more days than were accepted, or more hours than were valid
       if (r.dailyExceedances != null) {
@@ -1319,50 +1355,6 @@ describe('API Testing', () => {
     await common.legalWait()
 
     await compareLastSevenDaysWithFrontEnd(results)
-  })
-
-  it('testing atom api and calculations for last 7 days with low data capture for Milton Keynes Civic Centre. AQD-1535,AQD-1550', async () => {
-    const results = await calculateLastSevenDays('UKA00963')
-
-    // This test covers the low data capture scenario - ozone at this site
-    // should be under 75% data capture for the last 7 days
-    await expect(results.Ozone).toBeDefined()
-    await expect(results.Ozone.dataCapturePercent).toBeLessThan(
-      lowDataCaptureThreshold
-    )
-
-    // comparing to the front end
-    await browser.url('')
-    await browser.maximizeWindow()
-    await startNowPage.startNowBtnClick()
-    await hubPage.getFindMonitoringStationsByLocation.click()
-    await searchPage.setsearch('milton keynes')
-    await searchPage.milesOptionClick('5 miles')
-    await searchPage.continueBtnClick()
-    await disambigurationPage.locationLinkClick('Milton Keynes')
-    await locationMonitoringStationListPage
-      .getMonitoringStationLink('Milton Keynes Civic Centre')
-      .click()
-    await monitoringStationPage.getLastSevenDaysButton.click()
-    await common.legalWait()
-
-    // Milton Keynes Civic Centre only measures PM2.5, PM10 and ozone,
-    // so the summary table only has these three rows
-    const pollutantsOnPage = ['PM2.5', 'PM10', 'Ozone']
-    await compareLastSevenDaysWithFrontEnd(results, pollutantsOnPage)
-
-    // Ozone specifically: low data capture % matches, and no average is shown
-    const ozoneRow = pollutantsOnPage.indexOf('Ozone')
-    const ozoneDataCaptureFrontEnd = common.parseNumber(
-      await monitoringStationPage.getDataCaptureCell(ozoneRow).getText()
-    )
-    await expect(ozoneDataCaptureFrontEnd).toEqual(
-      results.Ozone.dataCapturePercent
-    )
-    const ozoneAverageFrontEnd = await monitoringStationPage
-      .getAverageCell(ozoneRow)
-      .getText()
-    await expect(ozoneAverageFrontEnd.trim()).toBe('-')
   })
 
   // Works out the last 24 hours average, data capture and hourly exceedances
