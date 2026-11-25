@@ -1217,7 +1217,7 @@ Automatic Urban and Rural Network`
       expect(styles.gap).toBe('10px')
       expect(styles.padding).toBe('10px 15px')
       expect(styles['text-align']).toBe('left')
-      expect(styles.color).toBe('rgb(0, 0, 0)')
+      expect(styles.color).toBe('rgb(29, 112, 184)')
     }
 
     await ViewMapOfNearbyMonitoringStationsLink.click()
