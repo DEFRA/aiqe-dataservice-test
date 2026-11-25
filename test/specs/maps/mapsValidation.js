@@ -837,7 +837,7 @@ Automatic Urban and Rural Network`
     const expectedMapFilterPanelOtherPollutantsContent = `Search by pollutant
 DAQI pollutants
 Other pollutants
-We will add more pollutants and data sources during 2026.
+We will add more pollutants and data sources during 2027.
 Data sources
 Near real-time Defra data
 Automatic Urban and Rural Network`
