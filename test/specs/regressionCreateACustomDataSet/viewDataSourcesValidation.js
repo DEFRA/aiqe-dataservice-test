@@ -88,7 +88,7 @@ Other data from Defra
 UKEAP - Rural NO2 Network
 UKEAP - Acid Gas & Aerosol Network
 Black Smoke & SO2
-MARGA network`
+UKEAP: MARGA network`
     await expect(AQSRdataSource).toEqual(expectedAQSRDataSource)
 
     await customselectionPage.getClearSelectionsLink.click()
@@ -104,7 +104,7 @@ Other data from Defra
 UKEAP - Rural NO2 Network
 UKEAP - Acid Gas & Aerosol Network
 Black Smoke & SO2
-MARGA network`
+UKEAP: MARGA network`
     await expect(DAQIRdataSource).toEqual(expectedDAQIDataSource)
   })
 
@@ -555,7 +555,7 @@ PAH Digitel (solid phase)
 PAH Digitel (solid+vapour)
 Black Carbon Network
 Black Smoke & SO2
-MARGA network`
+UKEAP: MARGA network`
 
     await expect(dataSource).toMatch(expectedDataSource)
   })
@@ -617,7 +617,7 @@ Black Carbon Network`
       await common.continueButton.click()
       const dataSource = await customselectionPage.getDataSourcesValue.getText()
       const expectedDataSource = `Other data from Defra
-MARGA network`
+UKEAP: MARGA network`
 
       await expect(dataSource).toMatch(expectedDataSource)
     }
@@ -644,7 +644,7 @@ MARGA network`
       const dataSource = await customselectionPage.getDataSourcesValue.getText()
       const expectedDataSource = `Other data from Defra
 UKEAP - Acid Gas & Aerosol Network
-MARGA network`
+UKEAP: MARGA network`
 
       await expect(dataSource).toMatch(expectedDataSource)
     }
