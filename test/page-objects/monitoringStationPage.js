@@ -124,6 +124,40 @@ class MonitoringStationPage {
     return $("a[id*='link-2026']")
   }
 
+  // Text of every summary table cell, used to tell when the table has updated
+  async getSummaryTableText() {
+    return browser.execute(() =>
+      [...document.querySelectorAll("td[class*='defra-aq-levels-table__cell']")]
+        .map((td) => td.textContent.replace(/\s+/g, ' ').trim())
+        .join(' | ')
+    )
+  }
+
+  // Wait for the summary table to switch to the selected year. The year heading
+  // changes straight away but the table lags behind, so wait for the table text
+  // to change from tableTextBefore (taken before clicking the year) and then
+  // stop changing before reading values
+  async waitForYear(year, tableTextBefore, timeout = 30000) {
+    await $(
+      `//*[self::h2 or self::h3 or self::caption][normalize-space(.)="Air pollution levels in ${year}"]`
+    ).waitForDisplayed({ timeout })
+    let lastText = null
+    await browser.waitUntil(
+      async () => {
+        const text = await this.getSummaryTableText()
+        const stable =
+          text !== '' && text !== tableTextBefore && text === lastText
+        lastText = text
+        return stable
+      },
+      {
+        timeout,
+        interval: 1000,
+        timeoutMsg: `Summary table did not update to ${year}`
+      }
+    )
+  }
+
   get getVerifiedTag() {
     return $("div[data-testid='app-verification-banner']")
   }
