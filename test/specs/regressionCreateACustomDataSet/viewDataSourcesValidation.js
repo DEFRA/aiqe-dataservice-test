@@ -519,7 +519,8 @@ Black Smoke & SO2`
       'Benzene (C6H6)',
       'Particulate ammonium (NH4)',
       'Calcium in precipitation (Ca)',
-      'Black Carbon(BC)'
+      'Black Carbon(BC)',
+      'Sodium in PM10 (Na)'
     ]
     this.timeout(300000) // 5 minutes - large pollutant list (42 items)
     await browser.url('')
@@ -548,7 +549,8 @@ PAH Deposition
 PAH Digitel (solid phase)
 PAH Digitel (solid+vapour)
 Black Carbon Network
-Black Smoke & SO2`
+Black Smoke & SO2
+MARGA network`
 
     await expect(dataSource).toMatch(expectedDataSource)
   })
@@ -570,6 +572,74 @@ Black Smoke & SO2`
       const dataSource = await customselectionPage.getDataSourcesValue.getText()
       const expectedDataSource = `Other data from Defra
 Black Carbon Network`
+
+      await expect(dataSource).toMatch(expectedDataSource)
+    }
+  })
+
+  it('AQD-1334, add polltants for only Marga Network , Display applicable Data Sources', async function () {
+    const pollutantsToCheck = [
+      'Calcium in PM10 (Ca)',
+      'Chloride in PM10 (Cl)',
+      'Potassium in PM10 (K)',
+      'Magnesium in PM10 (Mg)',
+      'Sodium in PM10 (Na)',
+      'Ammonium in PM10 (NH4)',
+      'Nitrate in PM10 (NO3)',
+      'Sulphate in PM10 (SO4)',
+      'Calcium in PM2.5 (Ca)',
+      'Chloride in PM2.5 (Cl)',
+      'Potassium in PM2.5 (K)',
+      'Magnesium in PM2.5 (Mg)',
+      'Sodium in PM2.5 (Na)',
+      'Ammonium in PM2.5 (NH4)',
+      'Nitrate in PM2.5 (NO3)',
+      'Sulphate in PM2.5 (SO4)',
+      'Gaseous ammonia (NH3)',
+      'Gaseous Sulphur dioxide (SO2)'
+    ]
+    this.timeout(300000)
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    for (const pollutant of pollutantsToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource = await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource = `Other data from Defra
+MARGA network`
+
+      await expect(dataSource).toMatch(expectedDataSource)
+    }
+  })
+
+  it('AQD-1334, add polltants for Marga Network and acid gas, Display applicable Data Sources', async function () {
+    const pollutantsToCheck = [
+      'Gaseous nitric acid (HNO3)',
+      'Gaseous nitrous acid (HNO2)',
+      'Gaseous hydrochloric acid (HCl)'
+    ]
+    this.timeout(300000)
+    await browser.url('')
+    await browser.deleteCookies()
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getCreateCustomDataSet.click()
+    for (const pollutant of pollutantsToCheck) {
+      await customselectionPage.getClearSelectionsLink.click()
+      await customselectionPage.getAddPollutantLink.click()
+      await addPollutantPage.getAddPollutantOption.click()
+      await addPollutantPage.addPollutant(pollutant)
+      await common.continueButton.click()
+      const dataSource = await customselectionPage.getDataSourcesValue.getText()
+      const expectedDataSource = `Other data from Defra
+UKEAP - Acid Gas & Aerosol Network
+MARGA network`
 
       await expect(dataSource).toMatch(expectedDataSource)
     }
