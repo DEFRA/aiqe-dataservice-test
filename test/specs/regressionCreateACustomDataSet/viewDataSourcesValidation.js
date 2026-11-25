@@ -86,7 +86,8 @@ Automatic Urban and Rural Network (AURN)
 Other data from Defra
 UKEAP - Rural NO2 Network
 UKEAP - Acid Gas & Aerosol Network
-Black Smoke & SO2`
+Black Smoke & SO2
+MARGA network`
     await expect(AQSRdataSource).toEqual(expectedAQSRDataSource)
 
     await customselectionPage.getClearSelectionsLink.click()
@@ -101,7 +102,8 @@ Automatic Urban and Rural Network (AURN)
 Other data from Defra
 UKEAP - Rural NO2 Network
 UKEAP - Acid Gas & Aerosol Network
-Black Smoke & SO2`
+Black Smoke & SO2
+MARGA network`
     await expect(DAQIRdataSource).toEqual(expectedDAQIDataSource)
   })
 

@@ -165,6 +165,10 @@ class DownloadYourDataPage {
   get getDownloadBlackSmokeAndSO2NetworkButton() {
     return $("a[aria-label*='Download data for Black Smoke & SO2']")
   }
+
+  get getDownloadMARGANetworkButton() {
+    return $("a[aria-label*='Download data for MARGA network']")
+  }
 }
 
 // module.exports=new StartNowPage()
