@@ -22,7 +22,6 @@ describe('hub page checks', () => {
 Find monitoring stations by location
 View and download data by town or postcode
 Search on a map
-Find monitoring stations and view their data on a map
 Create a custom dataset
 View and download data by pollutant, year and location`
     const getHubPageContent = await hubPage.getHubPagecontent.getText()
