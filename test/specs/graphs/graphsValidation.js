@@ -130,4 +130,45 @@ describe('graphs Validation', () => {
       await common.getBackLink.click()
     }
   })
+
+  it('AQD-1621, Add View graph and pollutant summary page', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getGraphButton.click()
+
+    // The page heading reflects the selected time period and monitoring station
+    const graphPageTitle = await graphsPage.getGraphsPageTitle.getText()
+    expect(graphPageTitle).toBe('Last 24 hours: London Bloomsbury')
+
+    const getLast24HoursDateRange = await graphsPage.getDateRange.getText()
+    const today = await monitoringStationPage.getDaysAgoAsDayMonthString(0)
+    const yesterday = await monitoringStationPage.getDaysAgoAsDayMonthString(1)
+    const currentYear = await monitoringStationPage.getTodayAsYearString()
+    const expectedDateRange = `${yesterday} to ${today} ${currentYear}`
+    await expect(getLast24HoursDateRange).toMatch(expectedDateRange)
+
+    await graphsPage.getLast7DaysTab.click()
+    await common.legalWait()
+    const last7DaysGraphTitle = await graphsPage.getGraphsPageTitle.getText()
+    expect(last7DaysGraphTitle).toBe('Last 7 days: London Bloomsbury')
+
+    const getLastSevenDaysDateRangeText =
+      await graphsPage.getDateRange.getText()
+    const sevenDaysAgoDate =
+      await monitoringStationPage.getDaysAgoAsDayMonthString(7)
+    const todaysDate = await monitoringStationPage.getDaysAgoAsDayMonthString(0)
+    const expectedgetLastSevenDaysTimeDurationText = `${sevenDaysAgoDate} to ${todaysDate} ${currentYear}`
+    await expect(getLastSevenDaysDateRangeText).toMatch(
+      expectedgetLastSevenDaysTimeDurationText
+    )
+  })
 })
