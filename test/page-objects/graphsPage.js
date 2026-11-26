@@ -13,11 +13,15 @@ class GraphsPage {
   }
 
   get getLast24HoursTab() {
-    return $$(`a[class="moj-sub-navigation__link"]`)[0]
+    return $$(
+      `button[class="moj-sub-navigation__link aq-sub-navigation__button"]`
+    )[0]
   }
 
   get getLast7DaysTab() {
-    return $$(`a[class="moj-sub-navigation__link"]`)[1]
+    return $$(
+      `button[class="moj-sub-navigation__link aq-sub-navigation__button"]`
+    )[1]
   }
 
   get getVerificationBanner() {
@@ -27,9 +31,38 @@ class GraphsPage {
   get getViewPollutantSummaryDropDownLink() {
     return $(`summary[class="govuk-details__summary"]`)
   }
+  // summary table elements
 
   get getSummaryTable() {
-    return $$(`div[class="govuk-details__text"]`)[0]
+    return $$(`div[class="table-scroll-container"]`)[0]
+  }
+
+  get getSummaryTableColumnHeaders() {
+    return $(`thead[class="defra-aq-levels-table__head"]`)
+  }
+
+  get getSummaryTablePollutantTitle() {
+    return $(
+      `th[class="defra-aq-levels-table__cell defra-aq-levels-table__cell--pollutant defra-aq-levels-table__cell--pollutant-title"]`
+    )
+  }
+
+  get getSummaryTable24AverageTitle() {
+    return $(
+      `th[class="defra-aq-levels-table__cell defra-aq-levels-table__cell--average defra-aq-levels-table__cell--average-title"]`
+    )
+  }
+
+  get getSummaryTableHourlyExceedanceTitle() {
+    return $(
+      `th[class="defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly defra-aq-levels-table__cell--hourly-title"]`
+    )
+  }
+
+  get getSummaryTableDataCapture() {
+    return $(
+      `span[class="defra-aq-levels-table__cell--data defra-aq-levels-table__cell--data-capture"]`
+    )
   }
 
   get getUKLegalLimitsText() {

@@ -576,7 +576,11 @@ class MonitoringStationPage {
     return $("p[id='last7days-duration']")
   }
 
-  // last 24 hours tab
+  // last 24 hours tab getSummaryTable
+
+  get getSummaryTable() {
+    return $("div[class='table-scroll-container']")
+  }
 
   get getLast24HoursButton() {
     return $("a[href='/stationdetails/last-24-hours']")
@@ -808,7 +812,7 @@ class MonitoringStationPage {
 
   get getGraphButton() {
     return $(
-      `a[class="aq-button-secondary aq-button-secondary--icon govuk-!-margin-bottom-0"]`
+      `button[class="aq-button-secondary aq-button-secondary--icon govuk-!-margin-bottom-0"]`
     )
   }
 }
