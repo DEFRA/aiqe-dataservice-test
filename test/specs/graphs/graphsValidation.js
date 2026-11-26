@@ -171,4 +171,22 @@ describe('graphs Validation', () => {
       expectedgetLastSevenDaysTimeDurationText
     )
   })
+
+  it('AQD-1890, Replace query parameters with POST requests', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getGraphButton.click()
+
+    const graphPageUrl = await browser.getUrl()
+    expect(graphPageUrl).toContain('/stationdetails/graph-summary')
+  })
 })
