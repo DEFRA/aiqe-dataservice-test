@@ -143,6 +143,18 @@ class Common {
     return m ? Number(m[0]) : null
   }
 
+  // strips the "i" info-icon lines and collapses whitespace, so summary tables
+  // can be compared across pages that render the icons differently
+  normaliseSummaryTableText(text) {
+    return text
+      .split('\n')
+      .map((line) => line.trim())
+      .filter((line) => line !== 'i')
+      .join(' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  }
+
   getHintTextByText(message) {
     return $(
       `//div[contains(@class,'govuk-hint')][normalize-space(.)="${message}"]`

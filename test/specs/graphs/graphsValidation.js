@@ -189,4 +189,367 @@ describe('graphs Validation', () => {
     const graphPageUrl = await browser.getUrl()
     expect(graphPageUrl).toContain('/stationdetails/graph-summary')
   })
+
+  it('content is displayed, styling', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getGraphButton.click()
+
+    await graphsPage.getViewPollutantSummaryDropDownLink.click()
+    await graphsPage.getViewHourlyDataAsATableDropDownLink.click()
+
+    const elementIsDisplayed = [
+      await graphsPage.getGraphsPageTitle,
+      await graphsPage.getDateRange,
+      await graphsPage.getLast24HoursTab,
+      await graphsPage.getLast7DaysTab,
+      await graphsPage.getVerificationBanner,
+      await graphsPage.getViewPollutantSummaryDropDownLink,
+      await graphsPage.getSummaryTable,
+      await graphsPage.getUKLegalLimitsText,
+      await graphsPage.getViewGraphSubTitle,
+      await graphsPage.getUnitText,
+      await graphsPage.getGraphKey,
+      await graphsPage.getGraph,
+      await graphsPage.getGraphUKLimitsText,
+      await graphsPage.getViewHourlyDataAsATableDropDownLink
+    ]
+
+    for (const element of elementIsDisplayed) {
+      await expect(element).toBeDisplayed()
+    }
+
+    const graphsPageTitleStyles = [await graphsPage.getGraphsPageTitle]
+
+    const graphsPageTitleProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of graphsPageTitleStyles) {
+      const styles = await common.getStyles(element, graphsPageTitleProperties)
+      expect(styles['margin-bottom']).toBe('10px')
+      expect(styles['font-size']).toBe('48px')
+      expect(styles['line-height']).toBe('50px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('700')
+    }
+
+    const dateRangeStyles = [await graphsPage.getDateRange]
+
+    const dateRangeProperties = [
+      'margin-bottom',
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight'
+    ]
+
+    for (const element of dateRangeStyles) {
+      const styles = await common.getStyles(element, dateRangeProperties)
+      expect(styles['margin-bottom']).toBe('20px')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+    }
+
+    const last24HoursTabStyles = [await graphsPage.getLast24HoursTab]
+
+    const last24HoursTabProperties = [
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight',
+      'padding-top',
+      'padding-bottom'
+    ]
+
+    for (const element of last24HoursTabStyles) {
+      const styles = await common.getStyles(element, last24HoursTabProperties)
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['padding-top']).toBe('12px')
+      expect(styles['padding-bottom']).toBe('12px')
+    }
+
+    const Last7DaysTabStyles = [await graphsPage.getLast7DaysTab]
+
+    const Last7DaysTabProperties = [
+      'font-size',
+      'line-height',
+      'color',
+      'font-family',
+      'font-weight',
+      'padding-top',
+      'padding-bottom'
+    ]
+
+    for (const element of Last7DaysTabStyles) {
+      const styles = await common.getStyles(element, Last7DaysTabProperties)
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles.color).toBe('rgb(29, 112, 184)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-weight']).toBe('400')
+      expect(styles['padding-top']).toBe('12px')
+      expect(styles['padding-bottom']).toBe('12px')
+    }
+
+    const VerificationBannerStyles = [await graphsPage.getVerificationBanner]
+
+    const VerificationBannerProperties = [
+      'background-color',
+      'border-left',
+      'color',
+      'margin-bottom',
+      'padding'
+    ]
+
+    for (const element of VerificationBannerStyles) {
+      const styles = await common.getStyles(
+        element,
+        VerificationBannerProperties
+      )
+      expect(styles['background-color']).toBe('rgb(249, 226, 215)')
+      expect(styles['border-left']).toBe('10px solid rgb(244, 119, 56)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles.padding).toBe('15px 20px')
+    }
+
+    const ViewPollutantSummaryDropDownLinkStyles = [
+      await graphsPage.getViewPollutantSummaryDropDownLink
+    ]
+
+    const ViewPollutantSummaryDropDownLinkProperties = [
+      'color',
+      'font-family',
+      'font-size',
+      'line-height',
+      'font-weight'
+    ]
+
+    for (const element of ViewPollutantSummaryDropDownLinkStyles) {
+      const styles = await common.getStyles(
+        element,
+        ViewPollutantSummaryDropDownLinkProperties
+      )
+      expect(styles.color).toBe('rgb(29, 112, 184)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-weight']).toBe('400')
+    }
+
+    const SummaryTablePollutantTitleStyles = [
+      await graphsPage.getSummaryTablePollutantTitle
+    ]
+
+    const SummaryTablePollutantTitleProperties = [
+      'padding-bottom',
+      'padding-top',
+      'color',
+      'font-family',
+      'font-size',
+      'line-height',
+      'font-weight',
+      'padding-right'
+    ]
+
+    for (const element of SummaryTablePollutantTitleStyles) {
+      const styles = await common.getStyles(
+        element,
+        SummaryTablePollutantTitleProperties
+      )
+      expect(styles['padding-bottom']).toBe('20px')
+      expect(styles['padding-top']).toBe('20px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-size']).toBe('19px')
+      expect(styles['line-height']).toBe('25px')
+      expect(styles['font-weight']).toBe('700')
+      expect(styles['padding-right']).toBe('20px')
+    }
+
+    const SummaryTableDataCaptureStyles = [
+      await graphsPage.getSummaryTableDataCapture
+    ]
+
+    const SummaryTableDataCaptureProperties = [
+      'margin-top',
+      'color',
+      'font-family',
+      'font-size',
+      'line-height',
+      'font-weight'
+    ]
+
+    for (const element of SummaryTableDataCaptureStyles) {
+      const styles = await common.getStyles(
+        element,
+        SummaryTableDataCaptureProperties
+      )
+      expect(styles['margin-top']).toBe('4px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('21.0526px')
+      expect(styles['font-weight']).toBe('400')
+    }
+
+    const UKLegalLimitsTextStyles = [await graphsPage.getUKLegalLimitsText]
+
+    const UKLegalLimitsTextProperties = [
+      'margin-top',
+      'color',
+      'font-family',
+      'font-size',
+      'line-height',
+      'font-weight'
+    ]
+
+    for (const element of UKLegalLimitsTextStyles) {
+      const styles = await common.getStyles(
+        element,
+        UKLegalLimitsTextProperties
+      )
+      expect(styles['margin-top']).toBe('0px')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
+      expect(styles['font-size']).toBe('16px')
+      expect(styles['line-height']).toBe('20px')
+      expect(styles['font-weight']).toBe('400')
+    }
+  })
+
+  it('AQD-1622, Add View pollutant summary expandable section - Graph and Pollutant Summary Page', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getGraphButton.click()
+    await graphsPage.getLast24HoursTab.click()
+
+    // checking hide and unhide
+    const pollutantgetSummaryTableHiddenByDefault =
+      await graphsPage.getSummaryTable.isDisplayed()
+    expect(pollutantgetSummaryTableHiddenByDefault).toBe(false)
+
+    await graphsPage.getViewPollutantSummaryDropDownLink.click()
+    const pollutantgetSummaryTableAfterClickedOpen =
+      await graphsPage.getSummaryTable.isDisplayed()
+    expect(pollutantgetSummaryTableAfterClickedOpen).toBe(true)
+
+    await graphsPage.getViewPollutantSummaryDropDownLink.click()
+    const pollutantgetSummaryTableAfterClickedClose =
+      await graphsPage.getSummaryTable.isDisplayed()
+    expect(pollutantgetSummaryTableAfterClickedClose).toBe(false)
+
+    // checking the sumary table column headers for each tab
+    await graphsPage.getViewPollutantSummaryDropDownLink.click()
+    const getSummaryTableColumnHeaders24Hours =
+      await graphsPage.getSummaryTableColumnHeaders.getText()
+    const expectedSummaryTableColumnHeaders24Hours =
+      'Pollutant 24 hour average Hourly exceedances'
+    expect(getSummaryTableColumnHeaders24Hours).toMatch(
+      expectedSummaryTableColumnHeaders24Hours
+    )
+
+    await graphsPage.getLast7DaysTab.click()
+    await graphsPage.getViewPollutantSummaryDropDownLink.click()
+    const getSummaryTableColumnHeaders7DaysTab =
+      await graphsPage.getSummaryTableColumnHeaders.getText()
+    const expectedSummaryTableColumnHeaders7DaysTab =
+      'Pollutant Average Daily exceedances Hourly exceedances'
+    expect(getSummaryTableColumnHeaders7DaysTab).toMatch(
+      expectedSummaryTableColumnHeaders7DaysTab
+    )
+
+    // checking uk limit text for each tab
+    await graphsPage.getLast24HoursTab.click()
+    await graphsPage.getViewPollutantSummaryDropDownLink.click()
+    const getUKLegalLimitsText24HoursTab =
+      await graphsPage.getUKLegalLimitsText.getText()
+    const expectedUKLegalLimitsText24HoursTab =
+      'The pollution levels shown are measured against UK legal limits.'
+    expect(getUKLegalLimitsText24HoursTab).toMatch(
+      expectedUKLegalLimitsText24HoursTab
+    )
+
+    await graphsPage.getLast7DaysTab.click()
+    await graphsPage.getViewPollutantSummaryDropDownLink.click()
+    const getUKLegalLimitsText7DaysTab =
+      await graphsPage.getUKLegalLimitsText.getText()
+    const expectedUKLegalLimitsText7DaysTab =
+      'The pollution levels shown are measured against UK legal limits.'
+    expect(getUKLegalLimitsText7DaysTab).toMatch(
+      expectedUKLegalLimitsText7DaysTab
+    )
+
+    // checking the summary table matches the summary table on the monitoring station page for each tab
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getLast24HoursButton.click()
+    await common.legalWait()
+    const MonitoringStationPageSummaryTable24HoursTab =
+      await monitoringStationPage.getSummaryTable.getText()
+    await monitoringStationPage.getLastSevenDaysButton.click()
+    await common.legalWait()
+    const MonitoringStationPageSummaryTable7DaysTab =
+      await monitoringStationPage.getSummaryTable.getText()
+    await monitoringStationPage.getGraphButton.click()
+    await graphsPage.getLast24HoursTab.click()
+    await graphsPage.getViewPollutantSummaryDropDownLink.click()
+    const getSummaryTable24HoursTab = await graphsPage.getSummaryTable.getText()
+    expect(common.normaliseSummaryTableText(getSummaryTable24HoursTab)).toBe(
+      common.normaliseSummaryTableText(
+        MonitoringStationPageSummaryTable24HoursTab
+      )
+    )
+    await graphsPage.getLast7DaysTab.click()
+    await graphsPage.getViewPollutantSummaryDropDownLink.click()
+    const getSummaryTable7DaysTab = await graphsPage.getSummaryTable.getText()
+    expect(common.normaliseSummaryTableText(getSummaryTable7DaysTab)).toBe(
+      common.normaliseSummaryTableText(
+        MonitoringStationPageSummaryTable7DaysTab
+      )
+    )
+  })
 })
