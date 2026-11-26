@@ -81,6 +81,12 @@ class MonitoringStationPage {
     return today.toLocaleDateString('en-GB', options)
   }
 
+  async getTodayAsYearString() {
+    const today = new Date()
+    const options = { year: 'numeric' }
+    return today.toLocaleDateString('en-GB', options)
+  }
+
   async getDaysAgoAsDayMonthString(daysAgo) {
     const date = new Date()
     date.setDate(date.getDate() - daysAgo)
