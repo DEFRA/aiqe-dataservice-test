@@ -555,7 +555,7 @@ class MonitoringStationPage {
   // last 7 days tab
 
   get getLastSevenDaysButton() {
-    return $("a[id*='link-last-7-days']")
+    return $("a[href='/stationdetails/last-7-days']")
   }
 
   get getLastSevenDaysHint() {
@@ -563,21 +563,21 @@ class MonitoringStationPage {
   }
 
   get getAirPollutionSummaryLastSevenDaysHeading() {
-    return $("h2[id*='airpollution-heading']")
+    return $("h2[id*='last7days-heading']")
   }
 
   get getLastSevenDaysTimeDuration() {
-    return $("p[id*='duration_current']")
+    return $("p[id='last7days-duration']")
   }
 
   // last 24 hours tab
 
   get getLast24HoursButton() {
-    return $("a[id*='link-last-24-hours']")
+    return $("a[href='/stationdetails/last-24-hours']")
   }
 
   get getLast24HoursTimeDuration() {
-    return $("p[id*='duration_current']")
+    return $("p[id='duration_current']")
   }
 
   get getAirPollutionSummaryLast24HoursHeading() {
@@ -649,7 +649,7 @@ class MonitoringStationPage {
   // daqi  tab
 
   get getDaqiTab() {
-    return $("a[id='link-daqi']")
+    return $("a[href='/stationdetails/daqi']")
   }
 
   get getDaqiTabHeading() {
@@ -798,6 +798,12 @@ class MonitoringStationPage {
     return $$(
       "td[class*='defra-aq-levels-table__cell defra-aq-levels-table__cell--hourly']"
     )[rowIndex]
+  }
+
+  get getGraphButton() {
+    return $(
+      `a[class="aq-button-secondary aq-button-secondary--icon govuk-!-margin-bottom-0"]`
+    )
   }
 }
 
