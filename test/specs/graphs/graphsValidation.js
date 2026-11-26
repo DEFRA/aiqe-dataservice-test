@@ -552,4 +552,92 @@ describe('graphs Validation', () => {
       )
     )
   })
+
+  it('AQD-1623, Add pollutant graph - Graph and Pollutant Summary Page', async () => {
+    await browser.url('')
+    await browser.maximizeWindow()
+    await startNowPage.startNowBtnClick()
+    await hubPage.getFindMonitoringStationsByLocation.click()
+    await searchPage.setsearch('London')
+    await searchPage.milesOptionClick('5 miles')
+    await searchPage.continueBtnClick()
+    await disambigurationPage.locationLinkClick('City of London')
+    await locationMonitoringStationListPage
+      .getMonitoringStationLink('London Bloomsbury')
+      .click()
+    await monitoringStationPage.getGraphButton.click()
+    await graphsPage.getLast24HoursTab.click()
+
+    // graph is displayed whether summary table is open or closed
+    const graphIsDisplayed = await graphsPage.getGraph.isDisplayed()
+    expect(graphIsDisplayed).toBe(true)
+
+    await graphsPage.getViewPollutantSummaryDropDownLink.click()
+    const graphIsDisplayed2 = await graphsPage.getGraph.isDisplayed()
+    expect(graphIsDisplayed2).toBe(true)
+
+    await graphsPage.getViewPollutantSummaryDropDownLink.click()
+    const graphIsDisplayed3 = await graphsPage.getGraph.isDisplayed()
+    expect(graphIsDisplayed3).toBe(true)
+
+    // 24 hours tab
+    const getViewGraphSubTitle = await graphsPage.getViewGraphSubTitle.getText()
+    const expectedViewGraphSubTitle = 'View graph: hourly data'
+    expect(getViewGraphSubTitle).toMatch(expectedViewGraphSubTitle)
+    const twentyFourHoursGraph = await graphsPage.getGraph.isDisplayed()
+    expect(twentyFourHoursGraph).toBe(true)
+    const getTwentyFourHoursGraphKey =
+      await graphsPage.getGraphKey.isDisplayed()
+    expect(getTwentyFourHoursGraphKey).toBe(true)
+    const get24HoursVerticalAxisTitle =
+      await graphsPage.getVerticalAxisTitle.getText()
+    const expected24HoursVerticalAxisTitle = 'µg/m³'
+    expect(get24HoursVerticalAxisTitle).toMatch(
+      expected24HoursVerticalAxisTitle
+    )
+    const get24HoursHorizontalAxisTitle =
+      await graphsPage.getHorizontalAxisTitle.getText()
+    const expected24HoursHorizontalAxisTitle = 'Time (UTC)'
+    expect(get24HoursHorizontalAxisTitle).toMatch(
+      expected24HoursHorizontalAxisTitle
+    )
+    const get24HoursUnitText = await graphsPage.getUnitText.getText()
+    const expected24HoursUnitText =
+      'The unit µg/m³ stands for micrograms (one millionth of a gram) per cubic metre of air.'
+    expect(get24HoursUnitText).toMatch(expected24HoursUnitText)
+    const get24HoursKLimitsText =
+      await graphsPage.getGraphUKLimitsText.getText()
+    const expected24HoursKLimitsText =
+      'Pollution levels are measured against UK legal limits.'
+    expect(get24HoursKLimitsText).toMatch(expected24HoursKLimitsText)
+
+    // 7 days tab
+    await graphsPage.getLast7DaysTab.click()
+    const getViewGraphSubTitle7Days =
+      await graphsPage.getViewGraphSubTitle.getText()
+    const expectedViewGraphSubTitle7Days = 'View graph: hourly data'
+    expect(getViewGraphSubTitle7Days).toMatch(expectedViewGraphSubTitle7Days)
+    const sevenDaysGraph = await graphsPage.getGraph.isDisplayed()
+    expect(sevenDaysGraph).toBe(true)
+    const getSevenDaysGraphKey = await graphsPage.getGraphKey.isDisplayed()
+    expect(getSevenDaysGraphKey).toBe(true)
+    const get7DaysVerticalAxisTitle =
+      await graphsPage.getVerticalAxisTitle.getText()
+    const expected7DaysVerticalAxisTitle = 'µg/m³'
+    expect(get7DaysVerticalAxisTitle).toMatch(expected7DaysVerticalAxisTitle)
+    const get7DaysHorizontalAxisTitle =
+      await graphsPage.getHorizontalAxisTitle.getText()
+    const expected7DaysHorizontalAxisTitle = 'Time (UTC)'
+    expect(get7DaysHorizontalAxisTitle).toMatch(
+      expected7DaysHorizontalAxisTitle
+    )
+    const get7DaysUnitText = await graphsPage.getUnitText.getText()
+    const expected7DaysUnitText =
+      'The unit µg/m³ stands for micrograms (one millionth of a gram) per cubic metre of air.'
+    expect(get7DaysUnitText).toMatch(expected7DaysUnitText)
+    const get7DaysKLimitsText = await graphsPage.getGraphUKLimitsText.getText()
+    const expected7DaysKLimitsText =
+      'Pollution levels are measured against UK legal limits.'
+    expect(get7DaysKLimitsText).toMatch(expected7DaysKLimitsText)
+  })
 })

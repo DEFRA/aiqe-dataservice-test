@@ -69,6 +69,7 @@ class GraphsPage {
     return $$(`p[class="govuk-body-s"]`)[0]
   }
 
+  // graph
   get getViewGraphSubTitle() {
     return $(`h2[class="govuk-heading-l govuk-!-margin-top-6"]`)
   }
@@ -84,6 +85,16 @@ class GraphsPage {
   get getGraph() {
     return $(
       `svg[aria-label="Line chart of hourly readings in µg/m³ for PM2.5, PM10, Nitrogen dioxide, Ozone and Sulphur dioxide. The same readings are in the table below the graph."]`
+    )
+  }
+
+  get getVerticalAxisTitle() {
+    return $(`text[class="app-pollutant-graph__axis-title"]`)
+  }
+
+  get getHorizontalAxisTitle() {
+    return $(
+      `text[class="app-pollutant-graph__axis-title app-pollutant-graph__axis-title--time"]`
     )
   }
 
