@@ -20,6 +20,7 @@ describe('start now page content/functionality checks/styling checks', () => {
 Use this service to view and download air pollution data from monitoring networks across the UK.
 To get air pollution data, you can:
 search by town or postcode
+Search on a map
 create a custom dataset
 Start now
 Other ways to get this information
