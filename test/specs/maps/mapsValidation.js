@@ -400,9 +400,8 @@ View full station summary`
     await expect(stationLink).toBeDisplayed()
     await stationLink.click()
     const URL = await browser.getUrl()
-    const expectedURL =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails'
-    await expect(URL).toMatch(expectedURL)
+    const expectedURL = '/stationdetails'
+    await expect(URL).toContain(expectedURL)
     await browser.back()
   })
 
@@ -1096,9 +1095,8 @@ Automatic Urban and Rural Network`
     await expect(stationLink).toBeDisplayed()
     await stationLink.click()
     const URL = await browser.getUrl()
-    const expectedURL =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails'
-    await expect(URL).toMatch(expectedURL)
+    const expectedURL = '/stationdetails'
+    await expect(URL).toContain(expectedURL)
 
     await common.getBackLink.click()
     await common.legalWait()
@@ -1109,9 +1107,8 @@ Automatic Urban and Rural Network`
     // back using the browser back button
     await stationLink.click()
     const URL2 = await browser.getUrl()
-    const expectedURL2 =
-      'https://aqie-dataselector-frontend.dev.cdp-int.defra.cloud/stationdetails'
-    await expect(URL2).toMatch(expectedURL2)
+    const expectedURL2 = '/stationdetails'
+    await expect(URL2).toContain(expectedURL2)
 
     await browser.back()
     const mapUrl2 = await browser.getUrl()

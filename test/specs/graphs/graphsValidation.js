@@ -185,6 +185,7 @@ describe('graphs Validation', () => {
       .getMonitoringStationLink('London Bloomsbury')
       .click()
     await monitoringStationPage.getGraphButton.click()
+    await common.legalWait()
 
     const graphPageUrl = await browser.getUrl()
     expect(graphPageUrl).toContain('/stationdetails/graph-summary')

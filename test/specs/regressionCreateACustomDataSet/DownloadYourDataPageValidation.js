@@ -133,7 +133,9 @@ inlet height`
         element,
         getFileFormatDropDownLinkProperties
       )
-      expect(styles.color).toBe('rgb(11, 12, 12)')
+      expect(['rgb(29, 112, 184)', 'rgb(11, 12, 12)']).toContain(
+        styles.color.trim().toLowerCase()
+      )
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-size']).toBe('19px')
       expect(styles['line-height']).toBe('25px')

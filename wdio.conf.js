@@ -80,14 +80,13 @@ export const config = {
         './test/specs/regressionSearchByLocation/*.js',
         './test/specs/downloadTest/*.js',
         './test/specs/maps/mapsValidation.js',
-        './test/specs/graphsValidation/*.js'
+        './test/specs/graphs/graphsValidation.js'
       ],
       exclude: [
         './test/specs/regressionCreateACustomDataSet/errorScenarios.js',
         './test/specs/apiTests/apiValidation.js',
         './test/specs/citizen/UKAirApiDataComparison.js',
         './test/specs/disableJavascriptTests/noJavascriptValidation.js',
-        './test/specs/maps/mapsValidation.js',
         './test/specs/maps/mapsMobileValidation.js'
       ]
     },

@@ -33,6 +33,42 @@ const isZipFileBySignature = (fullPath) => {
   }
 }
 
+// Chrome may write a download to a temporary <guid>.tmp file and rename it
+// once complete, so prefer non-.tmp files and only fall back to a .tmp file
+// when nothing else is present.
+const listDownloads = (dir) => {
+  const files = fs
+    .readdirSync(dir)
+    .filter(
+      (f) =>
+        !f.endsWith('.crdownload') && fs.statSync(path.join(dir, f)).isFile()
+    )
+  const nonTmpFiles = files.filter((f) => !f.endsWith('.tmp'))
+  return nonTmpFiles.length > 0 ? nonTmpFiles : files
+}
+
+// Extract a zip, retrying in case the source file was still being written.
+// The source is re-copied to the .zip path on every attempt so a retry never
+// reuses a truncated copy.
+const extractZipWithRetry = async (fullPath, zipPath, extractDir) => {
+  let lastError
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    try {
+      if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
+      fs.mkdirSync(extractDir, { recursive: true })
+      execSync(
+        `powershell -Command "$ErrorActionPreference = 'Stop'; Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`,
+        { stdio: 'pipe' }
+      )
+      return
+    } catch (err) {
+      lastError = err
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+    }
+  }
+  throw lastError
+}
+
 describe('add location validation', () => {
   it('Add locations - Initial Screen AQD-867', async () => {
     await browser.url('')
@@ -916,9 +952,7 @@ Change location`)
           try {
             await syncBrowserStackDownloads(DOWNLOAD_DIR)
             if (isBrowserStackSession()) return true
-            const files = fs
-              .readdirSync(DOWNLOAD_DIR)
-              .filter((f) => !f.endsWith('.crdownload'))
+            const files = listDownloads(DOWNLOAD_DIR)
             if (files.length === 0) return false
             const fullPath = path.join(DOWNLOAD_DIR, files[0])
             const size = fs.statSync(fullPath).size
@@ -939,14 +973,13 @@ Change location`)
       await browser.waitUntil(
         async () => {
           try {
-            const files = fs
-              .readdirSync(DOWNLOAD_DIR)
-              .filter((f) => !f.endsWith('.crdownload'))
+            const files = listDownloads(DOWNLOAD_DIR)
             if (files.length === 0) return false
             const fullPath = path.join(DOWNLOAD_DIR, files[0])
             const sizeNow = fs.statSync(fullPath).size
             if (sizeNow === 0) return false
-            await new Promise((resolve) => setTimeout(resolve, 300))
+            const stableWaitMs = files[0].endsWith('.tmp') ? 3000 : 300
+            await new Promise((resolve) => setTimeout(resolve, stableWaitMs))
             const sizeAfter = fs.statSync(fullPath).size
             return sizeNow === sizeAfter
           } catch {
@@ -961,9 +994,7 @@ Change location`)
       )
     }
 
-    const finalFiles = fs
-      .readdirSync(DOWNLOAD_DIR)
-      .filter((f) => !f.endsWith('.crdownload'))
+    const finalFiles = listDownloads(DOWNLOAD_DIR)
     if (browserStackRun && finalFiles.length === 0) return
     expect(finalFiles.length).toBeGreaterThan(0)
 
@@ -1005,27 +1036,11 @@ Change location`)
         const zipPath = fullPath.toLowerCase().endsWith('.zip')
           ? fullPath
           : `${fullPath}.zip`
-        if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
         const extractDir = path.join(
           DOWNLOAD_DIR,
           `${path.parse(zipPath).name}-extracted`
         )
-        fs.mkdirSync(extractDir, { recursive: true })
-
-        let lastError
-        let extracted = false
-        for (let attempt = 0; attempt < 3 && !extracted; attempt += 1) {
-          try {
-            execSync(
-              `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
-            )
-            extracted = true
-          } catch (err) {
-            lastError = err
-            fs.mkdirSync(extractDir, { recursive: true })
-          }
-        }
-        if (!extracted) throw lastError
+        await extractZipWithRetry(fullPath, zipPath, extractDir)
 
         const extractedCsvFiles = fs
           .readdirSync(extractDir)
@@ -1458,9 +1473,7 @@ Continue`
           try {
             await syncBrowserStackDownloads(DOWNLOAD_DIR)
             if (isBrowserStackSession()) return true
-            const files = fs
-              .readdirSync(DOWNLOAD_DIR)
-              .filter((f) => !f.endsWith('.crdownload'))
+            const files = listDownloads(DOWNLOAD_DIR)
             if (files.length === 0) return false
             const fullPath = path.join(DOWNLOAD_DIR, files[0])
             const size = fs.statSync(fullPath).size
@@ -1481,14 +1494,13 @@ Continue`
       await browser.waitUntil(
         async () => {
           try {
-            const files = fs
-              .readdirSync(DOWNLOAD_DIR)
-              .filter((f) => !f.endsWith('.crdownload'))
+            const files = listDownloads(DOWNLOAD_DIR)
             if (files.length === 0) return false
             const fullPath = path.join(DOWNLOAD_DIR, files[0])
             const sizeNow = fs.statSync(fullPath).size
             if (sizeNow === 0) return false
-            await new Promise((resolve) => setTimeout(resolve, 300))
+            const stableWaitMs = files[0].endsWith('.tmp') ? 3000 : 300
+            await new Promise((resolve) => setTimeout(resolve, stableWaitMs))
             const sizeAfter = fs.statSync(fullPath).size
             return sizeNow === sizeAfter
           } catch {
@@ -1503,9 +1515,7 @@ Continue`
       )
     }
 
-    const finalFiles = fs
-      .readdirSync(DOWNLOAD_DIR)
-      .filter((f) => !f.endsWith('.crdownload'))
+    const finalFiles = listDownloads(DOWNLOAD_DIR)
     if (browserStackRun && finalFiles.length === 0) return
     expect(finalFiles.length).toBeGreaterThan(0)
 
@@ -1547,27 +1557,11 @@ Continue`
         const zipPath = fullPath.toLowerCase().endsWith('.zip')
           ? fullPath
           : `${fullPath}.zip`
-        if (zipPath !== fullPath) fs.copyFileSync(fullPath, zipPath)
         const extractDir = path.join(
           DOWNLOAD_DIR,
           `${path.parse(zipPath).name}-extracted`
         )
-        fs.mkdirSync(extractDir, { recursive: true })
-
-        let lastError
-        let extracted = false
-        for (let attempt = 0; attempt < 3 && !extracted; attempt += 1) {
-          try {
-            execSync(
-              `powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractDir}' -Force"`
-            )
-            extracted = true
-          } catch (err) {
-            lastError = err
-            fs.mkdirSync(extractDir, { recursive: true })
-          }
-        }
-        if (!extracted) throw lastError
+        await extractZipWithRetry(fullPath, zipPath, extractDir)
 
         const extractedCsvFiles = fs
           .readdirSync(extractDir)
