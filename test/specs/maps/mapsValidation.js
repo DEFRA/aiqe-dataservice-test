@@ -196,7 +196,7 @@ describe('maps Validation', () => {
       await mapsPage.getMonitoringStationInformationPanel.getText()
     const expectedContent = `Perth Glasgow Road Active
 Pollutants: NO₂
-DAQI (observed): 1 (low)
+Overall DAQI: 1 (low)
 Local authority: Perth and Kinross
 Site type: Traffic Urban
 Start date: 1 January 2025
@@ -707,7 +707,7 @@ Very high
         element,
         getMapKeyScaleBandEightProperties
       )
-      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['background-color']).toBe('rgb(255, 0, 0)')
       expect(styles['justify-content']).toBe('center')
       expect(styles['font-size']).toBe('15px')
@@ -755,7 +755,7 @@ Very high
         element,
         getMapKeyScaleBandTenProperties
       )
-      expect(styles.color).toBe('rgb(255, 255, 255)')
+      expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['background-color']).toBe('rgb(206, 48, 255)')
       expect(styles['justify-content']).toBe('center')
       expect(styles['font-size']).toBe('15px')

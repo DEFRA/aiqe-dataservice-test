@@ -167,7 +167,7 @@ class DownloadYourDataPage {
   }
 
   get getDownloadMARGANetworkButton() {
-    return $("a[aria-label*='Download data for MARGA network']")
+    return $("a[aria-label*='Download data for UKEAP: MARGA network']")
   }
 }
 

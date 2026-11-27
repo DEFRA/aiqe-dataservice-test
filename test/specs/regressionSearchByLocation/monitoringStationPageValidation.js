@@ -533,7 +533,8 @@ View on Google Maps (opens in new tab)`
     await expect(durationTag2026).toMatch(expectedDurationTag2026)
     const getVerifiedTag2026 =
       await monitoringStationPage.getVerifiedTag.getText()
-    const expectedVerifiedTag2026 = 'Data has been verified until 30 June'
+    const expectedVerifiedTag2026 =
+      'Data has been checked and verified until 30 June 2026'
     await expect(getVerifiedTag2026).toMatch(expectedVerifiedTag2026)
     const getdownloadDataHeading2026 =
       await monitoringStationPage.getdownloadDataHeading.getText()
@@ -576,7 +577,7 @@ View on Google Maps (opens in new tab)`
     await expect(durationTag2025).toMatch(expectedDurationTag2025)
     const getVerifiedTag2025 =
       await monitoringStationPage.getVerifiedTag.getText()
-    const expectedVerifiedTag2025 = 'Data has been verified'
+    const expectedVerifiedTag2025 = 'Data has been checked and verified'
     await expect(getVerifiedTag2025).toMatch(expectedVerifiedTag2025)
     const getdownloadDataHeading2025 =
       await monitoringStationPage.getdownloadDataHeading.getText()
@@ -619,7 +620,7 @@ View on Google Maps (opens in new tab)`
     await expect(durationTag2024).toMatch(expectedDurationTag2024)
     const getVerifiedTag2024 =
       await monitoringStationPage.getVerifiedTag.getText()
-    const expectedVerifiedTag2024 = 'Data has been verified'
+    const expectedVerifiedTag2024 = 'Data has been checked and verified'
     await expect(getVerifiedTag2024).toMatch(expectedVerifiedTag2024)
     const getdownloadDataHeading2024 =
       await monitoringStationPage.getdownloadDataHeading.getText()
@@ -663,7 +664,7 @@ View on Google Maps (opens in new tab)`
     await expect(durationTag2023).toMatch(expectedDurationTag2023)
     const getVerifiedTag2023 =
       await monitoringStationPage.getVerifiedTag.getText()
-    const expectedVerifiedTag2023 = 'Data has been verified'
+    const expectedVerifiedTag2023 = 'Data has been checked and verified'
     await expect(getVerifiedTag2023).toMatch(expectedVerifiedTag2023)
     const getdownloadDataHeading2023 =
       await monitoringStationPage.getdownloadDataHeading.getText()
@@ -706,7 +707,7 @@ View on Google Maps (opens in new tab)`
     await expect(durationTag2022).toMatch(expectedDurationTag2022)
     const getVerifiedTag2022 =
       await monitoringStationPage.getVerifiedTag.getText()
-    const expectedVerifiedTag2022 = 'Data has been verified'
+    const expectedVerifiedTag2022 = 'Data has been checked and verified'
     await expect(getVerifiedTag2022).toMatch(expectedVerifiedTag2022)
     const getdownloadDataHeading2022 =
       await monitoringStationPage.getdownloadDataHeading.getText()
@@ -749,7 +750,7 @@ View on Google Maps (opens in new tab)`
     await expect(durationTag2021).toMatch(expectedDurationTag2021)
     const getVerifiedTag2021 =
       await monitoringStationPage.getVerifiedTag.getText()
-    const expectedVerifiedTag2021 = 'Data has been verified'
+    const expectedVerifiedTag2021 = 'Data has been checked and verified'
     await expect(getVerifiedTag2021).toMatch(expectedVerifiedTag2021)
     const getdownloadDataHeading2021 =
       await monitoringStationPage.getdownloadDataHeading.getText()
@@ -792,7 +793,7 @@ View on Google Maps (opens in new tab)`
     await expect(durationTag2020).toMatch(expectedDurationTag2020)
     const getVerifiedTag2020 =
       await monitoringStationPage.getVerifiedTag.getText()
-    const expectedVerifiedTag2020 = 'Data has been verified'
+    const expectedVerifiedTag2020 = 'Data has been checked and verified'
     await expect(getVerifiedTag2020).toMatch(expectedVerifiedTag2020)
     const getdownloadDataHeading2020 =
       await monitoringStationPage.getdownloadDataHeading.getText()
@@ -836,7 +837,7 @@ View on Google Maps (opens in new tab)`
     await expect(durationTag2019).toMatch(expectedDurationTag2019)
     const getVerifiedTag2019 =
       await monitoringStationPage.getVerifiedTag.getText()
-    const expectedVerifiedTag2019 = 'Data has been verified'
+    const expectedVerifiedTag2019 = 'Data has been checked and verified'
     await expect(getVerifiedTag2019).toMatch(expectedVerifiedTag2019)
     const getdownloadDataHeading2019 =
       await monitoringStationPage.getdownloadDataHeading.getText()
@@ -880,7 +881,7 @@ View on Google Maps (opens in new tab)`
     await expect(durationTag2018).toMatch(expectedDurationTag2018)
     const getVerifiedTag2018 =
       await monitoringStationPage.getVerifiedTag.getText()
-    const expectedVerifiedTag2018 = 'Data has been verified'
+    const expectedVerifiedTag2018 = 'Data has been checked and verified'
     await expect(getVerifiedTag2018).toMatch(expectedVerifiedTag2018)
     const getdownloadDataHeading2018 =
       await monitoringStationPage.getdownloadDataHeading.getText()
