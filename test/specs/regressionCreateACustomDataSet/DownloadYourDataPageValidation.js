@@ -4263,7 +4263,7 @@ File format and metadata
 Other data from Defra
 Other data from Defra
 Data is measured hourly, weekly or monthly depending on the network.
-MARGA network
+UKEAP: MARGA network
 Measures aerosols and gases in ambient air.
 1 stations available
 Download data

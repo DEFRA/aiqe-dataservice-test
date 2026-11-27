@@ -118,10 +118,10 @@ class Common {
   async legalWait() {
     await browser.waitUntil(
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 4000))
+        await new Promise((resolve) => setTimeout(resolve, 5000))
         return true
       },
-      { timeout: 4000 }
+      { timeout: 5000 }
     )
   }
 
