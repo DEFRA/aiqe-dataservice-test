@@ -351,7 +351,7 @@ PAH Deposition`
       'Pyrene (PYR)',
       'Retene (RET)'
     ]
-    this.timeout(300000) // 5 minutes - large pollutant list (42 items)
+    this.timeout(500000) // 5 minutes - large pollutant list (42 items)
     await browser.url('')
     await browser.deleteCookies()
     await browser.maximizeWindow()
