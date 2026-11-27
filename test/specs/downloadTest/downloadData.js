@@ -5,6 +5,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 // import createLogger from 'helpers/logger'
 import searchPage from '../../page-objects/searchPage.js'
+import common from '../../page-objects/common.js'
 import hubPage from '../../page-objects/hubPage.js'
 import disambigurationPage from '../../page-objects/disambigurationPage.js'
 import locationMonitoringStationListPage from '../../page-objects/locationMonitoringStationListPage.js'
@@ -57,6 +58,8 @@ describe('download data function', () => {
     await locationMonitoringStationListPage
       .getMonitoringStationLink('Oldbury Birmingham Road')
       .click()
+    await monitoringStationPage.get2025Button.click()
+    await common.legalWait()
 
     await monitoringStationPage.getDownloadAllPollutantsHourlyData.click()
     const hourlyFile = await waitForDownload(/Hourly/i)

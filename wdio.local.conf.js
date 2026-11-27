@@ -71,7 +71,7 @@ export const config = {
   // will be called from there.
   //
   specs: [
-    './test/specs/regressionSearchByLocation/accessibilityPageValidation.js'
+    './test/specs/regressionSearchByLocation/monitoringStationPageValidation.js'
   ],
   // Patterns to exclude.
   exclude: [],

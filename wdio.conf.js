@@ -78,7 +78,9 @@ export const config = {
       specs: [
         './test/specs/regressionCreateACustomDataSet/*.js',
         './test/specs/regressionSearchByLocation/*.js',
-        './test/specs/downloadTest/*.js'
+        './test/specs/downloadTest/*.js',
+        './test/specs/maps/mapsValidation.js',
+        './test/specs/graphsValidation/*.js'
       ],
       exclude: [
         './test/specs/regressionCreateACustomDataSet/errorScenarios.js',

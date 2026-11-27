@@ -118,9 +118,7 @@ class MapsPage {
   }
 
   get getMapFilterPanelTitle() {
-    return $(
-      `p[class*="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0"]`
-    )
+    return $(`h2[class*="govuk-heading-s govuk-!-margin-bottom-0"]`)
   }
 
   get getMapFilterPanelCross() {

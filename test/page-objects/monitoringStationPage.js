@@ -569,11 +569,11 @@ class MonitoringStationPage {
   }
 
   get getAirPollutionSummaryLastSevenDaysHeading() {
-    return $("h2[id*='last7days-heading']")
+    return $("h2[id='airpollution-heading']")
   }
 
   get getLastSevenDaysTimeDuration() {
-    return $("p[id='last7days-duration']")
+    return $("p[id='duration_current']")
   }
 
   // last 24 hours tab getSummaryTable
