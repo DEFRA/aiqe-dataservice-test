@@ -2,7 +2,7 @@ import { $ } from '@wdio/globals'
 
 class AccessibilityPage {
   get getAccessibilityPageHeading() {
-    return $("h1[class*='govuk-heading-xl odd-page']")
+    return $("h1[class*='govuk-heading-xl']")
   }
 
   get getAccessibilityPageContent() {
@@ -26,7 +26,7 @@ class AccessibilityPage {
   }
 
   get getSubTitle() {
-    return $("h2[class='govuk-heading-m']")
+    return $("h2[class='govuk-heading-l']")
   }
 }
 
