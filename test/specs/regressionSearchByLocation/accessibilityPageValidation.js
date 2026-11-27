@@ -29,13 +29,31 @@ describe('accessibility page tests', () => {
     )
 
     const accessibilityStatementPageContent = `Accessibility statement
-The Department for Environment, Food and Rural Affairs is committed to making its websites accessible in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.
 This accessibility statement applies to the Get air pollution data website.
+This website is run by the Department for Environment, Food and Rural Affairs (Defra). We want as many people as possible to be able to use this website.
+For example, that means that you should be able to:
+use browser settings or plugins to change colours, contrast levels and fonts
+use browser settings or other software to zoom in up to 400% without the text spilling off the screen
+navigate most of the website using just a keyboard
+navigate most of the website using speech recognition software
+listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)
+We've also made the website text as simple as possible to understand.
+AbilityNet has advice on making your device easier to use if you have a disability.
+Defra is committed to making its websites accessible in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.
 Compliance status
-This website complies with the Web Content Accessibility Guidelines (WCAG) version 2.2 AA standard.
+This website is partially compliant with the Web Content Accessibility Guidelines version 2.2 AA standard.
+It is partially compliant because the map on this website is not fully accessible. The map is an alternative way of viewing other parts of the service that are fully accessible.
+For example:
+the mapping, and the tools that are part of it, are not accessible for those using assistive technology
+in some situations, the contrast of colours on maps is not high enough to be legible to all users
+What we're doing to improve accessibility
+We are working to fix all content that failed to meet the Web Content Accessibility Guidelines version 2.2 AA standard.
+We will look to address these issues by 1 July 2027. We will update this page when these issues are fixed.
+When we have fixed these issues, we will do usability testing with people with accessibility needs.
 Preparation of this accessibility statement
-This statement was prepared on 8 January 2025. It was last reviewed on 26 August 2026.
-This website was last tested on 5 June 2025. The test was carried out by the Digital Accessibility Centre.
+The original statement was prepared on 8 January 2025. It was last reviewed on 26 November 2026.
+This website was last tested on 5 June 2025 against the WCAG 2.2 AA standard. The test was carried out by the Digital Accessibility Centre.
+We also used findings from our own testing when preparing this accessibility statement.
 Feedback and contact information
 If you notice any compliance failures or need to request information and content that is not provided in this document, email accessibility@defra.gov.uk.
 Enforcement procedure
@@ -43,8 +61,8 @@ The Equality and Human Rights Commission is responsible for enforcing the Public
 If you are not happy with how Defra responds to your complaint, contact the Equality Advisory and Support Service (EASS).`
     const getAccessibilityPageContent =
       await accessibilityPage.getAccessibilityPageContent.getText()
-    await expect(accessibilityStatementPageContent).toMatch(
-      getAccessibilityPageContent
+    await expect(getAccessibilityPageContent).toMatch(
+      accessibilityStatementPageContent
     )
   })
 
@@ -188,10 +206,10 @@ If you are not happy with how Defra responds to your complaint, contact the Equa
 
     for (const element of getSubTitle) {
       const styles = await common.getStyles(element, getSubTitleProperties)
-      expect(styles['padding-top']).toBe('10px')
-      expect(styles['margin-bottom']).toBe('20px')
-      expect(styles['font-size']).toBe('24px')
-      expect(styles['line-height']).toBe('30px')
+      expect(styles['padding-top']).toBe('20px')
+      expect(styles['margin-bottom']).toBe('30px')
+      expect(styles['font-size']).toBe('36px')
+      expect(styles['line-height']).toBe('40px')
       expect(styles.color).toBe('rgb(11, 12, 12)')
       expect(styles['font-family']).toBe('"GDS Transport", arial, sans-serif')
       expect(styles['font-weight']).toBe('700')
